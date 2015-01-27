@@ -6,7 +6,7 @@ package object MJPrinter {
   
   val basicIndent = "  "
   
-  def newline = ()=>(println(" "))
+  def newline = () => (println(""))
 
   def printTree(indent:String, p: Program) {
     p match {
@@ -81,7 +81,7 @@ package object MJPrinter {
   
   def printTree(indent: String, cpstmt: CpStmt) {
     cpstmt match {
-      case CStmt(s) => { println(indent + s.toString());}
+      case CStmt(s) => { println(indent + s.toString() + ";" + "["+ s.getLabel  +"]");}
       case CIf(x, ifb, elseb) => {
         println(indent + "if (" + x + ") {")
         for (cpstmt <- ifb)

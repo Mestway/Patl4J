@@ -3,20 +3,22 @@ class C extends Object {
    B y;
  
    C (A a, B y) {
-     this.super(a, y)
+     this.super(a, y);
    }
  
    A m(A a, B y) {
+     x.f(x,y);
      while (x) {
        if (x) {
-         x.f = x.f(a, b)
-         x.f(a, b)
+         x.f = x.f(a, b);
+         x.f(a, b);
        } else {
-         x.f = x.f(a, b)
+         x.f = x.f(a, b);
          while (x) {
-           x = 3
+           x = 3;
          }
        }
+       y.s(a,b);
      }
      return x;
    }
@@ -24,12 +26,12 @@ class C extends Object {
    A m(A a, B y) {
      while (x) {
        if (x) {
-         x.f = x.f(a, b)
-         x.f(a, b)
+         x.f = x.f(a, b);
+         x.f(a, b);
        } else {
-         x.f = x.f(a, b)
+         x.f = x.f(a, b);
          while (x) {
-           x = 3
+           x = 3;
          }
        }
      }

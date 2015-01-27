@@ -4,6 +4,7 @@ import scala.collection.immutable.ListMap
 import scala.collection.immutable.Map
 
 package object ast {
+  
   type X = String // variable name
   type C = String // class name
   type M = String // method name
@@ -15,7 +16,11 @@ package object ast {
                         parentclass: C, 
                         fields: List[FieldDecl],
                         constructor: ConstrDecl,
-                        methods: List[MethodDecl])
+                        methods: List[MethodDecl] ) {
+    def getMethods: List[MethodDecl] = methods
+    def getConstructor: ConstrDecl = constructor
+    def getFields: List[FieldDecl] = fields
+  }
   
   case class FieldDecl(c:C, f:V)
   
@@ -34,11 +39,20 @@ package object ast {
   }
   
   abstract class CpStmt
-    case class CStmt(s: Stmt) extends CpStmt 
-    case class CIf(x: X, ifbrach: List[CpStmt], elsebranch: List[CpStmt]) extends CpStmt
-    case class CWhile(x: X, loop: List[CpStmt]) extends CpStmt
+  case class CStmt(s: Stmt) extends CpStmt 
+  case class CIf(x: X, ifbrach: List[CpStmt], elsebranch: List[CpStmt]) extends CpStmt
+  case class CWhile(x: X, loop: List[CpStmt]) extends CpStmt
   
-  class Stmt
+  abstract class Stmt {
+    private var _label: Integer = 0;
+    private var _id: Integer = 0;
+    def genLabel(label: Integer) {
+      _label = label
+      _id = label
+    }
+    def getLabel:Integer = _label
+    def getId: Integer = _id
+  }
   case class SVAssign(x: X, exp: Exp) extends Stmt {
      override def toString = x + " = " + exp.toString()
   }
@@ -49,7 +63,7 @@ package object ast {
     override def toString = exp.toString()
   }
   
-  class Exp
+  abstract class Exp
   case class ENull() extends Exp {
     override def toString = "null"
   }
@@ -69,7 +83,7 @@ package object ast {
     override def toString = v
   }
   
-  class PExp
+  abstract class PExp
   case class ECall(x: X, m: M, arguments: List[X]) extends PExp {
     override def toString:String = {
       var first: Boolean = true;
