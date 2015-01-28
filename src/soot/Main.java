@@ -26,6 +26,8 @@
 package soot;
 
 
+import java.util.List;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,6 +39,10 @@ import java.util.Iterator;
 import soot.options.CGOptions;
 import soot.options.Options;
 import soot.toolkits.astmetrics.ClassData;
+import soot.toolkits.graph.BriefUnitGraph;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.DataDependency;
+import soot.toolkits.scalar.SimpleLiveLocals;
 
 /** Main class for Soot; provides Soot's command-line user interface. */
 public class Main {
@@ -139,6 +145,39 @@ public class Main {
     public static void main(String[] args) {
         try {
             Main.v().run(args);
+
+            SootClass s = Scene.v().loadClassAndSupport("soot.test.BinarySearchTree");
+
+            for (Iterator it = s.getMethods().iterator(); it.hasNext();) {
+                SootMethod fun = (SootMethod) it.next();
+                System.out.println(fun.getDeclaration());
+
+                Body body = fun.retrieveActiveBody();
+
+                // print the Jimple units
+                PatchingChain<Unit> u = body.getUnits();
+                for (Iterator uIt = u.iterator(); uIt.hasNext();) {
+                    System.out.println("    " + uIt.next());
+                }
+
+                System.out.println();
+                System.out.println("[soot] processing data dependency...");
+                System.out.println();
+
+                BriefUnitGraph graph = new BriefUnitGraph(body);
+                DataDependency analysis = new DataDependency(graph);
+
+                /*for (Iterator uIt = u.iterator(); uIt.hasNext();) {
+                    Unit unit = (Unit) uIt.next();
+                    System.out.println("    " + unit);
+
+                    List dependentUnits = analysis.getDependencyOfUnit(unit);
+
+                    for (Iterator dIt = dependentUnits.iterator(); dIt.hasNext();) {
+                        System.out.println("######## " + dIt.next());
+                    }
+                }*/
+            }
         } catch( OutOfMemoryError e ) {
             G.v().out.println( "Soot has run out of the memory allocated to it by the Java VM." );
             G.v().out.println( "To allocate more memory to Soot, use the -Xmx switch to Java." );
