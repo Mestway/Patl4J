@@ -53,6 +53,13 @@ public abstract class AbstractValueBox extends AbstractHost implements ValueBox
         up.endValueBox(this);
     }
     public String toString() { return getClass().getSimpleName()+"("+value+")"; }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof  AbstractValueBox) {
+            return this.value.equivTo(((AbstractValueBox) obj).getValue());
+        }
+        return super.equals(obj);
+    }
 }
 
 

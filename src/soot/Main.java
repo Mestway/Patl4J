@@ -38,6 +38,8 @@ import java.util.Iterator;
 
 import soot.options.CGOptions;
 import soot.options.Options;
+import soot.tagkit.LineNumberTag;
+import soot.tagkit.Tag;
 import soot.toolkits.astmetrics.ClassData;
 import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
@@ -144,7 +146,9 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            Main.v().run(args);
+          //  Main.v().run(args);
+
+            Options.v().set_keep_line_number(true);
 
             SootClass s = Scene.v().loadClassAndSupport("soot.test.BinarySearchTree");
 
@@ -167,16 +171,27 @@ public class Main {
                 BriefUnitGraph graph = new BriefUnitGraph(body);
                 DataDependency analysis = new DataDependency(graph);
 
-                /*for (Iterator uIt = u.iterator(); uIt.hasNext();) {
+                for (Iterator uIt = u.iterator(); uIt.hasNext();) {
                     Unit unit = (Unit) uIt.next();
+
+                    System.out.println((LineNumberTag) unit.getTag("LineNumberTag"));
                     System.out.println("    " + unit);
-
-                    List dependentUnits = analysis.getDependencyOfUnit(unit);
-
-                    for (Iterator dIt = dependentUnits.iterator(); dIt.hasNext();) {
-                        System.out.println("######## " + dIt.next());
+                    System.out.println("        Defs:");
+                    for (Iterator dIt = unit.getDefBoxes().iterator(); dIt.hasNext();) {
+                        System.out.println("              " + (ValueBox)dIt.next());
                     }
-                }*/
+                    System.out.println("        Uses:");
+                    for (Iterator dIt = unit.getUseBoxes().iterator(); dIt.hasNext();) {
+                        System.out.println("              " + (ValueBox)dIt.next());
+                    }
+
+                    List dependentUnits = analysis.getDependentUnits(unit);
+
+                    System.out.println("        Dependencies:");
+                    for (Iterator dIt = dependentUnits.iterator(); dIt.hasNext();) {
+                        System.out.println("            " + dIt.next());
+                    }
+                }
             }
         } catch( OutOfMemoryError e ) {
             G.v().out.println( "Soot has run out of the memory allocated to it by the Java VM." );
@@ -280,5 +295,6 @@ public class Main {
 	    if(Options.v().allow_phantom_refs()) {
 	    	PhaseOptions.v().setPhaseOption("jb.tr", "ignore-wrong-staticness:true");
 	    }
+
 	}
 }

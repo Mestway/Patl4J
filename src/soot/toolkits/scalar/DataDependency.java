@@ -1,117 +1,147 @@
 package soot.toolkits.scalar;
 
+import soot.AbstractValueBox;
 import soot.Local;
 import soot.Unit;
 import soot.ValueBox;
+import soot.baf.SpecialInvokeInst;
+import soot.jimple.SpecialInvokeExpr;
 import soot.toolkits.graph.UnitGraph;
+import sun.text.resources.CollationData_sk;
 
 import java.util.*;
 
 /**
  * Created by Vani on 1/28/15.
  */
+
 public class DataDependency {
-    Map<Unit, List> hash;
+    Map<Unit, List> dependentUnits;
+    DirectDataDependency analysis;
 
-    public DataDependency(UnitGraph g) {
-        DataDependencyAnalysis analysis = new DataDependencyAnalysis(g);
-        hash = new HashMap<Unit, List>();
+    Set<Unit> vis;
 
-        for (Iterator it = g.iterator(); it.hasNext();) {
-            Unit u = (Unit) it.next();
-
-            ArraySparseSet list = new ArraySparseSet();
-            HashMap<Local, ArraySparseSet> state = (HashMap<Local, ArraySparseSet>) analysis.getFlowBefore(u);
-
-            for (Iterator useIt = u.getUseBoxes().iterator(); useIt.hasNext();) {
-                ValueBox box = (ValueBox) useIt.next();
-                if (box.getValue() instanceof  Local) {
-                    ArraySparseSet units = state.get(box.getValue());
-                    if (units != null) {
-                        list.union(units, list);
-                    }
-                }
-            }
-
-            hash.put(u, Collections.unmodifiableList(list.toList()));
+    public DataDependency(UnitGraph graph) {
+        analysis = new DirectDataDependency(graph);
+        dependentUnits = new HashMap<Unit, List>();
+        vis = new HashSet<Unit>();
+        for (Iterator it = graph.iterator(); it.hasNext();) {
+            Unit unit = (Unit) it.next();
+            dependentUnits.put(unit, dfs(unit));
         }
     }
 
-    public List getDependencyOfUnit(Unit u) {return hash.get(u);}
-}
+    public List getDependentUnits(Unit u) { return dependentUnits.get(u); }
 
-class DataDependencyAnalysis extends ForwardFlowAnalysis {
-    Map emptySet;
-
-    DataDependencyAnalysis(UnitGraph g) {
-        super(g);
-        emptySet = new HashMap<Local, ArraySparseSet>();
-        doAnalysis();
+    List dfs(Unit unit) {
+        Set result = doDfs(unit);
+        vis.clear();
+        return Collections.unmodifiableList(new ArrayList(result));
     }
 
+    HashSet<Unit> doDfs(Unit unit) {
+        List current = analysis.getDependentUnits(unit);
+        HashSet<Unit> others = new HashSet<Unit>();
+        for (Iterator it = current.iterator(); it.hasNext();) {
+            Unit nextUnit = (Unit) it.next();
+            if (!vis.contains(nextUnit)) {
+                vis.add(nextUnit);
+                others.addAll(doDfs(nextUnit));
+            }
+        }
+        others.addAll(current);
+        return others;
+    }
+}
+
+class DirectDataDependency {
+    Map<Unit, List> dependentUnits;
+
+    public DirectDataDependency(UnitGraph graph) {
+        DirectDataDependencyAnalysis analysis = new DirectDataDependencyAnalysis(graph);
+        dependentUnits = new HashMap<Unit, List>();
+
+        for (Iterator it = graph.iterator(); it.hasNext();) {
+            Unit unit = (Unit) it.next();
+            List<ValueBox> useBoxes = unit.getUseBoxes();
+
+            FlowSet reachableDef = ((FlowSet) analysis.getFlowBefore(unit)).clone();
+            FlowSet kills = new ArraySparseSet();
+
+            for (Iterator dIt = reachableDef.iterator(); dIt.hasNext();) {
+                Unit dUnit = (Unit) dIt.next();
+                if (useBoxes.isEmpty() || !useBoxes.containsAll(dUnit.getDefBoxes())) {
+                    kills.add(dUnit);
+                }
+            }
+            reachableDef.difference(kills, reachableDef);
+
+            dependentUnits.put(unit, Collections.unmodifiableList(reachableDef.toList()));
+        }
+    }
+
+    public List getDependentUnits(Unit u) {return dependentUnits.get(u);}
+}
+
+class DirectDataDependencyAnalysis extends ForwardFlowAnalysis {
+    FlowSet emptySet;
+
+    Map<Unit, FlowSet> genSet;
+
+    DirectDataDependencyAnalysis(UnitGraph g) {
+        super(g);
+
+        emptySet = new ArraySparseSet();
+        genSet = new HashMap<Unit, FlowSet>();
+
+        //generate genSet
+        for (Iterator it = g.iterator(); it.hasNext();) {
+            Unit u = (Unit) it.next();
+            ArraySparseSet tmp = new ArraySparseSet();
+            tmp.add(u);
+            genSet.put(u, tmp);
+        }
+        doAnalysis();
+    }
     protected Object newInitialFlow()
     {
-        return new HashMap<Local, ArraySparseSet>();
+        return emptySet.clone();
     }
 
     protected Object entryInitialFlow()
     {
-        return new HashMap<Local, ArraySparseSet>();
+        return emptySet.clone();
     }
 
-    protected void flowThrough(Object in, Object u, Object out) {
-        copy(in, out);
-
-        HashMap<Local, ArraySparseSet> src = (HashMap<Local, ArraySparseSet>) in;
-        HashMap<Local, ArraySparseSet> dst = (HashMap<Local, ArraySparseSet>) out;
+    protected void flowThrough(Object inObject, Object u, Object outObject) {
+        FlowSet in = (FlowSet) inObject, out = (FlowSet) outObject;
         Unit unit = (Unit) u;
 
-        ArraySparseSet currentUnit = new ArraySparseSet();
-        currentUnit.add(unit);
-
-        for (Iterator defIt = unit.getDefBoxes().iterator(); defIt.hasNext();) {
-            ValueBox box = (ValueBox) defIt.next();
-            if (box.getValue() instanceof Local) {
-                Local tmp = (Local) box.getValue().clone();
-                dst.put(tmp, currentUnit.clone());
+        List<ValueBox> defBoxes = unit.getDefBoxes();
+        for (Iterator it = in.iterator(); it.hasNext();) {
+            Unit lastUnit = (Unit) it.next();
+            if (!defBoxes.containsAll(lastUnit.getDefBoxes())) {
+                out.add(lastUnit);
             }
         }
-    }
 
-    protected void copy(Object in, Object out) {
-        HashMap<Local, ArraySparseSet> src = (HashMap<Local, ArraySparseSet>) in;
-        HashMap<Local, ArraySparseSet> dst = (HashMap<Local, ArraySparseSet>) out;
-
-        for (Iterator it = src.entrySet().iterator();it.hasNext(); ) {
-            Map.Entry<Local, ArraySparseSet> tmp = (Map.Entry<Local, ArraySparseSet>) it.next();
-            dst.put((Local) tmp.getKey().clone(), tmp.getValue().clone());
-        }
+        if (!defBoxes.isEmpty()) out.union(genSet.get(unit), out);
     }
 
     protected void merge(Object in1, Object in2, Object out) {
-        HashMap<Local, ArraySparseSet> src1 = (HashMap<Local, ArraySparseSet>) in1;
-        HashMap<Local, ArraySparseSet> src2 = (HashMap<Local, ArraySparseSet>) in2;
-        HashMap<Local, ArraySparseSet> dst = (HashMap<Local, ArraySparseSet>) out;
+        FlowSet inSet1 = (FlowSet) in1,
+                inSet2 = (FlowSet) in2;
 
-        for (Iterator it = src1.entrySet().iterator(); it.hasNext();) {
-            Map.Entry<Local, ArraySparseSet> tmp = (Map.Entry<Local, ArraySparseSet>) it.next();
-            merge(dst, tmp.getKey(), tmp.getValue());
-        }
+        FlowSet outSet = (FlowSet) out;
 
-        for (Iterator it = src2.entrySet().iterator(); it.hasNext();) {
-            Map.Entry<Local, ArraySparseSet> tmp = (Map.Entry<Local, ArraySparseSet>) it.next();
-            merge(dst, tmp.getKey(), tmp.getValue());
-        }
+        inSet1.union(inSet2, outSet);
     }
 
-    void merge(HashMap<Local, ArraySparseSet> out, Local key, ArraySparseSet value) {
-        ArraySparseSet old = out.get(key);
-        if (old == null) {
-            out.put((Local) key.clone(), value.clone());
-        } else {
-            old.union(old, value);
-            out.put((Local) key.clone(), value.clone());
-        }
+    protected void copy(Object source, Object dest) {
+        FlowSet sourceSet = (FlowSet) source,
+                destSet = (FlowSet) dest;
+
+        sourceSet.copy(destSet);
     }
 }
 
