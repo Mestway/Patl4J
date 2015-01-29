@@ -43,6 +43,7 @@ import soot.tagkit.Tag;
 import soot.toolkits.astmetrics.ClassData;
 import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ControlDependency;
 import soot.toolkits.scalar.DataDependency;
 import soot.toolkits.scalar.SimpleLiveLocals;
 
@@ -169,7 +170,9 @@ public class Main {
                 System.out.println();
 
                 BriefUnitGraph graph = new BriefUnitGraph(body);
-                DataDependency analysis = new DataDependency(graph);
+
+                DataDependency dAnalysis = new DataDependency(graph);
+                ControlDependency cAnalysis = new ControlDependency(graph);
 
                 for (Iterator uIt = u.iterator(); uIt.hasNext();) {
                     Unit unit = (Unit) uIt.next();
@@ -185,12 +188,18 @@ public class Main {
                         System.out.println("              " + (ValueBox)dIt.next());
                     }
 
-                    List dependentUnits = analysis.getDependentUnits(unit);
+                    List dDependentUnits = dAnalysis.getDependentUnits(unit);
+                    List cDependentUnits = cAnalysis.getDependentUnits(unit);
 
-                    System.out.println("        Dependencies:");
-                    for (Iterator dIt = dependentUnits.iterator(); dIt.hasNext();) {
+                    System.out.println("    Data Dependencies:");
+                    for (Iterator dIt = dDependentUnits.iterator(); dIt.hasNext();) {
                         System.out.println("            " + dIt.next());
                     }
+                    System.out.println("    Control Dependencies:");
+                    for (Iterator dIt = cDependentUnits.iterator(); dIt.hasNext();) {
+                        System.out.println("            " + dIt.next());
+                    }
+                    System.out.println();
                 }
             }
         } catch( OutOfMemoryError e ) {
