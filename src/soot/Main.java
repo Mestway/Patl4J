@@ -147,9 +147,9 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-          //  Main.v().run(args);
+            Main.v().run(args);
 
-            Options.v().set_keep_line_number(true);
+            /* Options.v().set_keep_line_number(true);
 
             SootClass s = Scene.v().loadClassAndSupport("soot.test.BinarySearchTree");
 
@@ -201,7 +201,7 @@ public class Main {
                     }
                     System.out.println();
                 }
-            }
+            } */
         } catch( OutOfMemoryError e ) {
             G.v().out.println( "Soot has run out of the memory allocated to it by the Java VM." );
             G.v().out.println( "To allocate more memory to Soot, use the -Xmx switch to Java." );

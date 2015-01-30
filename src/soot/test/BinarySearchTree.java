@@ -84,6 +84,15 @@ public class BinarySearchTree {
         BinarySearchTree x = new BinarySearchTree();
         x.root = create(5);
         x.repOk();
+        x.test();
     }
 
+    void test() {
+        BinarySearchTree vani1 = new BinarySearchTree();
+        BinarySearchTree vani2 = new BinarySearchTree();
+        BinarySearchTree o = new BinarySearchTree();
+        if (o.create(0) != null) {
+            vani1 = vani2;
+        }
+    }
 }
