@@ -1,5 +1,0 @@
-rule1 (x: C ->> D, y: A ->> A) {
-	- x = new C(x);
-	- x.set(y);
-	+ x = new D(y);
-}
