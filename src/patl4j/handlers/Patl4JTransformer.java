@@ -8,7 +8,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import patl4j.java.JavaProject;
 import patl4j.java.JavaWorkspace;
 import patl4j.tools.ProjectNormalizer;
-import patl4j.tools.ProjectPrinter;
 
 public class Patl4JTransformer extends AbstractHandler {
 
@@ -23,6 +22,7 @@ public class Patl4JTransformer extends AbstractHandler {
 			new ProjectNormalizer().normalize(project);
 		}
 		System.out.println("This is the end ============================== ");
+		
 		return null;
 	}
 }
