@@ -1,6 +1,13 @@
 CLEAR_CONSOLE=false
+JAVACC_OPTIONS=
+JJDOC_OPTIONS=
+JJTREE_OPTIONS=
 JJ_NATURE=true
+JTB_OPTIONS=
+KEEP_DEL_FILES_IN_HISTORY=false
+MARK_GEN_FILES_AS_DERIVED=true
 RUNTIME_JJJAR=D\:/eclipse/plugins/sf.eclipse.javacc_1.5.30/javacc-5.0.jar
 RUNTIME_JTBJAR=D\:/eclipse/plugins/sf.eclipse.javacc_1.5.30/jtb-1.4.9.jar
+RUNTIME_JVMOPTIONS=
 SUPPRESS_WARNINGS=false
 eclipse.preferences.version=1

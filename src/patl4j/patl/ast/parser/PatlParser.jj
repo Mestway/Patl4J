@@ -1,15 +1,21 @@
 /**
  * PatlParser
- */options{  static = true;}PARSER_BEGIN(PatlParser)package patl4j.patl.ast.parser;
+ */options{  static = false;}PARSER_BEGIN(PatlParser)package patl4j.patl.ast.parser;
 
 import patl4j.patl.ast.*;
+import patl4j.patl.ast.full.*;
+import patl4j.patl.ast.full.FullExpTail.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
-public class PatlParser {	public static void main(String[] args) throws ParseException {		String testExample = "(x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
+public class PatlParser {	public static void main(String[] args) throws ParseException {		/*String testExample = "(x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
 		List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
 		for (Rule i : p) {
-		  	System.out.println(i);		}
+		  	System.out.println(i);		}*/
+		String testExample = "+ z=xx.f.e(e, b, c).g(a.t(a,b),x,y).e();";
+		ModInstruction tl = new PatlParser(new java.io.StringReader(testExample)).i();
+		System.out.println(tl);
 	}}PARSER_END(PatlParser)SKIP : {
   	" "
 | 	"\r"
@@ -44,6 +50,10 @@ SKIP :
 <DEFAULT> TOKEN : /* Arrows */ { <ARROW: "->>"> }
 <DEFAULT> TOKEN :{  < CONSTANT : (< DIGIT >)+ >| < #DIGIT : [ "0"-"9" ] >}
 
+<DEFAULT> TOKEN:
+{	<STRING: "\"" (<IDENTIFIER> | <CONSTANT> | " ")+ "\"">
+}
+
 /* Keyword */
 <DEFAULT> TOKEN : 
 {
@@ -55,6 +65,17 @@ SKIP :
   <MOD : "m">
 }
 
+<DEFAULT> TOKEN:
+{
+   <PLUS: "+">
+	| <MINUS: "-">
+	| <STAR: "*">
+	| <SLASH: "/">
+	| <BIT_AND: "&">
+	| <BIT_OR: "|">
+	| <XOR: "^">
+	| <REM: "%">}
+
 /* IDENTIFIERS */
 <DEFAULT> TOKEN : {
 	<IDENTIFIER: <LETTER> (<PART_LETTER>)*>
@@ -63,7 +84,6 @@ SKIP :
 }
 
 List<Rule> Pi() : { List<Rule> ruleList = new ArrayList<Rule>(); Rule r;}{  (r = pi() { ruleList.add(r); })* { return ruleList; }}
-
 Rule pi():{
   List<VarDecl> decls = new ArrayList<VarDecl>();
   ModInstruction s;
@@ -95,7 +115,10 @@ ModInstruction i():
 {
   	StatementPattern stmt;}
 {
-	"+" stmt = p()	{
+	/* old version
+	"+" stmt = p()*/
+	//Enhanced, but possibly buggy version
+	"+" stmt = fullStatement()	{
 	  	return new ModInstruction(stmt, "+");	} 
 | 	"-" stmt = p()	{
 		return new ModInstruction(stmt, "-");
@@ -118,14 +141,18 @@ StatementPattern p():
 RHSPattern r():{
 	RHSPattern r;
 	Token target;
-	Token field;}{
+	Token field;
+	Token second;
+	Token operator;}{
   LOOKAHEAD(4)
   	r = e() { return r; }
 | 
-  	target = <IDENTIFIER> "."  (field =<IDENTIFIER>|field =<MOD>)
-	{
+  	target = <IDENTIFIER>  ( "."  (field =<IDENTIFIER>|field =<MOD>) {
 		return new FieldAccessPattern(target.toString(), field.toString()); 
-	}}
+	} | (operator = <PLUS> | operator = <MINUS> | operator = <SLASH> | operator = <STAR> | operator = <BIT_AND> | operator = <BIT_OR> | operator = <XOR> | operator = <REM>) (second = <CONSTANT> | second = <IDENTIFIER>)
+	{
+		return new BinaryOperation(target.toString(), second.toString(), operator.toString());
+	})}
 
 PEPattern e():{
 	Token target;
@@ -149,4 +176,103 @@ List<String> ArgumentList():{
   	Token s;}
 {	s = <IDENTIFIER> { argList.add(s.toString()); } ("," s = <IDENTIFIER>{ argList.add(s.toString()); })*	{
 		return argList;	}
-}
+}
+
+/*The following is full* series expressions etc for new client program*/
+
+FullStatement fullStatement():{
+  	FullStatement fs;}
+{
+  	LOOKAHEAD(3)
+  	fs = fullAssignment()	{
+	  	return fs;	}
+| 	fs = fullExpressionStatement()	{
+	  	return fs;	}
+}
+
+FullAssignment fullAssignment():{
+  	Token v;
+  	FullExpression fullexp;}{
+  	v = <IDENTIFIER> "=" fullexp = fullExpression() ";"
+ 	{
+ 	  	return new FullAssignment(v.toString(), fullexp); 	} }  
+
+FullExpressionStatement fullExpressionStatement():
+{
+ 	FullExpression fullexp;}{
+  	fullexp = fullExpression() ";"  	{
+  	  	return new FullExpressionStatement(fullexp);  	}}
+
+FullExpression fullExpression():
+{
+  	Token var;
+  	Token cn;
+  	List<FullExpression> args;
+  	FullExpTail tail = null;
+  	String s;
+  	List<String> operands = new ArrayList<String>();
+  	List<Boolean> operators = new ArrayList<Boolean>(); }
+{
+  	LOOKAHEAD(3)
+  	s = symbol() { operands.add(s); } ( (<PLUS> { operators.add(new Boolean(true)); } | <MINUS> { operators.add(new Boolean(false));} ) s = symbol() { operands.add(s); } )+
+	{
+		return new FullAddExpression(operands, operators);
+	} 
+|  	var = <IDENTIFIER> (tail = fullExpTail())?  	{
+  	  	FullExpression fv = new FullVariable(var.toString());
+  	  	if (tail == null)
+  	  		return fv;
+  	  	else
+  	  		return tail.toExpression(fv);  	}
+| 	<NEW> cn = <IDENTIFIER> args = fullArguments() (tail = fullExpTail())? 	{
+ 	  	FullExpression fn = new FullNew(cn.toString(), args);
+ 	  	if (tail == null)
+ 	  		return fn;
+ 	  	else
+ 	  		return tail.toExpression(fn); 	}}
+
+FullExpTail fullExpTail():
+{
+  	Token m;
+  	Token f;
+  	List<FullExpression> args;
+  	FullExpTail tail = null;}{
+    LOOKAHEAD(3)
+  	"." m = <IDENTIFIER> args = fullArguments() (tail = fullExpTail())?
+  	{
+  	  	FullExpTail tl = new FullExpTail();
+  	  	MethodBody mb = tl.new MethodBody(m.toString(), args);		tl.set(mb, tail);
+		return tl;  	}
+|	"." f = <IDENTIFIER> (tail = fullExpTail())?	{
+	  	FullExpTail tl = new FullExpTail();		FieldBody fb = tl.new FieldBody(f.toString());
+		tl.set(fb, tail);
+		return tl;
+	}}
+
+List<FullExpression> fullArguments():
+{ List<FullExpression> args = new ArrayList<FullExpression>();}
+{
+  	"(" (args = fullArgumentList() )? ")"
+  	{
+    	return args;
+  	} 
+}
+
+List<FullExpression> fullArgumentList():
+{
+  	List<FullExpression> args = new ArrayList<FullExpression>();
+  	FullExpression s;
+}
+{
+	s = fullExpression() { args.add(s); } ("," s = fullExpression() { args.add(s); })*
+	{
+		return args;
+	}
+}
+
+
+String symbol():
+{
+  	Token s;}{
+  	(s = <IDENTIFIER> | s = <CONSTANT> | s = <STRING>)  	{
+  	  	return s.toString();  	}} 

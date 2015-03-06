@@ -6,12 +6,20 @@ import java.util.List;
 // A transformation rule in the Patl language
 public class Rule {
 	
-	List<VarDecl> declList = new ArrayList<VarDecl>();
-	List<ModInstruction> instructions = new ArrayList<ModInstruction>();
+	private List<VarDecl> declList = new ArrayList<VarDecl>();
+	private List<ModInstruction> instructions = new ArrayList<ModInstruction>();
 
 	public Rule(List<VarDecl> decls, List<ModInstruction> instrs) {
 		declList = decls;
 		instructions = instrs;
+	}
+	
+	public List<VarDecl> getDecls() {
+		return declList;
+	}
+	
+	public List<ModInstruction> getInstrs() {
+		return instructions;
 	}
 	
 	@Override

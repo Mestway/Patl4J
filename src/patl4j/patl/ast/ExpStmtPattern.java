@@ -1,6 +1,7 @@
 package patl4j.patl.ast;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
@@ -17,8 +18,9 @@ public class ExpStmtPattern implements StatementPattern {
 	
 	@Override
 	// TODO: implement the match method
-	public List<Pair<Name, String>> syntaxMatch(Statement s) {
-		return null;
+	public Optional<List<Pair<Name, String>>> syntaxMatch(Statement s) {
+		
+		return Optional.of(null);
 	}
 	
 	@Override

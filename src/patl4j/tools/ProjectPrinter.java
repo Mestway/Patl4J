@@ -35,7 +35,7 @@ public class ProjectPrinter {
 			if (mypackage.getIPackageFrag().getKind() == IPackageFragmentRoot.K_SOURCE) {
 				System.out.println("Package " + mypackage.getIPackageFrag().getElementName());
 				printJavaFileInfo(mypackage);
-				mypackage.createNormalizedFiles();
+				//mypackage.createNormalizedFiles();
 			}
 		}
 	}

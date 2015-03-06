@@ -2,19 +2,24 @@
 package patl4j.patl.ast.parser;
 
 import patl4j.patl.ast.*;
+import patl4j.patl.ast.full.*;
+import patl4j.patl.ast.full.FullExpTail.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 public class PatlParser implements PatlParserConstants {
         public static void main(String[] args) throws ParseException {
-                String testExample = "(x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
-                List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
-                for (Rule i : p) {
-                        System.out.println(i);
-                }
+                /*String testExample = "(x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
+		List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
+		for (Rule i : p) {
+		  	System.out.println(i);		}*/
+                String testExample = "+ z=xx.f.e(e, b, c).g(a.t(a,b),x,y).e();";
+                ModInstruction tl = new PatlParser(new java.io.StringReader(testExample)).i();
+                System.out.println(tl);
         }
 
-  static final public List<Rule> Pi() throws ParseException {
+  final public List<Rule> Pi() throws ParseException {
                     List<Rule> ruleList = new ArrayList<Rule>(); Rule r;
     label_1:
     while (true) {
@@ -33,7 +38,7 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public Rule pi() throws ParseException {
+  final public Rule pi() throws ParseException {
   List<VarDecl> decls = new ArrayList<VarDecl>();
   ModInstruction s;
   List<ModInstruction> instrs = new ArrayList<ModInstruction>();
@@ -43,8 +48,8 @@ public class PatlParser implements PatlParserConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MOD:
-      case 28:
-      case 29:
+      case PLUS:
+      case MINUS:
         ;
         break;
       default:
@@ -59,7 +64,7 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public List<VarDecl> decls() throws ParseException {
+  final public List<VarDecl> decls() throws ParseException {
         List<VarDecl> decls = new ArrayList<VarDecl>();
     jj_consume_token(LPAREN);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -75,7 +80,7 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public List<VarDecl> DeclList() throws ParseException {
+  final public List<VarDecl> DeclList() throws ParseException {
         VarDecl v;
         List<VarDecl> list = new ArrayList<VarDecl>();
     v = Declaration();
@@ -98,10 +103,10 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public VarDecl Declaration() throws ParseException {
+  final public VarDecl Declaration() throws ParseException {
         Token t1,t2,t3;
     t1 = jj_consume_token(IDENTIFIER);
-    jj_consume_token(27);
+    jj_consume_token(36);
     t2 = jj_consume_token(IDENTIFIER);
     jj_consume_token(ARROW);
     t3 = jj_consume_token(IDENTIFIER);
@@ -109,16 +114,16 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public ModInstruction i() throws ParseException {
+  final public ModInstruction i() throws ParseException {
         StatementPattern stmt;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 28:
-      jj_consume_token(28);
-      stmt = p();
+    case PLUS:
+      jj_consume_token(PLUS);
+      stmt = fullStatement();
                 {if (true) return new ModInstruction(stmt, "+");}
       break;
-    case 29:
-      jj_consume_token(29);
+    case MINUS:
+      jj_consume_token(MINUS);
       stmt = p();
                 {if (true) return new ModInstruction(stmt, "-");}
       break;
@@ -135,13 +140,13 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public StatementPattern p() throws ParseException {
+  final public StatementPattern p() throws ParseException {
         Token var;
         PEPattern pe;
         RHSPattern r;
     if (jj_2_1(2)) {
       var = jj_consume_token(IDENTIFIER);
-      jj_consume_token(30);
+      jj_consume_token(37);
       r = r();
       jj_consume_token(SEMICOLON);
         {if (true) return new AssignStmtPattern(var.toString(), r);}
@@ -162,10 +167,12 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public RHSPattern r() throws ParseException {
+  final public RHSPattern r() throws ParseException {
         RHSPattern r;
         Token target;
         Token field;
+        Token second;
+        Token operator;
     if (jj_2_2(4)) {
       r = e();
                   {if (true) return r;}
@@ -173,23 +180,83 @@ public class PatlParser implements PatlParserConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IDENTIFIER:
         target = jj_consume_token(IDENTIFIER);
-        jj_consume_token(DOT);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case IDENTIFIER:
-          field = jj_consume_token(IDENTIFIER);
+        case DOT:
+          jj_consume_token(DOT);
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case IDENTIFIER:
+            field = jj_consume_token(IDENTIFIER);
+            break;
+          case MOD:
+            field = jj_consume_token(MOD);
+            break;
+          default:
+            jj_la1[6] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+                {if (true) return new FieldAccessPattern(target.toString(), field.toString());}
           break;
-        case MOD:
-          field = jj_consume_token(MOD);
+        case PLUS:
+        case MINUS:
+        case STAR:
+        case SLASH:
+        case BIT_AND:
+        case BIT_OR:
+        case XOR:
+        case REM:
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case PLUS:
+            operator = jj_consume_token(PLUS);
+            break;
+          case MINUS:
+            operator = jj_consume_token(MINUS);
+            break;
+          case SLASH:
+            operator = jj_consume_token(SLASH);
+            break;
+          case STAR:
+            operator = jj_consume_token(STAR);
+            break;
+          case BIT_AND:
+            operator = jj_consume_token(BIT_AND);
+            break;
+          case BIT_OR:
+            operator = jj_consume_token(BIT_OR);
+            break;
+          case XOR:
+            operator = jj_consume_token(XOR);
+            break;
+          case REM:
+            operator = jj_consume_token(REM);
+            break;
+          default:
+            jj_la1[7] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case CONSTANT:
+            second = jj_consume_token(CONSTANT);
+            break;
+          case IDENTIFIER:
+            second = jj_consume_token(IDENTIFIER);
+            break;
+          default:
+            jj_la1[8] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+                {if (true) return new BinaryOperation(target.toString(), second.toString(), operator.toString());}
           break;
         default:
-          jj_la1[6] = jj_gen;
+          jj_la1[9] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
-                {if (true) return new FieldAccessPattern(target.toString(), field.toString());}
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -197,7 +264,7 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public PEPattern e() throws ParseException {
+  final public PEPattern e() throws ParseException {
         Token target;
         Token methodName;
         List<String> argList = new ArrayList<String>();
@@ -213,7 +280,7 @@ public class PatlParser implements PatlParserConstants {
         methodName = jj_consume_token(MOD);
         break;
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[11] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -228,7 +295,7 @@ public class PatlParser implements PatlParserConstants {
           {if (true) return new NewPattern(className.toString(), argList);}
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -236,7 +303,7 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public List<String> Arguments() throws ParseException {
+  final public List<String> Arguments() throws ParseException {
   List<String> argList=new ArrayList<String>();
     jj_consume_token(LPAREN);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -244,7 +311,7 @@ public class PatlParser implements PatlParserConstants {
       argList = ArgumentList();
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[13] = jj_gen;
       ;
     }
     jj_consume_token(RPAREN);
@@ -252,7 +319,7 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public List<String> ArgumentList() throws ParseException {
+  final public List<String> ArgumentList() throws ParseException {
         List<String> argList = new ArrayList<String>();
         Token s;
     s = jj_consume_token(IDENTIFIER);
@@ -264,7 +331,7 @@ public class PatlParser implements PatlParserConstants {
         ;
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[14] = jj_gen;
         break label_4;
       }
       jj_consume_token(COMMA);
@@ -275,110 +342,466 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static private boolean jj_2_1(int xla) {
+/*The following is full* series expressions etc for new client program*/
+  final public FullStatement fullStatement() throws ParseException {
+        FullStatement fs;
+    if (jj_2_4(3)) {
+      fs = fullAssignment();
+                {if (true) return fs;}
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case CONSTANT:
+      case STRING:
+      case NEW:
+      case IDENTIFIER:
+        fs = fullExpressionStatement();
+                {if (true) return fs;}
+        break;
+      default:
+        jj_la1[15] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    throw new Error("Missing return statement in function");
+  }
+
+  final public FullAssignment fullAssignment() throws ParseException {
+        Token v;
+        FullExpression fullexp;
+    v = jj_consume_token(IDENTIFIER);
+    jj_consume_token(37);
+    fullexp = fullExpression();
+    jj_consume_token(SEMICOLON);
+                {if (true) return new FullAssignment(v.toString(), fullexp);}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public FullExpressionStatement fullExpressionStatement() throws ParseException {
+        FullExpression fullexp;
+    fullexp = fullExpression();
+    jj_consume_token(SEMICOLON);
+                {if (true) return new FullExpressionStatement(fullexp);}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public FullExpression fullExpression() throws ParseException {
+        Token var;
+        Token cn;
+        List<FullExpression> args;
+        FullExpTail tail = null;
+        String s;
+        List<String> operands = new ArrayList<String>();
+        List<Boolean> operators = new ArrayList<Boolean>();
+    if (jj_2_5(3)) {
+      s = symbol();
+                       operands.add(s);
+      label_5:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+          jj_consume_token(PLUS);
+                                                      operators.add(new Boolean(true));
+          break;
+        case MINUS:
+          jj_consume_token(MINUS);
+                                                                                                      operators.add(new Boolean(false));
+          break;
+        default:
+          jj_la1[16] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        s = symbol();
+                                                                                                                                                           operands.add(s);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MINUS:
+          ;
+          break;
+        default:
+          jj_la1[17] = jj_gen;
+          break label_5;
+        }
+      }
+                {if (true) return new FullAddExpression(operands, operators);}
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IDENTIFIER:
+        var = jj_consume_token(IDENTIFIER);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case DOT:
+          tail = fullExpTail();
+          break;
+        default:
+          jj_la1[18] = jj_gen;
+          ;
+        }
+                FullExpression fv = new FullVariable(var.toString());
+                if (tail == null)
+                        {if (true) return fv;}
+                else
+                        {if (true) return tail.toExpression(fv);}
+        break;
+      case NEW:
+        jj_consume_token(NEW);
+        cn = jj_consume_token(IDENTIFIER);
+        args = fullArguments();
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case DOT:
+          tail = fullExpTail();
+          break;
+        default:
+          jj_la1[19] = jj_gen;
+          ;
+        }
+                FullExpression fn = new FullNew(cn.toString(), args);
+                if (tail == null)
+                        {if (true) return fn;}
+                else
+                        {if (true) return tail.toExpression(fn);}
+        break;
+      default:
+        jj_la1[20] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    throw new Error("Missing return statement in function");
+  }
+
+  final public FullExpTail fullExpTail() throws ParseException {
+        Token m;
+        Token f;
+        List<FullExpression> args;
+        FullExpTail tail = null;
+    if (jj_2_6(3)) {
+      jj_consume_token(DOT);
+      m = jj_consume_token(IDENTIFIER);
+      args = fullArguments();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case DOT:
+        tail = fullExpTail();
+        break;
+      default:
+        jj_la1[21] = jj_gen;
+        ;
+      }
+                FullExpTail tl = new FullExpTail();
+                MethodBody mb = tl.new MethodBody(m.toString(), args);
+                tl.set(mb, tail);
+                {if (true) return tl;}
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case DOT:
+        jj_consume_token(DOT);
+        f = jj_consume_token(IDENTIFIER);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case DOT:
+          tail = fullExpTail();
+          break;
+        default:
+          jj_la1[22] = jj_gen;
+          ;
+        }
+                FullExpTail tl = new FullExpTail();
+                FieldBody fb = tl.new FieldBody(f.toString());
+                tl.set(fb, tail);
+                {if (true) return tl;}
+        break;
+      default:
+        jj_la1[23] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    throw new Error("Missing return statement in function");
+  }
+
+  final public List<FullExpression> fullArguments() throws ParseException {
+  List<FullExpression> args = new ArrayList<FullExpression>();
+    jj_consume_token(LPAREN);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case CONSTANT:
+    case STRING:
+    case NEW:
+    case IDENTIFIER:
+      args = fullArgumentList();
+      break;
+    default:
+      jj_la1[24] = jj_gen;
+      ;
+    }
+    jj_consume_token(RPAREN);
+        {if (true) return args;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public List<FullExpression> fullArgumentList() throws ParseException {
+        List<FullExpression> args = new ArrayList<FullExpression>();
+        FullExpression s;
+    s = fullExpression();
+                               args.add(s);
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case COMMA:
+        ;
+        break;
+      default:
+        jj_la1[25] = jj_gen;
+        break label_6;
+      }
+      jj_consume_token(COMMA);
+      s = fullExpression();
+                                                                          args.add(s);
+    }
+                {if (true) return args;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public String symbol() throws ParseException {
+        Token s;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFIER:
+      s = jj_consume_token(IDENTIFIER);
+      break;
+    case CONSTANT:
+      s = jj_consume_token(CONSTANT);
+      break;
+    case STRING:
+      s = jj_consume_token(STRING);
+      break;
+    default:
+      jj_la1[26] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                {if (true) return s.toString();}
+    throw new Error("Missing return statement in function");
+  }
+
+  private boolean jj_2_1(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_2_2(int xla) {
+  private boolean jj_2_2(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_2(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(1, xla); }
   }
 
-  static private boolean jj_2_3(int xla) {
+  private boolean jj_2_3(int xla) {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
     try { return !jj_3_3(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(2, xla); }
   }
 
-  static private boolean jj_3R_9() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
+  private boolean jj_2_4(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_4(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(3, xla); }
   }
 
-  static private boolean jj_3R_6() {
-    if (jj_scan_token(NEW)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_3R_7()) return true;
-    return false;
+  private boolean jj_2_5(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_5(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(4, xla); }
   }
 
-  static private boolean jj_3R_5() {
+  private boolean jj_2_6(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_6(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(5, xla); }
+  }
+
+  private boolean jj_3_5() {
+    if (jj_3R_9()) return true;
     Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_6()) return true;
+    if (jj_3R_10()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_10()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
 
-  static private boolean jj_3_3() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(DOT)) return true;
+  private boolean jj_3R_13() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(24)) {
+    if (jj_3_5()) {
     jj_scanpos = xsp;
-    if (jj_scan_token(23)) return true;
+    if (jj_3R_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_18()) return true;
     }
-    if (jj_3R_7()) return true;
+    }
     return false;
   }
 
-  static private boolean jj_3R_7() {
-    if (jj_scan_token(LPAREN)) return true;
+  private boolean jj_3R_14() {
+    if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_15() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_8()) jj_scanpos = xsp;
-    if (jj_scan_token(RPAREN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(30)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_5()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_8() {
+    if (jj_3R_14()) {
+    jj_scanpos = xsp;
+    if (jj_3R_15()) return true;
+    }
     if (jj_3R_9()) return true;
     return false;
   }
 
-  static private boolean jj_initialized_once = false;
+  private boolean jj_3R_20() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_3R_7()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(33)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(20)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(22)) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3_6() {
+    if (jj_scan_token(DOT)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    if (jj_scan_token(LPAREN)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_19()) jj_scanpos = xsp;
+    if (jj_scan_token(RPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(37)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_12() {
+    if (jj_scan_token(NEW)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_scan_token(NEW)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(37)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_7() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_12()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(DOT)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(33)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(24)) return true;
+    }
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
-  static public PatlParserTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
+  public PatlParserTokenManager token_source;
+  SimpleCharStream jj_input_stream;
   /** Current token. */
-  static public Token token;
+  public Token token;
   /** Next token. */
-  static public Token jj_nt;
-  static private int jj_ntk;
-  static private Token jj_scanpos, jj_lastpos;
-  static private int jj_la;
-  static private int jj_gen;
-  static final private int[] jj_la1 = new int[12];
+  public Token jj_nt;
+  private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[27];
   static private int[] jj_la1_0;
+  static private int[] jj_la1_1;
   static {
       jj_la1_init_0();
+      jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x400,0x30800000,0x1000000,0x20000,0x30800000,0x1400000,0x1800000,0x1000000,0x1800000,0x400000,0x1000000,0x20000,};
+      jj_la1_0 = new int[] {0x400,0x7000000,0x0,0x20000,0x7000000,0x800000,0x1000000,0xfe000000,0x100000,0xfe040000,0x0,0x1000000,0x800000,0x0,0x20000,0xd00000,0x6000000,0x6000000,0x40000,0x40000,0x800000,0x40000,0x40000,0x40000,0xd00000,0x20000,0x500000,};
    }
-  static final private JJCalls[] jj_2_rtns = new JJCalls[3];
-  static private boolean jj_rescan = false;
-  static private int jj_gc = 0;
+   private static void jj_la1_init_1() {
+      jj_la1_1 = new int[] {0x0,0x0,0x2,0x0,0x0,0x2,0x2,0x1,0x2,0x1,0x2,0x2,0x0,0x2,0x0,0x2,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x2,0x0,0x2,};
+   }
+  final private JJCalls[] jj_2_rtns = new JJCalls[6];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public PatlParser(java.io.InputStream stream) {
@@ -386,80 +809,59 @@ public class PatlParser implements PatlParserConstants {
   }
   /** Constructor with InputStream and supplied encoding */
   public PatlParser(java.io.InputStream stream, String encoding) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source = new PatlParserTokenManager(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream) {
+  public void ReInit(java.io.InputStream stream) {
      ReInit(stream, null);
   }
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream, String encoding) {
+  public void ReInit(java.io.InputStream stream, String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor. */
   public PatlParser(java.io.Reader stream) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     jj_input_stream = new SimpleCharStream(stream, 1, 1);
     token_source = new PatlParserTokenManager(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.Reader stream) {
+  public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor with generated Token Manager. */
   public PatlParser(PatlParserTokenManager tm) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -469,11 +871,11 @@ public class PatlParser implements PatlParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 27; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
-  static private Token jj_consume_token(int kind) throws ParseException {
+  private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
@@ -498,8 +900,8 @@ public class PatlParser implements PatlParserConstants {
   }
 
   static private final class LookaheadSuccess extends java.lang.Error { }
-  static final private LookaheadSuccess jj_ls = new LookaheadSuccess();
-  static private boolean jj_scan_token(int kind) {
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  private boolean jj_scan_token(int kind) {
     if (jj_scanpos == jj_lastpos) {
       jj_la--;
       if (jj_scanpos.next == null) {
@@ -522,7 +924,7 @@ public class PatlParser implements PatlParserConstants {
 
 
 /** Get the next Token. */
-  static final public Token getNextToken() {
+  final public Token getNextToken() {
     if (token.next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -531,7 +933,7 @@ public class PatlParser implements PatlParserConstants {
   }
 
 /** Get the specific Token. */
-  static final public Token getToken(int index) {
+  final public Token getToken(int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -540,20 +942,20 @@ public class PatlParser implements PatlParserConstants {
     return t;
   }
 
-  static private int jj_ntk() {
+  private int jj_ntk() {
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
-  static private int[] jj_expentry;
-  static private int jj_kind = -1;
-  static private int[] jj_lasttokens = new int[100];
-  static private int jj_endpos;
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
 
-  static private void jj_add_error_token(int kind, int pos) {
+  private void jj_add_error_token(int kind, int pos) {
     if (pos >= 100) return;
     if (pos == jj_endpos + 1) {
       jj_lasttokens[jj_endpos++] = kind;
@@ -579,23 +981,26 @@ public class PatlParser implements PatlParserConstants {
   }
 
   /** Generate ParseException. */
-  static public ParseException generateParseException() {
+  public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[31];
+    boolean[] la1tokens = new boolean[38];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 27; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
             la1tokens[j] = true;
           }
+          if ((jj_la1_1[i] & (1<<j)) != 0) {
+            la1tokens[32+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 31; i++) {
+    for (int i = 0; i < 38; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
@@ -613,16 +1018,16 @@ public class PatlParser implements PatlParserConstants {
   }
 
   /** Enable tracing. */
-  static final public void enable_tracing() {
+  final public void enable_tracing() {
   }
 
   /** Disable tracing. */
-  static final public void disable_tracing() {
+  final public void disable_tracing() {
   }
 
-  static private void jj_rescan_token() {
+  private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 6; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -632,6 +1037,9 @@ public class PatlParser implements PatlParserConstants {
             case 0: jj_3_1(); break;
             case 1: jj_3_2(); break;
             case 2: jj_3_3(); break;
+            case 3: jj_3_4(); break;
+            case 4: jj_3_5(); break;
+            case 5: jj_3_6(); break;
           }
         }
         p = p.next;
@@ -641,7 +1049,7 @@ public class PatlParser implements PatlParserConstants {
     jj_rescan = false;
   }
 
-  static private void jj_save(int index, int xla) {
+  private void jj_save(int index, int xla) {
     JJCalls p = jj_2_rtns[index];
     while (p.gen > jj_gen) {
       if (p.next == null) { p = p.next = new JJCalls(); break; }

@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 
+import patl4j.handlers.PatlOption;
 import patl4j.util.ErrorManager;
 
 public class JavaPackage {
@@ -36,9 +37,12 @@ public class JavaPackage {
 		return files;
 	}
 	
-	public void createNormalizedFiles() {
+	public void createNormalizedFiles(PatlOption option) {
 		for (JavaFile i : files) {
+			if (option.fileIgnored(i.getCU().getElementName()))
+				continue;
 			try {
+				System.out.println("$$$$ File Name:" + i.getCU().getElementName() + " $$$$");
 				packageFrag.createCompilationUnit(
 						"_" + i.getCU().getElementName(), 
 						i.getNormlizedAST().toString(), 

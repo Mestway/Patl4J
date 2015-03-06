@@ -31,7 +31,7 @@ public class JavaFile {
 		
 		NormalizeVisitor jn = new NormalizeVisitor(ast);
 		ast.accept(jn);
-		// Maybe not for simplicity consideration
+		// Maybe not, just for simplicity consideration
 		// VariableGenerator.reset();
 		normalizedAST = jn.getCU();
 	}
