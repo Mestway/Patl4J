@@ -1,8 +1,9 @@
 package patl4j.patl.ast;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
+import java.util.Map;
+import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 
@@ -17,15 +18,21 @@ public class ExpStmtPattern implements StatementPattern {
 	}
 	
 	@Override
-	// TODO: implement the match method
-	public Optional<List<Pair<Name, String>>> syntaxMatch(Statement s) {
-		
-		return Optional.of(null);
-	}
-	
-	@Override
 	public String toString() {
 		return expression.toString() + ";";
+	}
+
+	@Override
+	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
+			Map<String, String> var2type) {
+	
+		// Promote to the match of its expression
+		if (s instanceof ExpressionStatement) {
+			ExpressionStatement exps = (ExpressionStatement) s;
+			return this.expression.tryMatch(exps.getExpression(), var2type);
+		}
+		
+		return new Pair<List<Pair<String, Name>>, Boolean>(new ArrayList<Pair<String, Name>>(), false);
 	}
 
 }

@@ -3,6 +3,7 @@ package patl4j.patl.ast;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 
 import patl4j.util.ErrorManager;
@@ -44,16 +45,20 @@ public class ModInstruction {
 	}
 
 	// only for those labeled with "-" and "m"
-	public Pair<List<Pair<String, String>>, Boolean> tryMatch(Statement s,
+	/**
+	 * Note that when the boolean variable is false, the list is invalid, no matter it is empty or not
+	 * @param s: The statement used to match the mod instruction
+	 * @param var2type: the variable name to type map
+	 * @return a pair containing the variable binding list and an boolean variable indicating whether the match success
+	 */
+	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
 			Map<String, String> var2type) {
 		
 		if (!this.isSrcPattern()) {
 			ErrorManager.error("encounted fatal error: trying to match a pattern with + label");
 		}
-		
-		return null;
-		// TODO: implement try match
-		//return p.tryMatch(s, var2type);
+
+		return p.tryMatch(s, var2type);
 	}
 	
 }

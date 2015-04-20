@@ -12,7 +12,7 @@ public class ProjectNormalizer {
 	
 	// normalize a project
 	public void normalize(JavaProject project, PatlOption option) {
-		System.out.println("Working in project " + project.getIJavaProject().getElementName());
+		System.out.println("[[Normalize Start]] Project:" + project.getIJavaProject().getElementName());
 		try {
 			normalizePackage(project, option);
 		} catch (JavaModelException e) {

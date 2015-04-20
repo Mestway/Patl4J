@@ -23,7 +23,7 @@ public class PatlOption {
 		try {
 			for (Object i : project.getIJavaProject().getNonJavaResources()) {
 				if (i instanceof IFile) {
-					System.out.println("--The name " + ((IFile)i).getName() + "--name");
+					//System.out.println("--The name " + ((IFile)i).getName() + "--name");
 					if (((IFile)i).getName().equals("patl.option")) {
 						ignored = false;
 						extractConfig((IFile)i);

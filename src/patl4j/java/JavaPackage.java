@@ -43,9 +43,26 @@ public class JavaPackage {
 				continue;
 			try {
 				System.out.println("$$$$ File Name:" + i.getCU().getElementName() + " $$$$");
+				
+				// Temporarily generate the normalized-file to regenerate an AST with type binding
+				ICompilationUnit icu = packageFrag.createCompilationUnit(
+						i.getCU().getElementName(), 
+						i.getNormalizedAST().toString(), 
+						true, 
+						null);
+				i.reGenNormalizedAST(icu);
+				
+				// Now just put the original AST back to the file
 				packageFrag.createCompilationUnit(
-						"_" + i.getCU().getElementName(), 
-						i.getNormlizedAST().toString(), 
+						i.getCU().getElementName(), 
+						i.getOriginalASTString(), 
+						true, 
+						null);
+				
+				// Generate the normalized AST as a new file here for debugging purpose
+				packageFrag.createCompilationUnit(
+						"_normalized_" + i.getCU().getElementName(), 
+						i.getNormalizedAST().toString(), 
 						false, 
 						null);
 			} catch (JavaModelException e) {

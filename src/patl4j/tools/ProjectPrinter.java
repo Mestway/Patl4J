@@ -56,7 +56,7 @@ public class ProjectPrinter {
 		System.out.println(file.getAST());
 		System.out.println("--------------------------------------------");
 		System.out.println("::::::::::::::::::::::::::::::::::::::::::::");
-		System.out.println(file.getNormlizedAST());
+		System.out.println(file.getNormalizedAST());
 		System.out.println("::::::::::::::::::::::::::::::::::::::::::::");
 	}
 	

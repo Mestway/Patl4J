@@ -25,8 +25,9 @@ public class FullAddExpression implements FullExpression {
 		String str = "";
 		for (int i = 0; i < operands.size(); i ++) {
 			if (i > 0)
+				str += (operators.get(i-1)?"+":"-") + operands.get(i);
+			else 
 				str += operands.get(i);
-			str += operands.get(i);
 		}
 		return str;
 	}

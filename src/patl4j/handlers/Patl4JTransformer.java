@@ -16,30 +16,29 @@ public class Patl4JTransformer extends AbstractHandler {
 		
 		JavaWorkspace workspace = new JavaWorkspace(ResourcesPlugin.getWorkspace());
 		
-		// Loop over all projects
-		System.out.println("Print eclipse project start ========================== ");
-		
+		// Loop over the projects
 		for (JavaProject project : workspace.getProjects()) {
-			System.out.println("This is the project name: " + project.getIJavaProject().getElementName()); 
 			//new ProjectPrinter().printJavaProjectInfo(project);
 			
 			PatlOption option = new PatlOption(project);
 			
 			if (option.ignored == true)
 				continue;
+			
+			System.out.println("\n[[Transformation Start]] Project: " + project.getIJavaProject().getElementName()); 
 
 			/* second step: normalize the client program */
 			new ProjectNormalizer().normalize(project, option);
 			
 			/* first step: collect transformation rules */
-			ProjectTransformer projectTransformer = new ProjectTransformer(project);
+			ProjectTransformer projectTransformer = new ProjectTransformer(project, option);
 			projectTransformer.printRules();
 			
-			/* thrid step: create matcher based on the rules */
+			/* third step: create matcher based on the rules */
 			projectTransformer.transform();
 		}
 		
-		System.out.println("This is the end ============================== ");
+		System.out.println("[[Transformation End]]");
 		
 		return null;
 	}

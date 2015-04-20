@@ -163,8 +163,7 @@ PEPattern e():{
   	target = <IDENTIFIER>  "." (methodName=<IDENTIFIER> | methodName=<MOD>) argList = Arguments()  	{
     	return new MethodPattern(target.toString(), methodName.toString(), argList);  	}
 | 	<NEW> className = <IDENTIFIER> argList = Arguments()	{
-	  return new NewPattern(className.toString(), argList);	}
-}
+	  return new NewPattern(className.toString(), argList);	}}
 
 List<String> Arguments():
 { List<String> argList=new ArrayList<String>();}{

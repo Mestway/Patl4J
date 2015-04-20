@@ -742,11 +742,6 @@ public class PatlParser implements PatlParserConstants {
     return false;
   }
 
-  private boolean jj_3R_11() {
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
   private boolean jj_3R_7() {
     Token xsp;
     xsp = jj_scanpos;
@@ -767,6 +762,11 @@ public class PatlParser implements PatlParserConstants {
     if (jj_scan_token(24)) return true;
     }
     if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_scan_token(LPAREN)) return true;
     return false;
   }
 

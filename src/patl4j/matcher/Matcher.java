@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 
 import patl4j.patl.ast.ModInstruction;
@@ -19,7 +20,7 @@ public class Matcher {
 	// Map a variable to its type in the old context.
 	private Map<String, String> var2type = new HashMap<String, String>();
 	// Map a variable to its binded type.
-	private Map<String, Optional<String>> varMap = new HashMap<String, Optional<String>>();
+	private Map<String, Optional<WrappedName>> varMap = new HashMap<String, Optional<WrappedName>>();
 	
 	private List<Pair<ModInstruction, Optional<Statement>>> 
 		instrBindings = new ArrayList<Pair<ModInstruction, Optional<Statement>>>();
@@ -46,32 +47,29 @@ public class Matcher {
 		// Copy the one w/o update
 		mlist.add(Matcher.deepCopy(this));
 		
-		boolean x = true;
-		
-		if (x) {
-			return mlist;
-		}
+		// TODO: now implementing
 		
 		ModInstruction instr = instrBindings.get(matchpoint).getFirst();
 	
-		Pair<List<Pair<String,String>>, Boolean> result = 
+		Pair<List<Pair<String,Name>>, Boolean> result = 
 				instr.tryMatch(s, var2type);
-			
+		
 		// Check if variable bindings can match the existed result
+		// TODO: the binding check is based on the name of the variables.
 		if (result.getSecond()) {
-			boolean matched = true;
-			for (Pair<String, String> p : result.getFirst()) {
+			boolean varmatched = true;
+			for (Pair<String, Name> p : result.getFirst()) {
 				if (varMap.get(p.getFirst()).isPresent() && 
-						!varMap.get(p.getFirst()).get().equals(p.getSecond())) {
-					matched = false;
+						!varMap.get(p.getFirst()).get().getStr().equals(p.getSecond().getFullyQualifiedName())) {
+					varmatched = false;
 				}
 			}
 			// The statement successfully matched the pattern 
-			if (matched == true) {
+			if (varmatched == true) {
 				// Add the variable bindings into varMap
-				for (Pair<String, String> p : result.getFirst()) {
+				for (Pair<String, Name> p : result.getFirst()) {
 					if (!varMap.get(p.getFirst()).isPresent()) {
-						varMap.put(p.getFirst(), Optional.of(p.getSecond()));
+						varMap.put(p.getFirst(), Optional.of(new WrappedName(p.getSecond())));
 					}
 				}
 				// This is the only position to update 
@@ -103,7 +101,7 @@ public class Matcher {
 	
 	/*
 	 *  Deep copy a Matcher from an existing one
-	 *  Note that the ModInstruction will not be copied!
+	 *  Note that the ModInstruction and the statement will not be copied!
 	 */
 	public static Matcher deepCopy(Matcher m) {
 		Matcher matcher = new Matcher();
@@ -111,7 +109,7 @@ public class Matcher {
 		for (Entry<String, String> i : m.var2type.entrySet())
 			matcher.var2type.put(i.getKey(), i.getValue());
 		// binded metavariables
-		for (Entry<String, Optional<String>> i : m.varMap.entrySet())
+		for (Entry<String, Optional<WrappedName>> i : m.varMap.entrySet())
 			matcher.varMap.put(i.getKey(), Optional.ofNullable(i.getValue().orElse(null)));
 		// binded instructions
 		for (Pair<ModInstruction, Optional<Statement>> p : m.instrBindings)
@@ -131,7 +129,7 @@ public class Matcher {
 			return false;
 		if (this.varMap.size() != m.varMap.size())
 			return false;
-		for (Entry<String, Optional<String>> i : m.varMap.entrySet()) {
+		for (Entry<String, Optional<WrappedName>> i : m.varMap.entrySet()) {
 			if (this.varMap.get(i.getKey()) == null 
 					|| !this.varMap.get(i.getKey()).equals(i.getValue())) 
 				return false;			
@@ -149,10 +147,10 @@ public class Matcher {
 	public String toString() {
 		String str = "(";
 		boolean flag = false;
-		for (Entry<String, Optional<String>> i : varMap.entrySet()) {
+		for (Entry<String, Optional<WrappedName>> i : varMap.entrySet()) {
 			if (flag) str += ", ";
 			flag = true;
-			str += i.getKey() + ":" + i.getValue();
+			str += i.getKey() + ":" + i.getValue().get().getStr();
 		}
 		str += ") {\n";
 		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {

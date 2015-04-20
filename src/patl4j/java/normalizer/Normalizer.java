@@ -15,7 +15,6 @@ public class Normalizer {
 	public static WrappedStatement normalizeStmt(Statement input) {
 		
 		if (input instanceof AssertStatement) {
-			
 			AssertStatement stmt = (AssertStatement) input;
 			Pair<List<Statement>, Name> wrappedExp = wrapExpression(normalizeExp(stmt.getExpression()));
 			stmt.setExpression((Name)ASTNode.copySubtree(stmt.getAST(), wrappedExp.getSecond()));
@@ -373,8 +372,27 @@ public class Normalizer {
 			
 		} else if (exp instanceof Assignment) {
 			
+			// Note that the left hand side expression of the assignment expression is always a name: 
+			//		either a simple name or a qualified name
+			
 			Assignment node = (Assignment) exp;
-			Pair<List<Statement>, Name> lhsPair = wrapExpression(normalizeExp(node.getLeftHandSide()));
+			Pair<List<Statement>, Expression> lhsPair = normalizeExp(node.getLeftHandSide());
+			if (lhsPair.getSecond() instanceof FieldAccess) {
+				FieldAccess fa = (FieldAccess) lhsPair.getSecond();
+				if (fa.getExpression() instanceof Name) {
+					AST tempAST = AST.newAST(AST.JLS8);
+					
+					// Convert a field access term to a qualified name
+					QualifiedName qn = tempAST.newQualifiedName(
+							(Name) ASTNode.copySubtree(tempAST,  fa.getExpression()), 
+							(SimpleName )ASTNode.copySubtree(tempAST, fa.getName()) );
+					
+					lhsPair.setSecond(qn);
+				} else {
+					ErrorManager.error("[Error from Assignment Normalizer]");
+				}
+			}
+			
 			Pair<List<Statement>, Expression> rhsPair = normalizeExp(node.getRightHandSide());
 			
 			for (Statement i : rhsPair.getFirst()) {

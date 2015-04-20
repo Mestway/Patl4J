@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 
 import patl4j.core.transformer.TransformationVisitor;
+import patl4j.handlers.PatlOption;
 import patl4j.java.JavaFile;
 import patl4j.java.JavaPackage;
 import patl4j.java.JavaProject;
@@ -28,8 +29,10 @@ public class ProjectTransformer {
 	
 	JavaProject project;
 	List<Rule> patlRules = new ArrayList<Rule>();
+	PatlOption option;
 	
-	public ProjectTransformer(JavaProject project) {
+	public ProjectTransformer(JavaProject project, PatlOption option) {
+		this.option = option;
 		this.project = project;
 		this.collectPatlRules();
 	}
@@ -64,9 +67,17 @@ public class ProjectTransformer {
 	// This is the top level transformation call, which will then lead to *method* level transformation
 	public void transform() {
 		for (JavaPackage p : project.getPackages()) {
+			// Check whether the package is ignored
+			if (option.packageIgnored(p.getIPackageFrag().getElementName()))
+				continue;
+			
 			for (JavaFile f : p.getFiles()) {
-				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormlizedAST());
-				f.getNormlizedAST().accept(tv);
+				// Check whether the file is ignored in the option file
+				if (option.fileIgnored(f.getCU().getElementName()))
+					continue;
+
+				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST());
+				f.getNormalizedAST().accept(tv);
 			}
 		}
 	}
