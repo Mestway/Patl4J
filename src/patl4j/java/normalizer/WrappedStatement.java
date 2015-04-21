@@ -37,7 +37,7 @@ public class WrappedStatement {
 			return ls;
 		} else {
 			if (!(statement instanceof Block)) {
-				ErrorManager.error("This is definately a big disaster");
+				ErrorManager.error("WrappedStatement@line40", "The statement should be a block", "The statement is: " + statement);
 				return ls;
 			}
 			for (Statement i : (List<Statement>)(((Block) statement).statements())) {

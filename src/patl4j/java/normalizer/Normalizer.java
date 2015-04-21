@@ -107,10 +107,12 @@ public class Normalizer {
 				Pair<List<Statement>, Expression> initializer = normalizeExp(i);
 				// If they are VariableDeclaraionExpression, we generate corresponding variable declaration statements
 				if (initializer.getSecond() instanceof VariableDeclarationExpression) {
+					
 					VariableDeclarationExpression vd = (VariableDeclarationExpression) initializer.getSecond();
 					AST tmpAST = AST.newAST(AST.JLS8);
+					
 					if (vd.fragments().isEmpty()) {
-						ErrorManager.error("Strange things happend: An empty variable declaration fragment");
+						ErrorManager.error("Normalizer@line115", "Empty variable declaration fragment?");
 					}
 					
 					VariableDeclarationStatement vs = tmpAST.newVariableDeclarationStatement(
@@ -260,7 +262,7 @@ public class Normalizer {
 			
 		} else if (input instanceof TypeDeclarationStatement) {
 			// not supported yet
-			ErrorManager.error("TypeDeclaration statement");
+			ErrorManager.unsupported("Normalizer@line265", "TypeDeclaration statement", "The statement is: " + input);
 			return wrapStatement(input);
 			
 		} else if (input instanceof  VariableDeclarationStatement) {
@@ -383,13 +385,14 @@ public class Normalizer {
 					AST tempAST = AST.newAST(AST.JLS8);
 					
 					// Convert a field access term to a qualified name
+					// TODO: double check if this is an right action::this conversion is dangerous
 					QualifiedName qn = tempAST.newQualifiedName(
 							(Name) ASTNode.copySubtree(tempAST,  fa.getExpression()), 
-							(SimpleName )ASTNode.copySubtree(tempAST, fa.getName()) );
+							(SimpleName )ASTNode.copySubtree(tempAST, fa.getName()));
 					
 					lhsPair.setSecond(qn);
 				} else {
-					ErrorManager.error("[Error from Assignment Normalizer]");
+					ErrorManager.error("Normalizer@line394", "The field access term is not a name.");
 				}
 			}
 			

@@ -78,7 +78,7 @@ public class AssignStmtPattern implements StatementPattern {
 		
 			if (vds.fragments().size() != 1) {
 				// If the error occurs, go and fix the bug in 
-				ErrorManager.error("the size of fragments is not 1");
+				ErrorManager.error("AssignStmtPattern@lien81","The size of variable declaration fragments is not 1");
 			}
 			
 			VariableDeclarationFragment vdf = (VariableDeclarationFragment) vds.fragments().get(0);

@@ -50,7 +50,7 @@ public class BinaryOperation implements RHSPattern {
 					matchedVarList.add(new Pair<String, Name>(this.second, (SimpleName)right));
 				} else {
 					// The argument of the expression is not normalized
-					ErrorManager.error("BinaryOperation normalizing problem.");
+					ErrorManager.error("BinaryOperation@lien53", "Operands are not normalized.");
 					matchedSuccessful = false;
 				}
 			} else {

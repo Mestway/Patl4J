@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 
-public class PatlParser {	public static void main(String[] args) throws ParseException {		/*String testExample = "(x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
+public class PatlParser {	public static void main(String[] args) throws ParseException {		/*String testExample = "(x: A -> B, y: C->D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A -> B, y: C->D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
 		List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
 		for (Rule i : p) {
 		  	System.out.println(i);		}*/
@@ -47,7 +47,7 @@ SKIP :
 | 	<SEMICOLON: ";">
 | 	<COMMA: ",">
 | 	<DOT: ".">}
-<DEFAULT> TOKEN : /* Arrows */ { <ARROW: "->>"> }
+<DEFAULT> TOKEN : /* Arrows */ { <ARROW: "->"> }
 <DEFAULT> TOKEN :{  < CONSTANT : (< DIGIT >)+ >| < #DIGIT : [ "0"-"9" ] >}
 
 <DEFAULT> TOKEN:

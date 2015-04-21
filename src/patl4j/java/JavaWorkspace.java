@@ -41,7 +41,7 @@ public class JavaWorkspace {
 					projects.add(new JavaProject(javaProject));
 				}
 			} catch (CoreException e) {
-				ErrorManager.error("Cannot create java project");
+				ErrorManager.error("JavaWorkspace@line44", "Cannot create java project");
 				e.printStackTrace();
 			}
 		}

@@ -55,7 +55,7 @@ public class ModInstruction {
 			Map<String, String> var2type) {
 		
 		if (!this.isSrcPattern()) {
-			ErrorManager.error("encounted fatal error: trying to match a pattern with + label");
+			ErrorManager.error("ModInstruction@line58", "Trying to match a pattern with + label");
 		}
 
 		return p.tryMatch(s, var2type);

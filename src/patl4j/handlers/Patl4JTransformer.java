@@ -26,13 +26,17 @@ public class Patl4JTransformer extends AbstractHandler {
 				continue;
 			
 			System.out.println("\n[[Transformation Start]] Project: " + project.getIJavaProject().getElementName()); 
-
+			
+			System.out.println("[[Normalization Begin]]");
 			/* second step: normalize the client program */
 			new ProjectNormalizer().normalize(project, option);
+			System.out.println("[[Normlaization End]]");
 			
+			System.out.println("[[Collect Rules Begin]]");
 			/* first step: collect transformation rules */
 			ProjectTransformer projectTransformer = new ProjectTransformer(project, option);
 			projectTransformer.printRules();
+			System.out.println("[[Collect Rules End]]");
 			
 			/* third step: create matcher based on the rules */
 			projectTransformer.transform();

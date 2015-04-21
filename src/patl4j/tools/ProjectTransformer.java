@@ -52,13 +52,13 @@ public class ProjectTransformer {
 				            	patlRules.add(k);
 				            }
 						} catch (CoreException | ParseException e) {
-							ErrorManager.error("Patl parsing error");
+							ErrorManager.error("ProjectTransfomer@line55", "Patl parsing error");
 							e.printStackTrace();
 						}
 					}
 				}
 			} catch (JavaModelException e) {
-				ErrorManager.error("Cannot open package error");
+				ErrorManager.error("ProjectTransfomer@line61", "Cannot open the package.");
 				e.printStackTrace();
 			}
 		}

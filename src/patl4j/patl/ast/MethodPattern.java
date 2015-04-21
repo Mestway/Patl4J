@@ -7,9 +7,6 @@ import java.util.Map;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.SimpleName;
-
-import patl4j.exception.TypeBindingUnresolved;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 import patl4j.util.TypeHandler;
@@ -84,8 +81,7 @@ public class MethodPattern implements PEPattern {
 									matchedSuccessful = false;
 								}
 							} else {
-								System.out.println("{ERRRR@MethodPattern@line87} Here is an error: " + exp);
-								ErrorManager.error("MethodPattern normalizing problem.");
+								ErrorManager.error("MethodPattern@line87", "Arguments in method not normalized.", "The expression is: " + exp);
 								matchedSuccessful = false;
 							}
 						}
@@ -93,8 +89,7 @@ public class MethodPattern implements PEPattern {
 						matchedSuccessful = false;
 					}
 				} else {
-					System.out.println("{ERRRR@MethodPattern@line96} Here is an error: " + exp);
-					ErrorManager.error("method invocation normalizing problem.");
+					ErrorManager.error("MethodPattern@line95", "method invocation normalizing problem.", "The expression is: " + exp);
 					matchedSuccessful = false;
 				}
 			} else {

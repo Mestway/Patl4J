@@ -118,7 +118,9 @@ private int jjMoveStringLiteralDfa1_0(long active0)
             return jjStopAtPos(1, 5);
          break;
       case 62:
-         return jjMoveStringLiteralDfa2_0(active0, 0x80000L);
+         if ((active0 & 0x80000L) != 0L)
+            return jjStopAtPos(1, 19);
+         break;
       case 101:
          return jjMoveStringLiteralDfa2_0(active0, 0x800000L);
       default :
@@ -137,10 +139,6 @@ private int jjMoveStringLiteralDfa2_0(long old0, long active0)
    }
    switch(curChar)
    {
-      case 62:
-         if ((active0 & 0x80000L) != 0L)
-            return jjStopAtPos(2, 19);
-         break;
       case 119:
          if ((active0 & 0x800000L) != 0L)
             return jjStartNfaWithStates_0(2, 23, 11);
@@ -753,7 +751,7 @@ private static final boolean jjCanMove_2(int hiByte, int i1, int i2, long l1, lo
 /** Token literal values. */
 public static final String[] jjstrLiteralImages = {
 "", null, null, null, null, null, null, null, null, null, "\50", "\51", 
-"\173", "\175", "\133", "\135", "\73", "\54", "\56", "\55\76\76", null, null, null, 
+"\173", "\175", "\133", "\135", "\73", "\54", "\56", "\55\76", null, null, null, 
 "\156\145\167", "\155", "\53", "\55", "\52", "\57", "\46", "\174", "\136", "\45", null, null, 
 null, "\72", "\75", };
 

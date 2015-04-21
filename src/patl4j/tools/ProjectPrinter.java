@@ -22,7 +22,7 @@ public class ProjectPrinter {
 		try {
 			printJavaPackageInfo(project);
 		} catch (JavaModelException e) {
-			ErrorManager.error("Failed to print java package info");
+			ErrorManager.error("ProjectPrinter@line25", "Failed to print java package info");
 			e.printStackTrace();
 		}
 	}

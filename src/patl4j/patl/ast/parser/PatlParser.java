@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class PatlParser implements PatlParserConstants {
         public static void main(String[] args) throws ParseException {
-                /*String testExample = "(x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A ->> B, y: C->>D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
+                /*String testExample = "(x: A -> B, y: C->D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A -> B, y: C->D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
 		List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
 		for (Rule i : p) {
 		  	System.out.println(i);		}*/

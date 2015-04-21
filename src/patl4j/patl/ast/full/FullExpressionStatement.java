@@ -27,7 +27,7 @@ public class FullExpressionStatement implements FullStatement {
 			Map<String, String> var2type) {
 		
 		// There will be an error if we want to match on this pattern.
-		ErrorManager.error("[pattern type mistake] this pattern (FullExpressionStatement) should only be a target pattern!");
+		ErrorManager.error("FullExpression@line30", "This pattern (FullExpressionStatement) should only be a target pattern!");
 		
 		return new Pair<List<Pair<String, Name>>, Boolean>(new ArrayList<Pair<String, Name>>(), false);
 	}

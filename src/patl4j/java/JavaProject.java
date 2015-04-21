@@ -20,7 +20,7 @@ public class JavaProject {
 				packages.add(new JavaPackage(ipf));
 			}
 		} catch (JavaModelException e) {
-			ErrorManager.error("Cannot find valid Java package fragments for the given project [" + p.getElementName() + "]");
+			ErrorManager.error("JavaProject@line23", "Cannot find valid Java package fragments for the given project [" + p.getElementName() + "]");
 			e.printStackTrace();
 		}
 	}

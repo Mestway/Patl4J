@@ -28,7 +28,7 @@ public class VarDecl {
 	
 	@Override
 	public String toString() {
-		return variable + ":" + c + "->>" + d;
+		return variable + ":" + c + "->" + d;
 	}
 	
 }

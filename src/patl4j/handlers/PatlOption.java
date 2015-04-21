@@ -16,8 +16,10 @@ public class PatlOption {
 	boolean ignored = true;
 	// only work for java program and patl program
 	List<String> ignoredFiles = new ArrayList<String>();
-	
 	List<String> ignoredPackages = new ArrayList<String>();
+	
+	// The list of new APIs, which are supposed to be added to the import list
+	List<String> newAPINames = new ArrayList<String>();
 	
 	public PatlOption(JavaProject project) {
 		try {
@@ -35,7 +37,7 @@ public class PatlOption {
 		}
 	}
 	
-	// Damn! I need to add the class path in plugin.xml to make it run!!
+	// To add a library into build path, we should also add the class path into plugin.xml.
 	private void extractConfig(IFile config) {
 		try {
     	    SAXReader saxReader=new SAXReader();
@@ -49,6 +51,14 @@ public class PatlOption {
     	    		ignoredFiles.add(i.getText());
     	    	if (i.getName().equals("package"))
     	    		ignoredPackages.add(i.getText());
+    	    }
+    	    
+    	    @SuppressWarnings("unchecked")
+			List<Element> newAPIs = ((Element) root.elements("libraries").get(0)).elements();
+    	    for (Element i : newAPIs) {
+    	    	if (i.getName().equals("lib")) {
+    	    		newAPINames.add(i.getText());
+    	    	}
     	    }
     	 }
     	 catch (Exception exception) {

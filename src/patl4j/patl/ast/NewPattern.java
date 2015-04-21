@@ -74,7 +74,7 @@ public class NewPattern implements PEPattern{
 								}
 							} else {
 								// The argument of the expression is not normalized
-								ErrorManager.error("ClassInstanceCreation normalizing problem.");
+								ErrorManager.error("NewPattern@line77", "ClassInstanceCreation expression not normalized.", "The expression " + exp);
 								matchedSuccessful = false;
 							}
 						}

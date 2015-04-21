@@ -89,7 +89,7 @@ public interface PatlParserConstants {
     "\";\"",
     "\",\"",
     "\".\"",
-    "\"->>\"",
+    "\"->\"",
     "<CONSTANT>",
     "<DIGIT>",
     "<STRING>",

@@ -1,7 +1,35 @@
 package patl4j.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ErrorManager {
-	public static void error(String s) {
-		System.out.println("[ERROR]" + s);
+	
+	private static List<String> errorLog = new ArrayList<String>();
+	
+	public static void error(String pos, String s) {
+		printInfoToScreen("ERROR", pos, s, "");
+		errorLog.add("[" + pos + "] " + s);
+	}
+	
+	public static void error(String pos, String s, String debugInfo) {
+		printInfoToScreen("ERROR", pos, s, debugInfo);
+		errorLog.add("[" + pos + "]" + s + "\n\t" + debugInfo);
+	}
+	
+	public static void unsupported(String pos, String s, String debugInfo) {
+		printInfoToScreen("UNSUPPORTED",pos, s, debugInfo);
+		errorLog.add("[" + pos + "]" + s + "\n\t" + debugInfo);
+	}
+	
+	private static void printInfoToScreen(String errorType, String pos, String message, String nextlines) {
+		if (nextlines != "") {
+			nextlines = "\n\t" + nextlines;
+		}
+		System.out.println("[" + errorType + "]" + "[" + pos + "]" + message + nextlines);
+	}
+	
+	public static List<String> getErrorLog() {
+		return errorLog;
 	}
 }

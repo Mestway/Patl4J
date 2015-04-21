@@ -16,7 +16,7 @@ public class ProjectNormalizer {
 		try {
 			normalizePackage(project, option);
 		} catch (JavaModelException e) {
-			ErrorManager.error("Failed to print java package info");
+			ErrorManager.error("ProjectNormalizer@line19","Failed to normalize the project");
 			e.printStackTrace();
 		}
 	}
@@ -33,4 +33,5 @@ public class ProjectNormalizer {
 			}
 		}
 	}
+	
 }

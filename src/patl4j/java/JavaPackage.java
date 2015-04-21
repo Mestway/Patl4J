@@ -24,7 +24,7 @@ public class JavaPackage {
 				files.add(new JavaFile(f));
 			}
 		} catch (JavaModelException e) {
-			ErrorManager.error("Cannot find CompilationUnit in package [" + ipf.getElementName() + "]");
+			ErrorManager.error("JavaPackage@line27", "Cannot find CompilationUnit in package [" + ipf.getElementName() + "]");
 			e.printStackTrace();
 		}
 	}
@@ -42,12 +42,10 @@ public class JavaPackage {
 			if (option.fileIgnored(i.getCU().getElementName()))
 				continue;
 			try {
-				System.out.println("$$$$ File Name:" + i.getCU().getElementName() + " $$$$");
-				
 				// Temporarily generate the normalized-file to regenerate an AST with type binding
 				ICompilationUnit icu = packageFrag.createCompilationUnit(
 						i.getCU().getElementName(), 
-						i.getNormalizedAST().toString(), 
+						i.getNormalizedAST().toString(),
 						true, 
 						null);
 				i.reGenNormalizedAST(icu);
@@ -66,7 +64,7 @@ public class JavaPackage {
 						false, 
 						null);
 			} catch (JavaModelException e) {
-				ErrorManager.error("Current Name already exists!");
+				ErrorManager.error("JavaPackage@line69", "Current Name already exists!");
 				e.printStackTrace();
 			}
 		}
