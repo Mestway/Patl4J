@@ -17,15 +17,28 @@ public class FullAssignment implements FullStatement{
 	String variable;
 	FullExpression exp;
 	
+	// If a new variable is declared, we will store it here in the newVariable
+	// First field: the type of the variable
+	// Second field: the variable name
+	Optional<Pair<String, String>> newVariable = Optional.ofNullable(null);
+	
 	public FullAssignment(String variable, FullExpression exp) {
 		this.variable = variable;
 		this.exp = exp;
 	}
 
+	public FullAssignment(String vartype, String variable, FullExpression exp) {
+		this.variable = variable;
+		this.exp = exp;
+		this.newVariable = Optional.ofNullable(new Pair<String, String>(vartype, variable));
+	}
+	
 	@Override
 	public String toString() {
-		return variable + "=" + exp.toString() + ";";
-	}
+		if (newVariable.isPresent())
+			return newVariable.get().getFirst() + " " + newVariable.get().getSecond() + " = " + exp.toString() + ";";
+		else return this.variable + " = " + exp.toString() + ";";
+	}	
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,

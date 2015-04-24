@@ -19,7 +19,7 @@ public class FullExpressionStatement implements FullStatement {
 	
 	@Override 
 	public String toString() {
-		return exp.toString();
+		return exp.toString() + ";";
 	}
 
 	@Override

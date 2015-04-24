@@ -150,7 +150,7 @@ public class Matcher {
 		for (Entry<String, Optional<WrappedName>> i : varMap.entrySet()) {
 			if (flag) str += ", ";
 			flag = true;
-			str += i.getKey() + ":" + i.getValue().get().getStr();
+			str += i.getKey() + ":" + i.getValue().orElse(new WrappedName()).getStr();
 		}
 		str += ") {\n";
 		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {

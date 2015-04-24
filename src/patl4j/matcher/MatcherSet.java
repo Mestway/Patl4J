@@ -22,6 +22,7 @@ public class MatcherSet {
 	public MatcherSet accept(Statement s) {
 		List<Matcher> collection = new ArrayList<Matcher>();
 		for (Matcher i : matchers) {
+			// After update, both the updated and the un-updated matcher will be genearted
 			List<Matcher> updated = i.accept(s);
 			for (Matcher j : updated) {
 				collection.add(j);

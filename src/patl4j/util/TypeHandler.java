@@ -8,8 +8,9 @@ import patl4j.exception.TypeBindingUnresolved;
 public class TypeHandler {
 	
 	// Decide whether to use type information in the matching process.
-	private static boolean typeCheckSwitcher = false;
+	private static boolean typeCheckSwitcher = true;
 	
+	// Decide whether to print the type match information
 	private static boolean debugTypeInfo = true;
 	
 	public static boolean typeMatchCheck(Expression exp, String typeName) {
@@ -63,6 +64,9 @@ public class TypeHandler {
 	
 	// For debugging purpose, print the type matching information
 	public static void printTypeMatchInfo(Expression exp, String typeName, String debugInfo) {
+		if (!debugTypeInfo)
+			return;
+		
 		String expTypeName = "";
 		if (exp.resolveTypeBinding() != null)
 			expTypeName = exp.resolveTypeBinding().getQualifiedName();

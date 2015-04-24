@@ -57,8 +57,14 @@ public class ModInstruction {
 		if (!this.isSrcPattern()) {
 			ErrorManager.error("ModInstruction@line58", "Trying to match a pattern with + label");
 		}
-
-		return p.tryMatch(s, var2type);
+		
+		Pair<List<Pair<String,Name>>, Boolean> result = p.tryMatch(s, var2type);
+		
+		if (result.getSecond()) {
+			System.out.println("[MonInstruction@line64] Match success: \n\tStatement: " + s + "\n\tPattern: " + this.p.toString());
+		}
+		
+		return result;
 	}
 	
 }

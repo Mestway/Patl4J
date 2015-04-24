@@ -11,6 +11,11 @@ public class WrappedName {
 		this.stringName = name.getFullyQualifiedName();
 	}
 	
+	public WrappedName() {
+		this.name = null;
+		this.stringName = "%empty%";
+	}
+	
 	public String getStr() {
 		return stringName;
 	}
