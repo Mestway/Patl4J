@@ -26,5 +26,5 @@ Several transformation examples are provided in the [examples](https://github.co
 
 ### Patl4J Eclipse Plug-in Development
 
-The eclipse plug-in version of the tool is still under development.
+The public eclipse plug-in version of the tool is under development, and will be released soon.
 
