@@ -32,7 +32,7 @@ public class MatcherSet {
 		return this;
 	}
 	
-	// Clear all unfinished matcher
+	// Clear all unfinished matcher, note that after clearence, the original unfinished matcher is gone forever.
 	public MatcherSet clear() {
 		List<Matcher> cleared = new ArrayList<Matcher>();
 		for (Matcher m : matchers) {

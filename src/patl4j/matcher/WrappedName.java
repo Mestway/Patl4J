@@ -24,6 +24,16 @@ public class WrappedName {
 		return name;
 	}
 	
+	public String toString() {
+		return this.stringName;
+	}
+	
+	public String toDetailedString() {
+		if (this.name != null)
+			return this.stringName + "@" + this.name.getStartPosition();
+		else return this.stringName + "@" + "nowhere";
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof WrappedName) {

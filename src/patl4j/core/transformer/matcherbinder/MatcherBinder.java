@@ -28,9 +28,10 @@ public class MatcherBinder {
 	// The entry function
 	public MatcherSet bindMatcher(Block body, MatcherSet matchers) {
 		MatcherSet result = bind(body, matchers);
-		System.out.println("---Matcher printed here---");
+		result.clear();
+		System.out.println("---Matcher printed here (After clear)---");
 		System.out.println(matchers.toString());
-		return result.clear();
+		return result;
 	}
 	
 	// The default binding method

@@ -47,8 +47,12 @@ public class Matcher {
 		// Copy the one w/o update
 		mlist.add(Matcher.deepCopy(this));
 		
-		// TODO: now implementing
-		
+		// If the match point is already -1, just ignore the current matcher
+		if (this.matchpoint == -1) {
+			return mlist;
+		}
+	
+		// Else we will try to use the new match point to match the next statement
 		ModInstruction instr = instrBindings.get(matchpoint).getFirst();
 	
 		Pair<List<Pair<String,Name>>, Boolean> result = 
@@ -105,6 +109,7 @@ public class Matcher {
 	 */
 	public static Matcher deepCopy(Matcher m) {
 		Matcher matcher = new Matcher();
+		matcher.matchpoint = m.matchpoint;
 		// type bindings
 		for (Entry<String, String> i : m.var2type.entrySet())
 			matcher.var2type.put(i.getKey(), i.getValue());
@@ -150,11 +155,11 @@ public class Matcher {
 		for (Entry<String, Optional<WrappedName>> i : varMap.entrySet()) {
 			if (flag) str += ", ";
 			flag = true;
-			str += i.getKey() + ":" + i.getValue().orElse(new WrappedName()).getStr();
+			str += i.getKey() + ":" + i.getValue().orElse(new WrappedName()).toDetailedString();
 		}
 		str += ") {\n";
 		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {
-			str += "	" + i.getFirst() + ( i.getSecond().isPresent() ? (" <-> " + i.getSecond().get()) : "" ) + "\n";
+			str += "	" + i.getFirst() + ( i.getSecond().isPresent() ? (" <-> " + "[" + i.getSecond().get().getStartPosition() + "]" + i.getSecond().get()) : "" ) + "\n";
 		}
 		str += "\n}";
 		return str;
