@@ -71,4 +71,51 @@ public class MatcherSet {
 		return str;
 	}
 	
+	/**
+	 * Check whether the given statement s is matched to any matcher with a minus pattern. 
+	 * @param s: The given statement to be checked
+	 * @return a boolean representing whether it is matched to a minus pattern
+	 */
+	public boolean stmtMathedToMinus(Statement s) {
+		for (Matcher m : this.matchers) {
+			if (m.matchedToMinusStmtPattern(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Used to find the generation point of the statements
+	 * @param s: statement to be checked
+	 * @return whether or not
+	 */
+	public boolean stmtMatchedToLastStmt(Statement s) {
+		for (Matcher m : this.matchers) {
+			if (m.matchedToTheLastSrcStmtPattern(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Given a statement, if the statement s is the last statement matched in the matcher, 
+	 * 	then the corresponding generated new statements will be returned from the matchers
+	 * @param s: The statement
+	 * @return
+	 */
+	public List<Statement> generateFromStatement(Statement s) {
+		List<Statement> stmtList = new ArrayList<Statement>();
+		for (Matcher m : this.matchers) {
+			if (m.matchedToTheLastSrcStmtPattern(s)) {
+				List<Statement> tStmts = m.generatedNewStatements();
+				for (Statement i : tStmts) {
+					stmtList.add(i);
+				}
+			}
+		}
+		return stmtList;
+	}
+	
 }

@@ -5,9 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
+import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 
@@ -21,6 +28,10 @@ public class FullAssignment implements FullStatement{
 	// First field: the type of the variable
 	// Second field: the variable name
 	Optional<Pair<String, String>> newVariable = Optional.ofNullable(null);
+	
+	public String getVariable() {
+		return variable;
+	}
 	
 	public FullAssignment(String variable, FullExpression exp) {
 		this.variable = variable;
@@ -50,5 +61,22 @@ public class FullAssignment implements FullStatement{
 		return new Pair<List<Pair<String, Name>>, Boolean>(new ArrayList<Pair<String, Name>>(), false);
 	}
 
-	
+	@Override
+	public Statement toJavaStatement(Matcher m) {
+		if (m.markedAsDecl(this.variable)) {
+			// In this case, we will translate it to VariableDeclarationStatement
+			AST tAST = AST.newAST(AST.JLS8);
+			VariableDeclarationFragment vdf = tAST.newVariableDeclarationFragment();
+			vdf.setName(tAST.newSimpleName(this.variable));
+			vdf.setInitializer((Expression) ASTNode.copySubtree(tAST, this.exp.toJavaExp(m)));
+			VariableDeclarationStatement vds = tAST.newVariableDeclarationStatement(vdf);
+			vds.setType(tAST.newSimpleType(tAST.newSimpleName(m.getMetaVariableImage(variable).getSecond().getSecond())));
+			return vds;
+		} else {
+			// In this case, we will translate it to ExpressionStatement(with Assignment)
+			AST tAST = AST.newAST(AST.JLS8);
+			ExpressionStatement es = tAST.newExpressionStatement((Expression) ASTNode.copySubtree(tAST, this.exp.toJavaExp(m)));
+			return es;
+		}
+	}
 }

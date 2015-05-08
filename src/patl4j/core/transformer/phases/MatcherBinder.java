@@ -1,4 +1,4 @@
-package patl4j.core.transformer.matcherbinder;
+package patl4j.core.transformer.phases;
 
 import java.util.List;
 
@@ -28,10 +28,7 @@ public class MatcherBinder {
 	// The entry function
 	public MatcherSet bindMatcher(Block body, MatcherSet matchers) {
 		MatcherSet result = bind(body, matchers);
-		result.clear();
-		System.out.println("---Matcher printed here (After clear)---");
-		System.out.println(matchers.toString());
-		return result;
+		return result.clear();
 	}
 	
 	// The default binding method

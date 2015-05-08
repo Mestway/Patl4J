@@ -3,10 +3,13 @@ package patl4j.patl.ast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 
+import patl4j.matcher.Matcher;
+import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 
 public class ExpStmtPattern implements StatementPattern {
@@ -35,4 +38,10 @@ public class ExpStmtPattern implements StatementPattern {
 		}
 	}
 
+	@Override
+	public Statement toJavaStatement(Matcher m) {
+		ErrorManager.error("ExpStmtPattern@43", "The method should only be call on Full-series classes, this one is only for src pattern.");
+		return null;
+	}
+	
 }

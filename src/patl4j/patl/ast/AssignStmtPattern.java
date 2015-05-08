@@ -12,6 +12,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
+import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 import patl4j.util.TypeHandler;
@@ -102,6 +103,16 @@ public class AssignStmtPattern implements StatementPattern {
 		}
 		
 		return new Pair<List<Pair<String, Name>>, Boolean>(matchedVarList, matchedSuccessful);
+	}
+	
+	public String getVariable() {
+		return this.variable;
+	}
+
+	@Override
+	public Statement toJavaStatement(Matcher m) {
+		ErrorManager.error("AssignStmtPattern@118", "The method should only be call on Full-series classes, this one is only for src pattern.");
+		return null;
 	}
 	
 }

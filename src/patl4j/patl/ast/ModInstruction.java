@@ -6,6 +6,8 @@ import java.util.Map;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 
+import patl4j.matcher.Matcher;
+import patl4j.patl.ast.full.FullAssignment;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 
@@ -27,12 +29,58 @@ public class ModInstruction {
 		}
 	}
 	
-	// If the pattern is "m" or "-"
+	/**
+	 * If the pattern is "m" or "-"
+	 * @return
+	 */
 	public boolean isSrcPattern() {
 		if (this.type.equals(Mod.DELETE) || this.type.equals(Mod.MATCH)) 
 			return true;
 		else return false;
 	}
+	
+	/**
+	 * If the patern is of "-"
+	 * @return
+	 */
+	public boolean isMinus() {
+		if (this.type.equals(Mod.DELETE))
+			return true;
+		else return false;
+	}
+	
+	/**
+	 * Indicates whether the pattern is a target pattern, with "+"
+	 * @return
+	 */
+	public boolean isTgtPattern() {
+		if (this.type.equals(Mod.ADD))
+			return true;
+		return false;
+	}
+	
+	public boolean isAssignmentPattern() {
+		if (this.p instanceof AssignStmtPattern || this.p instanceof FullAssignment) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Statement patternToStatement(Matcher m) {
+		return this.p.toJavaStatement(m);
+	}
+	
+	// only used to get the LHS variable if the statement is an assignment statement. 
+	public String assignmentLHSVariableName() {
+		if (this.p instanceof AssignStmtPattern) {
+			return ((AssignStmtPattern) this.p).getVariable();
+		} else if (this.p instanceof FullAssignment) {
+			return ((FullAssignment) this.p).getVariable();
+		} else {
+			ErrorManager.error("ModInstruction@48", "The statement pattern is not assignment.");
+			return "";
+		}
+	} 
 	
 	@Override
 	public String toString() {

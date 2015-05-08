@@ -6,7 +6,8 @@ import java.util.List;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Statement;
 
-import patl4j.core.transformer.matcherbinder.MatcherBinder;
+import patl4j.core.transformer.phases.CodeAdapter;
+import patl4j.core.transformer.phases.MatcherBinder;
 import patl4j.matcher.MatcherSet;
 import patl4j.patl.ast.Rule;
 
@@ -25,21 +26,35 @@ public class Transformer {
 	 * 		Take in an method/initializer body, return the transformed body,
 	 * 	Several steps are need in the process:
 	 * 		1. generate matcher based on the block
-	 * 		2. re-order some statements
-	 * 		3. remove/add/substitute statements	
+	 * 		2. re-order some statements (Run in the 'transform' method)
+	 * 		3. remove/add/substitute statements	(Run in the 'transform' method)
 	 */
 	public Statement execute(Block body) {
-		this.matching(body);
-		return this.transform(body);
+		this.matchers = this.matching(body);
+		
+		// This is the matcher binded from the method
+		System.out.println("---Matcher printed here (After clear)---");
+		System.out.println(matchers.toString());
+		
+		// Perform shift operation on the given statements
+		Block shiftedBody = this.shift(body, this.matchers);
+		
+		// Perform adaptation on the statements
+		Statement adaptedBody = this.adapt(shiftedBody, this.matchers);
+		return adaptedBody;
 	}
 
-	private void matching(Block body) {
-		matchers = new MatcherBinder(matchers, rules).bindMatcher(body, matchers);
+	private MatcherSet matching(Block body) {
+		return new MatcherBinder(matchers, rules).bindMatcher(body, matchers);
 	}
 	
-	private Statement transform(Block body) {
-		// TODO: A lot of steps to be implemented...
+	private Block shift(Block body, MatcherSet matchers) {
+		// TODO: shift to be implemented
 		return body;
+	}
+	
+	private Statement adapt(Block body, MatcherSet bindedMatcher) {
+		return new CodeAdapter(body, bindedMatcher).adaptCode();
 	}
 	
 }

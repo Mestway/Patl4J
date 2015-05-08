@@ -2,6 +2,13 @@ package patl4j.patl.ast.full;
 
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+
+import patl4j.matcher.Matcher;
+
 public class FullMethodInvk implements FullExpression {
 	FullExpression target;
 	String methodName;
@@ -25,6 +32,19 @@ public class FullMethodInvk implements FullExpression {
 		}
 		str += ")";
 		return target + "." + str;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Expression toJavaExp(Matcher m) {
+		AST tAST = AST.newAST(AST.JLS8);
+		MethodInvocation mi = tAST.newMethodInvocation();
+		mi.setName(tAST.newSimpleName(methodName));
+		mi.setExpression((Expression) ASTNode.copySubtree(tAST, target.toJavaExp(m)));
+		for (FullExpression i : argList) {
+			mi.arguments().add((Expression)ASTNode.copySubtree(tAST, i.toJavaExp(m)));
+		}
+		return mi;
 	}
 	
 }
