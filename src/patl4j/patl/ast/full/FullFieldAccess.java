@@ -1,8 +1,10 @@
 package patl4j.patl.ast.full;
 
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldAccess;
+
 import patl4j.matcher.Matcher;
 
 public class FullFieldAccess implements FullExpression {
@@ -24,8 +26,8 @@ public class FullFieldAccess implements FullExpression {
 	public Expression toJavaExp(Matcher m) {
 		AST tAST = AST.newAST(AST.JLS8);
 		FieldAccess fa = tAST.newFieldAccess();
-		fa.setExpression(target.toJavaExp(m));
-		fa.setName(tAST.newSimpleName(field));;
+		fa.setExpression((Expression) ASTNode.copySubtree(tAST, target.toJavaExp(m)));
+		fa.setName(tAST.newSimpleName(field));
 		return fa;
 	}
 	
