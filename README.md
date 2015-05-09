@@ -14,7 +14,7 @@ We use our language to transform the following projects in the [examples](https:
   * openfuxml: an XML publishing framework. (Jdom -> Dom4j)
   * serenoa:  a tool for context-aware adaptation of user interfaces. (Jdom -> Dom4j)
 
-### Transformation Examples
+### Transformation Program Examples
 Several transformation examples are provided in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, including the following several test cases.
 #### Google Calender v2 to v3
   
