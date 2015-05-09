@@ -5,7 +5,7 @@ The PATL language developed for Java program adaptation between APIs with M-to-M
 The full specification of the language can be referred to [PATL-tr.pdf](https://github.com/Mestway/Patl4J/blob/master/PATL-tr.pdf), including the proof of the main theorem.
 
 ### Transformed Projects
-We use our language to transform the following projects in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, namely: (We only provide the transformed project java source code here).
+We use our language to transform the following projects in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, namely: (We only provide the transformed project java source code here as the original source code with dependencies are oversized for github).
 
   * blasd: a simple mail system. (Google Calendar v2->v3)
   * clinicaweb: a web automation system for medical clinic. (Google Calendar v2->v3)
