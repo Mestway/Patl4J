@@ -5,13 +5,14 @@ The PATL language developed for Java program adaptation between APIs with M-to-M
 The full specification of the language can be referred to [PATL-tr.pdf](https://github.com/Mestway/Patl4J/blob/master/PATL-tr.pdf), including the proof of the main theorem.
 
 ### Transformed Projects
-We use our language to transform the following projects in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, namely
-  *blasd
+We use our language to transform the following projects in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, namely:
+
+  * blasd
   *clinicaweb
-  *goofs
-  *husacct
-  *openfuxml
-  *serenoa
+  * goofs
+  * husacct
+  * openfuxml
+  * serenoa
 
 ### Transformation Examples
 Several transformation examples are provided in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, including the following several test cases.
