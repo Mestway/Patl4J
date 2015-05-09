@@ -8,7 +8,7 @@ The full specification of the language can be referred to [PATL-tr.pdf](https://
 We use our language to transform the following projects in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, namely:
 
   * blasd
-  *clinicaweb
+  * clinicaweb
   * goofs
   * husacct
   * openfuxml
