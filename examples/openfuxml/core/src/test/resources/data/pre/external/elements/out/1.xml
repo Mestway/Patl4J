@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ofx:section xmlns:ofx="http://www.openfuxml.org">
+	<ofx:title>Root Section</ofx:title>
+    <ofx:paragraph>paragraph</ofx:paragraph>
+    <ofx:section>
+	<ofx:title>Sub Section</ofx:title>
+    <ofx:paragraph>p sub</ofx:paragraph>
+</ofx:section>
+</ofx:section>

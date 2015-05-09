@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="google service" verbose="2" parallel="false">
+
+
+    <test name="BloggerServiceImplTest">
+        <classes>
+            <class name="com.mediaymedia.gdata.service.BloggerServiceImplTest"/>
+            <class name="com.mediaymedia.gdata.service.PicasaServiceImplTest"/>
+            <class name="com.mediaymedia.gdata.service.CalendarServicetImplTest"/>
+        </classes>
+    </test>
+
+
+
+</suite>

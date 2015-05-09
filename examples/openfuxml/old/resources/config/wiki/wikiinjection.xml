@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx xmlns="http://www.openfuxml.org/wiki">
+    <wikiinjection format="xml" wikitag="gallery" ofxtag="ofxgallery"/>
+    <wikiinjection format="xml" wikitag="timeline" ofxtag="ofxchart"/>
+</ofx>

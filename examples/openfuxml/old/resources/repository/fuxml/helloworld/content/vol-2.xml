@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE kurseinheit SYSTEM "../system/dtd/openfuxml.dtd">
+<kurseinheit>
+	<titelseite>
+		<feulogo>
+			<bild fileref="../bilder/web/fuhlogo3d56.jpg" align="center" width="212" depth="39"/>
+		</feulogo>
+		<kurstitel>Referenz-Kurs openFuXML</kurstitel>
+		<ke-bezeich>Kurseinheit 2</ke-bezeich>
+		<ke-titel>Kapitel II und Kapitel III</ke-titel>
+		<a-bezeich>Autoren</a-bezeich>
+		<autoren>A, B und C</autoren>
+		<m-bezeich/>
+		<mitarbeiter/>
+		<titelbild>
+			<bild align="center" fileref="../bilder/web/openFuXML-Titel.png" width="600" depth="421" scale="0.85"/>
+		</titelbild>
+		<copyright>© 2006 A, B und C</copyright>
+		<kursnummer>Kursnummer</kursnummer>
+		<codierung>Kennzeichnung</codierung>
+	</titelseite>
+	<fs-elemente/>
+	<ke-lehrtext bereich-ende="chapter-2.xml#c2" bereich-start="chapter-2.xml#c2"/>
+	<ke-lehrtext bereich-ende="chapter-3.xml#c3" bereich-start="chapter-3.xml#c3"/>
+	
+<aenderungsdatum>Mittwoch, 19. November 2008 15:47:55</aenderungsdatum></kurseinheit>

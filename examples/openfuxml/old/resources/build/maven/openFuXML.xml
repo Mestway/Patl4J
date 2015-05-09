@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openfuxml>
+<server version="1.2.4">direct</server>
+<net>
+        <host>host</host>
+        <port>4444</port>
+    </net>
+<dirs>
+        <dir rel="false" type="basedir">$INSTALL_PATH</dir>
+        <dir rel="true" type="log">logs</dir>
+        <dir rel="true" type="output">output</dir>
+        <dir rel="true" type="repository">resources/repository</dir>
+        <dir rel="true" type="lib">dependency</dir>
+    </dirs>
+<files>
+        <file type="lib">ant-1.7.0.jar</file>
+        <file type="lib">ant-launcher-1.7.0.jar</file>
+        <file type="lib">ofx-1.5.jar</file>
+        <file type="ofxlib">ofx-1.5.jar</file>
+        <file type="lib">saxon-7.9.1.jar</file>
+    </files>
+</openfuxml>

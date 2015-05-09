@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<format id="latexpdf" title="Latex Format" outputformat="pdf" type="public">
+	<buildfile fileref="build.xml"/>
+	<requires>
+		<requirement>rs.jar (preprocessors)</requirement>
+		<requirement>saxon.jar (XSLT processor)</requirement>
+		<requirement>Latex System</requirement>
+		<requirement>Ghostscript (inkl. ps2pdf)</requirement>
+	</requires>
+	<description>PDF Ausgabe, erstellt durch ein LaTeX System.</description>
+	<author>Gerd Steinkamp</author>
+	<options>
+		<option name="clean" type="boolean" value="false" displayname="Lösche Cache">
+			<description>Wenn aktiviert werden alle aktuell vorhandenen Ausgabedateien vor der Produktion gelöscht (noch nicht implementiert). </description>
+		</option>
+		<option name="draftmode" type="boolean" value="false" displayname="Entwurfsmodus">
+			<description>Wenn aktiviert wird eine schnelle Produktion gestartet. Nachteil: es werden eventuell keine korrekten Seitenzahlen und Verzeichnisse geliefert.</description>
+		</option>
+		<option name="linkredirect" type="boolean" value="false" displayname="Umleitung von URLs">
+			<description>Wenn aktiviert werden alle externen URLs auf einen Redirectserver umgeleitet</description>
+		</option>
+		<option name="psbook" type="boolean" value="false" displayname="A5 Heft">
+			<description>Wenn aktiviert, erfolgt die Ausgabe als A5 Heft</description>
+		</option>
+	</options>
+</format>

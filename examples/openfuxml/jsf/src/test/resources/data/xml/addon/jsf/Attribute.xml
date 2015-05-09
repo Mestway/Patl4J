@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jsf:attribute xmlns:jsf="http://www.openfuxml.org/jsf" name="myName" default="myDefault" required="true" shortDescription="myShortDescription"/>

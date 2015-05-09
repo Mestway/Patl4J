@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:section xmlns:ofx="http://www.openfuxml.org">
+	<ofx:title>External Section Sublevel 1</ofx:title>
+    <ofx:paragraph>sl1 paragraph</ofx:paragraph>
+    <ofx:section source="exsection1-1.xml" external="true"/>
+</ofx:section>

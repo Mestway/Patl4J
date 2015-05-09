@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><abschnitt>
+	<absatz>a</absatz>
+	<abschnitt quelle="filename.xml" extern="ja">
+		<titel>introduction</titel>
+		<absatz>absatz (ohne top)</absatz>
+		<absatz>absatz</absatz>
+		<absatz-klein>klein</absatz-klein>
+		<absatz-mini>mini</absatz-mini>
+		<absatz-ohne>ohne</absatz-ohne>
+	</abschnitt>
+</abschnitt>

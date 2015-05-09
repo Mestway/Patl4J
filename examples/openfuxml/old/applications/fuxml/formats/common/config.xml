@@ -1,0 +1,3945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	*******************************************************************************
+	| openFuXML open source                                                       |
+	*******************************************************************************
+	| Copyright (c) 2002-2006 openFuXML open source, University of Hagen          |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	*******************************************************************************	
+	  -->
+<config>
+	<documentsettings>
+		<font-size>12pt</font-size>
+		<twocolumn>false</twocolumn>
+		<twoside>true</twoside>
+		<draft>false</draft>
+		<leqno>false</leqno>
+		<fleqn>true</fleqn>
+		<fontpacket>times</fontpacket>
+		<font-family>serif</font-family>
+		<language>ngerman</language>
+	</documentsettings>
+	<amsmathsettings>
+		<centertags>false</centertags>
+		<sumlimits>false</sumlimits>
+		<intlimits>true</intlimits>
+		<namelimits>false</namelimits>
+		<mathindent>4cm</mathindent>
+	</amsmathsettings>
+	<pagelayout variant="default">
+		<paperheight>297mm</paperheight>
+		<paperwidth>210mm</paperwidth>
+		<textheight>255mm</textheight>
+		<textwidth>140mm</textwidth>
+		<columnsep/>
+		<columnseprule/>
+		<columnwidth/>
+		<evensidemargin>50mm</evensidemargin>
+		<oddsidemargin>20mm</oddsidemargin>
+		<footskip/>
+		<headheight>7mm</headheight>
+		<headsep>9mm</headsep>
+		<topmargin>9mm</topmargin>
+		<marginparpush/>
+		<marginparsep>5mm</marginparsep>
+		<marginparwidth>35mm</marginparwidth>
+		<voffset>-2.54cm</voffset>
+		<hoffset>-2.54cm</hoffset>
+		<parindent>0ex</parindent>
+		<baselinestretch>1.1</baselinestretch>
+		<footnotestyle reset="0" footins="4.5ex" footnotesep="2.5ex">
+			<footnoterule>
+				<?vspace- -3pt?>
+				<rule width=".4${columnwidth}" height="0.4pt"/>
+				<?vspace- 2.6pt?>
+			</footnoterule>
+			<footnoteline>
+				<makebox boxwidth="1cm" pos="l">
+					<?thefnmark?>
+				</makebox>
+				<parbox boxwidth="13cm" pos="t">
+					<?fntext?>
+				</parbox>
+			</footnoteline>
+		</footnotestyle>
+		<pagestyle headrulewidth="" footrulewidth="" headwidth="18cm">
+			<lheadeven>
+				<?font-size small?>
+				<?thepage?>
+			</lheadeven>
+			<lheadodd>
+				<?font-size small?>
+				<?rightmark?>
+			</lheadodd>
+			<cheadeven/>
+			<cheadodd/>
+			<rheadeven>
+				<?font-size small?>
+				<?leftmark?>
+			</rheadeven>
+			<rheadodd>
+				<?font-size small?>
+				<?thepage?>
+			</rheadodd>
+			<lfooteven/>
+			<lfootodd/>
+			<cfooteven/>
+			<cfootodd/>
+			<rfooteven/>
+			<rfootodd/>
+		</pagestyle>
+		<pagestyle id="ea" headrulewidth="" footrulewidth="1pt" headwidth="18cm">
+			<lheadeven>
+				<?font-size small?>
+				<?thepage?>
+			</lheadeven>
+			<lheadodd>
+				<?font-size small?>
+				<?rightmark?>
+			</lheadodd>
+			<cheadeven/>
+			<cheadodd/>
+			<rheadeven>
+				<?font-size small?>
+				<?leftmark?>
+			</rheadeven>
+			<rheadodd>
+				<?font-size small?>
+				<?thepage?>
+			</rheadodd>
+			<lfooteven>00000000</lfooteven>
+			<lfootodd>00000000</lfootodd>
+			<cfooteven/>
+			<cfootodd/>
+			<rfooteven/>
+			<rfootodd/>
+		</pagestyle>
+		<emptypagestyle>
+			<!--?thispagestyle empty?-->
+			<?vfill-?>
+			<center>
+				<?font-family sans-serif?>
+				<?font-size large?>Diese Seite bleibt aus technischen Gründen frei.</center>
+			<?vfill?>
+		</emptypagestyle>
+		<sidebar>
+			<barwidth>5mm</barwidth>
+			<barsep>1mm</barsep>
+			<bargrey>0</bargrey>
+			<barpos>outside</barpos>
+		</sidebar>
+	</pagelayout>
+	<paragraphsettings>
+		<!--End spacing-->
+		<paranormal>1.3ex</paranormal>
+		<parasmall>0.6ex</parasmall>
+		<paramini>0.2ex</paramini>
+		<parawithout>0ex</parawithout>
+	</paragraphsettings>
+	<sectionnumbering activescheme="default">
+		<sectionnumberformat scheme="default">
+			<numberpart level="1" resetlevel="0" style="1"/>
+			<numberpart level="2" resetlevel="1" style="1"/>
+			<numberpart level="3" resetlevel="2" style="1"/>
+			<numberpart level="4" resetlevel="3" style="1"/>
+			<numberpart level="5" resetlevel="4" style="1"/>
+			<numberpart level="6" resetlevel="4" style="1"/>
+			<numberpart level="a1" resetlevel="-1" style="A"/>
+			<numberpart level="a2" resetlevel="1" style="1"/>
+			<numberpart level="a3" resetlevel="2" style="1"/>
+		</sectionnumberformat>
+		<sectionnumberformat scheme="wi">
+			<numberpart level="1" resetlevel="-1" style="I"/>
+			<numberpart level="2" resetlevel="-1" style="1"/>
+			<numberpart level="3" resetlevel="2" style="1"/>
+			<numberpart level="4" resetlevel="3" style="1"/>
+			<numberpart level="5" resetlevel="4" style="a"/>
+			<numberpart level="6" resetlevel="5" style="1"/>
+		</sectionnumberformat>
+		<sectionnumberformat scheme="law">
+			<numberpart level="1" resetlevel="-1" style="1"/>
+			<numberpart level="2" resetlevel="1" style="I"/>
+			<numberpart level="3" resetlevel="2" style="1"/>
+			<numberpart level="4" resetlevel="3" style="a"/>
+			<numberpart level="5" resetlevel="4" style="1"/>
+		</sectionnumberformat>
+	</sectionnumbering>
+	<elementnumbering activescheme="default">
+		<!--section level: -1 = off, 0 = course, cu = course unit-->
+		<elementnumberformat scheme="default">
+			<frontmatterformat num-sectionlevel="cu" num-posstyle="1">&#x202F;<num-pospart/>
+			</frontmatterformat>
+			<mainmatterformat num-sectionlevel="2" num-posstyle="1">&#x202F;<num-sectionpart/>-<num-pospart/>
+			</mainmatterformat>
+		</elementnumberformat>
+		<elementnumberformat scheme="continuousincourse">
+			<frontmatterformat num-sectionlevel="0" num-posstyle="1">&#x00A0;<num-pospart/>
+			</frontmatterformat>
+			<mainmatterformat num-sectionlevel="0" num-posstyle="1">
+				<num-pospart/>
+			</mainmatterformat>
+		</elementnumberformat>
+		<elementnumberformat scheme="continuousincourseunit">
+			<frontmatterformat num-sectionlevel="cu" num-posstyle="1">&#x00A0;<num-pospart/>
+			</frontmatterformat>
+			<mainmatterformat num-sectionlevel="cu" num-posstyle="1">
+				<num-pospart/>
+			</mainmatterformat>
+		</elementnumberformat>
+		<elementnumberformat scheme="equation">
+			<frontmatterformat num-sectionlevel="1" num-posstyle="1" num-arraystyle="1">(<num-pospart/>)</frontmatterformat>
+			<mainmatterformat num-sectionlevel="1" num-posstyle="1" num-arraystyle="1">(<num-sectionpart/>-<num-pospart/>)</mainmatterformat>
+		</elementnumberformat>
+		<elementnumberformat scheme="insideequationarray">
+			<frontmatterformat num-sectionlevel="-1" num-posstyle="1" num-arraystyle="1">(<num-pospart/>/<num-arraypart/>)</frontmatterformat>
+			<mainmatterformat num-sectionlevel="1" num-posstyle="1" num-arraystyle="1">(<num-sectionpart/>-<num-pospart/>/<num-arraypart/>)</mainmatterformat>
+		</elementnumberformat>
+		<elementnumberformat scheme="ea">
+			<frontmatterformat num-sectionlevel="cu" num-posstyle="1">
+				<?cunum?>.<num-pospart/>
+			</frontmatterformat>
+		</elementnumberformat>
+	</elementnumbering>
+	<pagenumbering>
+		<pagenumberformat variant="frontmatter" style="simple"/>
+		<pagenumberformat variant="mainmatter" style="prefix">
+			<prefix>
+				<?cunum?>
+			</prefix>
+		</pagenumberformat>
+	</pagenumbering>
+	<screenpage-cutlevel>
+		<!--For sections with level < cutlevel new HTML pages are created -->2<!--0=off-->
+	</screenpage-cutlevel>
+	<toc context="courseunit" style="continuous" tocdepth="3" pnumwidth="" tocrmarg="1cm" dotsep="1">
+		<toctitle space-after="3ex">
+			<?font-size xx-large?>
+			<?font-weight bold?>
+			<?font-style normal?>Gliederung</toctitle>
+	</toc>
+	<toc context="course" style="continuous" tocdepth="1" pnumwidth="" tocrmarg="1cm" dotsep="1">
+		<toctitle space-after="3ex">
+			<?font-size xx-large?>
+			<?font-weight bold?>
+			<?font-style normal?>Gesamt-Inhaltsverzeichnis</toctitle>
+	</toc>
+	<index context="courseunit" colnum="2" columnsep="1cm">
+		<indextitle font-size="x-large">Index</indextitle>
+	</index>
+	<specialtables context="courseunit" pnumwidth="" tocrmarg="2cm" dotsep="1">
+		<multimedia>
+			<label>Verzeichnis der Multimedialen Komponenten</label>
+			<animation>
+				<label>Animationen im Kurs</label>
+			</animation>
+			<audio>
+				<label>Audiosequenzen im Kurs</label>
+			</audio>
+			<simulation>
+				<label>Simulationen im Kurs</label>
+			</simulation>
+			<textobjekt>
+				<label>Texte im Kurs</label>
+			</textobjekt>
+			<video>
+				<label>Videosequenzen im Kurs</label>
+			</video>
+		</multimedia>
+		<assignment>
+			<label>Aufgabenverzeichnis</label>
+		</assignment>
+		<table>
+			<label space-after="3ex">
+				<?font-size xx-large?>
+				<?font-weight bold?>
+				<?font-style normal?>Tabellenverzeichnis<?newline 2ex?>
+			</label>
+		</table>
+		<example>
+			<label>Verzeichnis der Beispiele</label>
+		</example>
+		<figure>
+			<label space-after="3ex">
+				<?font-size xx-large?>
+				<?font-weight bold?>
+				<?font-style normal?>Abbildungsverzeichnis<?newline 2ex?>
+			</label>
+		</figure>
+	</specialtables>
+	<specialtables context="course" pnumwidth="" tocrmarg="2cm" dotsep="1">
+		<multimedia>
+			<label>Verzeichnis der Multimedialen Komponenten</label>
+			<animation>
+				<label>Animationen im Kurs</label>
+			</animation>
+			<audio>
+				<label>Audiosequenzen im Kurs</label>
+			</audio>
+			<simulation>
+				<label>Simulationen im Kurs</label>
+			</simulation>
+			<textobjekt>
+				<label>Texte im Kurs</label>
+			</textobjekt>
+			<video>
+				<label>Videosequenzen im Kurs</label>
+			</video>
+		</multimedia>
+		<assignment>
+			<label>Aufgabenverzeichnis</label>
+		</assignment>
+		<table>
+			<label space-after="3ex">
+				<?font-size xx-large?>
+				<?font-weight bold?>
+				<?font-style normal?>Gesamt-Tabellenverzeichnis<?newline 2ex?>
+			</label>
+		</table>
+		<example>
+			<label>Verzeichnis der Beispiele</label>
+		</example>
+		<figure>
+			<label space-after="3ex">
+				<?font-size xx-large?>
+				<?font-weight bold?>
+				<?font-style normal?>Gesamt-Abbildungsverzeichnis<?newline 2ex?>
+			</label>
+		</figure>
+	</specialtables>
+	<bibtexml>
+		<bibfile fileref="bibliography/bib.xml"/>
+	</bibtexml>
+	<latexparams>
+		<wrapfighorspace>1em</wrapfighorspace>
+		<wrapfigverspace>1ex</wrapfigverspace>
+		<resolution>300</resolution>
+	</latexparams>
+	<printgraphicdir>druck</printgraphicdir>
+	<styles>
+		<entry name="document">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file>
+					<filename>
+						<?documentname?>
+					</filename>
+					<description>Inhalte von <?documentname?>, die nicht im Kurs-Kontext stehen.</description>
+					<content>
+						<?content?>
+					</content>
+				</file>
+			</structure>
+			<structure format="html">
+				<file>
+					<designtemplate>design_<?documentname?>.xhtml</designtemplate>
+					<startpagetemplate>start_<?documentname?>.xhtml</startpagetemplate>
+					<filename>
+						<?documentname?>.html</filename>
+					<directory/>
+					<description>Inhalte von <?documentname?>, die nicht im Kurs-Kontext stehen.</description>
+					<content>
+						<?content?>
+					</content>
+				</file>
+			</structure>
+		</entry>
+		<entry name="kurs">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file archive="true">
+					<filename>
+						<?documentname?>_pdf</filename>
+					<description>Zipfile des Gesamtkurses</description>
+					<content>
+						<?manifest?>
+					</content>
+				</file>
+				<?cu 1?>
+				<?cu 2?>
+				<?cu 3?>
+				<?cu 4?>
+				<?cu 5?>
+				<?cu 6?>
+				<?cu 7?>
+				<?cu 8?>
+			</structure>
+			<structure format="html">
+				<file>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<startpagetemplate>start_<?documentname?>.xhtml</startpagetemplate>
+					<filename>index.html</filename>
+					<description>Allgemeiner Teil des Kurses </description>
+					<content>
+						<?startpage?>
+						<file>
+							<filename>inhalt.html</filename>
+							<description>Inhaltsverzeichnis</description>
+							<content>
+								<?toc?>
+							</content>
+						</file>
+						<file>
+							<filename>vorwort.html</filename>
+							<description>Vorwort</description>
+							<content>
+								<?preface?>
+							</content>
+						</file>
+						<file>
+							<filename>voraussetzungen.html</filename>
+							<description>Voraussetzungen</description>
+							<content>
+								<?prerequisites?>
+							</content>
+						</file>
+						<file>
+							<filename>lehrziele.html</filename>
+							<description>Lehrziele</description>
+							<content>
+								<?learningobjectives?>
+							</content>
+						</file>
+						<file>
+							<filename>studierhinweis.html</filename>
+							<description>Studierhinweis</description>
+							<content>
+								<?studyremarks?>
+							</content>
+						</file>
+						<file>
+							<filename>autoren.html</filename>
+							<description>Autoren</description>
+							<content>
+								<?authorintroduction?>
+							</content>
+						</file>
+						<!--Die Kurseinheiteninhalte werden ggf. auf Unterseiten erstellt (NEUE-BILDSCHIRMSEITE)-->
+						<?cu 1?>
+						<?cu 2?>
+						<?cu 3?>
+						<?cu 4?>
+						<?cu 5?>
+						<?cu 6?>
+						<?cu 7?>
+						<?cu 8?>
+						<file>
+							<filename>kursindex.html</filename>
+							<description>Index</description>
+							<content>
+								<?index?>
+							</content>
+						</file>
+						<file>
+							<filename>glossar.html</filename>
+							<description>Glossar</description>
+							<content>
+								<?glossary?>
+							</content>
+						</file>
+						<file>
+							<filename>literatur.html</filename>
+							<description>Literatur</description>
+							<content>
+								<?bibliography?>
+							</content>
+						</file>
+						<file>
+							<filename>anhang.html</filename>
+							<description>Anhang</description>
+							<content>
+								<?appendix?>
+							</content>
+						</file>
+						<file integrate="no">
+							<filename>Beispielvz.html</filename>
+							<description>Verzeichnis der Beispiele</description>
+							<content>
+								<?toex?>
+							</content>
+						</file>
+						<file integrate="">
+							<filename>tabverzeichnis.html</filename>
+							<description>Tabellenverzeichnis</description>
+							<content>
+								<?totable?>
+							</content>
+						</file>
+						<file integrate="no">
+							<filename>Aufgabenvz.html</filename>
+							<description>Aufgabenverzeichnis</description>
+							<content>
+								<?toass?>
+							</content>
+						</file>
+						<file>
+							<filename>abbverzeichnis.html</filename>
+							<description>Abbildungsverzeichnis</description>
+							<content>
+								<?tofig?>
+							</content>
+						</file>
+						<file>
+							<filename>medienvz.html</filename>
+							<description>Medienverzeichnis</description>
+							<content>
+								<multimedia>
+									<?toanima?>
+									<?toaudio?>
+									<?tosimu?>
+									<?totext?>
+									<?tovideo?>
+								</multimedia>
+							</content>
+						</file>
+					</content>
+				</file>
+			</structure>
+		</entry>
+		<entry name="kurseinheit" number="1">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file precedingfile="kurs">
+					<filename>ke<?cunum?>
+					</filename>
+					<description>Kurseinheit <?cunum?>
+					</description>
+					<content>
+						<frontmatter>
+							<?pagenumbering Roman?>
+							<addcontentsline level="0" indent="0em" numwidth="0em" space-before="0em" space-after="0em">
+								<line>
+									<?font-weight bold?>
+									<?font-size large?>Kurseinheit <?cunum?>
+								</line>
+							</addcontentsline>
+							<?titlepage?>
+							<?newpage?>
+							<?thispagestyle empty?>
+							<?vspace- 24cm?>
+							<?hspace -40mm?>
+							<parbox boxwidth="18cm">
+								<?hrule?>
+								<?newline 1mm?>
+								<?font-size xx-small?>Das Werk ist urheberrechtlich geschützt. Die dadurch begründeten Rechte, insbesondere das Recht der Vervielfältigung und Verbreitung sowie der Übersetzung und des Nachdrucks, bleiben, auch bei nur auszugsweiser Verwertung, vorbehalten. Kein Teil des Werkes darf in irgendeiner Form (Druck, Fotokopie, Mikrofilm oder ein anderes Verfahren) ohne schriftliche Genehmigung der FernUniversität reproduziert oder unter Verwendung elektronischer Systeme verarbeitet, vervielfältigt oder verbreitet werden.</parbox>
+							<?newpage?>
+							<?toc-course?>
+							<?newpage?>
+							<?tofig-course?>
+							<?vspace 2cm plus5cm?>
+							<?pagebreak 3?>
+							<?totable-course?>
+							<?newpage?>
+							<?preface-course?>
+							<?learningobjectives-course?>
+							<?prerequisites-course?>
+							<?studyremarks-course?>
+							<?authorintroduction-course?>
+							<?bibliography-course?>
+							<?newpage?>
+							<?glossary-course?>
+							<?cleardoublepage?>
+							<?toc?>
+							<?newpage?>
+							<?preface?>
+							<?learningobjectives?>
+							<?prerequisites?>
+							<?studyremarks?>
+							<?newpage?>
+							<?tofig?>
+							<?vspace 2cm plus5cm?>
+							<?pagebreak 3?>
+							<?totable?>
+						</frontmatter>
+						<mainmatter>
+							<?cu-content?>
+							<?cleardoublepage?>
+							<?bibliography?>
+							<?cleardoublepage?>
+							<addcontentsline level="2" indent="0em" numwidth="2em" space-before="1em" space-after="0em">
+								<line>
+									<?font-weight bold?>Lösungshinweise</line>
+								<page>
+									<?font-weight bold?>
+									<?thepage?>
+								</page>
+							</addcontentsline>
+							<rightheading>Lösungen</rightheading>
+							<?font-size large?>
+							<?font-weight bold?>Lösungen zu Selbsttestaufgaben der Kurseinheit <?font-size medium?>
+							<?font-weight normal?>
+							<?vspace 2ex?>
+							<?selfexercises-solutions?>
+							<?cleardoublepage?>
+							<?authorintroduction?>
+							<?appendix?>
+							<?glossary?>
+							<heading>Index</heading>
+							<?index?>
+						</mainmatter>
+					</content>
+				</file>
+				<?assignments?>
+			</structure>
+			<structure format="html">
+				<file>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<startpagetemplate>start_<?documentname?>
+						<?cunum?>.xhtml</startpagetemplate>
+					<filename>index.html</filename>
+					<directory>ke/ke<?cunum?>/html/
+					</directory>
+					<description>Kurseinheit <?cunum?>
+					</description>
+					<content>
+						<?startpage?>
+						<file>
+							<filename>kursinhalt.html</filename>
+							<description>Inhaltsverzeichnis</description>
+							<content>
+								<?toc?>
+							</content>
+						</file>
+						<file>
+							<filename>vorwort.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Vorwort</description>
+							<content>
+								<?preface?>
+							</content>
+						</file>
+						<file>
+							<filename>voraussetzungen.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Voraussetzungen</description>
+							<content>
+								<?prerequisites?>
+							</content>
+						</file>
+						<file>
+							<filename>lehrziele.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Lehrziele</description>
+							<content>
+								<?learningobjectives?>
+							</content>
+						</file>
+						<file>
+							<filename>studierhinweis.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Studierhinweis</description>
+							<content>
+								<?studyremarks?>
+							</content>
+						</file>
+						<file>
+							<filename>autoren.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Autoren</description>
+							<content>
+								<?authorintroduction?>
+							</content>
+						</file>
+						<?cu-content?>
+						<file>
+							<filename>khindex.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Index</description>
+							<content>
+								<?index?>
+							</content>
+						</file>
+						<file>
+							<filename>glossar.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Glossar</description>
+							<content>
+								<?glossary?>
+							</content>
+						</file>
+						<file>
+							<filename>literatur.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Literatur</description>
+							<content>
+								<?bibliography?>
+							</content>
+						</file>
+						<file>
+							<filename>anhang.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Anhang</description>
+							<content>
+								<?appendix?>
+							</content>
+						</file>
+						<file>
+							<filename>abbverzeichnis.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Abbildungsverzeichnis</description>
+							<content>Testdokument für ein Abbildungsverzeichnis<?tofig?>
+							</content>
+						</file>
+						<file>
+							<filename>tabverzeichnis.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Tabellenverzeichnis</description>
+							<content>Testdokument für ein Tabellenverzeichnis<?totable?>
+							</content>
+						</file>
+						<file>
+							<filename>medienvz.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Medienverzeichnis</description>
+							<content>Testdokument für ein Medienverzeichnis<?toanima?>
+								<?toaudio?>
+								<?tosimu?>
+								<?totext?>
+								<?tovideo?>
+							</content>
+						</file>
+					</content>
+				</file>
+				<?assignments?>
+			</structure>
+			<tocstructure>
+				<currenttoc/>
+			</tocstructure>
+			<indexstructure>
+				<currentindex/>
+			</indexstructure>
+		</entry>
+		<entry name="kurseinheit" number="2">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file precedingfile="ke1">
+					<filename>ke<?cunum?>
+					</filename>
+					<description>Kurseinheit <?cunum?>
+					</description>
+					<content>
+						<frontmatter>
+							<addcontentsline level="0" indent="0em" numwidth="0em" space-before="2em" space-after="0em">
+								<line>
+									<?font-weight bold?>
+									<?font-size large?>Kurseinheit <?cunum?>
+								</line>
+							</addcontentsline>
+							<?titlepage?>
+							<?cleardoublepage?>
+							<?toc?>
+							<?newpage?>
+							<?preface?>
+							<?learningobjectives?>
+							<?prerequisites?>
+							<?newpage?>
+							<?tofig?>
+							<?vspace 2cm plus5cm?>
+							<?pagebreak 3?>
+							<?totable?>
+							<?cleardoublepage?>
+						</frontmatter>
+						<mainmatter precedingfile="ke1">
+							<?cu-content?>
+							<?authorintroduction?>
+							<?cleardoublepage?>
+							<addcontentsline level="2" indent="0em" numwidth="2em" space-before="1em" space-after="0em">
+								<line>
+									<?font-weight bold?>Lösungshinweise</line>
+								<page>
+									<?font-weight bold?>
+									<?thepage?>
+								</page>
+							</addcontentsline>
+							<?font-size large?>
+							<?font-weight bold?>Lösungen zu Selbsttestaufgaben der Kurseinheit <?font-size medium?>
+							<?font-weight normal?>
+							<?vspace 2ex?>
+							<?selfexercises-solutions?>
+							<?cleardoublepage?>
+							<?bibliography?>
+							<?appendix?>
+							<?glossary?>
+							<?index?>
+						</mainmatter>
+					</content>
+				</file>
+				<?assignments?>
+			</structure>
+			<structure format="html">
+				<file>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<startpagetemplate>start_<?documentname?>
+						<?cunum?>.xhtml</startpagetemplate>
+					<filename>index.html</filename>
+					<directory>ke/ke<?cunum?>/html/
+					</directory>
+					<content>
+						<?titlepage?>
+						<file>
+							<filename>vorwort.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Vorwort</description>
+							<content>
+								<?preface?>
+							</content>
+						</file>
+						<file>
+							<filename>voraussetzungen.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Voraussetzungen</description>
+							<content>
+								<?prerequisites?>
+							</content>
+						</file>
+						<file>
+							<filename>lehrziele.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Lehrziele</description>
+							<content>
+								<?learningobjectives?>
+							</content>
+						</file>
+						<file>
+							<filename>studierhinweis.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Studierhinweis</description>
+							<content>
+								<?studyremarks?>
+							</content>
+						</file>
+						<file>
+							<filename>autoren.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Autoren</description>
+							<content>
+								<?authorintroduction?>
+							</content>
+						</file>
+						<?cu-content?>
+						<file>
+							<filename>khindex.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Index</description>
+							<content>
+								<?index?>
+							</content>
+						</file>
+						<file>
+							<filename>glossar.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Glossar</description>
+							<content>
+								<?glossary?>
+							</content>
+						</file>
+						<file>
+							<filename>literatur.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Literatur</description>
+							<content>
+								<?bibliography?>
+							</content>
+						</file>
+						<file>
+							<filename>anhang.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Anhang</description>
+							<content>
+								<?appendix?>
+							</content>
+						</file>
+					</content>
+					<description>Kurseinheit <?cunum?>
+					</description>
+				</file>
+				<?assignments?>
+			</structure>
+			<tocstructure>
+				<includetoc>ke1</includetoc>
+				<currenttoc/>
+			</tocstructure>
+			<indexstructure>
+				<includeindex>ke1</includeindex>
+				<currentindex/>
+			</indexstructure>
+		</entry>
+		<entry name="kurseinheit" number="3">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file precedingfile="ke2">
+					<filename>ke<?cunum?>
+					</filename>
+					<description>Kurseinheit <?cunum?>
+					</description>
+					<content>
+						<frontmatter>
+							<addcontentsline level="0" indent="0em" numwidth="0em" space-before="2em" space-after="0em">
+								<line>
+									<?font-weight bold?>
+									<?font-size large?>Kurseinheit <?cunum?>
+								</line>
+							</addcontentsline>
+							<?titlepage?>
+							<?cleardoublepage?>
+							<?toc?>
+							<?newpage?>
+							<?preface?>
+							<?learningobjectives?>
+							<?prerequisites?>
+							<?studyremarks?>
+							<?newpage?>
+							<?tofig?>
+							<?vspace 2cm plus5cm?>
+							<?pagebreak 3?>
+							<?totable?>
+						</frontmatter>
+						<mainmatter>
+							<?cu-content?>
+							<?authorintroduction?>
+							<?cleardoublepage?>
+							<addcontentsline level="2" indent="0em" numwidth="2em" space-before="1em" space-after="0em">
+								<line>
+									<?font-weight bold?>Lösungshinweise</line>
+								<page>
+									<?font-weight bold?>
+									<?thepage?>
+								</page>
+							</addcontentsline>
+							<?font-size large?>
+							<?font-weight bold?>Lösungen zu Selbsttestaufgaben der Kurseinheit <?font-size medium?>
+							<?font-weight normal?>
+							<?vspace 2ex?>
+							<?selfexercises-solutions?>
+							<?cleardoublepage?>
+							<?bibliography?>
+							<?appendix?>
+							<?glossary?>
+							<?index?>
+						</mainmatter>
+					</content>
+				</file>
+				<?assignments?>
+			</structure>
+			<structure format="html">
+				<file>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<startpagetemplate>start_<?documentname?>
+						<?cunum?>.xhtml</startpagetemplate>
+					<filename>index.html</filename>
+					<directory>ke/ke<?cunum?>/html/
+					</directory>
+					<description>Kurseinheit <?cunum?>
+					</description>
+					<content>
+						<?titlepage?>
+						<file>
+							<filename>vorwort.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Vorwort</description>
+							<content>
+								<?preface?>
+							</content>
+						</file>
+						<file>
+							<filename>voraussetzungen.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Voraussetzungen</description>
+							<content>
+								<?prerequisites?>
+							</content>
+						</file>
+						<file>
+							<filename>lehrziele.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Lehrziele</description>
+							<content>
+								<?learningobjectives?>
+							</content>
+						</file>
+						<file>
+							<filename>studierhinweis.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Studierhinweis</description>
+							<content>
+								<?studyremarks?>
+							</content>
+						</file>
+						<file>
+							<filename>autoren.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Autoren</description>
+							<content>
+								<?authorintroduction?>
+							</content>
+						</file>
+						<?cu-content?>
+						<file>
+							<filename>khindex.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Index</description>
+							<content>
+								<?index?>
+							</content>
+						</file>
+						<file>
+							<filename>glossar.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Glossar</description>
+							<content>
+								<?glossary?>
+							</content>
+						</file>
+						<file>
+							<filename>literatur.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Literatur</description>
+							<content>
+								<?bibliography?>
+							</content>
+						</file>
+						<file>
+							<filename>anhang.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Anhang</description>
+							<content>
+								<?appendix?>
+							</content>
+						</file>
+					</content>
+				</file>
+				<?assignments?>
+			</structure>
+			<tocstructure>
+				<includetoc>ke1</includetoc>
+				<includetoc>ke2</includetoc>
+				<currenttoc/>
+			</tocstructure>
+			<indexstructure>
+				<includeindex>ke1</includeindex>
+				<includeindex>ke2</includeindex>
+				<currentindex/>
+			</indexstructure>
+		</entry>
+		<entry name="kurseinheit" number="4">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file precedingfile="ke3">
+					<filename>ke<?cunum?>
+					</filename>
+					<description>Kurseinheit <?cunum?>
+					</description>
+					<content>
+						<frontmatter>
+							<addcontentsline level="0" indent="0em" numwidth="0em" space-before="2em" space-after="0em">
+								<line>
+									<?font-weight bold?>
+									<?font-size large?>Kurseinheit <?cunum?>
+								</line>
+							</addcontentsline>
+							<?titlepage?>
+							<?cleardoublepage?>
+							<?toc?>
+							<?newpage?>
+							<?preface?>
+							<?learningobjectives?>
+							<?prerequisites?>
+							<?studyremarks?>
+							<?newpage?>
+							<?tofig?>
+							<?vspace 2cm plus5cm?>
+							<?pagebreak 3?>
+							<?totable?>
+						</frontmatter>
+						<mainmatter>
+							<?cu-content?>
+							<newpage/>
+							<addcontentsline level="2" indent="0em" numwidth="2em" space-before="1em" space-after="0em">
+								<line>
+									<?font-weight bold?>Lösungshinweise</line>
+								<page>
+									<?font-weight bold?>
+									<?thepage?>
+								</page>
+							</addcontentsline>Lösungen zu Selbsttestaufgaben der Kurseinheit <?selfexercises-solutions?>
+							<newpage/>Lösungen zu Selbsttestaufgaben der Kurseinheit <?selfexercises-solutions?>
+							<newpage/>
+							<?bibliography?>
+							<?appendix?>
+							<?glossary?>
+							<?index?>
+						</mainmatter>
+					</content>
+				</file>
+				<?assignments?>
+			</structure>
+			<structure format="html">
+				<file>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<startpagetemplate>start_<?documentname?>
+						<?cunum?>.xhtml</startpagetemplate>
+					<filename>index.html</filename>
+					<directory>ke/ke<?cunum?>/html/
+					</directory>
+					<content>
+						<?titlepage?>
+						<file>
+							<filename>vorwort.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Vorwort</description>
+							<content>
+								<?preface?>
+							</content>
+						</file>
+						<file>
+							<filename>voraussetzungen.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Voraussetzungen</description>
+							<content>
+								<?prerequisites?>
+							</content>
+						</file>
+						<file>
+							<filename>lehrziele.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Lehrziele</description>
+							<content>
+								<?learningobjectives?>
+							</content>
+						</file>
+						<file>
+							<filename>studierhinweis.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Studierhinweis</description>
+							<content>
+								<?studyremarks?>
+							</content>
+						</file>
+						<file>
+							<filename>autoren.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Autoren</description>
+							<content>
+								<?authorintroduction?>
+							</content>
+						</file>
+						<?cu-content?>
+						<file>
+							<filename>khindex.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Index</description>
+							<content>
+								<?index?>
+							</content>
+						</file>
+						<file>
+							<filename>glossar.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Glossar</description>
+							<content>
+								<?glossary?>
+							</content>
+						</file>
+						<file>
+							<filename>literatur.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Literatur</description>
+							<content>
+								<?bibliography?>
+							</content>
+						</file>
+						<file>
+							<filename>anhang.html</filename>
+							<directory>ke/ke<?cunum?>/html/
+					</directory>
+							<description>Anhang</description>
+							<content>
+								<?appendix?>
+							</content>
+						</file>
+					</content>
+					<description>Kurseinheit <?cunum?>
+					</description>
+				</file>
+				<?assignments?>
+			</structure>
+			<tocstructure>
+				<includetoc>ke1</includetoc>
+				<includetoc>ke2</includetoc>
+				<includetoc>ke3</includetoc>
+				<currenttoc/>
+			</tocstructure>
+			<indexstructure>
+				<includeindex>ke1</includeindex>
+				<includeindex>ke2</includeindex>
+				<includeindex>ke3</includeindex>
+				<currentindex/>
+			</indexstructure>
+		</entry>
+		<entry name="titelseite">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<?marginparwidth 0cm?>
+				<?textheight 297mm?>
+				<?headheight 0cm?>
+				<?headsep 0cm?>
+				<?footskip 0cm?>
+				<?vspace- -0,6cm?>
+				<?enlargethispage- 5cm?>
+				<?feulogo?>
+				<?hfill-?>
+				<?newline 5,0cm?>
+				<parbox pos="t" boxwidth="18cm" boxheight="1cm">
+					<?font-size xxx-large?>
+					<?raggedleft?>BERICHTE UND MATERIALIEN</parbox>
+				<?newline 2mm?>
+				<?vfill-?>
+				<?hspace- -20mm?>
+				<?titelbild?>
+				<?newline 6mm?>
+				<?vfill-?>
+				<parbox pos="t" boxwidth="18cm" boxheight="5,6cm">
+					<?font-size xxx-large?>
+					<?raggedleft?>
+					<?kurstitel?>
+					<?newline 0,5ex?>
+					<?font-size large?>
+					<?ke-titel?>
+					<?newline 2ex?>
+					<?a-bezeich?>
+					<?newline?>
+					<?autoren?>
+				</parbox>
+				<?newline?>
+				<?vfill-?>
+				<minipage pos="b" boxwidth="18cm" boxheight="1,5cm">
+					<parbox pos="b" boxwidth="8cm" boxheight="1,5cm">
+						<?varlogo1?>
+					</parbox>
+					<?hfill-?>
+					<parbox pos="b" boxwidth="8cm" boxheight="1,5cm">
+						<?font-size large?>
+						<?font-style normal?>
+						<?font-weight normal?>
+						<?raggedleft?>Februar 2004<?newline?>Erste Auflage</parbox>
+				</minipage>
+			</structure>
+		</entry>
+		<entry name="titelseite" number="100">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<?vspace- -2.5cm?>
+				<?hspace -1cm?>
+				<?feulogo?>
+				<?hfill-?>
+				<?varlogo1?>
+				<?newline?>
+				<?vfill-?>
+				<parbox boxwidth="18cm">
+					<?font-size xx-large?>
+					<?kurstitel?>
+					<?newline 2ex?>
+					<?font-size medium?>
+					<?ke-bezeich?>&#x00a0;<?ke-titel?>
+					<?newline?>
+					<?a-bezeich?>&#x00a0;<?autoren?>
+					<?newline?>
+					<?m-bezeich?>&#x00a0;<?mitarbeiter?>
+					<?newline?>
+					<?g-bezeich?>&#x00a0;<?gestalter?>
+				</parbox>
+				<?newline?>
+				<?vfill?>
+				<?centering?>
+				<?titelbild?>
+				<?newline?>
+				<?vfill?>
+				<parbox boxwidth="18cm">
+					<?copyright?>
+					<?newline?>
+					<?kursnummer?>
+					<?hfill?>
+					<?codierung?>
+				</parbox>
+			</structure>
+		</entry>
+		<entry name="einsendeaufgaben" number="1">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file>
+					<filename>kor<?cunum?>
+					</filename>
+					<description>Korrekturversion der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>Korrekturausgabe der Einsendeaufgaben<?newline?>zum Kurs <?coursenum?>
+						<?newline?>
+						<?coursetitle?>
+						<?newline?>
+						<?hrule?>
+						<?assignment-corrections?>
+					</content>
+				</file>
+			</structure>
+			<structure format="html">
+				<file>
+					<filename>ea<?cunum?>.html
+					</filename>
+					<directory>ea/ea<?cunum?>/
+					</directory>
+					<description>Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>
+						<?assignment-tasks?>
+					</content>
+				</file>
+				<file>
+					<filename>ml<?cunum?>.html
+					</filename>
+					<directory>ml/ml<?cunum?>/
+					</directory>
+					<description>Musterlösungen der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>
+						<?assignment-solutions?>
+					</content>
+				</file>
+				<file>
+					<filename>kor<?cunum?>.html
+					</filename>
+					<directory>kor/kor<?cunum?>/
+					</directory>
+					<description>Korrekturversion der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>
+						<?assignment-corrections?>
+					</content>
+				</file>
+			</structure>
+		</entry>
+		<entry name="einsendeaufgaben">
+			<envtype>container</envtype>
+			<structure format="latexpdf">
+				<file>
+					<filename>ea<?cunum?>
+					</filename>
+					<description>Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>Einsendeaufgaben der Kurseinheit <?cunum?>
+						<?newline?>zum Kurs <?coursenum?>
+						<?newline?>
+						<?coursetitle?>
+						<?vspace 1ex?>
+						<?hrule?>
+						<?vspace 1ex?>
+						<?assignment-tasks?>
+					</content>
+				</file>
+				<file>
+					<filename>ml<?cunum?>
+					</filename>
+					<description>Musterlösungen der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>Musterlösungen der Kurseinheit <?cunum?>
+						<?newline?>zum Kurs <?coursenum?>
+						<?newline?>
+						<?coursetitle?>
+						<?vspace 1ex?>
+						<?hrule?>
+						<?vspace 4ex?>
+						<?assignment-solutions?>
+					</content>
+				</file>
+				<file>
+					<filename>kor<?cunum?>
+					</filename>
+					<description>Korrekturversion der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>Korrekturausgabe der Einsendeaufgaben<?newline?>zum Kurs <?coursenum?>
+						<?newline?>
+						<?coursetitle?>
+						<?newline?>
+						<?hrule?>
+						<?assignment-corrections?>
+					</content>
+				</file>
+			</structure>
+			<structure format="html">
+				<file>
+					<filename>ea<?cunum?>.html
+					</filename>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<directory>ea/ea<?cunum?>/
+					</directory>
+					<description>Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>
+						<?assignment-tasks?>
+					</content>
+				</file>
+				<file>
+					<filename>ml<?cunum?>.html
+					</filename>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<directory>ml/ml<?cunum?>/
+					</directory>
+					<description>Musterlösungen der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>
+						<?assignment-solutions?>
+					</content>
+				</file>
+				<file>
+					<filename>kor<?cunum?>.html
+					</filename>
+					<designtemplate>design_<?documentname?>
+						<?cunum?>.xhtml</designtemplate>
+					<directory>kor/kor<?cunum?>/
+					</directory>
+					<description>Korrekturversion der Einsendeaufgaben zu Kurseinheit<?cunum?>
+					</description>
+					<content>
+						<?assignment-corrections?>
+					</content>
+				</file>
+			</structure>
+		</entry>
+		<entry name="einsendeaufgaben" variant="task">
+			<envtype>container</envtype>
+			<structure>
+				<?content?>
+			</structure>
+		</entry>
+		<entry name="einsendeaufgaben" variant="solution">
+			<envtype>container</envtype>
+			<structure>
+				<?assignment?>
+			</structure>
+		</entry>
+		<entry name="einsendeaufgaben" variant="correction">
+			<envtype>container</envtype>
+			<structure>
+				<?content?>
+			</structure>
+		</entry>
+		<entry name="einsendeaufgabe" variant="task" numscheme="ea">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" itemindent="0pt" newline="true" spacing="1mm">
+				<colorbox color="gray10" model="gray" fboxsep="2mm" value=".90">
+					<parbox boxwidth="${textwidth}-2${fboxsep}" pos="l">
+						<?font-size large?>
+						<?font-weight bold?>
+						<?font-style normal?>Aufgabe<?num?>
+					</parbox>
+				</colorbox>
+			</label>
+			<structure>
+				<?font-size medium?>
+				<?font-weight bold?>
+				<?font-style italic?>
+				<?title?>
+				<?font-size medium?>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?task?>
+				<?hints?>
+				<?subtasks?>
+			</structure>
+			<xrefformat>Aufgabe<?num?>
+			</xrefformat>
+			<marg>
+				<?font-size medium?>
+				<?font-weight bold?>
+				<?points?> Pkt</marg>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex plus2ex</margin-top>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="einsendeaufgabe" variant="solution">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" spacing="1ex" newline="true">
+				<?font-weight bold?>Lösung zu Aufgabe<?num?>: </label>
+			<structure>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?font-size medium?>
+				<?solution?>
+				<?subtasks?>
+			</structure>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="einsendeaufgabe" variant="correction">
+			<envtype>assignment</envtype>
+			<label labelwidth="0em" labelsep="0pt" spacing="1ex">
+				<?font-weight bold?>Aufgabe<?num?>: <?title?>
+			</label>
+			<structure>
+				<?task?>
+				<?hints?>
+				<?solution?>
+				<?corr-instructions?>
+				<?subtasks?>
+			</structure>
+			<marg>
+				<?font-size medium?>
+				<?font-weight bold?>
+				<?points?> Pkt</marg>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex plus2ex</margin-top>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="unteraufgabe" variant="task">
+			<envtype>assignment</envtype>
+			<label labelwidth="1.3em" labelsep="" spacing="" itemindent="0em">
+				<?num?>) <kursiv>
+					<?title?>
+				</kursiv>
+			</label>
+			<structure>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?font-size medium?>
+				<?task?>
+				<?hints?>
+				<?subtasks?>
+			</structure>
+			<marg font-size="medium">
+				<?font-weight bold?>
+				<?points?> Pkt</marg>
+			<!--numberformat>
+				<num-posstyle>a</num-posstyle>
+			</numberformat-->
+			<xrefformat>
+				<?num?>)</xrefformat>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex</margin-top>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="unteraufgabe" variant="solution">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" itemindent="0pt" spacing="">
+				<?num?>) <kursiv>
+					<?title?>
+				</kursiv>
+			</label>
+			<structure>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?font-size medium?>
+				<?solution?>
+			</structure>
+			<xrefformat>Unteraufgabe <?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="unteraufgabe" variant="correction">
+			<envtype>assignment</envtype>
+			<label labelwidth="1.3em" labelsep="" spacing="" itemindent="0em">
+				<?num?>) <kursiv>
+					<?title?>
+				</kursiv>
+			</label>
+			<structure>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?font-size medium?>
+				<?task?>
+				<?hints?>
+				<?corr-instructions?>
+				<?solution?>
+			</structure>
+			<marg>
+				<?font-size medium?>
+				<?font-weight bold?>
+				<?points?>Pkt</marg>
+			<xrefformat>Unteraufgabe <?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex</margin-top>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="loesungshinweis">
+			<envtype>genericbox</envtype>
+			<structure>
+				<?font-weight bold?>
+				<?font-size small?>Lösungshinweis: <?font-weight normal?>
+				<?content?>
+			</structure>
+			<!--BOX PROPERTIES-->
+			<margin-top>1em</margin-top>
+			<margin-bottom/>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="korrekturhinweis">
+			<envtype>genericbox</envtype>
+			<structure>
+				<framebox fboxsep="5mm" fboxrule="0.1pt">
+					<minipage boxwidth="0.8${textwidth}">
+						<?font-weight bold?>
+						<?font-size small?>Korrekturhinweis: <?font-weight normal?>
+						<?content?>
+					</minipage>
+				</framebox>
+			</structure>
+			<marg>
+				<?font-size x-small?>Korrekturhinweis</marg>
+			<!--BOX PROPERTIES-->
+			<margin-top>1em</margin-top>
+			<margin-bottom/>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="aufgabenstellung" variant="task">
+			<envtype>nobox</envtype>
+			<structure>
+				<?content?>
+			</structure>
+		</entry>
+		<entry name="aufgabenloesung" variant="solution">
+			<envtype>nobox</envtype>
+			<structure>
+				<?content?>
+			</structure>
+		</entry>
+		<entry name="aufgabenstellung" variant="correction">
+			<envtype>nobox</envtype>
+			<structure>
+				<?content?>
+			</structure>
+		</entry>
+		<entry name="aufgabenloesung" variant="correction">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0pt" font-family="" font-style="" font-variant="" font-weight="bold" font-size="" spacing="1ex">Loesung: <?newline?>
+			</label>
+			<topsep>0pt</topsep>
+			<parsep/>
+			<partopsep>0pt</partopsep>
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--COLOR POPERTIES-->
+			<color/>
+			<background-color/>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex</margin-top>
+			<margin-bottom/>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+			<border-width/>
+			<border-color/>
+			<browser-css>
+				<!--CSS styles for the browser.-->
+			</browser-css>
+			<editor-css editor="XMetaL">
+				<!--CSS styles for the XML-Editor which overwrite the browser CSS styles.-->
+			</editor-css>
+		</entry>
+		<entry name="selbsttestaufgabe" variant="task">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" spacing="1ex" newline="true">
+				<?font-weight bold?>
+				<?font-style normal?>
+				<colorbox color="gray10" model="gray" value=".90">
+					<parbox boxwidth="0.98${textwidth}" pos="l">
+						<?font-weight bold?>
+						<?font-style normal?>Selbsttestaufgabe<?num?>: <?title?>
+					</parbox>
+				</colorbox>
+			</label>
+			<structure>
+				<?font-style italic?>
+				<?task?>
+				<?hints?>
+				<?subtasks?>
+			</structure>
+			<xrefformat>Selbsttestaufgabe<?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<margin-top>4ex plus2ex</margin-top>
+			<margin-bottom>4ex plus2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="selbsttestaufgabe" variant="solution">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" newline="true" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style italic?>Lösung zu Selbsttestaufgabe<?num?>: </label>
+			<structure>
+				<?solution?>
+			</structure>
+			<!--TEXT PROPERTIES-->
+			<margin-top>2ex plus6ex</margin-top>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="uebungsaufgabe" variant="task" numscheme="continuousincourse">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" itemindent="0pt" newline="true" spacing="1ex">
+				<colorbox color="gray10" model="gray" value=".90">
+					<parbox boxwidth="0.98${textwidth}" pos="l">
+						<?font-weight bold?>
+						<?font-style normal?>Übungsfall <?num?>
+						<?title?>
+					</parbox>
+				</colorbox>
+			</label>
+			<structure>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?task?>
+				<?hints?>
+				<?subtasks?>
+				<definecolor color="gray10" model="gray" value=".90"/>
+				<?color gray10?>
+				<rule width="${textwidth}" height="1mm"/>
+			</structure>
+			<xrefformat>Aufgabe&#x00A0;<?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<margin-top>4ex plus10ex</margin-top>
+			<margin-bottom>4ex plus2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="uebungsaufgabe" variant="solution">
+			<envtype>assignment</envtype>
+			<label labelwidth="0pt" labelsep="0pt" itemindent="0pt" newline="true" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Lösung zu Übungsfall <?num?>: </label>
+			<structure>
+				<?font-style normal?>
+				<?solution?>
+			</structure>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex plus10ex</margin-top>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<!--Normal sections-->
+		<entry name="abschnitt" level="1" newpage="true">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 1?>
+			</numberformat>
+			<numberformat scheme="law">§ <?numberpart 1?>
+			</numberformat>
+			<title space-before="3ex" space-after="3ex">
+				<?font-size xx-large?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<makebox boxwidth="5em" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="${textwidth}-5em">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+				<leftheading>
+					<?num?>&#xa0;<?title?>
+				</leftheading>
+			</title>
+			<tocline level="1" indent="0em" numwidth="2em" space-before="1ex" space-after="">
+				<number>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?num?>
+				</number>
+				<line>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?title?>
+				</line>
+				<page>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Kapitel&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="2">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 2?>
+			</numberformat>
+			<numberformat scheme="law">
+				<?numberpart 2?>.</numberformat>
+			<title space-before="2ex plus10ex" space-after="1ex">
+				<?font-size x-large?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<makebox boxwidth="5em" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="${textwidth}-5em">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+				<rightheading>
+					<?num?>&#xa0;<?title?>
+				</rightheading>
+			</title>
+			<tocline level="2" indent="2em" numwidth="3em">
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Abschnitt&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="3">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>.<?numberpart 3?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 2?>.<?numberpart 3?>
+			</numberformat>
+			<numberformat scheme="law">
+				<?numberpart 3?>.</numberformat>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-size large?>
+				<?font-weight bold?>
+				<makebox boxwidth="5em" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="${textwidth}-5em">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+			</title>
+			<tocline level="3" indent="5em" numwidth="4em">
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Abschnitt&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="4">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>.<?numberpart 3?>.<?numberpart 4?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 2?>.<?numberpart 3?>.<?numberpart 4?>
+			</numberformat>
+			<numberformat scheme="law">
+				<?numberpart 4?>)</numberformat>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-size medium?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<makebox boxwidth="5em" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="${textwidth}-5em">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+			</title>
+			<tocline level="4" indent="9em" numwidth="5em">
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Abschnitt&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="5">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>.<?numberpart 3?>.<?numberpart 4?>.<?numberpart 5?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 5?>)</numberformat>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-weight bold?>
+				<?font-size medium?>
+				<?font-style normal?>
+				<makebox boxwidth="2cm" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="12cm">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+			</title>
+			<xrefformat>Abschnitt&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="6">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>.<?numberpart 3?>.<?numberpart 4?>.<?numberpart 5?>.<?numberpart 6?>
+			</numberformat>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-weight bold?>
+				<?font-size medium?>
+				<?font-style normal?>
+				<makebox boxwidth="2cm" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="12cm">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+			</title>
+		</entry>
+		<!--Sections without number-->
+		<entry name="abschnitt-nonum" level="1">
+			<envtype>section</envtype>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-size x-large?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<?raggedright?>
+				<?title?>
+				<leftheading>
+					<?title?>
+				</leftheading>
+			</title>
+			<tocline level="1" indent="0em" numwidth="2em" space-before="1ex" space-after="">
+				<line>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?title?>
+				</line>
+				<page>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?pageref?>
+				</page>
+			</tocline>
+		</entry>
+		<entry name="abschnitt-nonum" level="2">
+			<envtype>section</envtype>
+			<tocline level="2" indent="2em" numwidth="3em">
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-size large?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<?raggedright?>
+				<?title?>
+				<rightheading>
+					<?title?>
+				</rightheading>
+			</title>
+		</entry>
+		<entry name="abschnitt-nonum" level="3">
+			<envtype>section</envtype>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-size medium?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<?raggedright?>
+				<?title?>
+			</title>
+		</entry>
+		<!--Sections in the appendix-->
+		<entry name="abschnitt" level="a1" newpage="true">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 1?>
+			</numberformat>
+			<numberformat scheme="law">§ <?numberpart 1?>
+			</numberformat>
+			<title space-before="3ex" space-after="3ex">
+				<?font-size xx-large?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<makebox boxwidth="2cm" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="12cm">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+				<leftheading>
+					<?num?>&#xa0;<?title?>
+				</leftheading>
+			</title>
+			<tocline level="1" indent="0em" numwidth="2em" space-before="1ex" space-after="">
+				<line>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?title?>
+				</line>
+				<page>
+					<?font-weight bold?>
+					<?font-style normal?>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Anhang&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="a2">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 2?>
+			</numberformat>
+			<numberformat scheme="law">
+				<?numberpart 2?>.</numberformat>
+			<title space-before="2ex plus10ex" space-after="1ex">
+				<?font-size x-large?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<makebox boxwidth="2cm" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="12cm">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+				<rightheading>
+					<?num?>&#xa0;<?title?>
+				</rightheading>
+			</title>
+			<tocline level="2" indent="2em" numwidth="3em">
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Anhang&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="abschnitt" level="a3">
+			<envtype>section</envtype>
+			<numberformat scheme="default">
+				<?numberpart 1?>.<?numberpart 2?>.<?numberpart 3?>
+			</numberformat>
+			<numberformat scheme="wi">
+				<?numberpart 2?>.<?numberpart 3?>
+			</numberformat>
+			<numberformat scheme="law">
+				<?numberpart 3?>.</numberformat>
+			<title space-before="2ex plus6ex" space-after="1ex">
+				<?font-size large?>
+				<?font-weight bold?>
+				<makebox boxwidth="2cm" pos="l">
+					<?num?>
+				</makebox>
+				<parbox pos="t" boxwidth="12cm">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+			</title>
+			<tocline level="3" indent="5em" numwidth="4em">
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<xrefformat>Anhang&#x00A0;<?num?>
+			</xrefformat>
+		</entry>
+		<!--Didactical elements-->
+		<entry name="beispiel">
+			<envtype>breakbox</envtype>
+			<label>
+				<?font-style normal?>
+				<?font-size medium?>
+				<fett>Beispiel<?num?>: <?title?>
+				</fett>
+				<?newline?>
+			</label>
+			<xrefformat>Beispiel<?num?>
+			</xrefformat>
+			<structure>
+				<?label?>
+				<?env-content?>
+			</structure>
+			<text-before/>
+			<text-after/>
+			<marg/>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<fboxrule>0pt</fboxrule>
+			<fboxsep>1em</fboxsep>
+			<shading>0.85</shading>
+		</entry>
+		<entry name="merksatz">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" newline="tue" spacing="1ex">
+				<?font-variant small-caps?>
+				<?font-size large?>
+				<?font-family sans-serif?>
+				<?title?>
+				<?num?>
+			</label>
+			<xrefformat>Merksatz<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus3ex</margin-top>
+			<margin-bottom>1ex plus3ex</margin-bottom>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="vertiefung">
+			<envtype>breakbox</envtype>
+			<label>
+				<fett>
+					<?num?>
+					<?title?>
+				</fett>
+				<?newline 1ex?>
+			</label>
+			<xrefformat>Vertiefung<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<structure>
+				<?label?>
+				<?env-content?>
+			</structure>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>2ex plus3ex</margin-bottom>
+			<border-width>1pt</border-width>
+			<padding>5mm</padding>
+		</entry>
+		<entry name="exkurs">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-size large?>
+				<?font-variant small-caps?>
+				<?font-family sans-serif?>
+				<?title?>
+				<?num?>
+				<?newline?>
+			</label>
+			<xrefformat>Exkurs<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>x-small<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus3ex</margin-top>
+			<margin-bottom>1ex plus3ex</margin-bottom>
+			<margin-left>6em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="fall">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0em" spacing="1ex">
+				<?font-size large?>
+				<?title?>
+				<?num?>
+				<?newline?>
+			</label>
+			<xrefformat>Fall<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus3ex</margin-top>
+			<margin-bottom>1ex plus3ex</margin-bottom>
+			<margin-left>6em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="kommentar">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0em" spacing="1ex">
+				<?font-size large?>
+				<?title?>
+				<?num?>
+				<?newline?>
+			</label>
+			<xrefformat>Kommentar<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<margin-left>6em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="norm">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0em" spacing="1ex">
+				<?font-size large?>
+				<?title?>
+				<?num?>
+				<?newline?>
+			</label>
+			<xrefformat>Norm<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<margin-left>6em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="rechtsprechung">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0em" spacing="1ex">
+				<?font-size large?>
+				<?title?>
+				<?num?>
+				<?newline?>
+			</label>
+			<xrefformat>Rechtsprechung<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<margin-left>6em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="zusammenfassung">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-size large?>
+				<?font-variant small-caps?>
+				<?font-family sans-serif?>
+				<?title?>
+				<?num?>
+				<?newline?>
+			</label>
+			<xrefformat>Zusammenfassung<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>x-small<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus3ex</margin-top>
+			<margin-bottom>1ex plus3ex</margin-bottom>
+			<margin-left>6em</margin-left>
+			<margin-right/>
+		</entry>
+		<!--Math elements-->
+		<entry name="formel">
+			<envtype>equation</envtype>
+			<xrefformat>
+				<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="formel" variant="insidearray" numscheme="insideequationarray">
+			<envtype>equation</envtype>
+			<xrefformat>
+				<?num?>
+			</xrefformat>
+		</entry>
+		<entry name="axiom">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" newline="false" spacing="">
+				<?font-weight bold?>
+				<?font-style normal?>Axiom<?num?>: <?title?>
+			</label>
+			<xrefformat>Axiom<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="definition">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0pt" itemindent="0pt" labelsep="0pt" spacing="">
+				<?font-weight bold?>
+				<?font-style normal?>Definition<?num?>: <?title?>
+				<?newline?>
+			</label>
+			<xrefformat>Definition<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus3ex</margin-top>
+			<margin-bottom>2ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+			<border-width/>
+		</entry>
+		<entry name="corollar">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="">
+				<?font-weight bold?>
+				<?font-style normal?>Corollar<?num?>: <?title?>
+			</label>
+			<xrefformat>Korollar<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="folgerung">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Folgerung<?num?>: <?title?>
+			</label>
+			<xrefformat>Folgerung<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="hauptsatz">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Hauptsatz<?num?>: <?title?>
+			</label>
+			<xrefformat>Hauptsatz<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="hilfssatz">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Hilfssatz<?num?>: <?title?>
+			</label>
+			<xrefformat>Hilfssatz<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="lemma">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Lemma<?num?>: <?title?>
+			</label>
+			<xrefformat>Lemma<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="proposition">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Proposition<?num?>: <?title?>
+			</label>
+			<xrefformat>Proposition<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="regel">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Regel<?num?>: <?title?>
+			</label>
+			<xrefformat>Regel<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="satz">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Satz<?num?>: <?title?>
+			</label>
+			<xrefformat>Satz<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="theorem">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Theorem<?num?>: <?title?>
+			</label>
+			<xrefformat>Theorem<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="annahme">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="">
+				<?font-weight bold?>
+				<?font-style normal?>Annahme<?num?>: <?title?>
+				<?newline?>
+			</label>
+			<xrefformat>Annahme<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="bemerkung">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0pt" itemindent="0pt" labelsep="0pt" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Bemerkung<?num?>: <?title?>
+			</label>
+			<xrefformat>Bemerkung<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="beweis">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Beweis<?num?>: <?title?>
+			</label>
+			<xrefformat>Beweis<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="loesung">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Lösung<?num?>: <?title?>
+			</label>
+			<xrefformat>Lösung<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="problem">
+			<envtype>labelbox</envtype>
+			<label labelwidth="1em" labelsep="" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>Problem<?num?>: <?title?>
+			</label>
+			<xrefformat>Problem<?num?>
+			</xrefformat>
+			<!--FONT-PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>normal<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top/>
+			<margin-bottom/>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="aufzaehlungsliste">
+			<envtype>list</envtype>
+			<labelsep>0mm</labelsep>
+			<labelwidth>6mm</labelwidth>
+			<itemindent/>
+			<itemsep>0.5ex</itemsep>
+			<listparindent/>
+			<parsep>0ex</parsep>
+			<labelitemi>punkt</labelitemi>
+			<labelitemii>spiegelstrich</labelitemii>
+			<labelitemiii>kreis</labelitemiii>
+			<labelitemiv>quadrat</labelitemiv>
+			<label>
+				<makebox boxwidth="6mm" pos="l">
+					<?labelitem?>
+				</makebox>
+			</label>
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>
+				<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>
+				<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>
+				<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<topsep>0ex</topsep>
+			<margin-left>6mm</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="aufzaehlungsliste" variant="marginalie">
+			<envtype>list</envtype>
+			<labelsep>0mm</labelsep>
+			<labelwidth>6mm</labelwidth>
+			<itemindent/>
+			<itemsep>0.5ex</itemsep>
+			<listparindent/>
+			<parsep>0ex</parsep>
+			<labelitemi>punkt</labelitemi>
+			<labelitemii>spiegelstrich</labelitemii>
+			<labelitemiii>kreis</labelitemiii>
+			<labelitemiv>quadrat</labelitemiv>
+			<label>
+				<makebox boxwidth="6mm" pos="l">
+					x<?labelitem?>
+				</makebox>
+			</label>
+			<!--FONT-PROPERTIES-->
+			<font-size>xx-small</font-size>
+			<topsep>0ex</topsep>
+			<margin-left>6mm</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="nummerierteliste">
+			<envtype>list</envtype>
+			<labelsep/>
+			<labelwidth/>
+			<itemindent/>
+			<itemsep>0.5ex</itemsep>
+			<enumi>dezimal</enumi>
+			<enumii>k-alpha</enumii>
+			<enumiii>k-roem</enumiii>
+			<enumiv>g-alpha</enumiv>
+			<label>
+				<?num?>. </label>
+			<label type="griechisch">
+				<?num?>) </label>
+			<label type="g-alpha">
+				<?num?>) </label>
+			<label type="k-alpha">(<?num?>) </label>
+			<!--&#x03B1;-->
+			<!--FONT-PROPERTIES-->
+			<font-family>
+				<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>
+				<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>
+				<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>
+				<!--left, right, center, justify-->
+			</text-align>
+			<text-indent/>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<topsep>0ex</topsep>
+			<parsep>0ex</parsep>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="nummerierteliste" variant="marginalie">
+			<envtype>list</envtype>
+			<labelsep/>
+			<labelwidth/>
+			<itemindent/>
+			<itemsep>0.5ex</itemsep>
+			<enumi>dezimal</enumi>
+			<enumii>k-alpha</enumii>
+			<enumiii>k-roem</enumiii>
+			<enumiv>g-alpha</enumiv>
+			<label>
+				x<?num?>. </label>
+			<label type="griechisch">
+				<?num?>) </label>
+			<label type="g-alpha">
+				<?num?>) </label>
+			<label type="k-alpha">(<?num?>) </label>
+			<font-size>xx-small</font-size>
+			<topsep>0ex</topsep>
+			<parsep>0ex</parsep>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="universalliste" variant="default">
+			<envtype>genericlist</envtype>
+			<labelsep/>
+			<labelwidth/>
+			<itemsep>2ex</itemsep>
+			<itemindent/>
+			<listparindent/>
+			<parsep>0ex</parsep>
+			<label>
+				<fett>
+					<?keyword?>
+				</fett>
+			</label>
+			<entrystructure format="latexpdf">
+				<listlabel>
+					<?label?>
+				</listlabel>
+				<listdescription>
+					<?description?>
+				</listdescription>
+			</entrystructure>
+			<topsep>10ex</topsep>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="universalliste" variant="abkuerzungsverz">
+			<envtype>genericlist</envtype>
+			<labelsep>0em</labelsep>
+			<labelwidth>0em</labelwidth>
+			<itemindent>0em</itemindent>
+			<itemsep>0ex</itemsep>
+			<listparindent/>
+			<parsep/>
+			<entrystructure format="latexpdf">
+				<listlabel/>
+				<listdescription>
+					<parbox boxwidth="0.3${textwidth}" pos="t">
+						<?font-weight bold?>
+						<?keyword?>
+					</parbox>
+					<parbox boxwidth="0.7${textwidth}" pos="t">
+						<?description?>
+					</parbox>
+				</listdescription>
+			</entrystructure>
+			<topsep>0ex</topsep>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="universalliste" variant="symbolverz">
+			<envtype>genericlist</envtype>
+			<labelsep>0em</labelsep>
+			<labelwidth>0em</labelwidth>
+			<itemindent>0em</itemindent>
+			<itemsep>0ex</itemsep>
+			<listparindent/>
+			<parsep/>
+			<entrystructure format="latexpdf">
+				<listlabel>
+					<?keyword?>
+				</listlabel>
+				<listdescription>
+					<?description?>
+				</listdescription>
+			</entrystructure>
+			<topsep>0ex</topsep>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="universalliste" variant="glossary">
+			<envtype>genericlist</envtype>
+			<labelsep>1em</labelsep>
+			<labelwidth>10em</labelwidth>
+			<itemindent>0pt</itemindent>
+			<itemsep>5cm</itemsep>
+			<listparindent/>
+			<parsep>0ex</parsep>
+			<topsep>10ex</topsep>
+			<entrystructure format="latexpdf">
+				<listlabel newline="false" spacing="1ex"/>
+				<listdescription>
+					<colorbox color="gray10" model="gray" value=".90">
+						<parbox boxwidth="0.4${textwidth}" pos="t">
+							<?raggedright?>
+							<?font-weight bold?>
+							<?itemref?>
+							<?font-weight normal?>
+							<?itemref en?>
+							<?itemref fr?>
+						</parbox>
+						<parbox boxwidth="0.6${textwidth}" pos="t">
+							<?description?>
+						</parbox>
+					</colorbox>
+				</listdescription>
+			</entrystructure>
+			<item>
+				<?keyword?>
+			</item>
+			<item xml:lang="en">
+				<?newline?> (engl: <kursiv>
+					<?keyword en?>
+				</kursiv>)</item>
+			<item xml:lang="fr">
+				<?newline?> (franz.: <kursiv>
+					<?keyword fr?>
+				</kursiv>)</item>
+			<margin-left>0em</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="literaturliste" variant="insidedocument">
+			<envtype>genericlist</envtype>
+			<labelsep/>
+			<labelwidth/>
+			<itemsep/>
+			<itemindent/>
+			<listparindent/>
+			<parsep/>
+			<enum>1</enum>
+			<label>[<?litidentifier?>]</label>
+			<text-before>
+				<?pagebreak 3?>
+				<?font-size x-large?>
+				<fett>
+					<?title?>
+				</fett>
+				<?font-size medium?>
+				<?vspace 4ex?>
+			</text-before>
+			<entrystructure format="latexpdf">
+				<listlabel>
+					<mbox>
+						<?label?>
+					</mbox>
+				</listlabel>
+				<listdescription>
+					<?littext?>
+				</listdescription>
+			</entrystructure>
+			<xrefformat>[<?litidentifier?>]</xrefformat>
+			<topsep>0ex</topsep>
+			<partopsep>1ex</partopsep>
+			<margin-top>6cm</margin-top>
+			<margin-bottom>6cm</margin-bottom>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="literaturliste" variant="insidedocumentnotitle">
+			<envtype>genericlist</envtype>
+			<labelsep/>
+			<labelwidth/>
+			<itemsep>1ex plus6ex</itemsep>
+			<itemindent/>
+			<listparindent/>
+			<parsep/>
+			<enum>1</enum>
+			<label>[<?litidentifier?>]</label>
+			<entrystructure format="latexpdf">
+				<?pagebreak 2?>
+				<listlabel>
+					<mbox>
+						<?label?>
+					</mbox>
+				</listlabel>
+				<listdescription>
+					<?littext?>
+				</listdescription>
+			</entrystructure>
+			<xrefformat>[<?litidentifier?>]</xrefformat>
+			<topsep>0ex</topsep>
+			<partopsep>1ex</partopsep>
+			<margin-left/>
+			<margin-right/>
+		</entry>
+		<entry name="lit-imtext">
+			<envtype>genericbox</envtype>
+			<structure>
+				<?font-size small?>
+				<?content?>
+			</structure>
+			<itemindent>-2cm</itemindent>
+			<listparindent>-2cm</listparindent>
+			<margin-left>2cm</margin-left>
+			<margin-right/>
+		</entry>
+		<entry name="proglist">
+			<envtype>genericbox</envtype>
+			<label>
+				<fett>Listing<?num?>
+				</fett>: <?title?>
+			</label>
+			<structure>
+				<?font-family serif?>
+				<?font-style normal?>
+				<?font-weight normal?>
+				<?font-size x-small?>
+				<?hrule?>
+				<?vspace 4pt?>
+				<?label?>
+				<?vspace 3pt?>
+				<?hrule?>
+				<?vspace 5pt?>
+				<?env-content?>
+				<?vspace 5pt?>
+				<?hrule?>
+			</structure>
+			<xrefformat>Listing&#x00a0;<?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex plus6ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<margin-left>0em</margin-left>
+			<margin-right>0em</margin-right>
+		</entry>
+		<!--Media objects-->
+		<entry name="grafik">
+			<envtype>genericbox</envtype>
+			<structure>
+				<image>
+					<filename>
+						<?fileref?>
+					</filename>
+				</image>
+			</structure>
+			<!--BOX PROPERTIES-->
+			<margin-top>10ex</margin-top>
+			<margin-bottom>10ex</margin-bottom>
+			<margin-left>4ex</margin-left>
+		</entry>
+		<entry name="medienobjekt" variant="figure">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle spacing="0.5ex" position="">
+				<?font-size x-small?>
+				<makebox boxwidth="2.0cm" pos="l">
+					<?numpart?>
+				</makebox>
+				<parbox pos="t" boxwidth="12.0cm-${wrapfigwidth}">
+					<?raggedright?>
+					<?title?>
+				</parbox>
+			</mediatitle>
+			<structure>
+				<?env-content?>
+				<?newline?>
+				<?mediatitle?>
+			</structure>
+			<numpart>
+				<fett>
+					<kursiv>Abb.<?num?>
+					</kursiv>
+				</fett>: </numpart>
+			<xrefformat>Abb.<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<borderx fboxsep="5mm" fboxrule="0.4pt"/>
+		</entry>
+		<entry name="medienobjekt" variant="subfigure">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle spacing="2ex" position="">
+				<fett>
+					<kursiv>Abb.<?num?>
+					</kursiv>
+				</fett>: <?title?>
+			</mediatitle>
+			<structure>
+				<minipage boxwidth="${textwidth}">
+					<center>
+						<?subimages 1?>
+					</center>
+					<?mediatitle?>
+				</minipage>
+			</structure>
+			<xrefformat>Abb.&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<borderx fboxsep="5mm" fboxrule="0.4pt"/>
+		</entry>
+		<entry name="medienobjekt" variant="animation">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle spacing="2ex" position="">
+				<fett>
+					<kursiv>Animation<?num?>
+					</kursiv>
+				</fett>: <?title?>
+			</mediatitle>
+			<structure format="latexpdf">
+				<minipage boxwidth="12cm">
+					<center>
+						<?picto?>
+					</center>
+					<?mediatitle?>
+					<?newline?>
+					<?alttext?>
+				</minipage>
+			</structure>
+			<xrefformat>Animation&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+		</entry>
+		<entry name="medienobjekt" variant="audio">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle spacing="2ex" position="">
+				<?picto?>
+				<?num?>: <?title?>
+			</mediatitle>
+			<structure format="latexpdf">
+				<framebox>
+					<minipage boxwidth="${textwidth}">
+						<parbox boxwidth="${textwidth}">
+							<?picto?>
+							<?num?>:<parbox boxwidth="11cm" pos="t">
+								<?title?>
+							</parbox>
+						</parbox>
+						<?newline?>In der Webversion können Sie die Audiodatei abspielen.</minipage>
+				</framebox>
+			</structure>
+			<xrefformat>Audiosequenz&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+		</entry>
+		<entry name="medienobjekt" variant="simulation">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle spacing="2ex" position="">
+				<?picto?>
+				<?num?>: <?title?>
+			</mediatitle>
+			<structure>
+				<framebox>
+					<minipage boxwidth="textwidth">
+						<?picto?>
+						<?newline?>
+						<parbox boxwidth="textwidth">
+							<fett>Simulation <?num?>
+							</fett>:<parbox boxwidth="8cm" pos="t">
+								<?title?>
+							</parbox>
+						</parbox>
+						<?newline?>
+						<?alttext?>
+					</minipage>
+				</framebox>
+			</structure>
+			<xrefformat>Simulation&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+		</entry>
+		<entry name="medienobjekt" variant="video">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle spacing="2ex" position="">
+				<?picto?>
+				<?num?>: <?title?>
+			</mediatitle>
+			<structure>
+				<framebox>
+					<minipage boxwidth="textwidth">
+						<?picto?>
+						<?newline?>
+						<parbox boxwidth="textwidth">
+							<fett>Video <?num?>
+							</fett>:<parbox boxwidth="8cm" pos="t">
+								<?title?>
+							</parbox>
+						</parbox>
+						<?newline?>
+						<?alttext?>
+					</minipage>
+				</framebox>
+			</structure>
+			<xrefformat>Video&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+		</entry>
+		<entry name="medienobjekt" variant="xml-textobjekt">
+			<envtype>genericmediaobject</envtype>
+			<mediatitle>
+				<fett>Abb.<?num?>
+				</fett>: <?title?>
+			</mediatitle>
+			<structure>
+				<breakbox fboxrule="3pt" fboxsep="5mm" shading="0.8">
+					<minipage boxwidth="${textwidth}">
+						<?textobject?>
+					</minipage>
+				</breakbox>
+				<?mediatitle?>
+			</structure>
+			<xrefformat>Textobjekt&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+		</entry>
+		<entry name="medienobjekt" variant="animation-textobjekt">
+			<envtype>genericmediaobject</envtype>
+			<structure latexpdf="">
+				<?mediatitle?>
+				<?newline?>
+				<?animationpicto?>
+				<?textobject?>
+			</structure>
+			<mediatitle>
+				<fett>Spielszene<?num?>
+				</fett>: <?title?>
+			</mediatitle>
+			<xrefformat>Spielszene&#x00a0;<?num?>
+			</xrefformat>
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!--BOX PROPERTIES-->
+			<align>center</align>
+			<margin-top>2ex plus3ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+		</entry>
+		<!--Table elements-->
+		<entry name="tabelle">
+			<envtype>table</envtype>
+			<label spacing="4mm">
+				<?font-size small?>
+				<parbox boxwidth="2cm" pos="t">
+					<kursiv>
+						<?numpart?>
+					</kursiv>
+				</parbox>
+				<parbox boxwidth="${tablewidth}-2cm" pos="t">
+					<kursiv>
+						<?title?>
+					</kursiv>
+				</parbox>
+			</label>
+			<numpart>
+				<fett>Tab.<?num?>: </fett>
+			</numpart>
+			<xrefformat>Tab.<?num?>
+			</xrefformat>
+			<align>center</align>
+			<maxtablewidth>${textwidth}</maxtablewidth>
+			<theadshading>0.8</theadshading>
+			<tbodyshading>1</tbodyshading>
+			<tfootshading>0.8</tfootshading>
+			<arrayruleshading>0</arrayruleshading>
+			<doublerulesepshading>1</doublerulesepshading>
+			<tabcolsep>
+				<!--Halbe Breite des Spaltenzwischenraum-->0.5em</tabcolsep>
+			<arrayrulewidth>
+				<!--Dicke der Linien-->1pt</arrayrulewidth>
+			<doublerulesep>
+				<!--Abstand von Doppellinien-->3pt</doublerulesep>
+			<arraystretch>
+				<!--Faktor für Zeilenabstand-->1.2</arraystretch>
+			<contnexttext>
+				<?font-size xx-small?>Fortsetzung auf der nächsten Seite</contnexttext>
+			<contprevtext>
+				<?font-size xx-small?>Fortsetzung von der vorhergehenden Seite</contprevtext>
+			<!--FONT-PROPERTIES-->
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<!-- TBody -->
+			<font-family>
+				<!--serif, sans-serif, monospace-->sans-serif</font-family>
+			<font-style>
+				<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>small</font-size>
+			<!-- TFoot -->
+			<tf-font-family>sans-serif</tf-font-family>
+			<tf-font-style>italic</tf-font-style>
+			<tf-font-variant>normal</tf-font-variant>
+			<tf-font-weight>normal</tf-font-weight>
+			<tf-font-size>xxx-small</tf-font-size>
+			<!-- end TFoot -->
+			<baselinestretch>
+				<!--Faktor für Zeilenvorschub-->1</baselinestretch>
+			<!--BOX PROPERTIES-->
+			<margin-top>0ex plus3ex</margin-top>
+			<margin-bottom>0ex</margin-bottom>
+		</entry>
+		<entry name="tabelle-alt">
+			<envtype>table</envtype>
+			<label spacing="4mm">
+				<?font-size small?>
+				<label spacing="4mm">
+					<?font-size small?>
+					<parbox boxwidth="2cm" pos="t">
+						<kursiv>
+							<?numpart?>
+						</kursiv>
+					</parbox>
+					<parbox boxwidth="${tablewidth}-2cm" pos="t">
+						<kursiv>
+							<?title?>
+						</kursiv>
+					</parbox>
+				</label>
+			</label>
+			<numpart>
+				<fett>Tab.<?num?>: </fett>
+			</numpart>
+			<xrefformat>Tab.<?num?>
+			</xrefformat>
+			<align>center</align>
+			<maxtablewidth>${textwidth}</maxtablewidth>
+			<theadshading>0.8</theadshading>
+			<tbodyshading>1</tbodyshading>
+			<tfootshading>0.8</tfootshading>
+			<arrayruleshading>0</arrayruleshading>
+			<doublerulesepshading>1</doublerulesepshading>
+			<tabcolsep>
+				<!--Halbe Breite des Spaltenzwischenraum-->0.5em</tabcolsep>
+			<arrayrulewidth>
+				<!--Dicke der Linien-->
+			</arrayrulewidth>
+			<doublerulesep>
+				<!--Abstand von Doppellinien-->2pt</doublerulesep>
+			<arraystretch>
+				<!--Faktor für Zeilenabstand-->1.2</arraystretch>
+			<contnexttext>
+				<?font-size xx-small?>Fortsetzung auf der naechsten Seite</contnexttext>
+			<contprevtext>
+				<?font-size xx-small?>Fortsetzung von der vorhergehenden Seite</contprevtext>
+			<!--FONT-PROPERTIES-->
+			<tocline level="1" indent="0em" numwidth="3cm" space-before="1ex" space-after="">
+				<number>
+					<?xref?>
+				</number>
+				<line>
+					<?title?>
+				</line>
+				<page>
+					<?pageref?>
+				</page>
+			</tocline>
+			<font-family>
+				<!--serif, sans-serif, monospace-->sans-serif</font-family>
+			<font-style>
+				<!--normal, italic-->
+			</font-style>
+			<font-variant>normal<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>
+				<!--xx-small, x-small, small, medium, large, x-large, xx-large-->xx-small</font-size>
+			<baselinestretch>
+				<!--Faktor für Zeilenvorschub-->1</baselinestretch>
+			<!--BOX PROPERTIES-->
+			<margin-top>0ex plus3ex</margin-top>
+			<margin-bottom>0ex</margin-bottom>
+		</entry>
+		<entry name="x-umgebung">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0em" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>
+				<?title?>
+				<?newline?>
+			</label>
+			<xrefformat>Listing&#x00a0;<?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<margin-left>1em</margin-left>
+			<margin-right>1em</margin-right>
+		</entry>
+		<entry name="zitat">
+			<envtype>labelbox</envtype>
+			<label labelwidth="0em" labelsep="0em" spacing="1ex">
+				<?font-weight bold?>
+				<?font-style normal?>
+				<?title?>
+				<?newline?>
+			</label>
+			<numberformat>
+				<num-sectionlevel>2</num-sectionlevel>-<num-posstyle>1</num-posstyle>
+			</numberformat>
+			<xrefformat>Zitat&#x00a0;<?num?>
+			</xrefformat>
+			<!--BOX PROPERTIES-->
+			<font-family>serif<!--serif, sans-serif, monospace-->
+			</font-family>
+			<font-style>italic<!--normal, italic-->
+			</font-style>
+			<font-variant>
+				<!--normal, small-caps-->
+			</font-variant>
+			<font-weight>normal<!--normal, bold-->
+			</font-weight>
+			<font-size>medium<!--xx-small, x-small, small, medium, large, x-large, xx-large-->
+			</font-size>
+			<!--TEXT PROPERTIES-->
+			<text-align>justify<!--left, right, center, justify-->
+			</text-align>
+			<line-height>
+				<!--normal, <number>, <length>-->
+			</line-height>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex</margin-top>
+			<margin-bottom>1ex</margin-bottom>
+			<margin-left>1em</margin-left>
+			<margin-right>1em</margin-right>
+		</entry>
+		<entry name="motto">
+			<envtype>nobox</envtype>
+			<structure>
+				<?font-family serif?>
+				<?font-style slanted?>
+				<?font-weight normal?>
+				<?font-size small?>
+				<?raggedleft?>
+				<?content?>
+			</structure>
+			<!--BOX PROPERTIES-->
+			<margin-top>1ex</margin-top>
+			<margin-bottom>-1ex</margin-bottom>
+		</entry>
+		<entry name="buchstaeblich">
+			<envtype>nobox</envtype>
+			<structure>
+				<alltt>
+					<?font-size x-small?>
+					<?content?>
+				</alltt>
+			</structure>
+			<margin-top>0ex plus6ex</margin-top>
+			<margin-bottom>0ex</margin-bottom>
+		</entry>
+		<entry name="url">
+			<envtype>nobox</envtype>
+			<structure>
+				<?content?>
+				<!--footnote>
+					<?urladdress?>
+				</footnote-->
+			</structure>
+		</entry>
+		<entry name="fussnote">
+			<envtype>nobox</envtype>
+			<xrefformat format="latexpdf">Fußnote&#x00a0;<?num?> auf Seite<?pageref?>
+			</xrefformat>
+			<xrefformat format="html">Fußnote&#x00a0;<?num?>
+			</xrefformat>
+		</entry>
+		<!--Inline elements-->
+		<entry name="fett">
+			<envtype>inline</envtype>
+			<structure>
+				<?font-size normal?>
+				<?font-weight bold?>
+				<?font-style normal?>
+				<?color blue?>
+				<?content?>
+			</structure>
+			<marg>
+				<?content?>
+			</marg>
+		</entry>
+		<entry name="marginalie">
+			<envtype>nobox</envtype>
+			<structure>
+				<?font-size x-small?>
+				<?font-weight bold?>
+				<?color blue?>
+				<?content?>
+			</structure>
+		</entry>
+	</styles>
+</config>

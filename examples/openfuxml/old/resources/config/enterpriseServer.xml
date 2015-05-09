@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+	<net>
+		<server typ="jndi" host="localhost" port="4455"/>
+		<report active="false"
+				from="from@domain.org"
+				to="bugreporter@fuxml.org">
+			<server typ="smtp" host="localhost" port="25"/>
+		</report>
+	</net>
+	<dirs>
+		<dir typ="log">logs</dir>
+		<dir typ="output">share/output</dir>
+		<dir typ="repository">share/repository</dir>
+		<dir typ="applications">applications</dir>
+		<dir typ="applicationsrepository">applications/repository</dir>
+	</dirs>
+</properties>
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xmlns="http://www.openfuxml.org" id="sec-tags-div">
+	<title>Tag jwan:div</title>
+	<table>
+		<title>TableTitle</title>
+		<tgroup>
+			<colspec colwidth="1*" colname="col1" colnum="1" />
+			<colspec colwidth="1*" colname="col2" colnum="2" />
+			<colspec colwidth="1*" colname="col3" colnum="3" />
+			<thead>
+				<row>
+					<entry colname="col1">1</entry>
+					<entry colname="col2">2</entry>
+					<entry colname="col3">3</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry colname="col1">a1</entry>
+					<entry colname="col2">a2</entry>
+					<entry colname="col3">a3</entry>
+				</row>
+				<row>
+					<entry colname="col1">b1</entry>
+					<entry colname="col2">b2</entry>
+					<entry colname="col3">b3</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+</section>

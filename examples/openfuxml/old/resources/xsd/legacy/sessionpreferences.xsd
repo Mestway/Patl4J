@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="sessionpreferences">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="application" minOccurs="1" maxOccurs="1" type="xsd:string" />
+                <xsd:element name="project" minOccurs="1" maxOccurs="1" type="xsd:string" />
+                <xsd:element name="document" minOccurs="1" maxOccurs="1" type="xsd:string" />
+                <xsd:element name="username" minOccurs="1" maxOccurs="1" type="xsd:string" />
+                <xsd:element name="format" minOccurs="1" maxOccurs="1" type="xsd:string" />
+                <xsd:element name="productionentities" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="file" minOccurs="1" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="description" minOccurs="1" maxOccurs="1" type="xsd:string" />
+                                    </xsd:sequence>
+                                    <xsd:attribute name="directory" type="xsd:string"/>
+                                    <xsd:attribute name="filename" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="options" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="option" minOccurs="1" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:attribute name="value" type="xsd:string"/>
+                                    <xsd:attribute name="name" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="version" type="xsd:string"/>
+            <xsd:attribute name="reqType" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

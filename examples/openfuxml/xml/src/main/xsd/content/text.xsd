@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.openfuxml.org/text"
+	xmlns:text="http://www.openfuxml.org/table"
+	xmlns:ofx="http://www.openfuxml.org"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    jaxb:extensionBindingPrefixes="xjc"
+    jaxb:version="2.0">
+    <xsd:import namespace="http://www.openfuxml.org" schemaLocation="ofx.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/layout" schemaLocation="layout.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/list" schemaLocation="list.xsd"/>
+    <xsd:element name="raw">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute name="code"  type="xsd:string"/>
+                    <xsd:attribute name="label" type="xsd:string"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="emphasis">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute name="style" use="required">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="normal"/>
+                                <xsd:enumeration value="typewriter"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                    <xsd:attribute name="bold" type="xsd:boolean"/>
+                    <xsd:attribute name="italic" type="xsd:boolean"/>
+                    <xsd:attribute name="underline" type="xsd:boolean"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

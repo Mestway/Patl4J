@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="math" default="math">
+	<!-- folgende properties werden an das makefile uebergeben: -->
+	<!--property name="ilona.home" value="/ilona"/-->
+	<!--property name="ilona.contentstore" value="/ilona/repository"/-->
+	<!--property name="ilona.output" value="/ilona/output"/-->
+	<!--property name="coursename" value="testkurs2"/-->
+	<!--property name="masterfile" value="GerdTest.xml"/-->
+	<property name="project" value="${coursename}"/>
+	<property name="document" value="${masterfile}"/>
+	<property name="src.dir" value="${ilona.contentstore}/${project}"/>
+	<property name="html.dir" value="${ilona.output}/${project}/html/"/>
+	<property name="math.dir" value="${ilona.output}/${project}/html/math"/>
+	<property name="common.dir" value="${ilona.output}/${project}/common/"/>
+	<property name="format.dir" value="${ilona.home}/applications/fuxml/formats"/>
+	<property name="dtd.dir" value="${src.dir}/dtd"/>
+	<property name="image_path" value="${ilona.output}/${project}/latexpdf/eps"/>
+	<property name="latexcommand" value="latex"/>
+	<property name="xsltemp.dir" value="${ilona.output}/${project}/xsl"/>
+	<property name="config.dir" value="${src.dir.dir}/config"/>
+	<property name="project.dir" value="${ilona.output}/${project}"/>
+	<target name="math" if="do_mathimages"> <!-- unless="do_mathimages" -->
+		<basename property="document.plain" file="${document}" suffix=".xml"/>
+		<basename property="masterfile.plain" file="${masterfile}" suffix=".xml"/>
+		<!-- Prestage -->
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- Copy XSL files to temporary directory -->
+		<!--
+		<copy todir="${xsltemp.dir}">
+			<fileset dir="${format.dir}"/>
+		</copy>
+		-->
+		<!-- Copy config.tex -->
+		<copy file="${src.dir}/system/config/config.tex" tofile="${math.dir}/_config.tex" failonerror="false" preservelastmodified="true"/>
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!--ant antfile="${xsltemp.dir}/common/build.xml" dir="." target="prestage" inheritAll="true"/-->
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<echo message="Convert math"/>
+		<echo>Sie benutzen openFuXML for ${os.name}</echo>
+		<echo>${os.family} OS family</echo>
+		<mkdir dir="${math.dir}"/>
+		
+		<copy file="${html.dir}/${document.plain}/${document.plain}.demux2.cl.tag.xml" tofile="${math.dir}/${document.plain}.tag.xml"></copy>
+		
+		<echo message="Mapping of Unicode Characters to Latex commands"/>
+		<apply executable="java" dest="${math.dir}" failonerror="true">
+			<arg value="org.openfuxml.producer.preprocessors.MappingPreprocessor"/>
+			<srcfile/>
+			<targetfile/>
+			<arg value="${xsltemp.dir}/latexpdf/conversionlist.xml"/>
+			<arg value="${xsltemp.dir}/latexpdf/idtransform.xsl"/>
+			<fileset dir="${math.dir}" includes="${document.plain}.tag.xml"/>
+			<!--fileset dir="${latexpdf.dir}/${document.plain}" includes="${document.plain}.lf.xml"/-->
+			<mapper type="glob" from="*.tag.xml" to="*.tag.tex.xml"/>
+			<!--mapper type="glob" from="*.lf.xml" to="*.tex.xml"/-->
+		</apply>
+		
+
+		<!--exec executable="java">
+			<arg line="org.openfuxml.producer.preprocessors.EquationTagger ${common.dir}/${document.plain}/${document.plain}.assembled.lin.cu.num.xml ${math.dir}/${document.plain}.tag.xml"/>
+		</exec-->
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<echo message="Filter all math elements for which an image already exist:"/>
+		<exec executable="java">
+			<arg line="org.openfuxml.producer.preprocessors.TaggedEquationFilter ${math.dir}/${document.plain}.tag.tex.xml ${math.dir}/${document.plain}.filter.xml ${math.dir}/ gif"/>
+		</exec>
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<echo message="XML to LaTeX"/>
+		<apply executable="java" dest="${math.dir}" parallel="false">
+			<arg value="net.sf.saxon.Transform"/>
+			<arg value="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<arg value="${xsltemp.dir}/math/extracteq_hash_all.xsl"/>
+			<fileset dir="${math.dir}" includes="${masterfile.plain}.filter.xml"/>
+			<mapper type="glob" from="*.filter.xml" to="*.tex"/>
+		</apply>
+		<!--
+		<echo>Changing encoding to Latin1</echo>
+		<exec executable="iconv" failonerror="true" dir="${math.dir}" output="${masterfile.plain}_enc.tex">
+			<arg value="-f"/>
+			<arg value="utf-8"/>
+			<arg value="-t"/>
+			<arg value="latin1"/>
+			<arg value="${masterfile.plain}.tex"/>
+		</exec>
+		-->
+		<echo>Changing encoding to Latin1 (Transcode-Version)</echo>
+		<exec executable="java" failonerror="true" dir="${math.dir}">
+			<arg value="org.openfuxml.util.FileTranscoder"/>
+			<arg value="${masterfile.plain}.tex"/>
+			<arg value="utf-8"/>
+			<arg value="${masterfile.plain}_enc.tex"/>
+			<arg value="latin1"/>
+		</exec>
+		<delete file="${math.dir}/${masterfile.plain}.tex"/>
+		<move file="${math.dir}/${masterfile.plain}_enc.tex" tofile="${math.dir}/${masterfile.plain}.tex"/>
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<echo message="copy stylefiles"/>
+		<copy todir="${math.dir}">
+			<fileset dir="${xsltemp.dir}/latexpdf/latex" includes="*"/>
+		</copy>
+		<condition property="isWindows">
+ 			<os family="windows" />
+ 		</condition>
+ 		<condition property="isUnix">
+ 			<os family="unix" />
+ 		</condition>
+		<antcall target="copyTex4htConfig"/>
+		
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<echo message="Generation of math images"/>
+		<!-- Make binary files executable after cvs checkout -->
+		<chmod dir="${xsltemp.dir}/math/ht4t_files" perm="+x" includes="*"/>
+		<!-- mount parameters (rw) may not allow script to be executed from mounted drive -->
+		
+		<exec executable="${xsltemp.dir}/math/ht4t_files/htlatex" dir="${math.dir}" failonerror="true" vmlauncher="false" osfamily="unix">
+			<arg value="${masterfile.plain}.tex"/>
+		</exec>
+		<exec executable="htlatex" dir="${math.dir}" failonerror="true" vmlauncher="false" os="SunOS">
+			<arg value="${masterfile.plain}.tex"/>
+		</exec>
+		<echo>Sie benutzen openFuXML unter ${os.name}</echo>
+		<exec executable="htlatex" dir="${math.dir}" failonerror="true" vmlauncher="false" osfamily="windows">
+			<arg value="${masterfile.plain}.tex"/>
+		</exec>
+		<echo message="Delete temporary files"/>
+		<!--delete>
+			<fileset dir="${html.dir}/math" excludes="*.gif"/>
+		</delete-->
+	</target>
+	<target name="copyTex4htConfig" depends="copyWinEnv,copyUnixEnv">
+	</target>
+	
+	<target name="copyWinEnv" if="isWindows">
+		<!-- Working with texlive 2009, standard configuration of tex4ht works great 
+				<copy file="${xsltemp.dir}/math/ht4t_files/tex4ht_win.env" tofile="${math.dir}/tex4ht.env" />
+				-->
+	</target>
+	<target name="copyUnixEnv" if="isUnix">
+		<copy file="${xsltemp.dir}/math/ht4t_files/tex4ht.env" tofile="${math.dir}/tex4ht.env" />
+	</target>
+	
+	<target name="cvs">
+		<echo message="CVS"/>
+		<cvspass cvsroot=":pserver:steinkam@budweiser.fernuni-hagen.de:/software/cvsroot" password="stardust"/>
+		<!-- cvs cvsRoot=":pserver:steinkam@budweiser.fernuni-hagen.de:/software/cvsroot" package="dtd"
+      			dest="${ilona.home}/tmp"
+  	/-->
+		<cvs cvsRoot=":pserver:steinkam@budweiser.fernuni-hagen.de:/software/cvsroot" package="math" dest="${format.dir}"/>
+	</target>
+</project>

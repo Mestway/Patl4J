@@ -1,0 +1,9 @@
+<settings>
+      <servers>
+            <server>
+                  <id>ofx</id>
+                  <username>student</username>
+                  <password>student</password>
+            </server>
+      </servers>
+</settings>
