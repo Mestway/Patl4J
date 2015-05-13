@@ -101,7 +101,7 @@ public class Normalizer {
 			ForStatement node = (ForStatement) input;
 			
 			List<Statement> result = new ArrayList<Statement>();
-			
+		
 			// pop out the initializers
 			for (Expression i : (List<Expression>)node.initializers()) {
 				Pair<List<Statement>, Expression> initializer = normalizeExp(i);
@@ -271,6 +271,20 @@ public class Normalizer {
 			
 			List<Statement> result = new ArrayList<Statement>();
 			for(VariableDeclarationFragment i : (List<VariableDeclarationFragment>)node.fragments()) {
+
+				AST tempAST = AST.newAST(AST.JLS8);
+								
+				// Separate the declaration with the initializer into Decl + Assignment
+				// E.g. A a = new A(b,c); will be transformed into A a; a = new A(b,c);
+				VariableDeclarationFragment declPart = tempAST.newVariableDeclarationFragment();
+				declPart.setName((SimpleName) ASTNode.copySubtree(tempAST, i.getName()));
+						
+				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, declPart));
+				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType())); 
+				
+				for (IExtendedModifier j : (List<IExtendedModifier>)node.modifiers()) {
+					vs.modifiers().add(j);
+				}
 				
 				if (i.getInitializer() != null) {
 					Pair<List<Statement>, Expression> expPair = normalizeExp(i.getInitializer());
@@ -280,15 +294,24 @@ public class Normalizer {
 					}
 				}
 				
-				AST tempAST = AST.newAST(AST.JLS8);
-				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, i));
-				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType())); 
-				
-				for (IExtendedModifier j : (List<IExtendedModifier>)node.modifiers()) {
-					vs.modifiers().add(j);
+				// Add the normalized statements first
+				if (i.getInitializer() != null) {
+					Pair<List<Statement>, Expression> expPair = normalizeExp(i.getInitializer());
+					i.setInitializer((Expression) ASTNode.copySubtree(i.getAST(), expPair.getSecond()));
+					for (Statement j : expPair.getFirst()) {
+						result.add(j);
+					}
 				}
 				
 				result.add(vs);
+				
+				// Add the assginment statement
+				if (i.getInitializer() != null) {
+					Assignment assign = tempAST.newAssignment();
+					assign.setLeftHandSide((Expression) ASTNode.copySubtree(tempAST, i.getName()));
+					assign.setRightHandSide((Expression) ASTNode.copySubtree(tempAST, i.getInitializer()));
+					result.add(tempAST.newExpressionStatement(assign));
+				}
 			}
 			
 			return wrapStatement(result);
@@ -656,9 +679,16 @@ public class Normalizer {
 			return new Pair<List<Statement>, Name>(pair.getFirst(), (Name)pair.getSecond());
 		}
 		
-		VariableDeclarationStatement declStmt = Generator.genVarDeclStatement(pair.getSecond());
-		pair.getFirst().add(declStmt);
+		List<Statement> declStmts = Generator.genVarDeclStatement(pair.getSecond());
+		
+		for (Statement s : declStmts) {
+			pair.getFirst().add(s);
+		}
+		
+		// The name is always in the last of the result list
+		VariableDeclarationStatement vds = (VariableDeclarationStatement) declStmts.get(0);
+
 		return new Pair<List<Statement>, Name>(pair.getFirst(), 
-				((VariableDeclarationFragment) declStmt.fragments().get(0)).getName());
+				((VariableDeclarationFragment) vds.fragments().get(0)).getName());
 	}
 }

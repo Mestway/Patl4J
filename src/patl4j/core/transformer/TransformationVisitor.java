@@ -9,7 +9,6 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
-import patl4j.java.normalizer.Normalizer;
 import patl4j.patl.ast.Rule;
 
 public class TransformationVisitor extends ASTVisitor {
@@ -30,10 +29,13 @@ public class TransformationVisitor extends ASTVisitor {
 		
 		Transformer transformer = new Transformer(rules);
 		
+		ASTNode newBody = transformer.execute(node.getBody());
+		
 		node.setBody(
-				(Block) ASTNode.copySubtree(
-						node.getAST(), 
-						transformer.execute(node.getBody())));
+			(Block) ASTNode.copySubtree(
+				node.getAST(), 
+				newBody));
+		
 		return false;
 	}
 	

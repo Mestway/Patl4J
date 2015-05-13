@@ -9,8 +9,10 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 import patl4j.patl.ast.ModInstruction;
@@ -18,6 +20,7 @@ import patl4j.patl.ast.Rule;
 import patl4j.patl.ast.VarDecl;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableGenerator;
 
 public class Matcher {
 	
@@ -27,7 +30,10 @@ public class Matcher {
 	private Map<String, String> var2newtype = new HashMap<String, String>();
 	// Map a variable to its binded type.
 	private Map<String, Optional<WrappedName>> varMap = new HashMap<String, Optional<WrappedName>>();
-
+	
+	// Type transformation information is stored in this map
+	private Map<String, String> typeMap = new HashMap<String, String>();
+	
 	// Some assignment statements are mapped to variable declaration statements, 
 	// and this set keeps which variable are in such assignment.
 	private Set<String> matchedToDeclaration = new HashSet<String>();
@@ -46,6 +52,9 @@ public class Matcher {
 			var2type.put(d.getName(), d.getOldType());
 			varMap.put(d.getName(), Optional.ofNullable(null));
 			var2newtype.put(d.getName(), d.getNewType());
+			if (!d.getOldType().equals(d.getNewType())) {
+				typeMap.put(d.getOldType(), d.getNewType());
+			}
 		}
 		for (ModInstruction i : r.getInstrs()) {
 			instrBindings.add(
@@ -151,6 +160,9 @@ public class Matcher {
 					new Pair<ModInstruction, Optional<Statement>>(
 							p.getFirst(), 
 							Optional.ofNullable(p.getSecond().orElse(null))));
+		for (Entry<String, String> k : m.typeMap.entrySet()) {
+			matcher.typeMap.put(k.getKey(), k.getValue());
+		}
 		return matcher;
 	}
 	
@@ -268,6 +280,43 @@ public class Matcher {
 			}
 		}
 		return stmtList;
+	}
+	
+	public void removeFromDecl(String variable) {
+		this.matchedToDeclaration.remove(variable);
+	}
+	
+	public void bindMetaVariableToNewName(String variable) {
+		varMap.put(variable, Optional.of(new WrappedName(VariableGenerator.genVar())));
+	}
+	
+	/**
+	 * Get the reversed image of a metavariable map
+	 * @param name the name of the image
+	 * @return the name of the meta-variable
+	 */
+	public String getReversedVarMap(String name) {
+		for (Entry<String, Optional<WrappedName>> i : this.varMap.entrySet()) {
+			if (i.getValue().isPresent()) {
+				if (i.getValue().get().getStr().equals(name)) {
+					return i.getKey();
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Given a string representing the name of the type, return the type it mapped to.
+	 * @param oldType the name of the old type
+	 * @return a ASTNode type representing the new type
+	 */
+	public Type getMappedType(String oldType) {
+		if (!typeMap.containsKey(oldType))
+			return null;
+		String typeName = typeMap.get(oldType);
+		AST tAST = AST.newAST(AST.JLS8);
+		return tAST.newSimpleType(tAST.newSimpleName(typeName));
 	}
 	
 }

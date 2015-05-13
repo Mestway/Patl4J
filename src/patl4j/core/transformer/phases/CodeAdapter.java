@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
@@ -84,8 +85,9 @@ public class CodeAdapter {
 	
 	private Pair<List<Statement>, Boolean> adapt(ExpressionStatement stmt) {
 		List<Statement> stmtList = new ArrayList<Statement>();
-		if (matchers.stmtMathedToMinus(stmt))
+		if (!matchers.stmtMathedToMinus(stmt)) {
 			stmtList.add(stmt);
+		}
 		
 		if (matchers.stmtMatchedToLastStmt(stmt)) {
 			List<Statement> gen = matchers.generateFromStatement(stmt);
@@ -98,9 +100,13 @@ public class CodeAdapter {
 	
 	private Pair<List<Statement>, Boolean> adapt(VariableDeclarationStatement stmt) {
 		List<Statement> stmtList = new ArrayList<Statement>();
-		if (matchers.stmtMathedToMinus(stmt))
-			stmtList.add(stmt);
 		
+		String oldTypeName = stmt.getType().toString();
+		stmt.setType((Type) ASTNode.copySubtree(stmt.getAST(), matchers.mappedType(oldTypeName)));
+		
+		if (!matchers.stmtMathedToMinus(stmt)) {
+			stmtList.add(stmt);
+		}
 		if (matchers.stmtMatchedToLastStmt(stmt)) {
 			List<Statement> gen = matchers.generateFromStatement(stmt);
 			for (Statement i : gen) {
@@ -202,24 +208,4 @@ public class CodeAdapter {
 		}
 	}
 	
-	/**
-	 * Check whether the statement in the context should be deleted.
-	 * @param stmt
-	 * @return whether the statement should be deleted
-	 */
-	private boolean shouldBeDeleted(Statement stmt) {
-		if (this.matchers.stmtMathedToMinus(stmt)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private boolean isTheGenPoint(Statement stmt) {
-		if (this.matchers.stmtMatchedToLastStmt(stmt)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 }

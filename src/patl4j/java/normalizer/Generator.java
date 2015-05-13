@@ -1,5 +1,8 @@
 package patl4j.java.normalizer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Assignment;
@@ -9,6 +12,7 @@ import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
@@ -19,7 +23,10 @@ public class Generator {
 	
 	// generate a variable declaration with an initializer specified by the given expression
 	// e.g. given x.f(a,b) ==> int y = x.f(a,b);
-	public static VariableDeclarationStatement genVarDeclStatement(Expression exp) {
+	public static List<Statement> genVarDeclStatement(Expression exp) {
+		
+		List<Statement> result = new ArrayList<Statement>();
+		
 		VariableDeclarationFragment fragment = AST.newAST(AST.JLS8).newVariableDeclarationFragment();
 		ExpressionStatement assignmentStmt = genAssignmentStatement(exp);
 		
@@ -54,7 +61,7 @@ public class Generator {
 				(SimpleName) ASTNode.copySubtree(
 						fragment.getAST(), 
 						((SimpleName)((Assignment)assignmentStmt.getExpression()).getLeftHandSide())));
-		fragment.setInitializer((Expression) ASTNode.copySubtree(fragment.getAST(), exp));
+		//fragment.setInitializer((Expression) ASTNode.copySubtree(fragment.getAST(), exp));
 		
 		AST varDeclFragAST = AST.newAST(AST.JLS8);
 		VariableDeclarationStatement decl = varDeclFragAST.newVariableDeclarationStatement(
@@ -62,7 +69,17 @@ public class Generator {
 		
 		decl.setType((Type) ASTNode.copySubtree(decl.getAST(), varType));
 		
-		return decl;
+		result.add(decl);
+		
+		// initializer is defined here as a separate statement
+		Assignment assign = varDeclFragAST.newAssignment();
+		assign.setLeftHandSide((Expression) ASTNode.copySubtree(varDeclFragAST, fragment.getName()));
+		assign.setRightHandSide((Expression) ASTNode.copySubtree(varDeclFragAST, exp));
+		ExpressionStatement assignStmt = varDeclFragAST.newExpressionStatement(assign);
+		
+		result.add(assignStmt);
+		
+		return result;
 	}
 	
 	// Generate a statement with assignment

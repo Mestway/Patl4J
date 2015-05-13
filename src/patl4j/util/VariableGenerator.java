@@ -8,7 +8,7 @@ public class VariableGenerator {
 	private static Integer VarCounter= 0;
 	
 	public static String genVar() {
-		String var =  "___var" + VarCounter.toString();
+		String var =  "genVar" + VarCounter.toString();
 		VarCounter = VarCounter + 1;
 		return var;
 	}

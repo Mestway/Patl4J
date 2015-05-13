@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.dom.Statement;
 
 import patl4j.core.transformer.phases.CodeAdapter;
 import patl4j.core.transformer.phases.MatcherBinder;
+import patl4j.core.transformer.phases.Shifter;
 import patl4j.matcher.MatcherSet;
 import patl4j.patl.ast.Rule;
 
@@ -49,8 +50,7 @@ public class Transformer {
 	}
 	
 	private Block shift(Block body, MatcherSet matchers) {
-		// TODO: shift to be implemented
-		return body;
+		return new Shifter(body, matchers).shiftCode();
 	}
 	
 	private Statement adapt(Block body, MatcherSet bindedMatcher) {

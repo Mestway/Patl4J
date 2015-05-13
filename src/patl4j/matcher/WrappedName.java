@@ -1,5 +1,6 @@
 package patl4j.matcher;
 
+import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.Name;
 
 public class WrappedName {
@@ -14,6 +15,12 @@ public class WrappedName {
 	public WrappedName() {
 		this.name = null;
 		this.stringName = "%empty%";
+	}
+	
+	public WrappedName(String var) {
+		this.stringName = var;
+		// TODO: probably we should modify this
+		this.name = AST.newAST(AST.JLS8).newSimpleName(this.stringName);
 	}
 	
 	public String getStr() {

@@ -57,18 +57,28 @@ public class JavaPackage {
 						true, 
 						null);
 				
-				System.out.println("ÃÀ¶ÅÉ¯");
+				System.out.println("¿´¿´¿¿Æ×Âð£¿ " + i.getNormalizedAST());
 				
-				// Generate the normalized AST as a new file here for debugging purpose
-				packageFrag.createCompilationUnit(
-						"_normalized_" + i.getCU().getElementName(), 
-						i.getNormalizedAST().toString(), 
-						true, 
-						null);
 			} catch (JavaModelException e) {
 				ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
 				//e.printStackTrace();
 			}
 		}
 	}	
+	
+	public void generatedTransformedFiles(String fileName, String programBody) {
+		try {
+			// Generate the normalized AST as a new file here for debugging purpose
+			packageFrag.createCompilationUnit(
+					"_Transformed_" + fileName, 
+					programBody, 
+					true, 
+					null);
+		} catch (JavaModelException e) {
+			ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
+			//e.printStackTrace();
+		}
+	}
 }
+	
+

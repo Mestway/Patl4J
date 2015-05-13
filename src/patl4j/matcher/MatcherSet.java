@@ -3,7 +3,11 @@ package patl4j.matcher;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 import patl4j.patl.ast.Rule;
 
@@ -116,6 +120,47 @@ public class MatcherSet {
 			}
 		}
 		return stmtList;
+	}
+
+	/**
+	 *  When a statement matched to a minus pattern of a matcher, return which matcher contains the statement
+	 * @param stmt the matched statement
+	 * @return its corresponding matcher
+	 */
+	public Matcher getMatchedMatcher(VariableDeclarationStatement stmt) {
+		for (Matcher m : this.matchers) {
+			if (m.matchedToMinusStmtPattern(stmt)) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Return the image type (which is collected from the declarations of the matchers)
+	 * @param typeName
+	 * @return
+	 */
+	public Type mappedType(String typeName) {
+		switch(typeName) {
+			case "void": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.VOID);
+			case "int": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.INT);
+			case "char": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.CHAR);
+			case "long": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.LONG); 
+			case "boolean": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BOOLEAN);
+			case "float": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT);
+			case "short": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT);
+			case "byte": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE);
+		}
+		
+		for (Matcher m : this.matchers) {
+			if (m.getMappedType(typeName) != null) {
+				return m.getMappedType(typeName);
+			}
+		}
+
+		AST tAST = AST.newAST(AST.JLS8);
+		return tAST.newSimpleType(tAST.newName(typeName));
 	}
 	
 }

@@ -51,7 +51,7 @@ public class MatcherBinder {
 			return bind((DoStatement) statement, inSet);
 		} else {
 			return inSet;
-		}	
+		}
 	}
 	
 	private MatcherSet bind(Block body, MatcherSet inSet) {

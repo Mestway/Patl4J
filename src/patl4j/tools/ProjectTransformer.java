@@ -78,6 +78,9 @@ public class ProjectTransformer {
 
 				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST());
 				f.getNormalizedAST().accept(tv);
+				
+				// Generate the transformed body in the package
+				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString());
 			}
 		}
 	}
