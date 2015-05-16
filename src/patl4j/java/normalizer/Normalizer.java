@@ -64,7 +64,7 @@ public class Normalizer {
 			Pair<List<Statement>, Name> pair = wrapExpression(normalizeExp(node.getExpression()));
 			node.setExpression((Name) ASTNode.copySubtree(node.getAST(), pair.getSecond()));
 			Statement doStmt = node.getBody();
-			node.setBody((Statement) ASTNode.copySubtree(node.getAST(), normalizeStmt(doStmt).getStatement()));
+			node.setBody((Statement) ASTNode.copySubtree(node.getAST(), wrapToBlock(normalizeStmt(doStmt).getStatement())));
 			result.add(node);
 			return wrapStatement(result);
 			
@@ -143,7 +143,7 @@ public class Normalizer {
 			// clear initializers, as they are already popped out
 			node.initializers().clear();
 			
-			Statement body = normalizeStmt(node.getBody()).getStatement();
+			Statement body = wrapToBlock(normalizeStmt(node.getBody()).getStatement());
 			node.setBody((Statement) ASTNode.copySubtree(node.getAST(), body));
 			
 			result.add(node);
@@ -158,18 +158,29 @@ public class Normalizer {
 			
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			
-			Statement thenBlock = normalizeStmt(node.getThenStatement()).getStatement();
-			Statement elseBlock = normalizeStmt(node.getElseStatement()).getStatement();
+			Statement thenBlock = wrapToBlock(normalizeStmt(node.getThenStatement()).getStatement());
 			
 			((IfStatement)node).setThenStatement(
 					(Statement) ASTNode.copySubtree(
 							node.getAST(),
 							thenBlock));
 			
-			((IfStatement)node).setElseStatement(
-					(Statement) ASTNode.copySubtree(
-							node.getAST(),
-							elseBlock));
+			// The elseBlock may not exist
+			Statement elseBlock;
+			if (node.getElseStatement() != null) {
+				elseBlock = wrapToBlock(normalizeStmt(node.getElseStatement()).getStatement());
+				((IfStatement)node).setElseStatement(
+						(Statement) ASTNode.copySubtree(
+								node.getAST(),
+								elseBlock));
+			} else {
+				// Add a block with only empty statements to the else block
+				elseBlock = wrapToBlock(normalizeStmt(AST.newAST(AST.JLS8).newEmptyStatement()).getStatement());
+				((IfStatement)node).setElseStatement(
+						(Statement) ASTNode.copySubtree(
+								node.getAST(),
+								elseBlock));
+			}
 			
 			expPair.getFirst().add(node);
 			return wrapStatement(expPair.getFirst());
@@ -322,7 +333,7 @@ public class Normalizer {
 			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
-			node.setBody((Block) ASTNode.copySubtree(node.getAST(), normalizeStmt(node.getBody()).getStatement()));
+			node.setBody((Block) ASTNode.copySubtree(node.getAST(), wrapToBlock(normalizeStmt(node.getBody()).getStatement())));
 			
 			expPair.getFirst().add(node);
 			
@@ -690,5 +701,17 @@ public class Normalizer {
 
 		return new Pair<List<Statement>, Name>(pair.getFirst(), 
 				((VariableDeclarationFragment) vds.fragments().get(0)).getName());
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static Block wrapToBlock(Statement stmt) {
+		if (stmt instanceof Block) {
+			return (Block)stmt;
+		} else {
+			AST tAST = AST.newAST(AST.JLS8);
+			Block blk = tAST.newBlock();
+			blk.statements().add(ASTNode.copySubtree(tAST, stmt));
+			return blk;
+		}
 	}
 }

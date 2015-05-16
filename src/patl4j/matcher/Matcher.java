@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import patl4j.patl.ast.ModInstruction;
 import patl4j.patl.ast.Rule;
 import patl4j.patl.ast.VarDecl;
+import patl4j.shifter.datastructure.BlockSTreeNode;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 import patl4j.util.VariableGenerator;
@@ -41,6 +42,7 @@ public class Matcher {
 	// The binding between mod instruction patterns and java statements, including both minus, m and addition
 	private List<Pair<ModInstruction, Optional<Statement>>> 
 		instrBindings = new ArrayList<Pair<ModInstruction, Optional<Statement>>>();
+	private List<Statement> matchedStatements = new ArrayList<Statement>();
 	
 	// If matchpoint == -1, then there exists no matchpoint
 	private Integer matchpoint = 0;
@@ -213,8 +215,10 @@ public class Matcher {
 		else return false;
 	}
 	
+	private boolean theFirstGenPointTaken = false;
+	
 	// Check whether a statement is the last source statement pattern.
-	public boolean matchedToTheLastSrcStmtPattern(Statement s) {
+	private boolean matchedToTheLastSrcStmtPattern(Statement s) {
 		// TODO: I want to use the statement.equal() to check the equivalence, 
 		//   ...but not sure if it is correct. (Probably not...as copySubtree is used everywhere...)
 		// Thus probably I should use the start position to achieve the goal (what if it does't work? I don't know...)
@@ -238,7 +242,33 @@ public class Matcher {
 		else return false;
 	}
 	
+	// Whether the statement is a genpoint statement
+	public boolean isGenPointForTheMatcher(Statement s) {
+		if (theFirstGenPointTaken) return false;
+		if (matchedToTheLastSrcStmtPattern(s)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void genPointUsed() {
+		this.theFirstGenPointTaken = true;
+	} 
+	
 	// Check whether a statement is matched to some pattern in the model
+	public boolean matchedToSrcStmtPattern(Statement s) {
+		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {
+			if (i.getSecond().isPresent() == false)
+				continue;
+			if (!i.getSecond().get().getClass().equals(s.getClass()) || !i.getFirst().isSrcPattern())
+				continue;
+			if (i.getSecond().get().getStartPosition() == s.getStartPosition())
+				return true;
+		}
+		return false;
+	}
+	
+	// Check whether a statement is matched to some minus pattern in the model
 	public boolean matchedToMinusStmtPattern(Statement s) {
 		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {
 			if (i.getSecond().isPresent() == false)
@@ -257,14 +287,12 @@ public class Matcher {
 	 * 		   pair: the last binding of the src pattern 
 	 */
 	private Pair<ModInstruction, Optional<Statement>> getTheLastSrcPatternBinding() {
-
 		for (int i = instrBindings.size() - 1; i >= 0; i --) {
 			Pair<ModInstruction, Optional<Statement>> ib = instrBindings.get(i);
 			if (ib.getFirst().isSrcPattern()) {
 				return ib;
 			}
 		}
-		
 		ErrorManager.error("Matcher@252", "This matcher contains no src pattern");
 		return null;
 	}
@@ -317,6 +345,199 @@ public class Matcher {
 		String typeName = typeMap.get(oldType);
 		AST tAST = AST.newAST(AST.JLS8);
 		return tAST.newSimpleType(tAST.newSimpleName(typeName));
+	}
+	
+	/*********** The following part is used for shifting operation ******************/
+	
+	// The high level block node and the low level block node
+	private BlockSTreeNode highLevelBlockNode = null;
+	private BlockSTreeNode lowLevelBlockNode = null;
+	// The statements before the highLevelBlockNode
+	private List<Statement> firstHalfStatementsToBeShifted = new ArrayList<Statement>();
+	// The statements after the highLevelBlockNode
+	private List<Statement> secondHalfStatementsToBeShifted = new ArrayList<Statement>();
+	
+	public List<Statement> getFirstHalfStatementsToBeShifted() {return this.firstHalfStatementsToBeShifted;}
+	public List<Statement> getSecondHalfStatementsToBeShifted() {return this.secondHalfStatementsToBeShifted;}
+	
+	public boolean blockTreeLevelCheck(BlockSTreeNode root) {
+		
+		// We will first add all matched statements to the matchedStatements list.
+		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {
+			if (i.getFirst().isSrcPattern()) {
+				if (i.getSecond().isPresent()) {
+					this.matchedStatements.add(i.getSecond().get());
+				} else {
+					ErrorManager.error("Matcher@356", "The instructions are not correctly binded.");
+				}
+			}
+		}
+		
+		List<BlockSTreeNode> theirblocks = new ArrayList<BlockSTreeNode>();
+		// First collect the block node info from the tree
+		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {
+			if (i.getFirst().isSrcPattern()) {
+				if (i.getSecond().isPresent()) {
+					Optional<BlockSTreeNode> thisblk = root.retrieveDirectContainedBlock(i.getSecond().get());
+					if (thisblk.isPresent())
+						theirblocks.add(thisblk.get());
+					else {
+						ErrorManager.error("Matcher@332", "The matcher is no valid\n\t" + this.toString());
+						return false;
+					}
+				}
+			}
+		}
+		int lowLevel=-1, highLevel=-1;
+
+		for (BlockSTreeNode bst : theirblocks) {
+			// If there exists statements in three levels
+			if ((lowLevel != -1 && highLevel != -1 && lowLevel != highLevel) 
+					&& (bst.getLevel() != lowLevel && bst.getLevel() != highLevel)) {
+				ErrorManager.error("Matcher@344", "The matcher is no valid\n\t" + this.toString());
+				return false;
+			}
+			if (lowLevel == -1) {
+				lowLevel = bst.getLevel();
+				lowLevelBlockNode = bst;
+			}
+			else if (lowLevel > bst.getLevel()) {
+				lowLevel = bst.getLevel();
+				lowLevelBlockNode = bst;
+			}
+			if (highLevel == -1) {
+				highLevel = bst.getLevel();
+				highLevelBlockNode = bst;
+			}
+			else if (highLevel < bst.getLevel()) {
+				highLevel = bst.getLevel();
+				highLevelBlockNode = bst;
+			}
+
+			// If there exists two levels, there should be only two nodes holding all of the info.
+			if ((lowLevel == bst.getLevel() && !lowLevelBlockNode.getId().equals(bst.getId()))
+				|| (highLevel == bst.getLevel() && !highLevelBlockNode.getId().equals(bst.getId()))) {
+				ErrorManager.error("Matcher@363", "The matcher is no valid\n\t" + this.toString());
+				return false;
+			}
+		}
+		// They are the same block
+		if (highLevelBlockNode.getId() == lowLevelBlockNode.getId()) {
+			return true;
+		}
+		if (highLevelBlockNode.getParent().getId() == lowLevelBlockNode.getId()) {
+			// [Warning Checker] This banished the cross loop error
+			if (highLevelBlockNode.getBlockType().equals(BlockSTreeNode.BlockType.IFELSEBLOCK))
+				return true;
+		}
+		ErrorManager.error("Matcher@374", "The matcher is no valid\n\t" + this.toString());
+		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void collectStatementsToBeShifted() {
+		if (this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
+			// In this case, all statements are in the same block
+			return;
+		}
+		
+		//Else, 1) collect matched statements in the lowLevelBlockNode
+		// Also collect statements to be deleted at lowBlock.
+		for (Statement s : (List<Statement>)lowLevelBlockNode.getBlock().statements()) {
+			if (this.matchedToSrcStmtPattern(s)) {
+				if (s.getStartPosition() <= highLevelBlockNode.getBlock().getStartPosition())
+					firstHalfStatementsToBeShifted.add(s);
+				else if (s.getStartPosition() > highLevelBlockNode.getBlock().getStartPosition())
+					secondHalfStatementsToBeShifted.add(s);
+			}
+		}
+		
+		// Then, 2) collect dependent statements in both sides
+		for (Statement s : (List<Statement>)lowLevelBlockNode.getBlock().statements()) {
+			if (s.getStartPosition() <= highLevelBlockNode.getBlock().getStartPosition()) {
+				if (isMatchedStatement(s))
+					continue;
+				if (dependentToTheFirstHalf(s))
+					this.firstHalfStatementsToBeShifted.add(s);
+			}
+		}
+		for (int i = lowLevelBlockNode.getBlock().statements().size() - 1; i >= 0; i --) {
+			Statement s = (Statement) lowLevelBlockNode.getBlock().statements().get(i);
+			if (s.getStartPosition() >= highLevelBlockNode.getBlock().getStartPosition()) {
+				if (isMatchedStatement(s))
+					continue;
+				if (dependentToTheSecondHalf(s))
+					this.secondHalfStatementsToBeShifted.add(s);
+			}
+		}
+	}
+	
+	// Check whether the given statement (in the first half) depends on the given statements
+	private boolean dependentToTheFirstHalf(Statement s) {
+		for (Statement i : this.matchedStatements) {
+			if (dependentTo(s, i))
+				return true;
+		}
+		for (Statement i : this.firstHalfStatementsToBeShifted) {
+			if (dependentTo(s, i))
+				return true;
+		}
+		return false;
+	}
+	
+	// Check whether the given statement (in the first half) depends on the given statements
+	// Should traverse the statements in the list in reverse order in order to collect all matched statements
+	private boolean dependentToTheSecondHalf(Statement s) {
+		for (Statement i : this.matchedStatements) {
+			if (dependentTo(i, s))
+				return true;
+		}
+		for (Statement i : this.secondHalfStatementsToBeShifted) {
+			if (dependentTo(i, s))
+				return true;
+		}
+		return false;
+	}
+	
+	// Check whether a statement is matched by some pattern
+	private boolean isMatchedStatement(Statement s) {
+		for (Statement i : this.matchedStatements) {
+			if (i.getStartPosition() == s.getStartPosition())
+				return true;
+		}
+		return false;
+	}
+	
+	// Check whether the statement s depends on the statement t
+	private boolean dependentTo(Statement s, Statement t) {
+		// TODO: to be added from the analyzer
+		return false;
+	}
+	
+	public BlockSTreeNode getLowLevelBlock() {
+		return this.lowLevelBlockNode;
+	}
+	
+	public BlockSTreeNode getHighLevelBlock() {
+		return this.highLevelBlockNode;
+	}
+
+	public void collectStatementsToBeDeletedInBlock(BlockSTreeNode blk) {
+		if (this.lowLevelBlockNode.getId() == blk.getId()) {
+			for (Statement s : this.firstHalfStatementsToBeShifted) {
+				blk.addToDeleteSet(s);
+			}
+			for (Statement s: this.secondHalfStatementsToBeShifted) {
+				blk.addToDeleteSet(s);
+			}
+		}
+		if (this.highLevelBlockNode.getId() == blk.getId()) {
+			for (Statement s : this.matchedStatements) {
+				if (this.matchedToMinusStmtPattern(s)) {
+					blk.addToDeleteSet(s);
+				}
+			}
+		}
 	}
 	
 }

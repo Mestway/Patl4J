@@ -57,8 +57,6 @@ public class JavaPackage {
 						true, 
 						null);
 				
-				System.out.println("¿´¿´¿¿Æ×Âð£¿ " + i.getNormalizedAST());
-				
 			} catch (JavaModelException e) {
 				ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
 				//e.printStackTrace();
@@ -67,6 +65,11 @@ public class JavaPackage {
 	}	
 	
 	public void generatedTransformedFiles(String fileName, String programBody) {
+		int x= 2;
+		if (x == 3 - 1) {
+			System.out.println(programBody);
+			return;
+		}
 		try {
 			// Generate the normalized AST as a new file here for debugging purpose
 			packageFrag.createCompilationUnit(

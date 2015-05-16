@@ -38,10 +38,11 @@ public class Transformer {
 		System.out.println(matchers.toString());
 		
 		// Perform shift operation on the given statements
-		Block shiftedBody = this.shift(body, this.matchers);
+		Shifter shifter = new Shifter(body, matchers);
 		
 		// Perform adaptation on the statements
-		Statement adaptedBody = this.adapt(shiftedBody, this.matchers);
+		// The body of the program to be adapted is in the shifter
+		Statement adaptedBody = this.adapt(this.matchers, shifter);
 		return adaptedBody;
 	}
 
@@ -49,12 +50,8 @@ public class Transformer {
 		return new MatcherBinder(matchers, rules).bindMatcher(body, matchers);
 	}
 	
-	private Block shift(Block body, MatcherSet matchers) {
-		return new Shifter(body, matchers).shiftCode();
-	}
-	
-	private Statement adapt(Block body, MatcherSet bindedMatcher) {
-		return new CodeAdapter(body, bindedMatcher).adaptCode();
+	private Statement adapt(MatcherSet bindedMatcher, Shifter shifter) {
+		return new CodeAdapter(bindedMatcher, shifter).adaptCode();
 	}
 	
 }

@@ -10,6 +10,8 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 import patl4j.patl.ast.Rule;
+import patl4j.shifter.datastructure.BlockSTreeNode;
+import patl4j.util.ErrorManager;
 
 public class MatcherSet {
 	
@@ -94,9 +96,9 @@ public class MatcherSet {
 	 * @param s: statement to be checked
 	 * @return whether or not
 	 */
-	public boolean stmtMatchedToLastStmt(Statement s) {
+	public boolean stmtMatchedToGenPoint(Statement s) {
 		for (Matcher m : this.matchers) {
-			if (m.matchedToTheLastSrcStmtPattern(s)) {
+			if (m.isGenPointForTheMatcher(s)) {
 				return true;
 			}
 		}
@@ -112,11 +114,12 @@ public class MatcherSet {
 	public List<Statement> generateFromStatement(Statement s) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		for (Matcher m : this.matchers) {
-			if (m.matchedToTheLastSrcStmtPattern(s)) {
+			if (m.isGenPointForTheMatcher(s)) {
 				List<Statement> tStmts = m.generatedNewStatements();
 				for (Statement i : tStmts) {
 					stmtList.add(i);
 				}
+				m.genPointUsed();
 			}
 		}
 		return stmtList;
@@ -161,6 +164,50 @@ public class MatcherSet {
 
 		AST tAST = AST.newAST(AST.JLS8);
 		return tAST.newSimpleType(tAST.newName(typeName));
+	}
+	
+	/**
+	 * Check the block level information of all matchers with the root node.
+	 * @param bstn
+	 */
+	public void matcherBlockLevelCheck(BlockSTreeNode bstn) {
+		boolean result = true;
+		for (Matcher m : this.matchers) {
+			result = result && m.blockTreeLevelCheck(bstn);
+		}
+		if (!result) {
+			ErrorManager.error("MatcherSet@178", "MatcherSet check failed.");
+		}
+	}
+
+	public void collectStatementsToBeShifted(BlockSTreeNode blockTree) {
+		for (Matcher m : this.matchers) {
+			m.collectStatementsToBeShifted();
+		}
+	}
+
+	/**
+	 * Given a block, return the statements to be added to the given block. This is actually a call back function.
+	 * @param blk 
+	 */
+	public void getStatementsToBeAddedToTheBlock(BlockSTreeNode blk) {
+		for (Matcher m : this.matchers) {
+			if(m.getHighLevelBlock().getId().equals(blk.getId())) {
+				for (Statement s : m.getFirstHalfStatementsToBeShifted()) {
+					blk.addToStmtListBeginning(s);
+				}
+				for (Statement s : m.getSecondHalfStatementsToBeShifted()) {
+					blk.addToStmtListEnd(s);
+				}
+			}
+		}
+	}
+
+	public void collectStatementsToBeDeletedInBlock(
+			BlockSTreeNode blk) {
+		for (Matcher m : this.matchers) {
+			m.collectStatementsToBeDeletedInBlock(blk);
+		}
 	}
 	
 }

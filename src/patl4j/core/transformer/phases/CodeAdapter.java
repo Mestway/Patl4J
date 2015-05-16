@@ -2,6 +2,7 @@ package patl4j.core.transformer.phases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -18,57 +19,88 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
 import patl4j.matcher.MatcherSet;
+import patl4j.shifter.datastructure.BlockSTreeNode;
+import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 
 public class CodeAdapter {
 
 	Block body;
 	MatcherSet matchers;
+	Shifter shifter;
 	
-	public CodeAdapter(Block body, MatcherSet bindedMatcher) {
-		this.body = body;
+	public CodeAdapter(MatcherSet bindedMatcher, Shifter shifter) {
+		this.body = shifter.getBody();
 		this.matchers = bindedMatcher;
+		this.shifter = shifter;
 	}
 
 	public Statement adaptCode() {
-		Pair<List<Statement>, Boolean> adaptResult = this.adapt(body);
-		return wrap(adaptResult);		
+		Optional<BlockSTreeNode> rootNode = shifter.retrieveBlockNode(body, shifter.getTreeRoot());
+		if (rootNode.isPresent()) {
+			Pair<List<Statement>, Boolean> adaptResult = this.adapt(body, rootNode.get());
+			return wrap(adaptResult);
+		} else {
+			ErrorManager.error("CodeAdapter@44", "The root level block node does not exist.");
+			return null;
+		}
 	}
 
 	/**
-	 * Promote the adaptation to the different funcitons
+	 * Promote the adaptation to the different functions
 	 * @param stmt: The statement to be adapted.
 	 * @return the adapted statement
 	 */
-	private Pair<List<Statement>,Boolean> adapt(Statement stmt) {
+	private Pair<List<Statement>,Boolean> adapt(Statement stmt, BlockSTreeNode currentBlock) {
+
 		List<Statement> stmtList = new ArrayList<Statement>();
 		if (stmt instanceof Block) {
-			return adapt((Block) stmt);
+			return adapt((Block) stmt, currentBlock);
 		} else if (stmt instanceof ExpressionStatement) {
-			return adapt((ExpressionStatement) stmt);
+			return adapt((ExpressionStatement) stmt, currentBlock);
 		} else if (stmt instanceof VariableDeclarationStatement) {
-			return adapt((VariableDeclarationStatement) stmt);
+			return adapt((VariableDeclarationStatement) stmt, currentBlock);
 		} else if (stmt instanceof IfStatement) {
-			return adapt((IfStatement) stmt);
+			return adapt((IfStatement) stmt, currentBlock);
 		} else if (stmt instanceof WhileStatement) {
-			return adapt((WhileStatement) stmt);
+			return adapt((WhileStatement) stmt, currentBlock);
 		} else if (stmt instanceof ForStatement) {
-			return adapt((ForStatement) stmt);
+			return adapt((ForStatement) stmt, currentBlock);
 		} else if (stmt instanceof EnhancedForStatement) {
-			return adapt((EnhancedForStatement) stmt);
+			return adapt((EnhancedForStatement) stmt, currentBlock);
 		} else if (stmt instanceof DoStatement) {
-			return adapt((DoStatement) stmt);
+			return adapt((DoStatement) stmt, currentBlock);
 		} else {
 			return new Pair<List<Statement>, Boolean>(stmtList, false);
 		}	
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Pair<List<Statement>, Boolean> adapt(Block stmt) {
+	private Pair<List<Statement>, Boolean> adapt(Block stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
+		
+		Optional<BlockSTreeNode> nextBlockNode = shifter.retrieveBlockNode(stmt, currentBlock);
+		if (! nextBlockNode.isPresent()) {
+			ErrorManager.error("CodeAdapter@84", "The next block node does not exist.");
+		}
+		
+		// Some statements may be added to the begining of the block.
+		for (Statement s : nextBlockNode.get().getStatementsToBeAddedAtBeginning()) {
+			Pair<List<Statement>, Boolean> result = adapt(s, nextBlockNode.get());
+			for (Statement i : result.getFirst()) {
+				if (i instanceof EmptyStatement)
+					continue;
+				stmtList.add(i);
+			}
+		}
+		
+		// Continue adapting the body of the block
 		for (Statement s : (List<Statement>) stmt.statements()) {
-			Pair<List<Statement>, Boolean> result = adapt(s);
-			// It is not from a block, added all modifed statements into the list
+		
+			// The children of the current block are supposed to be in the blockNode containing the current block.
+			Pair<List<Statement>, Boolean> result = adapt(s, nextBlockNode.get());
+			
+			// It is not from a block, added all modified statements into the list
 			if (result.getSecond() == false) {
 				for (Statement i : result.getFirst()) {
 					if (i instanceof EmptyStatement)
@@ -80,16 +112,34 @@ public class CodeAdapter {
 				stmtList.add(tempStmt);
 			}
 		}
+		
+		// Then continue working on the statements to be added at the end of the block
+		for (Statement s : nextBlockNode.get().getStatementsToBeAddedAtTheEnd()) {
+			Pair<List<Statement>, Boolean> result = adapt(s, nextBlockNode.get());
+			for (Statement i : result.getFirst()) {
+				if (i instanceof EmptyStatement)
+					continue;
+				stmtList.add(i);
+			}
+		}
+		
 		return new Pair<List<Statement>, Boolean>(stmtList, true);
 	}
 	
-	private Pair<List<Statement>, Boolean> adapt(ExpressionStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(ExpressionStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
-		if (!matchers.stmtMathedToMinus(stmt)) {
+		
+		/* This is the old version without shifting, now we dont use this*/
+		/* if (!matchers.stmtMathedToMinus(stmt)) {
+			stmtList.add(stmt);
+		}*/
+		
+		// Whether the statement is supposed to be deleted is determined by the block.
+		if (!currentBlock.toBeDeleted(stmt)) {
 			stmtList.add(stmt);
 		}
 		
-		if (matchers.stmtMatchedToLastStmt(stmt)) {
+		if (matchers.stmtMatchedToGenPoint(stmt)) {
 			List<Statement> gen = matchers.generateFromStatement(stmt);
 			for (Statement i : gen) {
 				stmtList.add(i);
@@ -98,7 +148,7 @@ public class CodeAdapter {
 		return new Pair<List<Statement>, Boolean>(stmtList, false);
 	}
 	
-	private Pair<List<Statement>, Boolean> adapt(VariableDeclarationStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(VariableDeclarationStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		
 		String oldTypeName = stmt.getType().toString();
@@ -107,7 +157,7 @@ public class CodeAdapter {
 		if (!matchers.stmtMathedToMinus(stmt)) {
 			stmtList.add(stmt);
 		}
-		if (matchers.stmtMatchedToLastStmt(stmt)) {
+		if (matchers.stmtMatchedToGenPoint(stmt)) {
 			List<Statement> gen = matchers.generateFromStatement(stmt);
 			for (Statement i : gen) {
 				stmtList.add(i);
@@ -116,53 +166,64 @@ public class CodeAdapter {
 		return new Pair<List<Statement>, Boolean>(stmtList, false);
 	}
 
-	private Pair<List<Statement>, Boolean> adapt(IfStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(IfStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		
 		stmt.setThenStatement((Statement) ASTNode.copySubtree(
 				stmt.getAST(), 
-				wrap(adapt(stmt.getThenStatement()))));
+				wrap(adapt(stmt.getThenStatement(), currentBlock))));
 		
-		stmt.setElseStatement((Statement) ASTNode.copySubtree(
-				stmt.getAST(), 
-				wrap(adapt(stmt.getElseStatement()))));
+		// The else statement may be null
+		if (stmt.getElseStatement() != null) {
+			
+			Statement adaptedBlock = wrap(adapt(stmt.getElseStatement(), currentBlock));
+			
+			// The block may be a block with only empty statement, in this case, we do set the else statement as null. 
+			if (! this.isABlockWithOnlyEmptyStatement(adaptedBlock)) {
+				stmt.setElseStatement((Statement) ASTNode.copySubtree(
+					stmt.getAST(), 
+					adaptedBlock));
+			} else {
+				stmt.setElseStatement(null);
+			}
+		}
 		
 		stmtList.add(stmt);
 		return new Pair<List<Statement>, Boolean>(stmtList, false);
 	}
 	
-	private Pair<List<Statement>, Boolean> adapt(WhileStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(WhileStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		stmt.setBody((Statement) ASTNode.copySubtree(
 				body.getAST(), 
-				wrap(adapt(stmt.getBody()))));
+				wrap(adapt(stmt.getBody(), currentBlock))));
 		stmtList.add(stmt);
 		return new Pair<List<Statement>,Boolean>(stmtList, false);
 	}
 	
-	private Pair<List<Statement>, Boolean> adapt(ForStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(ForStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		stmt.setBody((Statement) ASTNode.copySubtree(
 				body.getAST(), 
-				wrap(adapt(stmt.getBody()))));
+				wrap(adapt(stmt.getBody(), currentBlock))));
 		stmtList.add(stmt);
 		return new Pair<List<Statement>,Boolean>(stmtList, false);
 	}
 	
-	private Pair<List<Statement>, Boolean> adapt(EnhancedForStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(EnhancedForStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		stmt.setBody((Statement) ASTNode.copySubtree(
 				body.getAST(), 
-				wrap(adapt(stmt.getBody()))));
+				wrap(adapt(stmt.getBody(), currentBlock))));
 		stmtList.add(stmt);
 		return new Pair<List<Statement>,Boolean>(stmtList, false);
 	}
 	
-	private Pair<List<Statement>, Boolean> adapt(DoStatement stmt) {
+	private Pair<List<Statement>, Boolean> adapt(DoStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
 		stmt.setBody((Statement) ASTNode.copySubtree(
 				body.getAST(), 
-				wrap(adapt(stmt.getBody()))));
+				wrap(adapt(stmt.getBody(), currentBlock))));
 		stmtList.add(stmt);
 		return new Pair<List<Statement>,Boolean>(stmtList, false);
 	}
@@ -206,6 +267,18 @@ public class CodeAdapter {
 			}
 			return newBlock;
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private boolean isABlockWithOnlyEmptyStatement(Statement blk) {
+		if (!(blk instanceof Block))
+			return false;
+			
+		for (Statement s : (List<Statement>)((Block)blk).statements()) {
+			if (! (s instanceof EmptyStatement))
+				return false;
+		}
+		return true;
 	}
 	
 }
