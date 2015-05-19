@@ -1,0 +1,11 @@
+<project name="testAB">
+    <ignore>
+    	<file>a.java</file>
+    	<file>MyInt.java</file>
+    	<package>b.package</package>
+    </ignore>
+    <libraries>
+		<lib>api_b.B</lib>
+		<lib>api_b.IntPair</lib>
+	</libraries>
+</project>

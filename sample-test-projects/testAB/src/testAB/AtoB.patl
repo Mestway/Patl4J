@@ -1,0 +1,84 @@
+/*(x: A -> B, l: Integer -> Integer, r: Integer -> Integer) {
+	- x = new A();
+	- x.set(l, r);
+	+ x = new B(l, r);
+}
+
+(x: A -> B, y: None -> IntPair) {
+	- x.getL();
+	+ y = x.getP();
+	+ y.getFirst();
+}
+
+(x: A -> B, y: None -> IntPair) {
+	- x.getR();
+	+ y = x.getP();
+	+ y.getSecond();
+}
+
+(x: A -> B, y: None -> IntPair, v: Integer -> Integer, z: None -> IntPair) {
+	- x.lAdd();
+	+ y = x.getP();
+	+ v = y.getFirst();
+	+ v = v + 1;
+	+ z = x.getP();
+	+ z.setFirst(v);
+}
+
+(x: A -> B, y: None -> IntPair, v: Integer -> Integer, z: None -> IntPair) {
+	- x.rDec();
+	+ y = x.getP();
+	+ v = y.getSecond();
+	+ v = v - 1;
+	+ z = x.getP();
+	+ z.setSecond(v);
+}
+
+(x: A -> B, l: Integer -> Integer, r: Integer -> Integer, y: None -> IntPair, z: None -> IntPair, k: OutStream -> OutStream, s: String -> String) {
+	- x.print();
+	+ y = x.getP();
+	+ l = y.getFirst();
+	+ z = x.getP();
+	+ r = z.getSecond();
+	+ k = System.out;
+	+ s = l + r;
+	+ k.println(s);
+}
+*/
+
+(x: A -> B, l: int -> int, r: int -> int) {
+	- x = new A();
+	- x.set(l, r);
+	+ x = new B(l, r);
+}
+
+(x: A -> B) {
+	- x.getL();
+	+ x.getP().getFirst();
+}
+
+(x: A -> B) {
+	- x.getR();
+	+ x.getP().getSecond();
+}
+
+(x: A -> B) {
+	- x.lAdd();
+	+ Integer v = x.getP().getFirst();
+	+ v = v + 1;
+	+ x.getP().setFirst(v);
+}
+
+(x: A -> B) {
+	- x.rDec();
+	+ Integer v = x.getP().getSecond();
+	+ v = v - 1;
+	+ x.getP().setSecond(v);
+}
+
+(x: A -> B) {
+	- x.print();
+	+ Integer l = x.getP().getFirst();
+	+ Integer r = x.getP().getSecond();
+	+ System.out.println(l + " " + r);
+}
