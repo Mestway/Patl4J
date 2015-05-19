@@ -22,9 +22,10 @@ public class Shifter {
 		System.out.println("[[Shifter Initialization]]");
 		System.out.println("[Block Tree Informatino]");
 		blockTree.printTree();
+		this.matchers.addAnalyzer(analyzer);
 		this.matchers.matcherBlockLevelCheck(blockTree);
 		this.matchers.collectStatementsToBeShifted(blockTree);
-		this.matchers.addAnalyzer(analyzer);
+		
 		
 		blockTree.collectStatementsToBeShiftedForEachBlock(matchers);
 		blockTree.collectStatementsToBeDeleted(matchers);
