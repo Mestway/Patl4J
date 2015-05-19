@@ -15,6 +15,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
+import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.ModInstruction;
 import patl4j.patl.ast.Rule;
 import patl4j.patl.ast.VarDecl;
@@ -357,6 +358,9 @@ public class Matcher {
 	// The statements after the highLevelBlockNode
 	private List<Statement> secondHalfStatementsToBeShifted = new ArrayList<Statement>();
 	
+	// An analyzer to query the statement dependency relation 
+	private Analyzer analyzer;
+	
 	public List<Statement> getFirstHalfStatementsToBeShifted() {return this.firstHalfStatementsToBeShifted;}
 	public List<Statement> getSecondHalfStatementsToBeShifted() {return this.secondHalfStatementsToBeShifted;}
 	
@@ -511,7 +515,7 @@ public class Matcher {
 	// Check whether the statement s depends on the statement t
 	private boolean dependentTo(Statement s, Statement t) {
 		// TODO: to be added from the analyzer
-		return false;
+		return analyzer.analyze(s, t);
 	}
 	
 	public BlockSTreeNode getLowLevelBlock() {
@@ -538,6 +542,10 @@ public class Matcher {
 				}
 			}
 		}
+	}
+
+	public void addAnalyzer(Analyzer analyzer) {
+		this.analyzer = analyzer;
 	}
 	
 }

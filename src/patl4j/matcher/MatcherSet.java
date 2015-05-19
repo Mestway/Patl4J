@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
+import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.Rule;
 import patl4j.shifter.datastructure.BlockSTreeNode;
 import patl4j.util.ErrorManager;
@@ -208,6 +209,15 @@ public class MatcherSet {
 		for (Matcher m : this.matchers) {
 			m.collectStatementsToBeDeletedInBlock(blk);
 		}
+	}
+
+	/**
+	 * Add analyzers to the mathers
+	 * @param analyzer
+	 */
+	public void addAnalyzer(Analyzer analyzer) {
+		for (Matcher m : this.matchers)		
+			m.addAnalyzer(analyzer);
 	}
 	
 }

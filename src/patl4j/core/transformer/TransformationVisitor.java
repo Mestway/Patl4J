@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.Rule;
 
 public class TransformationVisitor extends ASTVisitor {
@@ -17,10 +18,12 @@ public class TransformationVisitor extends ASTVisitor {
 	private List<Rule> rules;
 	
 	private CompilationUnit source;
+	private Analyzer analyzer;
 	
 	public TransformationVisitor(List<Rule> rules, CompilationUnit source) {
 		this.rules = rules;
 		this.source = source;
+		this.analyzer = new Analyzer(source.toString());
 	}
 	
 	// We only need to visit top level node, do not need to dive into statements with "visit"
@@ -29,7 +32,7 @@ public class TransformationVisitor extends ASTVisitor {
 		
 		Transformer transformer = new Transformer(rules);
 		
-		ASTNode newBody = transformer.execute(node.getBody());
+		ASTNode newBody = transformer.execute(node.getBody(), this.analyzer);
 		
 		node.setBody(
 			(Block) ASTNode.copySubtree(
@@ -45,7 +48,7 @@ public class TransformationVisitor extends ASTVisitor {
 		node.setBody(
 				(Block) ASTNode.copySubtree(
 						node.getAST(),
-						transformer.execute(node.getBody())));
+						transformer.execute(node.getBody(), this.analyzer)));
 		return false;
 	}
 	

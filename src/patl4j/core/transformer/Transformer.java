@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import patl4j.core.transformer.phases.CodeAdapter;
 import patl4j.core.transformer.phases.MatcherBinder;
 import patl4j.core.transformer.phases.Shifter;
+import patl4j.java.analyzer.Analyzer;
 import patl4j.matcher.MatcherSet;
 import patl4j.patl.ast.Rule;
 
@@ -30,7 +31,13 @@ public class Transformer {
 	 * 		2. re-order some statements (Run in the 'transform' method)
 	 * 		3. remove/add/substitute statements	(Run in the 'transform' method)
 	 */
-	public Statement execute(Block body) {
+	/**
+	 * 
+	 * @param body the body block of a method
+	 * @param analyzer the analyzer for the given file
+	 * @return an statement representing the method body
+	 */
+	public Statement execute(Block body, Analyzer analyzer) {
 		this.matchers = this.matching(body);
 		
 		// This is the matcher binded from the method
@@ -38,7 +45,7 @@ public class Transformer {
 		System.out.println(matchers.toString());
 		
 		// Perform shift operation on the given statements
-		Shifter shifter = new Shifter(body, matchers);
+		Shifter shifter = new Shifter(body, matchers, analyzer);
 		
 		// Perform adaptation on the statements
 		// The body of the program to be adapted is in the shifter

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.eclipse.jdt.core.dom.Block;
 
+import patl4j.java.analyzer.Analyzer;
 import patl4j.matcher.MatcherSet;
 import patl4j.shifter.datastructure.BlockSTreeNode;
 
@@ -14,7 +15,7 @@ public class Shifter {
 	
 	private BlockSTreeNode blockTree;
 	
-	public Shifter(Block body, MatcherSet matchers) {
+	public Shifter(Block body, MatcherSet matchers, Analyzer analyzer) {
 		this.body = body;
 		this.matchers = matchers;
 		blockTree = new BlockSTreeNode(body, body);
@@ -23,6 +24,7 @@ public class Shifter {
 		blockTree.printTree();
 		this.matchers.matcherBlockLevelCheck(blockTree);
 		this.matchers.collectStatementsToBeShifted(blockTree);
+		this.matchers.addAnalyzer(analyzer);
 		
 		blockTree.collectStatementsToBeShiftedForEachBlock(matchers);
 		blockTree.collectStatementsToBeDeleted(matchers);
