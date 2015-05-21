@@ -3,13 +3,33 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Patl4J
 Bundle-SymbolicName: Patl4J;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.resources,
+Bundle-ClassPath: dom4j-1.6.1.jar,
+ .,
+ soot.jar
+Bundle-Activator: patl4j.Activator
+Export-Package: patl4j,
+ patl4j.core.transformer,
+ patl4j.core.transformer.phases,
+ patl4j.exception,
+ patl4j.handlers,
+ patl4j.java,
+ patl4j.java.analyzer,
+ patl4j.java.normalizer,
+ patl4j.matcher,
+ patl4j.patl.ast,
+ patl4j.patl.ast.full,
+ patl4j.patl.ast.parser,
+ patl4j.shifter.datastructure,
+ patl4j.tools,
+ patl4j.util
+Require-Bundle: org.eclipse.ui;bundle-version="3.106.1",
+ org.eclipse.core.resources;bundle-version="3.9.1",
  org.eclipse.jdt;bundle-version="3.10.0",
- org.eclipse.jdt.core;bundle-version="3.10.0",
- org.eclipse.jdt.ui;bundle-version="3.10.0",
+ org.eclipse.jdt.core;bundle-version="3.9.50",
+ org.eclipse.jdt.ui;bundle-version="3.9.50",
  org.eclipse.jface.text;bundle-version="3.9.0",
+ org.eclipse.core.runtime;bundle-version="3.10.0",
+ org.eclipse.ui;bundle-version="3.106.1",
  org.eclipse.core.runtime;bundle-version="3.10.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: dom4j-1.6.1.jar,
- .
+Bundle-ActivationPolicy: lazy

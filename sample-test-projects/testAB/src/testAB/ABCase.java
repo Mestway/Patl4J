@@ -21,7 +21,7 @@ public class ABCase {
       a.lAdd();
     }
  else {
-	 A d =new A();
+      A d=new A();
       int i=1;
       int j=5;
       d.set(i,j);
