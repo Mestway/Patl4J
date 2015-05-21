@@ -1,16 +1,8 @@
 package patl4j.java.analyzer;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.util.Iterator;
-
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.dom.Statement;
 
-import soot.Scene;
-import soot.SootClass;
+import patl4j.handlers.PatlOption;
 
 public class Analyzer {
 	
@@ -23,11 +15,16 @@ public class Analyzer {
 	/**
 	 * 
 	 * @param className the class name
-	 * @param _classStr the class literal code
+	 * @param _classStr the class code literal
 	 */
-	public Analyzer(String className, String _classStr) {
+	public Analyzer(String className, String _classStr, PatlOption option) {
 		/* the class path should be configured beforehand (e.g. write in patl file) */
-		String classPath = "/Users/Vani/Patl4J/sample-test-projects/testAB/";	
+		
+		// To Vani: You used to use this, I change it into reading it from the option
+		// String classPath = "/Users/Vani/Patl4J/sample-test-projects/testAB/";
+		
+		String classPath = option.getClassPath();
+		
 		classStr = _classStr;
 
 		int totalLines = 1;

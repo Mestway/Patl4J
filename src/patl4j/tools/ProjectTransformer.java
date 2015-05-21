@@ -76,7 +76,7 @@ public class ProjectTransformer {
 				if (option.fileIgnored(f.getCU().getElementName()))
 					continue;
 
-				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST());
+				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST(), this.option);
 				f.getNormalizedAST().accept(tv);
 				
 				// Generate the transformed body in the package

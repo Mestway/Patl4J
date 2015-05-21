@@ -18,9 +18,20 @@ public class MatcherSet {
 	
 	List<Matcher> matchers = new ArrayList<Matcher>();
 	
+	// Which method is the matcher set working in;
+	String methodName;
+	
 	public MatcherSet(List<Rule> rules) {
 		for (Rule r : rules) {
 			matchers.add(new Matcher(r));
+		}
+	}
+	
+	// Specify which method is the matcher set matching in
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+		for (Matcher m : this.matchers) {
+			m.setMethodName(this.methodName);
 		}
 	}
 	
@@ -219,5 +230,4 @@ public class MatcherSet {
 		for (Matcher m : this.matchers)		
 			m.addAnalyzer(analyzer);
 	}
-	
 }

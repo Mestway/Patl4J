@@ -21,9 +21,11 @@ public class DataDependency {
         lines = new Set[totalLine + 1];
 
         String oldPath = Scene.v().getSootClassPath();
+
         Scene.v().setSootClassPath(oldPath + ":" + classPath);
         
         Options.v().set_keep_line_number(true);
+   
         SootClass s = Scene.v().loadClassAndSupport(className);
 
         try {

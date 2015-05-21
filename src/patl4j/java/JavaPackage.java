@@ -65,6 +65,7 @@ public class JavaPackage {
 	}	
 	
 	public void generatedTransformedFiles(String fileName, String programBody) {
+		// TODO: make it work again sometime
 		int x= 2;
 		if (x == 3 - 1) {
 			System.out.println(programBody);

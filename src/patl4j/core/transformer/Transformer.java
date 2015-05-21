@@ -37,8 +37,10 @@ public class Transformer {
 	 * @param analyzer the analyzer for the given file
 	 * @return an statement representing the method body
 	 */
-	public Statement execute(Block body, Analyzer analyzer) {
+	public Statement execute(Block body, Analyzer analyzer, String methodName) {
 		this.matchers = this.matching(body);
+		
+		this.matchers.setMethodName(methodName);
 		
 		// This is the matcher binded from the method
 		System.out.println("---Matcher printed here (After clear)---");

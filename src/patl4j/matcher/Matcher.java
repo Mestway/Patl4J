@@ -47,7 +47,11 @@ public class Matcher {
 	
 	// If matchpoint == -1, then there exists no matchpoint
 	private Integer matchpoint = 0;
-
+	
+	// The method name of the matcher working in
+	private String methodName = "";
+	public void setMethodName(String methodNm) {this.methodName = methodNm;}
+	
 	private Matcher() {};
 	
 	public Matcher(Rule r) {
@@ -166,6 +170,8 @@ public class Matcher {
 		for (Entry<String, String> k : m.typeMap.entrySet()) {
 			matcher.typeMap.put(k.getKey(), k.getValue());
 		}
+		// copy the methodName
+		matcher.methodName = m.methodName;
 		return matcher;
 	}
 	
@@ -514,8 +520,8 @@ public class Matcher {
 	
 	// Check whether the statement s depends on the statement t
 	private boolean dependentTo(Statement s, Statement t) {
-		// TODO: to be added from the analyzer
-		return analyzer.analyze(s, t);
+		// TODO: test if it is right
+		return analyzer.analyze(this.methodName, s, t);
 	}
 	
 	public BlockSTreeNode getLowLevelBlock() {

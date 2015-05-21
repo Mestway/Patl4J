@@ -8,7 +8,9 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 
+import patl4j.handlers.PatlOption;
 import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.Rule;
 
@@ -18,12 +20,26 @@ public class TransformationVisitor extends ASTVisitor {
 	private List<Rule> rules;
 	
 	private CompilationUnit source;
-	private Analyzer analyzer;
+	private Analyzer currentAnalyzer;
 	
-	public TransformationVisitor(List<Rule> rules, CompilationUnit source) {
+	private PatlOption option;
+	
+	// This will be updated with the type declaration visitor
+	private TypeDeclaration typeDecl = null; 
+	
+	public TransformationVisitor(List<Rule> rules, CompilationUnit source, PatlOption option) {
 		this.rules = rules;
 		this.source = source;
-		this.analyzer = new Analyzer(source.toString());
+		// We will not initialize the analyzer here, but every time get in to a class
+		this.currentAnalyzer = null;
+		this.option = option;
+	}
+	
+	// Set the environment of the transformer
+	public boolean visit(TypeDeclaration node) {
+		typeDecl = node;
+		this.currentAnalyzer = new Analyzer(typeDecl.getName().toString(), source.toString(), option);
+		return true;
 	}
 	
 	// We only need to visit top level node, do not need to dive into statements with "visit"
@@ -32,7 +48,7 @@ public class TransformationVisitor extends ASTVisitor {
 		
 		Transformer transformer = new Transformer(rules);
 		
-		ASTNode newBody = transformer.execute(node.getBody(), this.analyzer);
+		ASTNode newBody = transformer.execute(node.getBody(), this.currentAnalyzer, node.getName().toString());
 		
 		node.setBody(
 			(Block) ASTNode.copySubtree(
@@ -48,7 +64,7 @@ public class TransformationVisitor extends ASTVisitor {
 		node.setBody(
 				(Block) ASTNode.copySubtree(
 						node.getAST(),
-						transformer.execute(node.getBody(), this.analyzer)));
+						transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$我也不知是什么")));
 		return false;
 	}
 	

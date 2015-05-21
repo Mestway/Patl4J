@@ -20,6 +20,8 @@ public class PatlOption {
 	
 	// The list of new APIs, which are supposed to be added to the import list
 	List<String> newAPINames = new ArrayList<String>();
+
+	String classPath;
 	
 	public PatlOption(JavaProject project) {
 		try {
@@ -43,6 +45,9 @@ public class PatlOption {
     	    SAXReader saxReader=new SAXReader();
     	    Document document = saxReader.read(config.getContents());
     	    Element root = document.getRootElement();
+    	    
+    	    Element classP = (Element) root.elements("classPath").get(0);
+    	    this.classPath = classP.getText();
     	    
     	    @SuppressWarnings("unchecked")
 			List<Element> ignoreList = ((Element) root.elements("ignore").get(0)).elements();
@@ -82,6 +87,10 @@ public class PatlOption {
 			}
 		}
 		return false;
+	}
+	
+	public String getClassPath() {
+		return this.classPath;
 	}
 	
 }
