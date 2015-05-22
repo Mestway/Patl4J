@@ -1,6 +1,8 @@
 package patl4j.handlers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.dom4j.Document;
@@ -21,10 +23,11 @@ public class PatlOption {
 	// The list of new APIs, which are supposed to be added to the import list
 	List<String> newAPINames = new ArrayList<String>();
 
-	String classPath;
+	List<String> classPath;
 	
 	public PatlOption(JavaProject project) {
 		try {
+    	    this.classPath = new LinkedList<String>();
 			for (Object i : project.getIJavaProject().getNonJavaResources()) {
 				if (i instanceof IFile) {
 					//System.out.println("--The name " + ((IFile)i).getName() + "--name");
@@ -46,8 +49,14 @@ public class PatlOption {
     	    Document document = saxReader.read(config.getContents());
     	    Element root = document.getRootElement();
     	    
-    	    Element classP = (Element) root.elements("classPath").get(0);
-    	    this.classPath = classP.getText();
+    	    for (Iterator i = root.elementIterator(); i.hasNext();) {
+    	    	Element e = (Element) i.next();
+    	    	System.out.println("iterated: " + e.getName());
+    	    	if (e.getName().equals("classPath")) {
+    	    		System.out.print("got: " + e.getText());
+        	    	this.classPath.add(e.getText());
+    	    	}
+    	    }
     	    
     	    @SuppressWarnings("unchecked")
 			List<Element> ignoreList = ((Element) root.elements("ignore").get(0)).elements();
@@ -89,7 +98,7 @@ public class PatlOption {
 		return false;
 	}
 	
-	public String getClassPath() {
+	public List<String> getClassPath() {
 		return this.classPath;
 	}
 	
