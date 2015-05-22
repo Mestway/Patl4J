@@ -1,5 +1,7 @@
 package patl4j.java.analyzer;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.Statement;
 
 import patl4j.handlers.PatlOption;
@@ -23,7 +25,16 @@ public class Analyzer {
 		// To Vani: You used to use this, I change it into reading it from the option
 		// String classPath = "/Users/Vani/Patl4J/sample-test-projects/testAB/";
 		
-		String classPath = option.getClassPath();
+		List<String> classPath = option.getClassPath();
+		String concatPath = "";
+		for (String st: classPath) {
+			concatPath += ":" + st;
+		}
+		
+		
+		System.out.println("class path: " + concatPath);
+		
+		System.out.println("class name: " + className);
 		
 		classStr = _classStr;
 
@@ -31,7 +42,7 @@ public class Analyzer {
 		for (char it: classStr.toCharArray()) {
 			if (it == NEWLINE) totalLines++;
 		}
-		dependency = new DataDependency(classPath, className, totalLines);
+		dependency = new DataDependency(concatPath, className, totalLines);
 	}
 
 	/**

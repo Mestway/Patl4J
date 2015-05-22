@@ -22,11 +22,12 @@ public class DataDependency {
 
         String oldPath = Scene.v().getSootClassPath();
 
-        Scene.v().setSootClassPath(oldPath + ":" + classPath);
-        
+        Scene.v().setSootClassPath(oldPath + classPath);
+
         Options.v().set_keep_line_number(true);
    
         SootClass s = Scene.v().loadClassAndSupport(className);
+        Scene.v().loadNecessaryClasses();
 
         try {
             for (Iterator it = s.getMethods().iterator(); it.hasNext(); ) {
@@ -42,7 +43,7 @@ public class DataDependency {
                     int lineNum = ((LineNumberTag) unit.getTag("LineNumberTag")).getLineNumber();
                     if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
                     lines[lineNum].add(unit);
-                    //System.out.println("    " + "@" + lineNum + "." + unit);
+                    System.out.println("    " + "@" + lineNum + "." + unit);
                 }
 
                 graph = new BriefUnitGraph(body);
