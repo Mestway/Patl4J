@@ -43,7 +43,7 @@ public class DataDependency {
                     int lineNum = ((LineNumberTag) unit.getTag("LineNumberTag")).getLineNumber();
                     if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
                     lines[lineNum].add(unit);
-                    //System.out.println("    " + "@" + lineNum + "." + unit);
+                    System.out.println("    " + "@" + lineNum + "." + unit);
                 }
 
                 graph = new BriefUnitGraph(body);

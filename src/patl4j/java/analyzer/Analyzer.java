@@ -34,7 +34,6 @@ public class Analyzer {
 		
 		System.out.println("class path: " + concatPath);
 		
-		className = "testAB." + className;
 		System.out.println("class name: " + className);
 		
 		classStr = _classStr;
