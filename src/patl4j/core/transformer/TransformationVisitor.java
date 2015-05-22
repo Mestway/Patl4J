@@ -27,9 +27,14 @@ public class TransformationVisitor extends ASTVisitor {
 	// This will be updated with the type declaration visitor
 	private TypeDeclaration typeDecl = null; 
 	
+	private String packageName = "";
+	
 	public TransformationVisitor(List<Rule> rules, CompilationUnit source, PatlOption option) {
 		this.rules = rules;
 		this.source = source;
+		if (this.source.getPackage() != null) {
+			packageName = this.source.getPackage().getName().toString();
+		}
 		// We will not initialize the analyzer here, but every time get in to a class
 		this.currentAnalyzer = null;
 		this.option = option;
@@ -38,7 +43,7 @@ public class TransformationVisitor extends ASTVisitor {
 	// Set the environment of the transformer
 	public boolean visit(TypeDeclaration node) {
 		typeDecl = node;
-		this.currentAnalyzer = new Analyzer(typeDecl.getName().toString(), source.toString(), option);
+		this.currentAnalyzer = new Analyzer(packageName + "." + typeDecl.getName().toString(), source.toString(), option);
 		return true;
 	}
 	
