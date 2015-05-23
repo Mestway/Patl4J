@@ -40,10 +40,10 @@ public class DataDependency {
                 PatchingChain<Unit> u = body.getUnits();
                 for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
                     Unit unit = (Unit) uIt.next();
-                    int lineNum = ((LineNumberTag) unit.getTag("LineNumberTag")).getLineNumber();
-                    if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
-                    lines[lineNum].add(unit);
-                    System.out.println("    " + "@" + lineNum + "." + unit);
+                    //int lineNum = ((LineNumberTag) unit.getTag("LineNumberTag")).getLineNumber();
+                    //if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
+                    //lines[lineNum].add(unit);
+                    System.out.println("    " + "@" + /*lineNum + */": " + unit);
                 }
 
                 graph = new BriefUnitGraph(body);
