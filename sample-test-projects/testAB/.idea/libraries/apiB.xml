@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="apiB">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/apiB.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
