@@ -40,9 +40,11 @@ public class DataDependency {
                 PatchingChain<Unit> u = body.getUnits();
                 for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
                     Unit unit = (Unit) uIt.next();
-                    //int lineNum = ((LineNumberTag) unit.getTag("LineNumberTag")).getLineNumber();
-                    //if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
-                    //lines[lineNum].add(unit);
+                    int lineNum = unit.getJavaSourceStartLineNumber();
+                    if (lineNum != -1) {
+                    	if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
+                    	lines[lineNum].add(unit);
+                    }
                     System.out.println("    " + "@" + /*lineNum + */": " + unit);
                 }
 
@@ -50,14 +52,6 @@ public class DataDependency {
                 ParaDependence curAnalysis = new ParaDependence(graph);
 
                 analysis.put(fun.getName(), curAnalysis);
-/*
-                for (Unit i1 : u) {
-                    for (Unit i2 : u)
-                        if (!i1.equals(i2)) {
-                            System.out.println(i1 + "  |  " + i2 + " => " + curAnalysis.isDependence(i1, i2));
-                        }
-                }
-                */
             }
         } catch (OutOfMemoryError e) {
             G.v().out.println("Soot has run out of the memory allocated to it by the Java VM.");
