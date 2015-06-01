@@ -25,6 +25,9 @@ public class PatlOption {
 
 	List<String> classPath;
 	
+	// Either windows, mac or linux
+	String platform = "mac";
+	
 	public PatlOption(JavaProject project) {
 		try {
     	    this.classPath = new LinkedList<String>();
@@ -51,10 +54,15 @@ public class PatlOption {
     	    
     	    for (Iterator i = root.elementIterator(); i.hasNext();) {
     	    	Element e = (Element) i.next();
-    	    	System.out.println("iterated: " + e.getName());
     	    	if (e.getName().equals("classPath")) {
-    	    		System.out.print("got: " + e.getText());
         	    	this.classPath.add(e.getText());
+    	    	}
+    	    }
+    	    
+    	    for (Iterator i = root.elementIterator(); i.hasNext();) {
+    	    	Element e = (Element) i.next();
+    	    	if (e.getName().equals("platform")) {
+    	    		this.platform = e.getText();
     	    	}
     	    }
     	    
@@ -100,6 +108,10 @@ public class PatlOption {
 	
 	public List<String> getClassPath() {
 		return this.classPath;
+	}
+	
+	public String getPlatform() {
+		return this.platform;
 	}
 	
 }

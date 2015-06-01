@@ -485,25 +485,25 @@ public class Matcher {
 	// Check whether the given statement (in the first half) depends on the given statements
 	private boolean dependentToTheFirstHalf(Statement s) {
 		for (Statement i : this.matchedStatements) {
-			if (dependentTo(s, i))
+			if (dependentTo(s, i) && s.getStartPosition() >= i.getStartPosition())
 				return true;
 		}
 		for (Statement i : this.firstHalfStatementsToBeShifted) {
-			if (dependentTo(s, i))
+			if (dependentTo(s, i) && s.getStartPosition() >= i.getStartPosition())
 				return true;
 		}
 		return false;
 	}
 	
-	// Check whether the given statement (in the first half) depends on the given statements
+	// Check whether the given statement (in the second half) depends on the given statements
 	// Should traverse the statements in the list in reverse order in order to collect all matched statements
 	private boolean dependentToTheSecondHalf(Statement s) {
 		for (Statement i : this.matchedStatements) {
-			if (dependentTo(i, s))
+			if (dependentTo(i, s) && s.getStartPosition() <= i.getStartPosition())
 				return true;
 		}
 		for (Statement i : this.secondHalfStatementsToBeShifted) {
-			if (dependentTo(i, s))
+			if (dependentTo(i, s) && s.getStartPosition() <= i.getStartPosition())
 				return true;
 		}
 		return false;

@@ -22,13 +22,15 @@ public class Analyzer {
 	public Analyzer(String className, String _classStr, PatlOption option) {
 		/* the class path should be configured beforehand (e.g. write in patl file) */
 		
-		// To Vani: You used to use this, I change it into reading it from the option
-		// String classPath = "/Users/Vani/Patl4J/sample-test-projects/testAB/";
+		String seperator = ":";
+		if (option.getPlatform().equals("windows")) {
+			seperator = ";";
+		}
 		
 		List<String> classPath = option.getClassPath();
 		String concatPath = "";
 		for (String st: classPath) {
-			concatPath += ":" + st;
+			concatPath += seperator + st;
 		}
 		
 		
