@@ -289,21 +289,26 @@ public class BlockSTreeNode {
 			i.clearAddedStatements();
 		}
 		
-		System.out.println("=== These are the statements to be added in the block: ");
-		System.out.println("[Block]\n\t" + this.block);
-		System.out.println("[Beginning part]");
-		for (Statement i : this.statementsToBeAddedAtBeginning) {
-			System.out.println(i);
+		boolean PrintShiftCommand = false;
+		if (PrintShiftCommand)
+		{
+			System.out.println("=== These are the statements to be added in the block: ");
+			System.out.println("[Block]\n\t" + this.block);
+			System.out.println("[Beginning part]");
+			for (Statement i : this.statementsToBeAddedAtBeginning) {
+				System.out.println(i);
+			}
+			System.out.println("[End part]");
+			for (Statement i : this.statementsToBeAddedAtTheEnd) {
+				System.out.println(i);
+			}
+			System.out.println("[DeletePart]");
+			for (Statement i : this.statementsToBeDeleted) {
+				System.out.println(i);
+			}
+			System.out.println("*** End now");
 		}
-		System.out.println("[End part]");
-		for (Statement i : this.statementsToBeAddedAtTheEnd) {
-			System.out.println(i);
-		}
-		System.out.println("[DeletePart]");
-		for (Statement i : this.statementsToBeDeleted) {
-			System.out.println(i);
-		}
-		System.out.println("*** End now");
+		
 	}
 	
 	private List<Statement> clearAndSort(List<Statement> stmtList) {

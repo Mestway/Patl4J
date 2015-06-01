@@ -19,9 +19,13 @@ public class Shifter {
 		this.body = body;
 		this.matchers = matchers;
 		blockTree = new BlockSTreeNode(body, body);
+		
+		// Debug code for block nodes
+		/*
 		System.out.println("[[Shifter Initialization]]");
 		System.out.println("[Block Tree Informatino]");
-		blockTree.printTree();
+		blockTree.printTree();*/
+		
 		this.matchers.addAnalyzer(analyzer);
 		this.matchers.matcherBlockLevelCheck(blockTree);
 		this.matchers.collectStatementsToBeShifted(blockTree);

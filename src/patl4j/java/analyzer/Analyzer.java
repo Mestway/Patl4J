@@ -55,8 +55,7 @@ public class Analyzer {
 	 * @return
 	 */
 	public boolean analyze(String methodName, Statement s, Statement t) {
-		System.out.println("Analyze statements at " + methodName + ":");
-		
+
 		int sOffset = s.getStartPosition(), tOffset = s.getStartPosition();
 		int cntLines = 1, sLine = 0, tLine = 0;
 		for (int i = 0; i <= Math.max(sOffset, tOffset); i++) {
@@ -64,9 +63,6 @@ public class Analyzer {
 			if (i == sOffset) sLine = cntLines;
 			if (i == tOffset) tLine = cntLines;
 		}
-		
-		System.out.println("\t@" + sLine + "  " + s);
-		System.out.println("\t@" + tLine + "  " + t);
 		
 		boolean ret = dependency.isDependent(methodName, sLine, tLine);
 		return ret;
