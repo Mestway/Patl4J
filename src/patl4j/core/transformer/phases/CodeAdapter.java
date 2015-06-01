@@ -154,9 +154,10 @@ public class CodeAdapter {
 		String oldTypeName = stmt.getType().toString();
 		stmt.setType((Type) ASTNode.copySubtree(stmt.getAST(), matchers.mappedType(oldTypeName)));
 		
-		if (!matchers.stmtMathedToMinus(stmt)) {
+		if (!currentBlock.toBeDeleted(stmt)) {
 			stmtList.add(stmt);
 		}
+		
 		if (matchers.stmtMatchedToGenPoint(stmt)) {
 			List<Statement> gen = matchers.generateFromStatement(stmt);
 			for (Statement i : gen) {

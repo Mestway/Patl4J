@@ -463,23 +463,43 @@ public class Matcher {
 		}
 		
 		// Then, 2) collect dependent statements in both sides
-		for (Statement s : (List<Statement>)lowLevelBlockNode.getBlock().statements()) {
-			if (s.getStartPosition() <= highLevelBlockNode.getBlock().getStartPosition()) {
-				if (isMatchedStatement(s))
-					continue;
-				if (dependentToTheFirstHalf(s))
-					this.firstHalfStatementsToBeShifted.add(s);
+		boolean updated = true;
+		while(updated) {
+			updated = false;
+			for (Statement s : (List<Statement>)lowLevelBlockNode.getBlock().statements()) {
+				if (s.getStartPosition() <= highLevelBlockNode.getBlock().getStartPosition()) {
+					if (inStmtSet(s, firstHalfStatementsToBeShifted))
+						continue;
+					if (dependentToTheFirstHalf(s)) {
+						this.firstHalfStatementsToBeShifted.add(s);
+						updated = true;
+					}
+				}
 			}
 		}
-		for (int i = lowLevelBlockNode.getBlock().statements().size() - 1; i >= 0; i --) {
-			Statement s = (Statement) lowLevelBlockNode.getBlock().statements().get(i);
-			if (s.getStartPosition() >= highLevelBlockNode.getBlock().getStartPosition()) {
-				if (isMatchedStatement(s))
-					continue;
-				if (dependentToTheSecondHalf(s))
-					this.secondHalfStatementsToBeShifted.add(s);
+		updated = true;
+		while(updated) {
+			updated = false;
+			for (int i = lowLevelBlockNode.getBlock().statements().size() - 1; i >= 0; i --) {
+				Statement s = (Statement) lowLevelBlockNode.getBlock().statements().get(i);
+				if (s.getStartPosition() >= highLevelBlockNode.getBlock().getStartPosition()) {
+					if (inStmtSet(s, secondHalfStatementsToBeShifted)) //isMatchedStatement(s)
+						continue;
+					if (dependentToTheSecondHalf(s)) {
+						this.secondHalfStatementsToBeShifted.add(s);
+						updated = true;
+					}
+				}
 			}
 		}
+	}
+	
+	private boolean inStmtSet(Statement s, List<Statement> dset) {
+		for (Statement i : dset) {
+			if (i.getStartPosition() == s.getStartPosition())
+				return true;
+		}
+		return false;
 	}
 	
 	// Check whether the given statement (in the first half) depends on the given statements

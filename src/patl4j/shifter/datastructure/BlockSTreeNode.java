@@ -257,8 +257,9 @@ public class BlockSTreeNode {
 	 */
 	public boolean toBeDeleted(Statement s) {
 		for (Statement k : statementsToBeDeleted) {
-			if (k.getStartPosition() == s.getStartPosition())
+			if (k.getStartPosition() == s.getStartPosition()) {
 				return true;
+			}
 		}
 		return false;
 	}
