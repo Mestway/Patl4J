@@ -1,7 +1,6 @@
 <project name="testAB">
     <classPath>/Users/Vani/Patl4J/sample-test-projects/testAB/bin/</classPath>
-    <classPath>/Users/Vani/Patl4J/sample-test-projects/testAB/</classPath>
-    <classPath>/Users/Vani/Patl4J/sample-test-projects/testAB/</classPath>
+    <classPath> /Users/Vani/Patl4J/sample-test-projects/testAB/</classPath>
     <ignore>
     	<file>a.java</file>
     	<file>MyInt.java</file>

@@ -22,6 +22,7 @@ public class DataDependency {
 
         String oldPath = Scene.v().getSootClassPath();
 
+        System.out.println("Class path: " + oldPath + classPath);
         Scene.v().setSootClassPath(oldPath + classPath);
 
         Options.v().set_keep_line_number(true);
