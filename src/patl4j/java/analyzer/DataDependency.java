@@ -26,6 +26,8 @@ public class DataDependency {
 
         Options.v().set_keep_line_number(true);
    
+        System.out.println(System.getProperty("user.dir"));
+        
         SootClass s = Scene.v().loadClassAndSupport(className);
         Scene.v().loadNecessaryClasses();
 
