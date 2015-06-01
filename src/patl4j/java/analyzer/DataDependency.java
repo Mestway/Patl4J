@@ -56,6 +56,29 @@ public class DataDependency {
 
                 analysis.put(fun.getName(), curAnalysis);
             }
+            
+            // for test
+            for (Iterator it = s.getMethods().iterator(); it.hasNext();) {
+            	SootMethod fun = (SootMethod) it.next();
+            	System.out.println("@fun: " + fun.getDeclaration());
+            	
+            	String methodName = fun.getName();
+            	Body body = fun.retrieveActiveBody();
+            	
+            	PatchingChain<Unit> u = body.getUnits();
+            	for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
+            		Unit unit = (Unit) uIt.next();
+            		for (Iterator oIt = u.iterator(); oIt.hasNext(); ) {
+            			Unit unit2 = (Unit) oIt.next();
+            			int line1 = unit.getJavaSourceStartLineNumber();
+            			int line2 = unit2.getJavaSourceStartLineNumber();
+            			if (line1 != -1 && line2 != -1) {
+            				boolean res = isDependent(methodName, line1, line2);
+            				System.out.println(unit + " | " + unit2 + " -> " + res);
+            			}
+            		}
+            	}
+            }
         } catch (OutOfMemoryError e) {
             G.v().out.println("Soot has run out of the memory allocated to it by the Java VM.");
             G.v().out.println("To allocate more memory to Soot, use the -Xmx switch to Java.");
