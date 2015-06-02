@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
@@ -541,7 +542,16 @@ public class Matcher {
 	// Check whether the statement s depends on the statement t
 	private boolean dependentTo(Statement s, Statement t) {
 		// TODO: test if it is right
-		return analyzer.analyze(this.methodName, s, t);
+		boolean result = analyzer.analyze(this.methodName, s, t);
+		if ((s instanceof ExpressionStatement || s instanceof VariableDeclarationStatement) &&
+				(t instanceof ExpressionStatement || t instanceof VariableDeclarationStatement)) {
+			if (result) {
+				System.out.println(s + " <===> " + t);
+			} else {
+				System.out.println(s + " <=/=> " + t);
+			}
+		}
+		return result;
 	}
 	
 	public BlockSTreeNode getLowLevelBlock() {
