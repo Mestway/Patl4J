@@ -3,3 +3,4 @@ bin/
 .project
 build.properties
 .DS_Store
+log
