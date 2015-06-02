@@ -45,18 +45,18 @@ public class JavaPackage {
 				// Temporarily generate the normalized-file to regenerate an AST with type binding
 				ICompilationUnit icu = packageFrag.createCompilationUnit(
 						i.getCU().getElementName(), 
-						i.getNormalizedAST().toString(),
+						i.getNormalizedAST().toString() + "/*" + i.getOriginalASTString() + "*/",
 						true, 
 						null);
 				i.reGenNormalizedAST(icu);
 				
 				// Now just put the original AST back to the file
-				packageFrag.createCompilationUnit(
+				/* packageFrag.createCompilationUnit(
 						i.getCU().getElementName(), 
 						i.getOriginalASTString(), 
 						true, 
 						null);
-				
+				*/
 			} catch (JavaModelException e) {
 				ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
 				//e.printStackTrace();
