@@ -1,8 +1,14 @@
 package patl4j.java.analyzer;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
+import org.eclipse.jdt.core.dom.WhileStatement;
 
 import patl4j.handlers.PatlOption;
 
@@ -47,6 +53,22 @@ public class Analyzer {
 		dependency = new DataDependency(concatPath, className, totalLines);
 	}
 
+	Set<String> getVariables(Statement t) {
+		CollectVariables visitor = new CollectVariables();
+		t.accept(visitor);
+		return visitor.getVariables();
+	}
+	
+	boolean checkIsDeclar(Statement s, Statement t) {
+		if (s instanceof VariableDeclarationStatement) {
+			String sName = ((VariableDeclarationFragment) ((VariableDeclarationStatement) s).fragments().get(0)).getName().getIdentifier();
+			Set<String> tVariables = getVariables(t);
+			if (tVariables.contains(sName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * Whether the statement s depends on the statement t.
 	 * @param methodName the method name. "<init>" for constructor method
@@ -55,7 +77,12 @@ public class Analyzer {
 	 * @return
 	 */
 	public boolean analyze(String methodName, Statement s, Statement t) {
-
+		
+		if (checkIsDeclar(s, t) || checkIsDeclar(t, s)) {
+			System.out.println("Declar dependency: " + t + " & " + s);
+			return true;
+		}
+		
 		int sOffset = s.getStartPosition(), tOffset = t.getStartPosition();
 		int cntLines = 1, sLine = 0, tLine = 0;
 		for (int i = 0; i <= Math.max(sOffset, tOffset); i++) {
