@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import patl4j.java.normalizer.AnalysisPreprocessor;
 import patl4j.java.normalizer.NormalizeVisitor;
 
 public class JavaFile {
@@ -22,16 +23,21 @@ public class JavaFile {
 	
 	public JavaFile(ICompilationUnit f) {
 		fileCU = f;
-
 		ast = genASTFromICU(fileCU);
 		originalASTString = ast.toString();
-		
+	}
+	
+	public void normalizeAST() {
 		NormalizeVisitor jn = new NormalizeVisitor(ast);
 		ast.accept(jn);
+		
+		// For analysis purpose
+		AnalysisPreprocessor ap = new AnalysisPreprocessor();
+		jn.getCU().accept(ap);
+
 		// Maybe not, just for simplicity consideration
 		// VariableGenerator.reset();
 		normalizedAST = jn.getCU();
-
 	}
 	
 	/** Generate AST from ICompilationUnit:

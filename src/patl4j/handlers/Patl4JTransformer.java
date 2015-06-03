@@ -1,5 +1,9 @@
 package patl4j.handlers;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -15,6 +19,13 @@ public class Patl4JTransformer extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
 		JavaWorkspace workspace = new JavaWorkspace(ResourcesPlugin.getWorkspace());
+		
+		// Set log path
+		try {
+			System.setOut(new PrintStream(new FileOutputStream("D:\\workspace\\Patl4J\\log.txt")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 		// Loop over the projects
 		for (JavaProject project : workspace.getProjects()) {

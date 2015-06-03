@@ -36,7 +36,7 @@ public class JavaWorkspace {
 			
 			// Check if we have a Java project
 			try {
-				if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+				if (project.isOpen() && project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 					IJavaProject javaProject = JavaCore.create(project);
 					projects.add(new JavaProject(javaProject));
 				}
