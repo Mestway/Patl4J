@@ -47,11 +47,11 @@ public class DataDependency {
                 for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
                     Unit unit = (Unit) uIt.next();
                     int lineNum = unit.getJavaSourceStartLineNumber();
+                    System.out.println("@" + lineNum + "\t" + unit);
                     if (lineNum != -1) {
                     	if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
                     	lines[lineNum].add(unit);
                     }
-                    System.out.println("    " + "@" + /*lineNum + */": " + unit);
                 }
 
                 graph = new BriefUnitGraph(body);

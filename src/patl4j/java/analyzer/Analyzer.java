@@ -56,15 +56,23 @@ public class Analyzer {
 	 */
 	public boolean analyze(String methodName, Statement s, Statement t) {
 
-		int sOffset = s.getStartPosition(), tOffset = s.getStartPosition();
+		int sOffset = s.getStartPosition(), tOffset = t.getStartPosition();
 		int cntLines = 1, sLine = 0, tLine = 0;
 		for (int i = 0; i <= Math.max(sOffset, tOffset); i++) {
 			if (classStr.charAt(i) == NEWLINE) cntLines++;
 			if (i == sOffset) sLine = cntLines;
 			if (i == tOffset) tLine = cntLines;
 		}
-		
+
+		if (sLine == 12 && tLine == 13) {
+			System.out.println("Hello World");
+		}
 		boolean ret = dependency.isDependent(methodName, sLine, tLine);
+
+		System.out.println("Query statements:");
+		System.out.println("@" + sLine + "\t" + s);
+		System.out.println("@" + tLine + "\t" + t);
+		System.out.println("result is: " + ret);
 		return ret;
 	}
 	
