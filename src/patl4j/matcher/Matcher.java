@@ -16,6 +16,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
+import patl4j.debug.DebugSwitcher;
 import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.ModInstruction;
 import patl4j.patl.ast.Rule;
@@ -543,12 +544,15 @@ public class Matcher {
 	private boolean dependentTo(Statement s, Statement t) {
 		// TODO: test if it is right
 		boolean result = analyzer.analyze(this.methodName, s, t);
-		if ((s instanceof ExpressionStatement || s instanceof VariableDeclarationStatement) &&
-				(t instanceof ExpressionStatement || t instanceof VariableDeclarationStatement)) {
-			if (result) {
-				System.out.println(s + " <===> " + t);
-			} else {
-				System.out.println(s + " <=/=> " + t);
+		
+		if (DebugSwitcher.dependencyDebug) {
+			if ((s instanceof ExpressionStatement || s instanceof VariableDeclarationStatement) &&
+					(t instanceof ExpressionStatement || t instanceof VariableDeclarationStatement)) {
+				if (result) {
+					System.out.println(s + " <===> " + t);
+				} else {
+					System.out.println(s + " <=/=> " + t);
+				}
 			}
 		}
 		return result;

@@ -20,6 +20,7 @@ import patl4j.handlers.PatlOption;
 import patl4j.java.JavaFile;
 import patl4j.java.JavaPackage;
 import patl4j.java.JavaProject;
+import patl4j.java.codeformatter.DeNormalizer;
 import patl4j.patl.ast.Rule;
 import patl4j.patl.ast.parser.ParseException;
 import patl4j.patl.ast.parser.PatlParser;
@@ -78,6 +79,9 @@ public class ProjectTransformer {
 
 				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST(), this.option);
 				f.getNormalizedAST().accept(tv);
+				
+				// Perform 
+				f.getNormalizedAST().accept(new DeNormalizer());
 				
 				// Generate the transformed body in the package
 				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString());
