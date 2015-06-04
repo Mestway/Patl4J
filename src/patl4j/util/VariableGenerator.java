@@ -7,10 +7,16 @@ public class VariableGenerator {
 	
 	private static Integer VarCounter= 0;
 	
+	private static String prefix = "genVar";
+	
 	public static String genVar() {
-		String var =  "genVar" + VarCounter.toString();
+		String var =  prefix + VarCounter.toString();
 		VarCounter = VarCounter + 1;
 		return var;
+	}
+	
+	public static String getPrefix() {
+		return prefix;
 	}
 	
 	public static Integer getCurrentCount() {
