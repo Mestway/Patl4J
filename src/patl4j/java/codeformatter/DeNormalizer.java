@@ -33,6 +33,12 @@ public class DeNormalizer extends ASTVisitor {
 		return false;
 	}
 	
+	// Reference for statements
+	// http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FStatement.html
+	
+	// Reference for expressions
+	// http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FExpression.html
+	
 	/* This is special, as you also want to collect the map between variables and the expression they stand for*/
 	public boolean visit(Assignment assign) {
 		
