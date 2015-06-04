@@ -77,9 +77,9 @@ public class Analyzer {
 	 * @return
 	 */
 	public boolean analyze(String methodName, Statement s, Statement t) {
-		
+		 
 		if (checkIsDeclar(s, t) || checkIsDeclar(t, s)) {
-			System.out.println("Declar dependency: " + t + " & " + s);
+			//System.out.println("Declar dependency: " + t + " & " + s);
 			return true;
 		}
 		
@@ -91,15 +91,13 @@ public class Analyzer {
 			if (i == tOffset) tLine = cntLines;
 		}
 
-		if (sLine == 12 && tLine == 13) {
-			System.out.println("Hello World");
-		}
 		boolean ret = dependency.isDependent(methodName, sLine, tLine);
-
+/*
 		System.out.println("Query statements:");
 		System.out.println("@" + sLine + "\t" + s);
 		System.out.println("@" + tLine + "\t" + t);
 		System.out.println("result is: " + ret);
+		*/
 		return ret;
 	}
 	

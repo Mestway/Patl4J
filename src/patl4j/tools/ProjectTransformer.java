@@ -81,8 +81,13 @@ public class ProjectTransformer {
 				f.getNormalizedAST().accept(tv);
 				
 				// Perform 
-				f.getNormalizedAST().accept(new DeNormalizer(f.getNormalizedAST()));
+				DeNormalizer deNomalizer = new DeNormalizer(f.getNormalizedAST());
+				f.getNormalizedAST().accept(deNomalizer);
+				deNomalizer.setSecondRound();
+				f.getNormalizedAST().accept(deNomalizer);
 				
+				System.out.println(">>>>>>>");
+				System.out.println(f.getNormalizedAST());
 				// Generate the transformed body in the package
 				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString());
 			}

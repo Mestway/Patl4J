@@ -59,7 +59,7 @@ public class DataDependency {
 
                 analysis.put(fun.getName(), curAnalysis);
             }
-            
+            /*
             try {
 				PrintWriter writer = new PrintWriter("/Users/Vani/Patl4J/log", "UTF-8");
 				// for test
@@ -92,6 +92,7 @@ public class DataDependency {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 
             
         } catch (OutOfMemoryError e) {
