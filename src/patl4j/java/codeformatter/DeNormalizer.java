@@ -72,6 +72,18 @@ public class DeNormalizer extends ASTVisitor {
 				tryToRecord(name, rightHand);
 			}
 			return false;
+		} else {
+			Expression leftHand = assign.getLeftHandSide();
+			if (leftHand instanceof Name) {
+				String name = ((Name) leftHand).getFullyQualifiedName();
+				if (isAuxilVariable(name) && (nameCount.get(name) == null || nameCount.get(name).intValue() == 1)) {
+					if (assign.getParent() instanceof ExpressionStatement) {
+						System.out.println("delete " + assign.getParent());
+						assign.getParent().delete();
+					}
+					return false;
+				}
+			}
 		}
 		return true;
 	}
