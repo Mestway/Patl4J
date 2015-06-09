@@ -21,12 +21,12 @@ Example:
 	<classPath>D:\runtime-EclipseApplication\testAB\bin\</classPath>
  <classPath>D:\runtime-EclipseApplication\API-A\bin\</classPath>
  <classPath>D:\runtime-EclipseApplication\API-A\</classPath>
- <ignore> // Packages and files to be ignored, one per line
+ <ignore>
  	<file>a.java</file>
  	<file>MyInt.java</file>
  	<package>b.package</package>
  </ignore>
- <libraries> // The new API libraries, which will be added as import PACKAGE_NAME in the files to be transformed
+ <libraries>
 		<lib>api_b.B</lib>
 		<lib>api_b.IntPair</lib>
 	</libraries>
