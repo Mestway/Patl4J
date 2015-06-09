@@ -1,6 +1,38 @@
 # Patl4J
 The PATL language developed for Java program adaptation between APIs with M-to-M mapping features.
 
+### Running Patl4J
+
+To run Patl4J as an eclipse plugin, download and install the plugin in eclipse (Download site to be added).
+
+For each projects in the workspace, adding a file named "patl.option" in the root directory of the project with the following format:
+
+  * project: with a field indicating the project name.
+  * classPath: one or more class paths for .class files used in the project.
+  * ignore: containing files and packages to be ignored, one per line
+  *   * file: files to be ignored.
+  *   * package: packages to be ignored.
+  * libraries: libraries to be added in the new API, will be added as "import PACKAGE_NAME;" in the files to be transformed.
+Example:
+```xml
+<project name="testAB">
+	<platform>windows</platform> 
+	<classPath>D:\runtime-EclipseApplication\testAB\</classPath>
+	<classPath>D:\runtime-EclipseApplication\testAB\bin\</classPath>
+ <classPath>D:\runtime-EclipseApplication\API-A\bin\</classPath>
+ <classPath>D:\runtime-EclipseApplication\API-A\</classPath>
+ <ignore> // Packages and files to be ignored, one per line
+ 	<file>a.java</file>
+ 	<file>MyInt.java</file>
+ 	<package>b.package</package>
+ </ignore>
+ <libraries> // The new API libraries, which will be added as import PACKAGE_NAME in the files to be transformed
+		<lib>api_b.B</lib>
+		<lib>api_b.IntPair</lib>
+	</libraries>
+</project>
+```
+
 ### Full specification of the language
 The full specification of the language can be referred to [PATL-tr.pdf](https://github.com/Mestway/Patl4J/blob/master/PATL-tr.pdf), including the proof of the main theorem.
 
