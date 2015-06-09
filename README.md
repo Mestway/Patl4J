@@ -13,7 +13,8 @@ For each projects in the workspace, adding a file named "patl.option" in the roo
   *   * file: files to be ignored.
   *   * package: packages to be ignored.
   * libraries: libraries to be added in the new API, will be added as "import PACKAGE_NAME;" in the files to be transformed.
-Example:
+
+###### Example:
 ```xml
 <project name="testAB">
 	<platform>windows</platform> 
