@@ -45,18 +45,10 @@ public class JavaPackage {
 				// Temporarily generate the normalized-file to regenerate an AST with type binding
 				ICompilationUnit icu = packageFrag.createCompilationUnit(
 						i.getCU().getElementName(), 
-						i.getNormalizedAST().toString() + "/*" + i.getOriginalASTString() + "*/",
+						i.getNormalizedAST().toString(),
 						true, 
 						null);
 				i.reGenNormalizedAST(icu);
-				
-				// Now just put the original AST back to the file
-				/* packageFrag.createCompilationUnit(
-						i.getCU().getElementName(), 
-						i.getOriginalASTString(), 
-						true, 
-						null);
-				*/
 			} catch (JavaModelException e) {
 				ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
 				//e.printStackTrace();
@@ -64,10 +56,9 @@ public class JavaPackage {
 		}
 	}	
 	
-	public void generatedTransformedFiles(String fileName, String programBody) {
+	public void generatedTransformedFiles(String fileName, String programBody, PatlOption option) {
 		// TODO: make it work again sometime
-		int x= 2;
-		if (x == 3 - 1) {
+		if (option.outputToFile() == false) {
 			System.out.println(programBody);
 			return;
 		}
@@ -81,6 +72,24 @@ public class JavaPackage {
 		} catch (JavaModelException e) {
 			ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
 			//e.printStackTrace();
+		}
+	}
+	
+	public void putTheOriginalASTBack(PatlOption option) {
+		for (JavaFile i : files) {
+			if (option.fileIgnored(i.getCU().getElementName()))
+				continue;
+			try {
+				// Now just put the original AST back to the file
+				packageFrag.createCompilationUnit(
+						i.getCU().getElementName(), 
+						i.getOriginalASTString(), 
+						true, 
+						null);
+			} catch (JavaModelException e) {
+				ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
+				//e.printStackTrace();
+			}
 		}
 	}
 }

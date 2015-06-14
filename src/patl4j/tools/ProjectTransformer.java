@@ -89,7 +89,8 @@ public class ProjectTransformer {
 				System.out.println(">>>>>>>");
 				System.out.println(f.getNormalizedAST());
 				// Generate the transformed body in the package
-				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString());
+				p.putTheOriginalASTBack(this.option);
+				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString(), this.option);
 			}
 		}
 	}

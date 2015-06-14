@@ -28,6 +28,8 @@ public class PatlOption {
 	// Either windows, mac or linux
 	String platform = "mac";
 	
+	boolean outputToFile = false;
+	
 	public PatlOption(JavaProject project) {
 		try {
     	    this.classPath = new LinkedList<String>();
@@ -56,13 +58,12 @@ public class PatlOption {
     	    	Element e = (Element) i.next();
     	    	if (e.getName().equals("classPath")) {
         	    	this.classPath.add(e.getText());
-    	    	}
-    	    }
-    	    
-    	    for (Iterator i = root.elementIterator(); i.hasNext();) {
-    	    	Element e = (Element) i.next();
-    	    	if (e.getName().equals("platform")) {
+    	    	} else if (e.getName().equals("platform")) {
     	    		this.platform = e.getText();
+    	    	} else if (e.getName().equals("output")) {
+    	    		if (e.getText().equals("file")) {
+    	    			this.outputToFile = true;
+    	    		}
     	    	}
     	    }
     	    
@@ -112,6 +113,10 @@ public class PatlOption {
 	
 	public String getPlatform() {
 		return this.platform;
+	}
+	
+	public boolean outputToFile() {
+		return this.outputToFile;
 	}
 	
 }
