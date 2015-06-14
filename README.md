@@ -3,7 +3,7 @@ The PATL language developed for Java program adaptation between APIs with M-to-M
 
 ### Running Patl4J
 
-To run Patl4J as an eclipse plugin, download and install the plugin in eclipse (Download site to be added).
+To run Patl4J as an eclipse plugin, download and install the plugin in eclipse (An eclipse plugin will be released soon, but you can compile and run the developing version within your eclipse now).
 
 For each projects in the workspace, adding a file named "patl.option" in the root directory of the project with the following format:
 
@@ -72,8 +72,3 @@ Several transformation examples are provided in the [examples](https://github.co
   * XMLOutputter -> XMLWriter
   * XPath -> XPath
   * Namespace -> Namespace
-
-### Patl4J Eclipse Plug-in Development
-
-The public eclipse plug-in version of the tool is under development, and will be released soon.
-
