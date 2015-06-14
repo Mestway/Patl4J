@@ -8,6 +8,8 @@ To run Patl4J as an eclipse plugin, download and install the plugin in eclipse (
 For each projects in the workspace, adding a file named "patl.option" in the root directory of the project with the following format:
 
   * project: with a field indicating the project name.
+  * platform: The platform where you run the plugin, should be one of windows, mac or linux.
+  * output: Whether output the transformed file to the project, file for yes, otherwise only output to console.
   * classPath: one or more class paths for .class files used in the project.
   * ignore: containing files and packages to be ignored, one per line
   *   * file: files to be ignored.
@@ -17,17 +19,18 @@ For each projects in the workspace, adding a file named "patl.option" in the roo
 ###### Example:
 ```xml
 <project name="testAB">
-	<platform>windows</platform> 
+	<platform>windows</platform>
+	<output>file</output>
 	<classPath>D:\runtime-EclipseApplication\testAB\</classPath>
 	<classPath>D:\runtime-EclipseApplication\testAB\bin\</classPath>
- <classPath>D:\runtime-EclipseApplication\API-A\bin\</classPath>
- <classPath>D:\runtime-EclipseApplication\API-A\</classPath>
- <ignore>
- 	<file>a.java</file>
- 	<file>MyInt.java</file>
- 	<package>b.package</package>
- </ignore>
- <libraries>
+ 	<classPath>D:\runtime-EclipseApplication\API-A\bin\</classPath>
+ 	<classPath>D:\runtime-EclipseApplication\API-A\</classPath>
+ 	<ignore>
+ 		<file>a.java</file>
+ 		<file>MyInt.java</file>
+ 		<package>b.package</package>
+ 	</ignore>
+	 <libraries>
 		<lib>api_b.B</lib>
 		<lib>api_b.IntPair</lib>
 	</libraries>
