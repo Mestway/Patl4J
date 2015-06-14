@@ -12,7 +12,7 @@ For each projects in the workspace, adding a file named "patl.option" in the roo
   * output: Whether output the transformed file to the project, file for yes, otherwise only output to console.
   * classPath: one or more class paths for .class files used in the project.
   * ignore: containing files and packages to be ignored, one per line
-  * 	* file: files to be ignored.
+   	* file: files to be ignored.
   	* package: packages to be ignored.
   * libraries: libraries to be added in the new API, will be added as "import PACKAGE_NAME;" in the files to be transformed.
 
