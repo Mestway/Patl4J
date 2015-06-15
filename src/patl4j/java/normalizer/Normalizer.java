@@ -197,20 +197,27 @@ public class Normalizer {
 		} else if (input instanceof ReturnStatement) {
 			
 			ReturnStatement node = (ReturnStatement) input;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
-			node.setExpression(
+			if (node.getExpression() != null) {
+				Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+				node.setExpression(
 					(Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
-			expPair.getFirst().add(node);
-			return wrapStatement(expPair.getFirst());
+				expPair.getFirst().add(node);
+				return wrapStatement(expPair.getFirst());
+			} else {
+				List<Statement> arrayList = new ArrayList<Statement>();
+				arrayList.add(node);
+				return wrapStatement(arrayList);
+			} 
+			
 			
 		} else if (input instanceof SuperConstructorInvocation) {
 			
 			SuperConstructorInvocation node = (SuperConstructorInvocation) input;
 			List<Statement> result = new ArrayList<Statement>();
 			
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
-			node.setExpression(
-					(Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
+			//Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			//node.setExpression(
+					//(Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			
 			List<Name> argList = new ArrayList<Name>();
 			for (Expression i : (List<Expression>)node.arguments()) {
@@ -549,6 +556,10 @@ public class Normalizer {
 			List<Statement> result = new ArrayList<Statement>();
 			
 			// Deal with the target expression
+			if (methodInvk.getExpression() == null) {
+				methodInvk.setExpression((Expression) ASTNode.copySubtree(methodInvk.getAST(), AST.newAST(AST.JLS8).newThisExpression()));
+			}
+			
 			Pair<List<Statement>, Name> wrappedTarget = wrapExpression(normalizeExp(methodInvk.getExpression()));
 			for (Statement s : wrappedTarget.getFirst()) {
 				result.add(s);

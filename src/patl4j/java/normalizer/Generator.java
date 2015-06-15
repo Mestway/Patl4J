@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Statement;
@@ -28,6 +30,9 @@ public class Generator {
 		List<Statement> result = new ArrayList<Statement>();
 		
 		VariableDeclarationFragment fragment = AST.newAST(AST.JLS8).newVariableDeclarationFragment();
+		
+		
+		
 		ExpressionStatement assignmentStmt = genAssignmentStatement(exp);
 		
 		// The type of the generated variable
@@ -91,6 +96,7 @@ public class Generator {
 				(Expression) ASTNode.copySubtree(
 						assignExp.getAST(), 
 						genSimpleName(VariableGenerator.genVar())));
+
 		assignExp.setRightHandSide(
 				(Expression) ASTNode.copySubtree(assignExp.getAST(), 
 						exp));
@@ -111,15 +117,38 @@ public class Generator {
 	}
 	
 	private static Type resolveQualifiedType(String s) {
+		System.out.println("Œ“‘⁄ƒƒ " + s);
+		if (s.contains("<") && s.contains(">")) {
+			// TODO: resolve type parameters
+			String s0 = s.substring(0, s.indexOf("<"));
+			Type hd = resolveQualifiedType(s0);
+			System.out.println(hd);
+			AST tast = AST.newAST(AST.JLS8);
+			ParameterizedType pt = tast.newParameterizedType((Type) ASTNode.copySubtree(tast, hd));
+			return pt;
+		}
+		
+		if(s.contains("[") && s.contains("]")) {
+			String s0 = s.substring(0, s.indexOf("["));
+			Type hd = resolveQualifiedType(s0);
+			AST tast = AST.newAST(AST.JLS8);
+			ArrayType pt = tast.newArrayType((Type) ASTNode.copySubtree(tast, hd));
+			return pt;
+		}
+		
 		if (!s.contains(".")) {
 			AST ast = AST.newAST(AST.JLS8);
+			if (s == null || s.equals("null")) {
+				return ast.newSimpleType((Name) ASTNode.copySubtree(ast, genSimpleName("String")));
+			}
 			return ast.newSimpleType((Name) ASTNode.copySubtree(ast, genSimpleName(s)));
 		} else {
 			int last = s.lastIndexOf(".");
 			AST ast = AST.newAST(AST.JLS8);
+			String lastFrag = s.substring(last+1);
 			return ast.newQualifiedType(
 					(Type)ASTNode.copySubtree(ast, resolveQualifiedType(s.substring(0,last))), 
-					(SimpleName)ASTNode.copySubtree(ast, genSimpleName(s.substring(last+1))));
+					(SimpleName)ASTNode.copySubtree(ast, genSimpleName(lastFrag)));
 		}
 	}
 

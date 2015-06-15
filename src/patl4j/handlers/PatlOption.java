@@ -28,7 +28,11 @@ public class PatlOption {
 	// Either windows, mac or linux
 	String platform = "mac";
 	
+	// Filter by exclude, 
+	boolean filterByExclude = true; 
+	
 	boolean outputToFile = false;
+	private List<String> includeFiles = new ArrayList<String>();
 	
 	public PatlOption(JavaProject project) {
 		try {
@@ -64,6 +68,9 @@ public class PatlOption {
     	    		if (e.getText().equals("file")) {
     	    			this.outputToFile = true;
     	    		}
+    	    	} else if (e.getName().equals("filterMode")) {
+    	    		if (e.getText().equals("include"))
+    	    			this.filterByExclude = false;
     	    	}
     	    }
     	    
@@ -74,6 +81,15 @@ public class PatlOption {
     	    		ignoredFiles.add(i.getText());
     	    	if (i.getName().equals("package"))
     	    		ignoredPackages.add(i.getText());
+    	    }
+    	    
+    	    // For debugging purpose
+    	    if (this.filterByExclude == false) {
+	    	    List<Element> includeList = ((Element) root.elements("include").get(0)).elements();
+	    	    for (Element i : ignoreList) {
+	    	    	if (i.getName().equals("file"))
+	    	    		includeFiles.add(i.getText());
+	    	    }
     	    }
     	    
     	    @SuppressWarnings("unchecked")
@@ -90,12 +106,20 @@ public class PatlOption {
 	}
 
 	public boolean fileIgnored(String filename) {
-		for (String i : ignoredFiles) {
-			if (i.equals(filename)) {
-				return true;
+		if (this.filterByExclude) {
+			for (String i : ignoredFiles) {
+				if (i.equals(filename)) {
+					return true;
+				}
 			}
+			return false;
+		} else {
+			for (String i : includeFiles ) {
+				if (i.equals(filename))
+					return false;
+			}
+			return true;
 		}
-		return false;
 	}
 
 	public boolean packageIgnored(String packagename) {

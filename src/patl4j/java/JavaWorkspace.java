@@ -34,6 +34,11 @@ public class JavaWorkspace {
 		
 		for (IProject project : iprojects) {
 			
+			if (!project.isOpen()) {
+				System.out.println("[JavaWorkspace@44]Project \'" + project.getName() + "\' is closed.");
+				continue;
+			}
+			
 			// Check if we have a Java project
 			try {
 				if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
@@ -41,7 +46,7 @@ public class JavaWorkspace {
 					projects.add(new JavaProject(javaProject));
 				}
 			} catch (CoreException e) {
-				ErrorManager.error("JavaWorkspace@line44", "Cannot create java project");
+				ErrorManager.error("JavaWorkspace@line48", "Cannot create java project");
 				e.printStackTrace();
 			}
 		}

@@ -27,6 +27,8 @@ public class JavaFile {
 		originalASTString = ast.toString();
 		
 		NormalizeVisitor jn = new NormalizeVisitor(ast);
+		System.out.println("Waht?");
+		System.out.println(ast);
 		ast.accept(jn);
 		// Maybe not, just for simplicity consideration
 		// VariableGenerator.reset();
