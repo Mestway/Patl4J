@@ -437,7 +437,7 @@ public class Normalizer {
 					
 					lhsPair.setSecond(qn);
 				} else {
-					ErrorManager.error("Normalizer@line394", "The field access term is neither of type Name nor of type ThisExpression.");
+					ErrorManager.error("Normalizer@line394", "The field access term is neither of type Name.");
 				}
 			}
 			
@@ -707,9 +707,9 @@ public class Normalizer {
 			return new Pair<List<Statement>, Expression>(pair.getFirst(), (Name)pair.getSecond());
 		} else if (pair.getSecond() instanceof NullLiteral) {
 			return new Pair<List<Statement>, Expression>(pair.getFirst(), pair.getSecond());
-		} else if (pair.getSecond() instanceof ThisExpression) {
+		} /*else if (pair.getSecond() instanceof ThisExpression) {
 			return new Pair<List<Statement>, Expression>(pair.getFirst(), pair.getSecond());
-		}
+		}*/
 		
 		List<Statement> declStmts = Generator.genVarDeclStatement(pair.getSecond());
 		
