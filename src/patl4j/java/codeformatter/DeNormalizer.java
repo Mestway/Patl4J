@@ -72,7 +72,12 @@ public class DeNormalizer extends ASTVisitor {
 				tryToRecord(name, rightHand);
 			}
 			return false;
-		} else {
+		}
+		return true;
+	}
+
+	public void endVisit(Assignment assign) {
+		if (!firstRound) {
 			Expression leftHand = assign.getLeftHandSide();
 			if (leftHand instanceof Name) {
 				String name = ((Name) leftHand).getFullyQualifiedName();
@@ -81,17 +86,16 @@ public class DeNormalizer extends ASTVisitor {
 						System.out.println("delete " + assign.getParent());
 						assign.getParent().delete();
 					}
-					return false;
 				}
 			}
 		}
-		return true;
 	}
 	
 	public boolean visit(SimpleName exp) {
 		if (!firstRound) {
 			String name = exp.getFullyQualifiedName();
-			System.out.println("Class: " + exp.getClass().getName() + " pClass " + exp.getParent().getClass().getName());
+			System.out.println("$$$" + name);
+			System.out.println("[" + name + "] Class: " + exp.getClass().getName() + " [" + exp.getParent() + "] pClass " + exp.getParent().getClass().getName());
 
 			if (isAuxilVariable(name) && nameCount.get(name).intValue() == 1) {
 				ASTNode p = exp.getParent();
