@@ -11,7 +11,8 @@ import patl4j.util.ErrorManager;
 public class ProjectNormalizer {
 	
 	// normalize a project
-	public void normalize(JavaProject project, PatlOption option) {
+	public void normalize(JavaProject project) {
+		PatlOption option = project.getOption();
 		System.out.println("[[Normalize Start]] Project:" + project.getIJavaProject().getElementName());
 		try {
 			normalizePackage(project, option);

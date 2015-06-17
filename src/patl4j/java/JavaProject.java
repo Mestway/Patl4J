@@ -6,18 +6,22 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 
+import patl4j.handlers.PatlOption;
 import patl4j.util.ErrorManager;
 
 public class JavaProject {
 
 	protected IJavaProject ijProject;
 	protected ArrayList<JavaPackage> packages = new ArrayList<JavaPackage>();
+	protected PatlOption option;
 
-	public JavaProject(IJavaProject p) {
+	public JavaProject(IJavaProject p, PatlOption option) {
 		this.ijProject = p;
+		this.option = option;
 		try {
 			for (IPackageFragment ipf : p.getPackageFragments()) {
-				packages.add(new JavaPackage(ipf));
+				if (!option.packageIgnored(ipf.getElementName()))
+					packages.add(new JavaPackage(ipf, option));
 			}
 		} catch (JavaModelException e) {
 			ErrorManager.error("JavaProject@line23", "Cannot find valid Java package fragments for the given project [" + p.getElementName() + "]");
@@ -33,4 +37,7 @@ public class JavaProject {
 		return packages;
 	}
 	
+	public PatlOption getOption() {
+		return option;
+	}
 }

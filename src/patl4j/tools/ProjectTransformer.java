@@ -32,9 +32,9 @@ public class ProjectTransformer {
 	List<Rule> patlRules = new ArrayList<Rule>();
 	PatlOption option;
 	
-	public ProjectTransformer(JavaProject project, PatlOption option) {
-		this.option = option;
+	public ProjectTransformer(JavaProject project) {
 		this.project = project;
+		this.option = project.getOption();
 		this.collectPatlRules();
 	}
 	
@@ -68,14 +68,8 @@ public class ProjectTransformer {
 	// This is the top level transformation call, which will then lead to *method* level transformation
 	public void transform() {
 		for (JavaPackage p : project.getPackages()) {
-			// Check whether the package is ignored
-			if (option.packageIgnored(p.getIPackageFrag().getElementName()))
-				continue;
 			
 			for (JavaFile f : p.getFiles()) {
-				// Check whether the file is ignored in the option file
-				if (option.fileIgnored(f.getCU().getElementName()))
-					continue;
 
 				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST(), this.option);
 				f.getNormalizedAST().accept(tv);
@@ -89,7 +83,8 @@ public class ProjectTransformer {
 				System.out.println(">>>>>>>");
 				System.out.println(f.getNormalizedAST());
 				// Generate the transformed body in the package
-				p.putTheOriginalASTBack(this.option);
+				
+				//p.putTheOriginalASTBack(this.option);
 				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString(), this.option);
 			}
 		}

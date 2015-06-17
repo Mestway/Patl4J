@@ -14,14 +14,15 @@ public class JavaPackage {
 	IPackageFragment packageFrag;
 	ArrayList<JavaFile> files = new ArrayList<JavaFile>();
 	
-	public JavaPackage(IPackageFragment ipf) {
+	public JavaPackage(IPackageFragment ipf, PatlOption option) {
 		packageFrag = ipf;
 		// Package fragments include all packages in the classpath
 		// We will only look at the package from the source folder
 		// K_BINARY would include also included JARS, e.g. rt.jar
 		try {
 			for (ICompilationUnit f : ipf.getCompilationUnits()) {
-				files.add(new JavaFile(f));
+				if (!option.fileIgnored(f.getElementName()))
+					files.add(new JavaFile(f));
 			}
 		} catch (JavaModelException e) {
 			ErrorManager.error("JavaPackage@line27", "Cannot find CompilationUnit in package [" + ipf.getElementName() + "]");

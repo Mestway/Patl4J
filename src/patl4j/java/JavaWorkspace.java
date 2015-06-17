@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
+import patl4j.handlers.PatlOption;
 import patl4j.util.ErrorManager;
 
 public class JavaWorkspace {
@@ -41,9 +42,13 @@ public class JavaWorkspace {
 			
 			// Check if we have a Java project
 			try {
-				if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+				if (project.isNatureEnabled("org.eclipse.jdt.core.javanature") && project.isOpen()) {
 					IJavaProject javaProject = JavaCore.create(project);
-					projects.add(new JavaProject(javaProject));
+					PatlOption option = new PatlOption(javaProject);
+					JavaProject newProject = new JavaProject(javaProject, option);
+					if (option.projectIgnored() == true)
+						continue;
+					projects.add(newProject);
 				}
 			} catch (CoreException e) {
 				ErrorManager.error("JavaWorkspace@line48", "Cannot create java project");

@@ -16,8 +16,8 @@ public class Normalizer {
 		
 		if (input instanceof AssertStatement) {
 			AssertStatement stmt = (AssertStatement) input;
-			Pair<List<Statement>, Name> wrappedExp = wrapExpression(normalizeExp(stmt.getExpression()));
-			stmt.setExpression((Name)ASTNode.copySubtree(stmt.getAST(), wrappedExp.getSecond()));
+			Pair<List<Statement>, Expression> wrappedExp = wrapExpression(normalizeExp(stmt.getExpression()));
+			stmt.setExpression((Expression)ASTNode.copySubtree(stmt.getAST(), wrappedExp.getSecond()));
 			wrappedExp.getFirst().add(stmt);
 			return wrapStatement(wrappedExp.getFirst());
 			
@@ -41,18 +41,18 @@ public class Normalizer {
 		} else if (input instanceof ConstructorInvocation) {
 			
 			ConstructorInvocation node = (ConstructorInvocation) input;
-			List<Name> argList = new ArrayList<Name>();
+			List<Expression> argList = new ArrayList<Expression>();
 			List<Statement> stmtList = new ArrayList<Statement>();
 			for (Expression i : (List<Expression>)node.arguments()) {
-				Pair<List<Statement>, Name> pair = wrapExpression(normalizeExp(i));
+				Pair<List<Statement>, Expression> pair = wrapExpression(normalizeExp(i));
 				for (Statement j : pair.getFirst()) {
 					stmtList.add(j);
 				}
 				argList.add(pair.getSecond());
 			}
 			node.arguments().clear();
-			for (Statement i : stmtList) {
-				node.arguments().add(i);
+			for (Expression i : argList) {
+				node.arguments().add(ASTNode.copySubtree(node.getAST(), i));
 			}
 			stmtList.add(node);
 			return wrapStatement(stmtList);
@@ -61,7 +61,7 @@ public class Normalizer {
 			
 			DoStatement node = (DoStatement) input;
 			ArrayList<Statement> result = new ArrayList<Statement>();
-			Pair<List<Statement>, Name> pair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> pair = wrapExpression(normalizeExp(node.getExpression()));
 			node.setExpression((Name) ASTNode.copySubtree(node.getAST(), pair.getSecond()));
 			Statement doStmt = node.getBody();
 			node.setBody((Statement) ASTNode.copySubtree(node.getAST(), wrapToBlock(normalizeStmt(doStmt).getStatement())));
@@ -72,7 +72,7 @@ public class Normalizer {
 			
 			EnhancedForStatement node = (EnhancedForStatement) input;
 			List<Statement> stmtList = new ArrayList<Statement>();
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			for (Statement i : expPair.getFirst()) {
 				stmtList.add(i);
 			}
@@ -154,7 +154,7 @@ public class Normalizer {
 			
 			IfStatement node = (IfStatement) input;
 			
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			
@@ -198,7 +198,7 @@ public class Normalizer {
 			
 			ReturnStatement node = (ReturnStatement) input;
 			if (node.getExpression() != null) {
-				Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+				Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 				node.setExpression(
 					(Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 				expPair.getFirst().add(node);
@@ -219,9 +219,9 @@ public class Normalizer {
 			//node.setExpression(
 					//(Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			
-			List<Name> argList = new ArrayList<Name>();
+			List<Expression> argList = new ArrayList<Expression>();
 			for (Expression i : (List<Expression>)node.arguments()) {
-				Pair<List<Statement>, Name> tempPair = wrapExpression(normalizeExp(i));
+				Pair<List<Statement>, Expression> tempPair = wrapExpression(normalizeExp(i));
 				argList.add(tempPair.getSecond());
 				for (Statement j : tempPair.getFirst()) {
 					result.add(j);
@@ -229,7 +229,7 @@ public class Normalizer {
 			}
 			
 			node.arguments().clear();
-			for (Name i : argList) {
+			for (Expression i : argList) {
 				node.arguments().add(ASTNode.copySubtree(node.getAST(), i));
 			}
 			
@@ -248,7 +248,7 @@ public class Normalizer {
 		} else if (input instanceof SynchronizedStatement) {
 			SynchronizedStatement node = (SynchronizedStatement) input;
 	
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			node.setBody((Block) ASTNode.copySubtree(node.getAST(), normalizeStmt(node.getBody()).getStatement()));
@@ -260,7 +260,7 @@ public class Normalizer {
 		} else if (input instanceof ThrowStatement) {
 			
 			ThrowStatement node = (ThrowStatement) input;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			expPair.getFirst().add(node);
 			
@@ -337,7 +337,7 @@ public class Normalizer {
 		} else if (input instanceof WhileStatement) {
 			WhileStatement node = (WhileStatement) input;
 			
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			node.setBody((Block) ASTNode.copySubtree(node.getAST(), wrapToBlock(normalizeStmt(node.getBody()).getStatement())));
@@ -360,8 +360,8 @@ public class Normalizer {
 		if (exp instanceof ArrayAccess) {
 			
 			ArrayAccess node = (ArrayAccess) exp;
-			Pair<List<Statement>, Name> wrappedTarget = wrapExpression(normalizeExp(node.getArray()));
-			Pair<List<Statement>, Name> wrappedIndex = wrapExpression(normalizeExp(node.getIndex()));
+			Pair<List<Statement>, Expression> wrappedTarget = wrapExpression(normalizeExp(node.getArray()));
+			Pair<List<Statement>, Expression> wrappedIndex = wrapExpression(normalizeExp(node.getIndex()));
 			for (Statement i : wrappedIndex.getFirst()) {
 				wrappedTarget.getFirst().add(i);
 			}
@@ -400,7 +400,7 @@ public class Normalizer {
 			ArrayList<Expression> expList = new ArrayList<Expression>();
 			ArrayList<Statement> stmtList = new ArrayList<Statement>();
 			for (Expression i : (List<Expression>) node.expressions()) {
-				Pair<List<Statement>, Name> pair = wrapExpression(normalizeExp(i));
+				Pair<List<Statement>, Expression> pair = wrapExpression(normalizeExp(i));
 				expList.add(pair.getSecond());
 				for (Statement j : pair.getFirst()) {	
 					stmtList.add(j);
@@ -418,9 +418,13 @@ public class Normalizer {
 			// Note that the left hand side expression of the assignment expression is always a name: 
 			//		either a simple name or a qualified name
 			
+			// There are several ways to interpret FieldAccess terms, so take care of them
+			// http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FFieldAccess.html
+			
 			Assignment node = (Assignment) exp;
 			Pair<List<Statement>, Expression> lhsPair = normalizeExp(node.getLeftHandSide());
 			if (lhsPair.getSecond() instanceof FieldAccess) {
+				
 				FieldAccess fa = (FieldAccess) lhsPair.getSecond();
 				if (fa.getExpression() instanceof Name) {
 					AST tempAST = AST.newAST(AST.JLS8);
@@ -433,7 +437,7 @@ public class Normalizer {
 					
 					lhsPair.setSecond(qn);
 				} else {
-					ErrorManager.error("Normalizer@line394", "The field access term is not a name.");
+					ErrorManager.error("Normalizer@line394", "The field access term is neither of type Name nor of type ThisExpression.");
 				}
 			}
 			
@@ -451,7 +455,7 @@ public class Normalizer {
 		} else if (exp instanceof CastExpression) {
 			
 			CastExpression node = (CastExpression) exp;
-			Pair<List<Statement>, Name> pair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> pair = wrapExpression(normalizeExp(node.getExpression()));
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), pair.getSecond()));
 			return new Pair<List<Statement>, Expression>(pair.getFirst(), node);
 			
@@ -461,7 +465,7 @@ public class Normalizer {
 			List<Statement> stmtList = new ArrayList<Statement>();
 			
 			if (node.getExpression() != null) {
-				Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+				Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 				for (Statement i : expPair.getFirst()) {
 					stmtList.add(i);
 				}
@@ -470,7 +474,7 @@ public class Normalizer {
 			
 			List<Expression> argList = new ArrayList<Expression>();
 			for (Expression arg : (List<Expression>)node.arguments()) {
-				Pair<List<Statement>, Name> tempPair = wrapExpression(normalizeExp(arg));
+				Pair<List<Statement>, Expression> tempPair = wrapExpression(normalizeExp(arg));
 				for (Statement i : tempPair.getFirst()) {
 					stmtList.add(i);
 				}
@@ -487,9 +491,9 @@ public class Normalizer {
 		} else if (exp instanceof ConditionalExpression) {
 			
 			ConditionalExpression node = (ConditionalExpression) exp;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
-			Pair<List<Statement>, Name> thenPair = wrapExpression(normalizeExp(node.getThenExpression()));
-			Pair<List<Statement>, Name> elsePair = wrapExpression(normalizeExp(node.getElseExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> thenPair = wrapExpression(normalizeExp(node.getThenExpression()));
+			Pair<List<Statement>, Expression> elsePair = wrapExpression(normalizeExp(node.getElseExpression()));
 			
 			for (Statement i : thenPair.getFirst()) {
 				expPair.getFirst().add(i);
@@ -505,17 +509,17 @@ public class Normalizer {
 			return new Pair<List<Statement>, Expression>(expPair.getFirst(), node);
 			
 		} else if (exp instanceof FieldAccess) {
-			
+		
 			FieldAccess node = (FieldAccess) exp;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			return new Pair<List<Statement>, Expression>(expPair.getFirst(), node);
 			
 		} else if (exp instanceof InfixExpression) {
 			
 			InfixExpression node = (InfixExpression) exp;
-			Pair<List<Statement>, Name> lhsPair = wrapExpression(normalizeExp(node.getLeftOperand()));
-			Pair<List<Statement>, Name> rhsPair = wrapExpression(normalizeExp(node.getRightOperand()));
+			Pair<List<Statement>, Expression> lhsPair = wrapExpression(normalizeExp(node.getLeftOperand()));
+			Pair<List<Statement>, Expression> rhsPair = wrapExpression(normalizeExp(node.getRightOperand()));
 			
 			for (Statement i : rhsPair.getFirst()) {
 				lhsPair.getFirst().add(i);
@@ -523,16 +527,16 @@ public class Normalizer {
 			
 			// if there are extended operands
 			if (node.hasExtendedOperands()) {
-				List<Name> extArgs = new ArrayList<Name>();
+				List<Expression> extArgs = new ArrayList<Expression>();
 				for (Expression i : (List<Expression>)node.extendedOperands()) {
-					Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(i));
+					Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(i));
 					for (Statement j : expPair.getFirst()) {
 						lhsPair.getFirst().add(j);
 					}
 					extArgs.add(expPair.getSecond());
 				}
 				node.extendedOperands().clear();
-				for (Name i : extArgs) {
+				for (Expression i : extArgs) {
 					node.extendedOperands().add(ASTNode.copySubtree(node.getAST(), i));
 				}
 			}
@@ -545,7 +549,7 @@ public class Normalizer {
 		} else if (exp instanceof InstanceofExpression) {
 			
 			InstanceofExpression node = (InstanceofExpression) exp;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getLeftOperand()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getLeftOperand()));
 			node.setLeftOperand((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			return new Pair<List<Statement>, Expression>(expPair.getFirst(), node);
 			
@@ -560,7 +564,7 @@ public class Normalizer {
 				methodInvk.setExpression((Expression) ASTNode.copySubtree(methodInvk.getAST(), AST.newAST(AST.JLS8).newThisExpression()));
 			}
 			
-			Pair<List<Statement>, Name> wrappedTarget = wrapExpression(normalizeExp(methodInvk.getExpression()));
+			Pair<List<Statement>, Expression> wrappedTarget = wrapExpression(normalizeExp(methodInvk.getExpression()));
 			for (Statement s : wrappedTarget.getFirst()) {
 				result.add(s);
 			}
@@ -570,12 +574,12 @@ public class Normalizer {
 							wrappedTarget.getSecond()));
 			
 			// Deal with the arguments
-			List<Pair<List<Statement>,Name>> argList = new ArrayList<Pair<List<Statement>, Name>>();
+			List<Pair<List<Statement>,Expression>> argList = new ArrayList<Pair<List<Statement>, Expression>>();
 			for (Expression e : (List<Expression>) methodInvk.arguments()) {
 				argList.add(wrapExpression(normalizeExp(e)));
 			}
 			methodInvk.arguments().clear();
-			for (Pair<List<Statement>, Name> i : argList) {
+			for (Pair<List<Statement>, Expression> i : argList) {
 				// Add new arguments into 
 				methodInvk.arguments().add(
 						(Name)ASTNode.copySubtree(
@@ -591,21 +595,21 @@ public class Normalizer {
 		} else if (exp instanceof ParenthesizedExpression) {
 			
 			ParenthesizedExpression node = (ParenthesizedExpression) exp;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
 			node.setExpression(((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond())));
 			return new Pair<List<Statement>, Expression>(expPair.getFirst(), node);
 			
 		} else if (exp instanceof PostfixExpression) {
 			
 			PostfixExpression node = (PostfixExpression) exp;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getOperand()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getOperand()));
 			node.setOperand((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			return new Pair<List<Statement>, Expression>(expPair.getFirst(), node);
 			
 		} else if (exp instanceof PrefixExpression) {
 			
 			PrefixExpression node = (PrefixExpression) exp;
-			Pair<List<Statement>, Name> expPair = wrapExpression(normalizeExp(node.getOperand()));
+			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getOperand()));
 			node.setOperand((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
 			return new Pair<List<Statement>, Expression>(expPair.getFirst(), node);
 			
@@ -616,7 +620,7 @@ public class Normalizer {
 			List<Statement> stmtList = new ArrayList<Statement>();
 			List<Expression> argList = new ArrayList<Expression>();
 			for (Expression arg : (List<Expression>)node.arguments()) {
-				Pair<List<Statement>, Name> tempPair = wrapExpression(normalizeExp(arg));
+				Pair<List<Statement>, Expression> tempPair = wrapExpression(normalizeExp(arg));
 				for (Statement i : tempPair.getFirst()) {
 					stmtList.add(i);
 				}
@@ -696,9 +700,15 @@ public class Normalizer {
 		return wrapStatement(stmtList);
 	}
 	
-	private static Pair<List<Statement>, Name> wrapExpression(Pair<List<Statement>,Expression> pair) {
+	// Wrap an expression with a variable declaration and an assignment
+	// The wrapped part should either be a name or a null
+	private static Pair<List<Statement>, Expression> wrapExpression(Pair<List<Statement>,Expression> pair) {
 		if (pair.getSecond() instanceof Name) {
-			return new Pair<List<Statement>, Name>(pair.getFirst(), (Name)pair.getSecond());
+			return new Pair<List<Statement>, Expression>(pair.getFirst(), (Name)pair.getSecond());
+		} else if (pair.getSecond() instanceof NullLiteral) {
+			return new Pair<List<Statement>, Expression>(pair.getFirst(), pair.getSecond());
+		} else if (pair.getSecond() instanceof ThisExpression) {
+			return new Pair<List<Statement>, Expression>(pair.getFirst(), pair.getSecond());
 		}
 		
 		List<Statement> declStmts = Generator.genVarDeclStatement(pair.getSecond());
@@ -710,7 +720,7 @@ public class Normalizer {
 		// The name is always in the last of the result list
 		VariableDeclarationStatement vds = (VariableDeclarationStatement) declStmts.get(0);
 
-		return new Pair<List<Statement>, Name>(pair.getFirst(), 
+		return new Pair<List<Statement>, Expression>(pair.getFirst(), 
 				((VariableDeclarationFragment) vds.fragments().get(0)).getName());
 	}
 	

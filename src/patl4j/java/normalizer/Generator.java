@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
@@ -30,8 +31,6 @@ public class Generator {
 		List<Statement> result = new ArrayList<Statement>();
 		
 		VariableDeclarationFragment fragment = AST.newAST(AST.JLS8).newVariableDeclarationFragment();
-		
-		
 		
 		ExpressionStatement assignmentStmt = genAssignmentStatement(exp);
 		
@@ -117,17 +116,26 @@ public class Generator {
 	}
 	
 	private static Type resolveQualifiedType(String s) {
-		System.out.println("Œ“‘⁄ƒƒ " + s);
+		
+		if (s.equals("")) {
+			return AST.newAST(AST.JLS8).newWildcardType();
+		}
+		
+		// It's a type parameter
 		if (s.contains("<") && s.contains(">")) {
 			// TODO: resolve type parameters
 			String s0 = s.substring(0, s.indexOf("<"));
 			Type hd = resolveQualifiedType(s0);
-			System.out.println(hd);
-			AST tast = AST.newAST(AST.JLS8);
-			ParameterizedType pt = tast.newParameterizedType((Type) ASTNode.copySubtree(tast, hd));
+			AST tAST = AST.newAST(AST.JLS8);
+			ParameterizedType pt = tAST.newParameterizedType((Type) ASTNode.copySubtree(tAST, hd));
+
+			for (String i : splitTypeArgs(s.substring(s.indexOf("<")+1,s.lastIndexOf(">")))) {
+				pt.typeArguments().add(ASTNode.copySubtree(tAST, resolveQualifiedType(i)));
+			}
 			return pt;
 		}
 		
+		// It's an array type
 		if(s.contains("[") && s.contains("]")) {
 			String s0 = s.substring(0, s.indexOf("["));
 			Type hd = resolveQualifiedType(s0);
@@ -150,6 +158,29 @@ public class Generator {
 					(Type)ASTNode.copySubtree(ast, resolveQualifiedType(s.substring(0,last))), 
 					(SimpleName)ASTNode.copySubtree(ast, genSimpleName(lastFrag)));
 		}
+	}
+	
+	private static List<String> splitTypeArgs(String argStr) {
+		List<String> args = new ArrayList<String>();
+		if (argStr.equals(""))
+			return args;
+		int i = 0;
+		int levelCount = 0, lastLeft = 0;
+		while(i < argStr.length()) {
+			if (argStr.charAt(i) == '<')
+				levelCount ++;
+			else if (argStr.charAt(i) == '>')
+				levelCount --;
+			else if (argStr.charAt(i) == ',') {
+				if (levelCount == 0) {
+					args.add(argStr.substring(lastLeft, i).trim());
+					lastLeft = i + 1;
+				}
+			}
+			i ++;
+		}
+		args.add(argStr.substring(lastLeft, i));
+		return args;
 	}
 
 }
