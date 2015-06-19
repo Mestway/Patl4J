@@ -21,7 +21,7 @@ public class DataDependency {
 
     public DataDependency(String classPath, String className, int totalLine) {
         analysis = new HashMap<String, ParaDependence>();
-        lines = new Set[totalLine + 1];
+        lines = new Set[3000 + 1];
 
         String oldPath = Scene.v().getSootClassPath();
 
