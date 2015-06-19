@@ -18,9 +18,6 @@ public class DeNormalizer extends ASTVisitor {
 	boolean firstRound;
 	
 	public DeNormalizer(CompilationUnit icu) {
-		System.out.println("[[BEFORE DENORMALIZER]]");
-		System.out.println(icu);
-		System.out.println("[[AFTER DENORMALIZER]]");
 		file = icu;
 		name2exp = new HashMap<String, Expression>();
 		nameCount = new HashMap<String, Integer>();

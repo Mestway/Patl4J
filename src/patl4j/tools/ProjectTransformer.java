@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 
 import patl4j.core.transformer.TransformationVisitor;
@@ -35,14 +36,38 @@ public class ProjectTransformer {
 	public ProjectTransformer(JavaProject project) {
 		this.project = project;
 		this.option = project.getOption();
-		this.collectPatlRules();
+		try {
+			this.collectPatlRules();
+		} catch (JavaModelException e) {
+			ErrorManager.error("ProjectTransformer@42", "Rule collecting error");
+			e.printStackTrace();
+		}
 	}
 	
 	// Collect Patl rules for transformation purpose
-	private void collectPatlRules() {
-		for (JavaPackage p : project.getPackages()) {
+	private void collectPatlRules() throws JavaModelException {
+		System.out.println("Projectname: " + project.getIJavaProject().getElementName());
+		for (Object i : project.getIJavaProject().getNonJavaResources()) {
+			System.out.println("LEIME: " + i.getClass());
+			if (i instanceof IFile) {
+				try {
+					if (!((IFile)i).getName().endsWith(".patl")) {
+						continue;
+					}
+					List<Rule> ruleList = new PatlParser(((IFile) i).getContents()).Pi();
+		            for (Rule k : ruleList) {
+		            	patlRules.add(k);
+		            }
+				} catch (CoreException | ParseException e) {
+					ErrorManager.error("ProjectTransfomer@line55", "Patl parsing error");
+					e.printStackTrace();
+				}
+			}
+		}
+		for (IPackageFragment p : project.getIJavaProject().getPackageFragments()) {
 			try {
-				for (Object i : p.getIPackageFrag().getNonJavaResources()) {
+				for (Object i : p.getNonJavaResources()) {
+					System.out.println("LEIME: " + i.getClass());
 					if (i instanceof IFile) {
 						try {
 							if (!((IFile)i).getName().endsWith(".patl")) {
