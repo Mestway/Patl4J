@@ -8,6 +8,11 @@ import soot.Scene;
 import soot.SootClass;
 import soot.options.Options;
 
+/*
+ * This class is used to set global configuration of soot. 
+ * It should be created at the very beginning as a singleton.
+ */
+
 public class SootConfig {
 	void setClassPath(PatlOption option) {
 		String seperator = ":";

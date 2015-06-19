@@ -18,7 +18,7 @@ public class DataDependency {
     BriefUnitGraph graph;
 
     Set[] lines;
-
+    
     public DataDependency(SootClass s) {
         analysis = new HashMap<String, ParaDependence>();
         lines = new Set[3000 + 1];
@@ -61,7 +61,7 @@ public class DataDependency {
         ParaDependence curAnalysis = (ParaDependence) analysis.get(methodName);
         for (Object u1: lines[line1]) {
             for (Object u2: lines[line2]) {
-                if (curAnalysis.isDependence((Unit) u1, (Unit) u2)) return true;
+                if (curAnalysis.isDependent((Unit) u1, (Unit) u2)) return true;
             }
         }
         return false;

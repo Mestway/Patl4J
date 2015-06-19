@@ -57,12 +57,10 @@ public class Analyzer {
 	 * @param t
 	 * @return
 	 */
-	public boolean analyze(String methodName, Statement s, Statement t) {
-		 
+	public boolean analyze(String methodName, Statement s, Statement t) {	 
 		if (checkIsDeclar(s, t) || checkIsDeclar(t, s)) {
 			return true;
-		}
-		
+		}		
 		int sOffset = s.getStartPosition(), tOffset = t.getStartPosition();
 		int cntLines = 1, sLine = 0, tLine = 0;
 		for (int i = 0; i <= Math.max(sOffset, tOffset); i++) {
@@ -70,7 +68,6 @@ public class Analyzer {
 			if (i == sOffset) sLine = cntLines;
 			if (i == tOffset) tLine = cntLines;
 		}
-
 		boolean ret = dependency.isDependent(methodName, sLine, tLine);
 		return ret;
 	}
