@@ -43,7 +43,7 @@ public class TransformationVisitor extends ASTVisitor {
 	// Set the environment of the transformer
 	public boolean visit(TypeDeclaration node) {
 		typeDecl = node;
-		this.currentAnalyzer = new Analyzer(packageName + "." + typeDecl.getName().toString(), source.toString(), option);
+		this.currentAnalyzer = new Analyzer(packageName + "." + typeDecl.getName().toString(), source.toString());
 		return true;
 	}
 	
@@ -69,7 +69,7 @@ public class TransformationVisitor extends ASTVisitor {
 		node.setBody(
 				(Block) ASTNode.copySubtree(
 						node.getAST(),
-						transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$我也不知是什么")));
+						transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$锟斤拷也锟斤拷知锟斤拷什么")));
 		return false;
 	}
 	

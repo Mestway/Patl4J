@@ -19,21 +19,9 @@ public class DataDependency {
 
     Set[] lines;
 
-    public DataDependency(String classPath, String className, int totalLine) {
+    public DataDependency(SootClass s) {
         analysis = new HashMap<String, ParaDependence>();
         lines = new Set[3000 + 1];
-
-        String oldPath = Scene.v().getSootClassPath();
-
-        System.out.println("Class path: " + oldPath + classPath);
-        Scene.v().setSootClassPath(oldPath + classPath);
-
-        Options.v().set_keep_line_number(true);
-   
-        System.out.println(System.getProperty("user.dir"));
-        
-        SootClass s = Scene.v().loadClassAndSupport(className);
-        Scene.v().loadNecessaryClasses();
 
         try {
             for (Iterator it = s.getMethods().iterator(); it.hasNext(); ) {
@@ -47,7 +35,7 @@ public class DataDependency {
                 for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
                     Unit unit = (Unit) uIt.next();
                     int lineNum = unit.getJavaSourceStartLineNumber();
-                    System.out.println("@" + lineNum + "\t" + unit);
+                    // System.out.println("@" + lineNum + "\t" + unit);
                     if (lineNum != -1) {
                     	if (lines[lineNum] == null) lines[lineNum] = new HashSet<Unit>();
                     	lines[lineNum].add(unit);
@@ -59,41 +47,6 @@ public class DataDependency {
 
                 analysis.put(fun.getName(), curAnalysis);
             }
-            /*
-            try {
-				PrintWriter writer = new PrintWriter("/Users/Vani/Patl4J/log", "UTF-8");
-				// for test
-	            for (Iterator it = s.getMethods().iterator(); it.hasNext();) {
-	            	SootMethod fun = (SootMethod) it.next();
-	            	writer.println("@fun: " + fun.getDeclaration());
-	            	
-	            	String methodName = fun.getName();
-	            	Body body = fun.retrieveActiveBody();
-	            	
-	            	PatchingChain<Unit> u = body.getUnits();
-	            	for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
-	            		Unit unit = (Unit) uIt.next();
-	            		for (Iterator oIt = u.iterator(); oIt.hasNext(); ) {
-	            			Unit unit2 = (Unit) oIt.next();
-	            			int line1 = unit.getJavaSourceStartLineNumber();
-	            			int line2 = unit2.getJavaSourceStartLineNumber();
-	            			if (line1 != -1 && line2 != -1) {
-	            				boolean res = isDependent(methodName, line1, line2);
-	            				writer.println(unit + " | " + unit2 + " -> " + res);
-	            			}
-	            		}
-	            	}
-	            }
-	            writer.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-
             
         } catch (OutOfMemoryError e) {
             G.v().out.println("Soot has run out of the memory allocated to it by the Java VM.");
