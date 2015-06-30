@@ -18,11 +18,14 @@ import java.util.*;
 
 public class ParaDependence {
     ParaDependenceAnalysis analysis;
+    AliasAnalysis aliasAnalysis;
+
     public ParaDependence(UnitGraph g) {
         analysis = new ParaDependenceAnalysis<Unit, VariableRecord>(g);
+        aliasAnalysis = new AliasAnalysis();
     }
 
-    public boolean isDependence(Unit u1, Unit u2) {
+    public boolean isDependent(Unit u1, Unit u2) {
         VariableRecord recordToU1 = (VariableRecord) analysis.getFlowBefore(u1);
         VariableRecord recordToU2 = (VariableRecord) analysis.getFlowBefore(u2);
         return isRW(u1, u2, recordToU1, recordToU2) || isWR(u1, u2, recordToU1, recordToU2) || isWW(u1, u2, recordToU1, recordToU2);
@@ -30,30 +33,30 @@ public class ParaDependence {
 
     boolean isRW(Unit unit1, Unit unit2, VariableRecord U1, VariableRecord U2) {
         for (ValueBox defVar : unit1.getDefBoxes()) {
-            if (U1.contains(defVar, unit2, 0)) return true;
+            if (U1.contains(defVar, unit2, 0, aliasAnalysis)) return true;
         }
         for (ValueBox defVar : unit2.getDefBoxes()) {
-            if (U2.contains(defVar, unit1, 0)) return true;
+            if (U2.contains(defVar, unit1, 0, aliasAnalysis)) return true;
         }
         return false;
     }
 
     boolean isWR(Unit unit1, Unit unit2, VariableRecord U1, VariableRecord U2) {
         for (ValueBox useVar : unit1.getUseBoxes()) {
-            if (U1.contains(useVar, unit2, 1)) return true;
+            if (U1.contains(useVar, unit2, 1, aliasAnalysis)) return true;
         }
         for (ValueBox useVar : unit2.getUseBoxes()) {
-            if (U2.contains(useVar, unit1, 1)) return true;
+            if (U2.contains(useVar, unit1, 1, aliasAnalysis)) return true;
         }
         return false;
     }
 
     boolean isWW(Unit unit1, Unit unit2, VariableRecord U1, VariableRecord U2) {
         for (ValueBox defVar : unit1.getDefBoxes()) {
-            if (U1.contains(defVar, unit2, 1)) return true;
+            if (U1.contains(defVar, unit2, 1, aliasAnalysis)) return true;
         }
         for (ValueBox defVar : unit2.getDefBoxes()) {
-            if (U2.contains(defVar, unit1, 1)) return true;
+            if (U2.contains(defVar, unit1, 1, aliasAnalysis)) return true;
         }
         return false;
     }
@@ -70,12 +73,16 @@ class VariableRecord {
         defRecord = new HashMap<Object, Set>();
     }
 
-    public boolean contains(ValueBox var, Object u, int type) {
+    public boolean contains(ValueBox var, Object u, int type, AliasAnalysis aliasAnalysis) {
         Map<Object, Set> activeRecord;
         if (type == 0) activeRecord = useRecord; else activeRecord = defRecord;
         Set entry = (Set) activeRecord.get(var.getValue());
         if (entry != null) {
-            return entry.contains(u);
+        	for (Object _local: entry) {
+        		Local local = (Local) _local;
+        		if (aliasAnalysis.mayAlias(local, (Local) u))
+        			return true;
+        	}
         }
         return false;
     }
