@@ -13,6 +13,7 @@ import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.Rule;
 import patl4j.shifter.datastructure.BlockSTreeNode;
 import patl4j.util.ErrorManager;
+import patl4j.util.VariableContext;
 
 public class MatcherSet {
 	
@@ -37,11 +38,11 @@ public class MatcherSet {
 	
 	// Update the matcher collection set with a Java Statement,
 	// which will then shift the responsibility to matchers
-	public MatcherSet accept(Statement s) {
+	public MatcherSet accept(Statement s, VariableContext context) {
 		List<Matcher> collection = new ArrayList<Matcher>();
 		for (Matcher i : matchers) {
 			// After update, both the updated and the un-updated matcher will be genearted
-			List<Matcher> updated = i.accept(s);
+			List<Matcher> updated = i.accept(s, context);
 			for (Matcher j : updated) {
 				collection.add(j);
 			}

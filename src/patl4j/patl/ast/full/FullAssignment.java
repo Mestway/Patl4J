@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public class FullAssignment implements FullStatement{
 
@@ -54,7 +55,8 @@ public class FullAssignment implements FullStatement{
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		
 		// There will be an error if we want to match on this pattern.
 		ErrorManager.error("FullAssignment@35", "The pattern (FullAssignment) should only be a target pattern!");

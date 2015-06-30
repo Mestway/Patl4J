@@ -12,6 +12,7 @@ import patl4j.core.transformer.phases.Shifter;
 import patl4j.java.analyzer.Analyzer;
 import patl4j.matcher.MatcherSet;
 import patl4j.patl.ast.Rule;
+import patl4j.util.VariableContext;
 
 public class Transformer {
 
@@ -37,8 +38,8 @@ public class Transformer {
 	 * @param analyzer the analyzer for the given file
 	 * @return an statement representing the method body
 	 */
-	public Statement execute(Block body, Analyzer analyzer, String methodName) {
-		this.matchers = this.matching(body);
+	public Statement execute(Block body, Analyzer analyzer, String methodName, VariableContext context) {
+		this.matchers = this.matching(body, context);
 		
 		this.matchers.setMethodName(methodName);
 		
@@ -55,8 +56,8 @@ public class Transformer {
 		return adaptedBody;
 	}
 
-	private MatcherSet matching(Block body) {
-		return new MatcherBinder(matchers, rules).bindMatcher(body, matchers);
+	private MatcherSet matching(Block body, VariableContext context) {
+		return new MatcherBinder(matchers, rules).bindMatcher(body, matchers, context);
 	}
 	
 	private Statement adapt(MatcherSet bindedMatcher, Shifter shifter) {

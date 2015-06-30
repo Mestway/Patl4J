@@ -10,13 +10,14 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public class FieldAccessPattern implements RHSPattern {
 	
-	String target;
+	MetaVariable target;
 	String field;
 	
-	public FieldAccessPattern(String target, String field) {
+	public FieldAccessPattern(MetaVariable target, String field) {
 		this.target = target;
 		this.field = field;
 	}
@@ -28,7 +29,8 @@ public class FieldAccessPattern implements RHSPattern {
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Expression exp,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		
 		List<Pair<String, Name>> matchedVarList = new ArrayList<Pair<String, Name>>();
 		Boolean matchedSccessful = false;
@@ -40,7 +42,7 @@ public class FieldAccessPattern implements RHSPattern {
 				SimpleName sn = (SimpleName) qn.getQualifier();
 				// TODO: add type check on the matching check
 				System.out.println("[TypeInfo from FieldAccessPattern] " + sn.resolveTypeBinding() + " " + var2type.get(target));
-				matchedVarList.add(new Pair<String,Name>(this.target, sn));
+				matchedVarList.add(new Pair<String,Name>(this.target.getName(), sn));
 				
 				// Note that the field won't generate a binding
 				if (this.field.equals(qn.getName().getIdentifier())) {

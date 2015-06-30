@@ -10,7 +10,6 @@ Bundle-Activator: patl4j.Activator
 Export-Package: patl4j,
  patl4j.core.transformer,
  patl4j.core.transformer.phases,
- patl4j.exception,
  patl4j.handlers,
  patl4j.java,
  patl4j.java.analyzer,

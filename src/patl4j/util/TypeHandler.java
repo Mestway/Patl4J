@@ -3,37 +3,24 @@ package patl4j.util;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-import patl4j.exception.TypeBindingUnresolved;
-
 public class TypeHandler {
-	
+
 	// Decide whether to use type information in the matching process.
 	private static boolean typeCheckSwitcher = true;
 	
 	// Decide whether to print the type match information
 	private static boolean debugTypeInfo = true;
 	
-	public static boolean typeMatchCheck(Expression exp, String typeName) {
-		if (typeCheckSwitcher == false)
-			return true;
-		
-		try {
-			return typeMatchCheck(exp.resolveTypeBinding(), typeName);
-		} catch (TypeBindingUnresolved e) {
-			System.out.println("[Type unresolved] The type of the expression is not resolved: " + exp.toString() + "@" + exp.getStartPosition());
-			return false;
-		}
-	}
-	
-	private static boolean typeMatchCheck(ITypeBinding itb, String typeName) throws TypeBindingUnresolved {
+	public static boolean typeMatchCheck(ITypeBinding itb, String typeName) throws Exception {
 		
 		// If we disable the type checker
 		if (typeCheckSwitcher == false) {
 			return true;
 		}
 		
-		if (itb == null)
-			throw new TypeBindingUnresolved();
+		if (itb == null){
+			throw new Exception();
+		}
 		
 		if (!itb.getName().equals("") && isSimpleNameString(typeName)) {
 			return itb.getName().equals(extractSimpleName(typeName));

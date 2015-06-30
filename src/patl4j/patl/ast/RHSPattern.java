@@ -7,10 +7,13 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Name;
 
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public interface RHSPattern {
 
 	// try to use the RHS patten to match the rhs part of an assignment expression
-	Pair<List<Pair<String, Name>>, Boolean> tryMatch(Expression rhsExp, Map<String, String> var2type);
+	Pair<List<Pair<String, Name>>, Boolean> tryMatch(Expression rhsExp, 
+			Map<String, String> var2type, 
+			VariableContext context);
 	
 }

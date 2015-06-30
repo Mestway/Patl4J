@@ -11,15 +11,16 @@ import org.eclipse.jdt.core.dom.SimpleName;
 
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public class BinaryOperation implements RHSPattern {
 	
-	String first;
-	String second;
+	MetaVariable first;
+	MetaVariable second;
 	// For simplicity consideration, just make it one with 
 	String operator;
 	
-	public BinaryOperation(String op1, String op2, String operator) {
+	public BinaryOperation(MetaVariable op1, MetaVariable op2, String operator) {
 		this.first = op1;
 		this.second = op2;
 		this.operator = operator;
@@ -27,12 +28,13 @@ public class BinaryOperation implements RHSPattern {
 	
 	@Override
 	public String toString() {
-		return this.first + " " + operator + " " + this.second;
+		return this.first.getName() + " " + operator + " " + this.second.getName();
 	}
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Expression exp,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		List<Pair<String, Name>> matchedVarList = new ArrayList<Pair<String, Name>>();
 		Boolean matchedSuccessful = true;
 		
@@ -44,10 +46,10 @@ public class BinaryOperation implements RHSPattern {
 				if (!(left instanceof SimpleName && right instanceof SimpleName)) {
 					// TODO: add type check
 					System.out.println("[Typeinfo BinaryOperation 46] " + left.resolveTypeBinding() + " " + var2type.get(this.first));
-					matchedVarList.add(new Pair<String, Name>(this.first, (SimpleName)left));
+					matchedVarList.add(new Pair<String, Name>(this.first.getName(), (SimpleName)left));
 					// TODO: add type check
 					System.out.println("[Typeinfo BinaryOperation 49] " + right.resolveTypeBinding() + " " + var2type.get(this.second));
-					matchedVarList.add(new Pair<String, Name>(this.second, (SimpleName)right));
+					matchedVarList.add(new Pair<String, Name>(this.second.getName(), (SimpleName)right));
 				} else {
 					// The argument of the expression is not normalized
 					ErrorManager.error("BinaryOperation@lien53", "Operands are not normalized.");

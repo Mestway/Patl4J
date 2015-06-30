@@ -17,12 +17,15 @@ import java.util.Optional;
 import java.util.ArrayList;
 
 public class PatlParser {
+	static List<VarDecl> varDecls = new ArrayList<VarDecl>();
+  
 	public static void main(String[] args) throws ParseException {
 		/*String testExample = "(x: A -> B, y: C->D) { m A a,b,c; m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A -> B, y: C->D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
 		List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
 		for (Rule i : p) {
 		  	System.out.println(i);
 		}*/
+		
 		String testExample = "+ z=xx.f.e(e, b, c).g(a.t(a,b),x,y).e();";
 		String eg2 = "(x: A -> B) { m x.getR();	+ A x = x.getP().getSecond();}";
 		Rule tl = new PatlParser(new java.io.StringReader(eg2)).pi();
@@ -124,7 +127,7 @@ Rule pi():
   List<ModInstruction> instrs = new ArrayList<ModInstruction>();
 }
 {
-	decls=decls() "{"  ( s=i() { instrs.add(s); } )* "}"
+	decls=decls() { varDecls = decls; } "{"  ( s=i() { instrs.add(s); } )* "}"
 	{
 	  	return new Rule(decls, instrs);
 	}
@@ -196,7 +199,8 @@ StatementPattern p():
   LOOKAHEAD(2)
   	var = <IDENTIFIER> "=" r = r() ";"
   	{
-    	return new AssignStmtPattern(var.toString(), r);
+		MetaVariable mVar = new MetaVariable(var.toString(), varDecls);
+    	return new AssignStmtPattern(mVar, r);
   	}
 | 	pe = e() ";"
 	{
@@ -217,10 +221,13 @@ RHSPattern r():
   	r = e() { return r; }
 |  
   	target = <IDENTIFIER>  ( "."  (field =<IDENTIFIER>|field =<MOD>) {
-		return new FieldAccessPattern(target.toString(), field.toString()); 
+  	  	MetaVariable tgt = new MetaVariable(target.toString(), varDecls);
+		return new FieldAccessPattern(tgt, field.toString()); 
 	} | (operator = <PLUS> | operator = <MINUS> | operator = <SLASH> | operator = <STAR> | operator = <BIT_AND> | operator = <BIT_OR> | operator = <XOR> | operator = <REM>) (second = <CONSTANT> | second = <IDENTIFIER>)
 	{
-		return new BinaryOperation(target.toString(), second.toString(), operator.toString());
+		MetaVariable tgt2 = new MetaVariable(target.toString(), varDecls);
+		MetaVariable snd = new MetaVariable(second.toString(), varDecls);
+		return new BinaryOperation(tgt2, snd, operator.toString());
 	})
 }
 
@@ -228,14 +235,15 @@ PEPattern e():
 {
 	Token target;
   	Token methodName;
-  	List<String> argList = new ArrayList<String>();
+  	List<MetaVariable> argList = new ArrayList<MetaVariable>();
   	Token className;
 }
 {
   LOOKAHEAD(2)
   	target = <IDENTIFIER>  "." (methodName=<IDENTIFIER> | methodName=<MOD>) argList = Arguments()
   	{
-    	return new MethodPattern(target.toString(), methodName.toString(), argList);
+  	  	MetaVariable tgt = new MetaVariable(target.toString(), varDecls);
+    	return new MethodPattern(tgt, methodName.toString(), argList);
   	}
 | 	<NEW> className = <IDENTIFIER> argList = Arguments()
 	{
@@ -243,8 +251,8 @@ PEPattern e():
 	}
 }
 
-List<String> Arguments():
-{ List<String> argList=new ArrayList<String>();}
+List<MetaVariable> Arguments():
+{ List<MetaVariable> argList=new ArrayList<MetaVariable>();}
 {
   	"(" (argList = ArgumentList() )? ")"
   	{
@@ -252,13 +260,13 @@ List<String> Arguments():
   	} 
 }
 
-List<String> ArgumentList():
+List<MetaVariable> ArgumentList():
 {
-  	List<String> argList = new ArrayList<String>();
+  	List<MetaVariable> argList = new ArrayList<MetaVariable>();
   	Token s;
 }
 {
-	s = <IDENTIFIER> { argList.add(s.toString()); } ("," s = <IDENTIFIER>{ argList.add(s.toString()); })*
+	s = <IDENTIFIER> { argList.add(new MetaVariable(s.toString(), varDecls)); } ("," s = <IDENTIFIER>{ argList.add(new MetaVariable(s.toString(), varDecls)); })*
 	{
 		return argList;
 	}

@@ -24,6 +24,7 @@ import patl4j.patl.ast.VarDecl;
 import patl4j.shifter.datastructure.BlockSTreeNode;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 import patl4j.util.VariableGenerator;
 
 public class Matcher {
@@ -84,7 +85,7 @@ public class Matcher {
 						var2newtype.get(var)));
 	}
 	
-	public List<Matcher> accept(Statement s) {
+	public List<Matcher> accept(Statement s, VariableContext context) {
 		List<Matcher> mlist = new ArrayList<Matcher>();
 		// Copy the one w/o update
 		mlist.add(Matcher.deepCopy(this));
@@ -98,7 +99,7 @@ public class Matcher {
 		ModInstruction instr = instrBindings.get(matchpoint).getFirst();
 	
 		Pair<List<Pair<String,Name>>, Boolean> result = 
-				instr.tryMatch(s, var2type);
+				instr.tryMatch(s, var2type, context);
 		
 		// Check if variable bindings can match the existed result
 		// TODO: the binding check is based on the name of the variables.

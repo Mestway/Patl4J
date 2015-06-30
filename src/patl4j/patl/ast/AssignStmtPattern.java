@@ -16,25 +16,27 @@ import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 import patl4j.util.TypeHandler;
+import patl4j.util.VariableContext;
 
 public class AssignStmtPattern implements StatementPattern {
 	
-	String variable;
+	MetaVariable variable;
 	RHSPattern expression;
 	
-	public AssignStmtPattern(String variable, RHSPattern expression) {
+	public AssignStmtPattern(MetaVariable variable, RHSPattern expression) {
 		this.variable = variable;
 		this.expression = expression;
 	}
 	
 	@Override
 	public String toString() {
-		return variable + "=" + expression.toString() + ";";
+		return variable.getName() + "=" + expression.toString() + ";";
 	}
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		
 		List<Pair<String, Name>> matchedVarList = new ArrayList<Pair<String,Name>>();
 		Boolean matchedSuccessful = false;
@@ -55,8 +57,10 @@ public class AssignStmtPattern implements StatementPattern {
 				// Debugging types
 				TypeHandler.printTypeMatchInfo(lhsExp, var2type.get(this.variable), "AssignStmtPattern@57");
 				// Check the type between the lhs metavariable and the name
-				if (TypeHandler.typeMatchCheck(lhsExp, var2type.get(this.variable))) {
-					matchedVarList.add(new Pair<String, Name>(this.variable, lhsExp));
+				
+				//TypeHandler.typeMatchCheck(lhsExp, var2type.get(this.variable))
+				if (context.variableMatchCheck(lhsExp, this.variable)) {
+					matchedVarList.add(new Pair<String, Name>(this.variable.getName(), lhsExp));
 				} else {
 					// Type of the lhs expression does not match
 					matchedSuccessful = false;
@@ -64,7 +68,7 @@ public class AssignStmtPattern implements StatementPattern {
 				
 				// Try to match the expression pattern
 				Expression rhsExp = assignment.getRightHandSide(); 
-				Pair<List<Pair<String, Name>>, Boolean> expMatch = this.expression.tryMatch(rhsExp, var2type);
+				Pair<List<Pair<String, Name>>, Boolean> expMatch = this.expression.tryMatch(rhsExp, var2type, context);
 				
 				if (expMatch.getSecond()) {
 					for (Pair<String, Name> p : expMatch.getFirst()) {
@@ -88,10 +92,11 @@ public class AssignStmtPattern implements StatementPattern {
 			TypeHandler.printTypeMatchInfo(vdf.getName(), var2type.get(this.variable), "AssignStmtPattern@line83");
 			
 			// Type check on the lhs variable
-			if (TypeHandler.typeMatchCheck(vdf.getName(), var2type.get(this.variable)))
-				matchedVarList.add(new Pair<String, Name>(this.variable, vdf.getName()));
+			//if (TypeHandler.typeMatchCheck(vdf.getName(), var2type.get(this.variable)))
+			if (context.variableMatchCheck(vdf.getName(), this.variable))
+				matchedVarList.add(new Pair<String, Name>(this.variable.getName(), vdf.getName()));
 			
-			Pair<List<Pair<String, Name>>, Boolean> expMatch = this.expression.tryMatch(vdf.getInitializer(), var2type);
+			Pair<List<Pair<String, Name>>, Boolean> expMatch = this.expression.tryMatch(vdf.getInitializer(), var2type, context);
 			
 			if (expMatch.getSecond()) {
 				for (Pair<String, Name> p : expMatch.getFirst()) {
@@ -106,7 +111,7 @@ public class AssignStmtPattern implements StatementPattern {
 	}
 	
 	public String getVariable() {
-		return this.variable;
+		return this.variable.getName();
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public class FullExpressionStatement implements FullStatement {
 
@@ -30,7 +31,8 @@ public class FullExpressionStatement implements FullStatement {
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		
 		// There will be an error if we want to match on this pattern.
 		ErrorManager.error("FullExpression@line30", "This pattern (FullExpressionStatement) should only be a target pattern!");

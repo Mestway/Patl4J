@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public class ExpStmtPattern implements StatementPattern {
 
@@ -27,12 +28,13 @@ public class ExpStmtPattern implements StatementPattern {
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 	
 		// Promote to the match of its expression
 		if (s instanceof ExpressionStatement) {
 			ExpressionStatement exps = (ExpressionStatement) s;
-			return this.expression.tryMatch(exps.getExpression(), var2type);
+			return this.expression.tryMatch(exps.getExpression(), var2type, context);
 		} else {
 			return new Pair<List<Pair<String, Name>>, Boolean>(new ArrayList<Pair<String, Name>>(), false);
 		}

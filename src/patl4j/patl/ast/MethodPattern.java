@@ -7,17 +7,19 @@ import java.util.Map;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
+
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 import patl4j.util.TypeHandler;
+import patl4j.util.VariableContext;
 
 public class MethodPattern implements PEPattern {
 
-	String target;
+	MetaVariable target;
 	String methodName;
-	List<String> argList;
+	List<MetaVariable> argList;
 	
-	public MethodPattern(String target, String methodName, List<String> argList) {
+	public MethodPattern(MetaVariable target, String methodName, List<MetaVariable> argList) {
 		this.target = target;
 		this.methodName = methodName;
 		this.argList = argList;
@@ -27,11 +29,11 @@ public class MethodPattern implements PEPattern {
 	public String toString() {
 		String args = "(";
 		boolean flag = true;
-		for (String i : argList) {
+		for (MetaVariable i : argList) {
 			if (!flag)
-				args += "," + i;
+				args += "," + i.getName();
 			else {
-				args += i;
+				args += i.getName();
 				flag = false;
 			}
 		}
@@ -41,7 +43,8 @@ public class MethodPattern implements PEPattern {
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Expression exp,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 
 		List<Pair<String, Name>> matchedVarList = new ArrayList<Pair<String, Name>>();
 		Boolean matchedSuccessful = true;
@@ -59,8 +62,9 @@ public class MethodPattern implements PEPattern {
 					TypeHandler.printTypeMatchInfo(mi.getExpression(), var2type.get(this.target), "MethodPattern@line62");
 					
 					// Type check on the target expression
-					if (TypeHandler.typeMatchCheck(mi.getExpression(), var2type.get(this.target))) {
-						matchedVarList.add(new Pair<String, Name>(this.target, (Name) mi.getExpression()));
+					// TypeHandler.typeMatchCheck(mi.getExpression(), var2type.get(this.target))
+					if (context.variableMatchCheck(mi.getExpression(), this.target)) {
+						matchedVarList.add(new Pair<String, Name>(this.target.getName(), (Name) mi.getExpression()));
 					} else {
 						matchedSuccessful = false;
 					}
@@ -75,8 +79,9 @@ public class MethodPattern implements PEPattern {
 								TypeHandler.printTypeMatchInfo(arg, var2type.get(this.argList.get(i)), "MethodPattern@line74");
 								
 								// Type check on the arguments
-								if (TypeHandler.typeMatchCheck(arg, var2type.get(this.argList.get(i)))) {
-									matchedVarList.add(new Pair<String, Name>(this.argList.get(i), (Name)arg));
+								// TypeHandler.typeMatchCheck(arg, var2type.get(this.argList.get(i)))
+								if (context.variableMatchCheck(arg, this.argList.get(i))) {
+									matchedVarList.add(new Pair<String, Name>(this.argList.get(i).getName(), (Name)arg));
 								} else {
 									matchedSuccessful = false;
 								}

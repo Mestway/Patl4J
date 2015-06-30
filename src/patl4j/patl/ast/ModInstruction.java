@@ -10,6 +10,7 @@ import patl4j.matcher.Matcher;
 import patl4j.patl.ast.full.FullAssignment;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
+import patl4j.util.VariableContext;
 
 public class ModInstruction {
 	
@@ -100,13 +101,14 @@ public class ModInstruction {
 	 * @return a pair containing the variable binding list and an boolean variable indicating whether the match success
 	 */
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		
 		if (!this.isSrcPattern()) {
 			ErrorManager.error("ModInstruction@line58", "Trying to match a pattern with + label");
 		}
 		
-		Pair<List<Pair<String,Name>>, Boolean> result = p.tryMatch(s, var2type);
+		Pair<List<Pair<String,Name>>, Boolean> result = p.tryMatch(s, var2type, context);
 		
 		if (result.getSecond()) {
 			System.out.println("[MonInstruction@line64] Match success: \n\tStatement: " + s + "\n\tPattern: " + this.p.toString());

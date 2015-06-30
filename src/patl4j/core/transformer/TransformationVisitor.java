@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import patl4j.handlers.PatlOption;
 import patl4j.java.analyzer.Analyzer;
 import patl4j.patl.ast.Rule;
+import patl4j.util.VariableContext;
 
 public class TransformationVisitor extends ASTVisitor {
 	
@@ -51,9 +52,15 @@ public class TransformationVisitor extends ASTVisitor {
 	// TODO: Again, What are all of the necessary "top-level" nodes?
 	public boolean visit(MethodDeclaration node) {
 		
+		VariableContext vc = new VariableContext();
+		
 		Transformer transformer = new Transformer(rules);
 		
-		ASTNode newBody = transformer.execute(node.getBody(), this.currentAnalyzer, node.getName().toString());
+		ASTNode newBody = transformer.execute(
+				node.getBody(), 
+				this.currentAnalyzer, 
+				node.getName().toString(),
+				vc);
 		
 		node.setBody(
 			(Block) ASTNode.copySubtree(
@@ -64,12 +71,15 @@ public class TransformationVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(Initializer node) {
+		
+		VariableContext vc = new VariableContext();
+		
 		Transformer transformer = new Transformer(rules);
 		
 		node.setBody(
 				(Block) ASTNode.copySubtree(
 						node.getAST(),
-						transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$我也不知是什么")));
+						transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$我也不知是什么", vc)));
 		return false;
 	}
 	

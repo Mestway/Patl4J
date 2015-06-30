@@ -13,13 +13,14 @@ import org.eclipse.jdt.core.dom.SimpleType;
 import patl4j.util.ErrorManager;
 import patl4j.util.Pair;
 import patl4j.util.TypeHandler;
+import patl4j.util.VariableContext;
 
 public class NewPattern implements PEPattern{
 
 	String className;
-	List<String> argList;
+	List<MetaVariable> argList;
 	
-	public NewPattern(String className, List<String> argList) {
+	public NewPattern(String className, List<MetaVariable> argList) {
 		this.className = className;
 		this.argList = argList;
 	}
@@ -27,11 +28,11 @@ public class NewPattern implements PEPattern{
 	public String toString() {
 		String args = "(";
 		boolean flag = true;
-		for (String i : argList) {
+		for (MetaVariable i : argList) {
 			if (!flag)
-				args += "," + i;
+				args += "," + i.getName();
 			else {
-				args += i;
+				args += i.getName();
 				flag = false;
 			}
 		}
@@ -41,7 +42,8 @@ public class NewPattern implements PEPattern{
 
 	@Override
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Expression exp,
-			Map<String, String> var2type) {
+			Map<String, String> var2type,
+			VariableContext context) {
 		List<Pair<String, Name>> matchedVarList = new ArrayList<Pair<String, Name>>();
 		Boolean matchedSuccessful = true;	
 		
@@ -66,8 +68,9 @@ public class NewPattern implements PEPattern{
 								TypeHandler.printTypeMatchInfo(argi, var2type.get(this.argList.get(i)), "[NewPattern@line69]");
 								
 								// Perform Type check on the variables
-								if (TypeHandler.typeMatchCheck(argi, var2type.get(this.argList.get(i))))
-									matchedVarList.add(new Pair<String, Name>(this.argList.get(i), (SimpleName)argi));
+								// TypeHandler.typeMatchCheck(argi, var2type.get(this.argList.get(i)))
+								if (context.variableMatchCheck(argi, this.argList.get(i)))
+									matchedVarList.add(new Pair<String, Name>(this.argList.get(i).getName(), (SimpleName)argi));
 								else {
 									// The type of the arguments does not match
 									matchedSuccessful = false;

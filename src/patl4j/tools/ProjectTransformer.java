@@ -48,7 +48,6 @@ public class ProjectTransformer {
 	private void collectPatlRules() throws JavaModelException {
 		System.out.println("Projectname: " + project.getIJavaProject().getElementName());
 		for (Object i : project.getIJavaProject().getNonJavaResources()) {
-			System.out.println("LEIME: " + i.getClass());
 			if (i instanceof IFile) {
 				try {
 					if (!((IFile)i).getName().endsWith(".patl")) {
@@ -67,7 +66,6 @@ public class ProjectTransformer {
 		for (IPackageFragment p : project.getIJavaProject().getPackageFragments()) {
 			try {
 				for (Object i : p.getNonJavaResources()) {
-					System.out.println("LEIME: " + i.getClass());
 					if (i instanceof IFile) {
 						try {
 							if (!((IFile)i).getName().endsWith(".patl")) {
@@ -109,7 +107,7 @@ public class ProjectTransformer {
 				System.out.println(f.getNormalizedAST());
 				// Generate the transformed body in the package
 				
-				//p.putTheOriginalASTBack(this.option);
+				p.putTheOriginalASTBack(this.option);
 				p.generatedTransformedFiles(f.getCU().getElementName(), f.getNormalizedAST().toString(), this.option);
 			}
 		}

@@ -9,12 +9,15 @@ import java.util.Optional;
 import java.util.ArrayList;
 
 public class PatlParser implements PatlParserConstants {
+        static List<VarDecl> varDecls = new ArrayList<VarDecl>();
+
         public static void main(String[] args) throws ParseException {
                 /*String testExample = "(x: A -> B, y: C->D) { m A a,b,c; m z =  x.m(a,b); - z = x.f; + new C(a, b); } (x: A -> B, y: C->D) { m z =  x.m(a,b); - z = x.f; + new C(a, b); }";
 		List<Rule> p = new PatlParser(new java.io.StringReader(testExample)).Pi();
 		for (Rule i : p) {
 		  	System.out.println(i);
 		}*/
+
                 String testExample = "+ z=xx.f.e(e, b, c).g(a.t(a,b),x,y).e();";
                 String eg2 = "(x: A -> B) { m x.getR();\u0009+ A x = x.getP().getSecond();}";
                 Rule tl = new PatlParser(new java.io.StringReader(eg2)).pi();
@@ -45,6 +48,7 @@ public class PatlParser implements PatlParserConstants {
   ModInstruction s;
   List<ModInstruction> instrs = new ArrayList<ModInstruction>();
     decls = decls();
+                        varDecls = decls;
     jj_consume_token(LBRACE);
     label_2:
     while (true) {
@@ -59,7 +63,7 @@ public class PatlParser implements PatlParserConstants {
         break label_2;
       }
       s = i();
-                                     instrs.add(s);
+                                                           instrs.add(s);
     }
     jj_consume_token(RBRACE);
                 {if (true) return new Rule(decls, instrs);}
@@ -151,7 +155,8 @@ public class PatlParser implements PatlParserConstants {
       jj_consume_token(37);
       r = r();
       jj_consume_token(SEMICOLON);
-        {if (true) return new AssignStmtPattern(var.toString(), r);}
+                MetaVariable mVar = new MetaVariable(var.toString(), varDecls);
+        {if (true) return new AssignStmtPattern(mVar, r);}
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NEW:
@@ -197,7 +202,8 @@ public class PatlParser implements PatlParserConstants {
             jj_consume_token(-1);
             throw new ParseException();
           }
-                {if (true) return new FieldAccessPattern(target.toString(), field.toString());}
+                MetaVariable tgt = new MetaVariable(target.toString(), varDecls);
+                {if (true) return new FieldAccessPattern(tgt, field.toString());}
           break;
         case PLUS:
         case MINUS:
@@ -249,7 +255,9 @@ public class PatlParser implements PatlParserConstants {
             jj_consume_token(-1);
             throw new ParseException();
           }
-                {if (true) return new BinaryOperation(target.toString(), second.toString(), operator.toString());}
+                MetaVariable tgt2 = new MetaVariable(target.toString(), varDecls);
+                MetaVariable snd = new MetaVariable(second.toString(), varDecls);
+                {if (true) return new BinaryOperation(tgt2, snd, operator.toString());}
           break;
         default:
           jj_la1[9] = jj_gen;
@@ -269,7 +277,7 @@ public class PatlParser implements PatlParserConstants {
   final public PEPattern e() throws ParseException {
         Token target;
         Token methodName;
-        List<String> argList = new ArrayList<String>();
+        List<MetaVariable> argList = new ArrayList<MetaVariable>();
         Token className;
     if (jj_2_3(2)) {
       target = jj_consume_token(IDENTIFIER);
@@ -287,7 +295,8 @@ public class PatlParser implements PatlParserConstants {
         throw new ParseException();
       }
       argList = Arguments();
-        {if (true) return new MethodPattern(target.toString(), methodName.toString(), argList);}
+                MetaVariable tgt = new MetaVariable(target.toString(), varDecls);
+        {if (true) return new MethodPattern(tgt, methodName.toString(), argList);}
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NEW:
@@ -305,8 +314,8 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public List<String> Arguments() throws ParseException {
-  List<String> argList=new ArrayList<String>();
+  final public List<MetaVariable> Arguments() throws ParseException {
+  List<MetaVariable> argList=new ArrayList<MetaVariable>();
     jj_consume_token(LPAREN);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFIER:
@@ -321,11 +330,11 @@ public class PatlParser implements PatlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public List<String> ArgumentList() throws ParseException {
-        List<String> argList = new ArrayList<String>();
+  final public List<MetaVariable> ArgumentList() throws ParseException {
+        List<MetaVariable> argList = new ArrayList<MetaVariable>();
         Token s;
     s = jj_consume_token(IDENTIFIER);
-                           argList.add(s.toString());
+                           argList.add(new MetaVariable(s.toString(), varDecls));
     label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -338,7 +347,7 @@ public class PatlParser implements PatlParserConstants {
       }
       jj_consume_token(COMMA);
       s = jj_consume_token(IDENTIFIER);
-                                                                               argList.add(s.toString());
+                                                                                                           argList.add(new MetaVariable(s.toString(), varDecls));
     }
                 {if (true) return argList;}
     throw new Error("Missing return statement in function");
@@ -650,27 +659,6 @@ public class PatlParser implements PatlParserConstants {
     finally { jj_save(6, xla); }
   }
 
-  private boolean jj_3R_18() {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    if (jj_scan_token(PLUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_18()) return true;
-    }
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
   private boolean jj_3R_21() {
     if (jj_scan_token(IDENTIFIER)) return true;
     return false;
@@ -696,13 +684,13 @@ public class PatlParser implements PatlParserConstants {
     return false;
   }
 
-  private boolean jj_3_2() {
-    if (jj_3R_7()) return true;
+  private boolean jj_3R_20() {
+    if (jj_3R_21()) return true;
     return false;
   }
 
-  private boolean jj_3R_20() {
-    if (jj_3R_21()) return true;
+  private boolean jj_3_2() {
+    if (jj_3R_7()) return true;
     return false;
   }
 
@@ -751,12 +739,6 @@ public class PatlParser implements PatlParserConstants {
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(37)) return true;
-    return false;
-  }
-
   private boolean jj_3R_15() {
     if (jj_scan_token(IDENTIFIER)) return true;
     return false;
@@ -764,6 +746,12 @@ public class PatlParser implements PatlParserConstants {
 
   private boolean jj_3R_12() {
     if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(37)) return true;
     return false;
   }
 
@@ -816,6 +804,27 @@ public class PatlParser implements PatlParserConstants {
 
   private boolean jj_3_4() {
     if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_18()) return true;
+    }
+    if (jj_3R_10()) return true;
     return false;
   }
 
