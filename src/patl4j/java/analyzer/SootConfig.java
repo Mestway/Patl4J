@@ -14,7 +14,8 @@ import soot.options.Options;
  */
 
 public class SootConfig {
-	void setClassPath(PatlOption option) {
+	
+	static void setClassPath(PatlOption option) {
 		String seperator = ":";
 		if (option.getPlatform().equals("windows")) {
 			seperator = ";";
@@ -27,6 +28,7 @@ public class SootConfig {
 		}
 		
         String oldPath = Scene.v().getSootClassPath();
+        System.out.println("[SOOT Classpath]: " + oldPath + concatPath);
         Scene.v().setSootClassPath(oldPath + concatPath);
 
 	}
@@ -35,7 +37,7 @@ public class SootConfig {
 	 * @param entryClass the main class of the whole project containing the main function
 	 * @param option the patl option class
 	 */
-	public SootConfig(String entryClass, PatlOption option) {
+	public static void configSoot(String entryClass, PatlOption option) {
 		setClassPath(option);
 		
 		Options.v().set_whole_program(true);

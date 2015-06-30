@@ -24,7 +24,10 @@ public class PatlOption {
 	// The list of new APIs, which are supposed to be added to the import list
 	List<String> newAPINames = new ArrayList<String>();
 
-	List<String> classPath;
+	List<String> classPath = new LinkedList<String>();
+	
+	// For soot config
+	String mainClassName = "";
 	
 	// Either windows, mac or linux
 	String platform = "mac";
@@ -37,7 +40,6 @@ public class PatlOption {
 	// Changed to be built from IJavaProject instead of JavaProject
 	public PatlOption(IJavaProject project) {
 		try {
-    	    this.classPath = new LinkedList<String>();
 			for (Object i : project.getNonJavaResources()) {
 				if (i instanceof IFile) {
 					if (((IFile)i).getName().equals("patl.option")) {
@@ -71,6 +73,8 @@ public class PatlOption {
     	    	} else if (e.getName().equals("filterMode")) {
     	    		if (e.getText().equals("include"))
     	    			this.filterByExclude = false;
+    	    	} else if (e.getName().equals("mainClassName")) {
+    	    		this.mainClassName = e.getText();
     	    	}
     	    }
     	    
@@ -128,5 +132,22 @@ public class PatlOption {
 	
 	public boolean projectIgnored() {
 		return this.ignored;
+	}
+	
+	public String getMainClassName() {
+		return this.mainClassName;
+	}
+	
+	@Override
+	public String toString() {
+		String result = "<Ignored>\n";
+		for (String i : this.ignoredFiles) 
+			result += "  File: " + i + "\n";
+		for (String i : this.ignoredPackages)
+			result += "  Package: " + i + "\n";
+		result += "<ClassPath>\n";
+		for (String i : this.classPath)
+			result += "  t" + i;
+		return result;
 	}
 }

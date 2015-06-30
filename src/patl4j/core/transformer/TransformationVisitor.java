@@ -39,6 +39,7 @@ public class TransformationVisitor extends ASTVisitor {
 		// We will not initialize the analyzer here, but every time get in to a class
 		this.currentAnalyzer = null;
 		this.option = option;
+		System.out.println(option.toString());
 	}
 	
 	// Set the environment of the transformer

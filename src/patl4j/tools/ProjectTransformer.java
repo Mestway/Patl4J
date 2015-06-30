@@ -21,6 +21,7 @@ import patl4j.handlers.PatlOption;
 import patl4j.java.JavaFile;
 import patl4j.java.JavaPackage;
 import patl4j.java.JavaProject;
+import patl4j.java.analyzer.SootConfig;
 import patl4j.java.codeformatter.DeNormalizer;
 import patl4j.patl.ast.Rule;
 import patl4j.patl.ast.parser.ParseException;
@@ -36,6 +37,7 @@ public class ProjectTransformer {
 	public ProjectTransformer(JavaProject project) {
 		this.project = project;
 		this.option = project.getOption();
+		SootConfig.configSoot(this.option.getMainClassName(), this.option);
 		try {
 			this.collectPatlRules();
 		} catch (JavaModelException e) {

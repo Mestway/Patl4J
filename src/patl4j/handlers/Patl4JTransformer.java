@@ -18,7 +18,6 @@ public class Patl4JTransformer extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		
 		// Set output to log files
 		/*
 		PrintStream ps;
