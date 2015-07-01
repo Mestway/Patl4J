@@ -20,8 +20,8 @@ public class ParaDependence {
     ParaDependenceAnalysis analysis;
     AliasAnalysis aliasAnalysis;
 
-    public ParaDependence(UnitGraph g) {
-        analysis = new ParaDependenceAnalysis<Unit, VariableRecord>(g);
+    public ParaDependence(UnitGraph g, VariableCluster cluster) {
+        analysis = new ParaDependenceAnalysis<Unit, VariableRecord>(g, cluster);
         aliasAnalysis = new AliasAnalysis();
     }
 
@@ -68,21 +68,23 @@ class VariableRecord {
     Map<Object, Set> useRecord;
     Map<Object, Set> defRecord;
 
-    public VariableRecord() {
+    VariableCluster cluster;
+    
+    public VariableRecord(VariableCluster _cluster) {
         useRecord = new HashMap<Object, Set>();
         defRecord = new HashMap<Object, Set>();
+        
+        cluster = _cluster;
     }
 
     public boolean contains(ValueBox var, Object u, int type, AliasAnalysis aliasAnalysis) {
         Map<Object, Set> activeRecord;
         if (type == 0) activeRecord = useRecord; else activeRecord = defRecord;
-        Set entry = (Set) activeRecord.get(var.getValue());
+        if (!(var.getValue() instanceof Local)) return false;
+        Object indication = cluster.getIndication((Local) var.getValue());
+        Set entry = (Set) activeRecord.get(indication);
         if (entry != null) {
-        	for (Object _local: entry) {
-        		Local local = (Local) _local;
-        		if (aliasAnalysis.mayAlias(local, (Local) u))
-        			return true;
-        	}
+        	return entry.contains(u);
         }
         return false;
     }
@@ -179,10 +181,12 @@ class VariableRecord {
 class ParaDependenceAnalysis<N, A> extends ForwardFlowAnalysis<N, A> {
 
     VariableRecord varRecord;
+    VariableCluster cluster;
 
-    ParaDependenceAnalysis(UnitGraph g) {
+    ParaDependenceAnalysis(UnitGraph g, VariableCluster _cluster) {
         super((soot.toolkits.graph.DirectedGraph<N>) g);
-        varRecord = new VariableRecord();
+        varRecord = new VariableRecord(_cluster);
+        cluster = _cluster;
         doAnalysis();
     }
 
@@ -197,14 +201,14 @@ class ParaDependenceAnalysis<N, A> extends ForwardFlowAnalysis<N, A> {
         for (Object v : useBoxes) {
             ValueBox v_ = (ValueBox) v;
             if (v_.getValue() instanceof Local)
-                outRecord.update(v_.getValue(), unit, 0);
+                outRecord.update(cluster.getIndication((Local) v_.getValue()), unit, 0);
         }
 
         List defBoxes = unit.getDefBoxes();
         for (Object v : defBoxes) {
             ValueBox v_ = (ValueBox) v;
             if (v_.getValue() instanceof Local)
-                outRecord.update(v_.getValue(), unit, 1);
+                outRecord.update(cluster.getIndication((Local) v_.getValue()), unit, 1);
         }
 /*
         System.out.println("@" + unit);
@@ -217,12 +221,12 @@ class ParaDependenceAnalysis<N, A> extends ForwardFlowAnalysis<N, A> {
 
     @Override
     protected A newInitialFlow() {
-        return (A)new VariableRecord();
+        return (A)new VariableRecord(cluster);
     }
 
     @Override
     protected A entryInitialFlow() {
-        return (A)new VariableRecord();
+        return (A)new VariableRecord(cluster);
     }
 
     @Override
