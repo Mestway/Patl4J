@@ -42,8 +42,9 @@ public class DataDependency {
                     }
                 }
 
+                VariableCluster cluster = new VariableCluster(body);
                 graph = new BriefUnitGraph(body);
-                ParaDependence curAnalysis = new ParaDependence(graph);
+                ParaDependence curAnalysis = new ParaDependence(graph, cluster);
 
                 analysis.put(fun.getName(), curAnalysis);
             }

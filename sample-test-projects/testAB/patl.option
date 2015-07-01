@@ -1,4 +1,6 @@
 <project name="testAB">
+    <classPath>/Library/Java/JavaVirtualMachines/jdk1.8.0_40.jdk/Contents/Home/jre/lib/jce.jar</classPath>
+    <classPath>/Library/Java/JavaVirtualMachines/jdk1.8.0_40.jdk/Contents/Home/jre/lib/rt.jar</classPath>
     <classPath>/Users/Vani/Patl4J/sample-test-projects/testAB/bin/</classPath>
     <classPath>/Users/Vani/Patl4J/sample-test-projects/testAB/</classPath>
     <ignore>
@@ -10,4 +12,5 @@
 		<lib>api_b.B</lib>
 		<lib>api_b.IntPair</lib>
 	</libraries>
+    <mainClassName>testAB.ABCase</mainClassName> 
 </project>
