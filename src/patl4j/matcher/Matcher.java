@@ -449,6 +449,7 @@ public class Matcher {
 
 	@SuppressWarnings("unchecked")
 	public void collectStatementsToBeShifted() {
+		System.out.println("DBG:  " + this.highLevelBlockNode + " ~ " + this.lowLevelBlockNode);
 		if (this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
 			// In this case, all statements are in the same block
 			return;

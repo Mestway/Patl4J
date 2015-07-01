@@ -88,7 +88,7 @@ public class JavaPackage {
 						true, 
 						null);
 			} catch (JavaModelException e) {
-				ErrorManager.error("JavaPackage@line69", "Current File Name already exists!");
+				ErrorManager.error("JavaPackage@line91", "Current File Name already exists!");
 				//e.printStackTrace();
 			}
 		}
