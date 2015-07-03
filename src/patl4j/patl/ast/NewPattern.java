@@ -53,7 +53,7 @@ public class NewPattern implements PEPattern{
 			// Check if it is a simple type
 			if (cic.getType().isSimpleType()) {
 				SimpleType st = (SimpleType) cic.getType();
-				System.out.println("[NewPattern@line56] the name of the type: " + st.getName().getFullyQualifiedName());
+				//System.out.println("[NewPattern@line56] the name of the type: " + st.getName().getFullyQualifiedName());
 				// Check type name equivalence
 				if (this.className.equals(st.getName().getFullyQualifiedName())) {
 					

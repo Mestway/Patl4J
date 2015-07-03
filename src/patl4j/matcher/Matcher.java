@@ -106,8 +106,10 @@ public class Matcher {
 		if (result.getSecond()) {
 			boolean varmatched = true;
 			for (Pair<String, Name> p : result.getFirst()) {
-				if (varMap.get(p.getFirst()).isPresent() && 
-						!varMap.get(p.getFirst()).get().getStr().equals(p.getSecond().getFullyQualifiedName())) {
+				System.out.println("Matcher109==[] " + p.getFirst());
+				//if (varMap.get(p.getFirst()).isPresent() && 
+						//!varMap.get(p.getFirst()).get().getStr().equals(p.getSecond().getFullyQualifiedName())) {
+				if (context.checkAliasRelation(p, varMap) == false) {
 					varmatched = false;
 				}
 			}
@@ -120,7 +122,7 @@ public class Matcher {
 				
 				// Add the variable bindings into varMap
 				for (Pair<String, Name> p : result.getFirst()) {
-					if (!varMap.get(p.getFirst()).isPresent()) {
+					if (varMap.containsKey(p.getFirst()) && !varMap.get(p.getFirst()).isPresent()) {
 						varMap.put(p.getFirst(), Optional.of(new WrappedName(p.getSecond())));
 					}
 				}

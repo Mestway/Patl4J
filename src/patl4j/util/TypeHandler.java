@@ -9,7 +9,7 @@ public class TypeHandler {
 	private static boolean typeCheckSwitcher = true;
 	
 	// Decide whether to print the type match information
-	private static boolean debugTypeInfo = true;
+	private static boolean debugTypeInfo = false;
 	
 	public static boolean typeMatchCheck(ITypeBinding itb, String typeName) throws Exception {
 		
