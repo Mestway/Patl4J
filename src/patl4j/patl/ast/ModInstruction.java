@@ -111,7 +111,7 @@ public class ModInstruction {
 		Pair<List<Pair<String,Name>>, Boolean> result = p.tryMatch(s, var2type, context);
 		
 		if (result.getSecond()) {
-			System.out.println("[MonInstruction@line64] Match success: \n\tStatement: " + s + "\n\tPattern: " + this.p.toString());
+			//System.out.println("[MonInstruction@line64] Match success: \n\tStatement: " + s + "\n\tPattern: " + this.p.toString());
 		}
 		
 		return result;

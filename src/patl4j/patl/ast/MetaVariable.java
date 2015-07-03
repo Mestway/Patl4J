@@ -21,7 +21,6 @@ public class MetaVariable {
 				this.newType = d.getNewType();
 			}
 		}
-		System.out.println("带有类型： " + this.name + ":(" + this.oldType + "->" + this.newType + ")");
 	}
 	
 	@Override

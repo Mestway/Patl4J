@@ -106,7 +106,8 @@ public class Matcher {
 		if (result.getSecond()) {
 			boolean varmatched = true;
 			for (Pair<String, Name> p : result.getFirst()) {
-				System.out.println("Matcher109==[] " + p.getFirst());
+				
+				// OLD ONES:
 				//if (varMap.get(p.getFirst()).isPresent() && 
 						//!varMap.get(p.getFirst()).get().getStr().equals(p.getSecond().getFullyQualifiedName())) {
 				if (context.checkAliasRelation(p, varMap) == false) {
@@ -451,7 +452,7 @@ public class Matcher {
 
 	@SuppressWarnings("unchecked")
 	public void collectStatementsToBeShifted() {
-		System.out.println("DBG:  " + this.highLevelBlockNode + " ~ " + this.lowLevelBlockNode);
+
 		if (this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
 			// In this case, all statements are in the same block
 			return;
@@ -590,6 +591,10 @@ public class Matcher {
 
 	public void addAnalyzer(Analyzer analyzer) {
 		this.analyzer = analyzer;
+	}
+	
+	public List<Pair<ModInstruction, Optional<Statement>>> getInstructionBindings() {
+		return this.instrBindings;
 	}
 	
 }

@@ -32,4 +32,8 @@ public class ErrorManager {
 	public static List<String> getErrorLog() {
 		return errorLog;
 	}
+	
+	public static void Message(String problem, String message) {
+		System.out.println("<<" + problem + ">>" + message);
+	}
 }

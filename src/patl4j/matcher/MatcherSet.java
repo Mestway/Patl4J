@@ -2,6 +2,7 @@ package patl4j.matcher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.PrimitiveType;
@@ -10,9 +11,11 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 import patl4j.java.analyzer.Analyzer;
+import patl4j.patl.ast.ModInstruction;
 import patl4j.patl.ast.Rule;
 import patl4j.shifter.datastructure.BlockSTreeNode;
 import patl4j.util.ErrorManager;
+import patl4j.util.Pair;
 import patl4j.util.VariableContext;
 
 public class MatcherSet {
@@ -57,6 +60,21 @@ public class MatcherSet {
 		for (Matcher m : matchers) {
 			if (m.getMatchPoint().equals(-1)) {
 				cleared.add(m);
+			}
+		}
+		// Check whether there is a statement binded to more than one minus mod instruction
+		for (Matcher m : cleared) {
+			for (Matcher n : cleared) {
+				if (m.equals(n)) continue;
+					for (Pair<ModInstruction, Optional<Statement>> p : m.getInstructionBindings()) {
+						for (Pair<ModInstruction, Optional<Statement>> q : n.getInstructionBindings()) {
+							if (p.getSecond().isPresent() && q.getSecond().isPresent()) {
+								if (p.getFirst().isMinus() && q.getFirst().isMinus() && p.getSecond().get().getStartPosition() == q.getSecond().get().getStartPosition()) {
+									ErrorManager.Message("Statement bound to mutiple minus instr", p.getSecond().get().toString() + "@" + p.getSecond().get().getStartPosition());
+								}
+							}
+						}
+					}
 			}
 		}
 		this.matchers = cleared;
