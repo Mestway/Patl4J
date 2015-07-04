@@ -30,6 +30,8 @@ public class DataDependency {
 
                 Body body = fun.retrieveActiveBody();
 
+                System.out.println(body);
+                
                 // print the Jimple units
                 PatchingChain<Unit> u = body.getUnits();
                 for (Iterator uIt = u.iterator(); uIt.hasNext(); ) {
