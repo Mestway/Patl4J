@@ -300,9 +300,11 @@ public class Normalizer {
 				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, declPart));
 				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType())); 
 				
+				/* We don't add any modifier 
 				for (IExtendedModifier j : (List<IExtendedModifier>)node.modifiers()) {
 					vs.modifiers().add(j);
 				}
+				*/
 				
 				if (i.getInitializer() != null) {
 					Pair<List<Statement>, Expression> expPair = normalizeExp(i.getInitializer());
@@ -580,9 +582,10 @@ public class Normalizer {
 			}
 			methodInvk.arguments().clear();
 			for (Pair<List<Statement>, Expression> i : argList) {
-				// Add new arguments into 
+				// Add new arguments into
+				// May be NullLiteral
 				methodInvk.arguments().add(
-						(Name)ASTNode.copySubtree(
+						ASTNode.copySubtree(
 								methodInvk.getAST(), 
 								i.getSecond()
 								));
