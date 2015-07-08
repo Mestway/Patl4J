@@ -13,7 +13,6 @@ public class NormalizeVisitor extends ASTVisitor {
 	// We only need to visit top level node, do not need to dive into statements with "visit"
 	// TODO: What are all of the necessary "top-level" nodes?
 	public boolean visit(MethodDeclaration node) {
-		System.out.println("±¨¾¯À²£¡: " + node.toString());
 		node.setBody(
 				(Block) ASTNode.copySubtree(
 						node.getAST(), 

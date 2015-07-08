@@ -147,7 +147,7 @@ public class PatlOption {
 			result += "  Package: " + i + "\n";
 		result += "<ClassPath>\n";
 		for (String i : this.classPath)
-			result += "  t" + i;
+			result += "\t" + i +"\n";
 		return result;
 	}
 }
