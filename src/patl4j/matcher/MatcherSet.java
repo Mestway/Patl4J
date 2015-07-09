@@ -194,7 +194,14 @@ public class MatcherSet {
 		}
 
 		AST tAST = AST.newAST(AST.JLS8);
-		return tAST.newSimpleType(tAST.newName(typeName));
+		if (typeName.contains("<") && typeName.contains(">"))
+			return tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("<"))));
+		else if (typeName.contains("[") && typeName.contains("]")) {
+			return tAST.newArrayType(tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("[")))));
+		} else {
+			// To work more
+			return tAST.newSimpleType(tAST.newName(typeName));
+		}
 	}
 	
 	/**

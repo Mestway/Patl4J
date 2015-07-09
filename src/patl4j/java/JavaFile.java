@@ -9,6 +9,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import patl4j.handlers.PatlOption;
 import patl4j.java.normalizer.NormalizeVisitor;
 
 public class JavaFile {
@@ -20,20 +21,24 @@ public class JavaFile {
 	CompilationUnit normalizedAST; 
 	String originalASTString;
 	
-	public JavaFile(ICompilationUnit f) {
+	public JavaFile(ICompilationUnit f, PatlOption option) {
 		fileCU = f;
 
 		ast = genASTFromICU(fileCU);
 		originalASTString = ast.toString();
 		
-		NormalizeVisitor jn = new NormalizeVisitor(ast);
-		System.out.println("<<AST of the file: " + f.getElementName() +  " --- BEGIN>>");
-		System.out.println(ast);
-		System.out.println("<<AST of the file --- END>>");
-		ast.accept(jn);
-		// Maybe not, just for simplicity consideration
-		// VariableGenerator.reset();
-		normalizedAST = jn.getCU();
+		if (!option.isAlreadyNormalized()) {
+			NormalizeVisitor jn = new NormalizeVisitor(ast);
+			/*System.out.println("<<AST of the file: " + f.getElementName() +  " --- BEGIN>>");
+			System.out.println(ast);
+			System.out.println("<<AST of the file --- END>>");*/
+			ast.accept(jn);
+			// Maybe not, just for simplicity consideration
+			// VariableGenerator.reset();
+			normalizedAST = jn.getCU();
+		} else {
+			normalizedAST = ast;
+		}
 
 	}
 	

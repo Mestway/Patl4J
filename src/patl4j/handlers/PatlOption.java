@@ -39,6 +39,8 @@ public class PatlOption {
 	
 	boolean outputToFile = false;
 	
+	boolean alreadyNormalized = false;
+	
 	// Changed to be built from IJavaProject instead of JavaProject
 	public PatlOption(IJavaProject project) {
 		try {
@@ -79,6 +81,8 @@ public class PatlOption {
     	    		this.mainClassName = e.getText();
     	    	} else if (e.getName().equals("classToLoad")) {
     	    		this.classToLoad.add(e.getText());
+    	    	} else if (e.getName().equals("alreadyNormalized")) {
+    	    		this.alreadyNormalized = true;
     	    	}
     	    }
     	    
@@ -144,6 +148,10 @@ public class PatlOption {
 	
 	public List<String> getClassToLoad() {
 		return this.classToLoad;
+	}
+	
+	public boolean isAlreadyNormalized() {
+		return this.alreadyNormalized;
 	}
 	
 	@Override

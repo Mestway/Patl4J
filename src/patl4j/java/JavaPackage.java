@@ -22,7 +22,7 @@ public class JavaPackage {
 		try {
 			for (ICompilationUnit f : ipf.getCompilationUnits()) {
 				if (!option.fileIgnored(f.getElementName()))
-					files.add(new JavaFile(f));
+					files.add(new JavaFile(f, option));
 			}
 		} catch (JavaModelException e) {
 			ErrorManager.error("JavaPackage@line27", "Cannot find CompilationUnit in package [" + ipf.getElementName() + "]");
@@ -39,6 +39,8 @@ public class JavaPackage {
 	}
 	
 	public void createNormalizedFiles(PatlOption option) {
+		if (option.isAlreadyNormalized())
+			return;
 		for (JavaFile i : files) {
 			if (option.fileIgnored(i.getCU().getElementName()))
 				continue;
