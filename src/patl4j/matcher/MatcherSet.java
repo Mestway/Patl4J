@@ -223,6 +223,8 @@ public class MatcherSet {
 	 */
 	public void getStatementsToBeAddedToTheBlock(BlockSTreeNode blk) {
 		for (Matcher m : this.matchers) {
+			if (m.getHighLevelBlock() == null)
+				return;
 			if(m.getHighLevelBlock().getId().equals(blk.getId())) {
 				for (Statement s : m.getFirstHalfStatementsToBeShifted()) {
 					blk.addToStmtListBeginning(s);

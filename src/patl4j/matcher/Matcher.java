@@ -453,7 +453,7 @@ public class Matcher {
 	@SuppressWarnings("unchecked")
 	public void collectStatementsToBeShifted() {
 
-		if (this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
+		if (this.highLevelBlockNode == null || this.lowLevelBlockNode == null || this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
 			// In this case, all statements are in the same block
 			return;
 		}
@@ -572,6 +572,9 @@ public class Matcher {
 	}
 
 	public void collectStatementsToBeDeletedInBlock(BlockSTreeNode blk) {
+		if(this.lowLevelBlockNode == null)
+			return;
+		
 		if (this.lowLevelBlockNode.getId() == blk.getId()) {
 			for (Statement s : this.firstHalfStatementsToBeShifted) {
 				blk.addToDeleteSet(s);

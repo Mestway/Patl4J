@@ -1,5 +1,7 @@
 package patl4j.java.analyzer;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,8 +32,15 @@ public class Analyzer {
 	 */
 	public Analyzer(String className, String _classStr) {
 		classStr = _classStr;
-		SootClass s = Scene.v().getSootClass(className);
-		dependency = new DataDependency(s);
+		FileWriter fileWriter;
+		SootClass s = null;
+		for (SootClass x : Scene.v().getClasses()) {
+			if(x.getName().equals(className))
+				s = x;
+        }
+		// = Scene.v().getSootClass(className);
+		if (s != null)
+			dependency = new DataDependency(s);
 	}
 
 	Set<String> getVariables(Statement t) {

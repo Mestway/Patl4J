@@ -1,6 +1,7 @@
 package patl4j.java.analyzer;
 
 import java.util.List;
+
 import patl4j.handlers.PatlOption;
 import soot.PackManager;
 import soot.Scene;
@@ -40,11 +41,14 @@ public class SootConfig {
 		setClassPath(option);
 		
 		Options.v().set_whole_program(true);
-        Options.v().setPhaseOption("cg.spark","on");
+        //Options.v().setPhaseOption("cg.spark","on");
         Options.v().set_keep_line_number(true);
 		
-        System.out.println("[Main class] " + entryClass);
-        SootClass s = Scene.v().loadClassAndSupport(entryClass);
+        System.out.println("[Main class] " + option.getMainClassName());
+        SootClass s = Scene.v().loadClassAndSupport(option.getMainClassName());
+        for (String classToLoad : option.getClassToLoad()) {
+        	Scene.v().loadClassAndSupport(classToLoad);
+        }
         Scene.v().loadNecessaryClasses();
         Options.v().set_main_class(entryClass);
         

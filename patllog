@@ -1,0 +1,4101 @@
+[JavaWorkspace@44]Project 'API-A' is closed.
+[JavaWorkspace@44]Project 'API-B' is closed.
+[JavaWorkspace@44]Project 'Dom4jExample' is closed.
+[JavaWorkspace@44]Project 'HUSACCT' is closed.
+<<AST of the file: AnalyseDomainServiceImpl.java --- BEGIN>>
+package husacct;
+import org.jdom2.Element;
+public class AnalyseDomainServiceImpl {
+  private IModelPersistencyService persistencyService;
+  public Element saveModel(){
+    org.jdom2.Element genVar0;
+    genVar0=persistencyService.saveModel();
+    return genVar0;
+  }
+  public void loadModel(  Element analyseElement){
+    persistencyService.loadModel(analyseElement);
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportActiveViolationTypes.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.jdom2.Element;
+public class ImportActiveViolationTypes {
+  public Map<String,List<ActiveRuleType>> importActiveViolationTypes(  Element activeViolationTypesElement){
+    Map<String,List<ActiveRuleType>> activeRuleTypesMap;
+    activeRuleTypesMap=new HashMap<String,List<ActiveRuleType>>();
+    java.util.List<org.jdom2.Element> genVar18;
+    genVar18=activeViolationTypesElement.getChildren();
+    for (    Element activeViolationTypeElement : genVar18) {
+      List<ActiveRuleType> activeRuleTypes;
+      activeRuleTypes=new ArrayList<ActiveRuleType>();
+      java.util.List<org.jdom2.Element> genVar19;
+      genVar19=activeViolationTypeElement.getChildren();
+      for (      Element ruleTypeElement : genVar19) {
+        java.lang.String genVar20;
+        genVar20="type";
+        String ruleTypeKey;
+        ruleTypeKey=ruleTypeElement.getAttributeValue(genVar20);
+        java.lang.String genVar21;
+        genVar21="SuperClassInheritanceConvention";
+        boolean genVar22;
+        genVar22=ruleTypeKey.equals(genVar21);
+        if (genVar22) {
+          ruleTypeKey="InheritanceConvention";
+        }
+ else {
+          ;
+        }
+        List<ActiveViolationType> activeViolationTypes;
+        activeViolationTypes=new ArrayList<ActiveViolationType>();
+        java.lang.String genVar23;
+        genVar23="violationTypes";
+        Element violationTypesElement;
+        violationTypesElement=ruleTypeElement.getChild(genVar23);
+        boolean genVar24;
+        genVar24=violationTypesElement != null;
+        if (genVar24) {
+          java.lang.String genVar25;
+          genVar25="violationType";
+          java.util.List<org.jdom2.Element> genVar26;
+          genVar26=violationTypesElement.getChildren(genVar25);
+          for (          Element violationTypeElement : genVar26) {
+            java.lang.String genVar27;
+            genVar27="violationKey";
+            String violationTypeKey;
+            violationTypeKey=violationTypeElement.getChildText(genVar27);
+            java.lang.String genVar28;
+            genVar28="enabled";
+            java.lang.String genVar29;
+            genVar29=violationTypeElement.getChildText(genVar28);
+            boolean enabled;
+            enabled=Boolean.parseBoolean(genVar29);
+            ActiveViolationType activeViolationType;
+            activeViolationType=new ActiveViolationType(violationTypeKey,enabled);
+            activeViolationTypes.add(activeViolationType);
+          }
+        }
+ else {
+          ;
+        }
+        java.lang.String genVar30;
+        genVar30="InterfaceInheritanceConvention";
+        boolean genVar31;
+        genVar31=ruleTypeKey.equals(genVar30);
+        boolean genVar32;
+        genVar32=!genVar31;
+        if (genVar32) {
+          ActiveRuleType activeRuleType;
+          activeRuleType=new ActiveRuleType(ruleTypeKey,activeViolationTypes);
+          activeRuleTypes.add(activeRuleType);
+        }
+ else {
+          ;
+        }
+      }
+      java.lang.String genVar33;
+      genVar33="language";
+      java.lang.String genVar34;
+      genVar34=activeViolationTypeElement.getAttributeValue(genVar33);
+      activeRuleTypesMap.put(genVar34,activeRuleTypes);
+    }
+    return activeRuleTypesMap;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: XmlExportUtils.java --- BEGIN>>
+package husacct;
+import org.jdom2.Element;
+public abstract class XmlExportUtils {
+  protected Element createElementWithContent(  String name,  String content){
+    Element element;
+    element=new Element(name);
+    element.addContent(content);
+    return element;
+  }
+  protected Element createLogicalModulesElement(  LogicalModules logicalModules){
+    java.lang.String genVar18;
+    genVar18="logicalModules";
+    Element logicalModulesElement;
+    logicalModulesElement=new Element(genVar18);
+    java.lang.String genVar19;
+    genVar19="logicalModuleFrom";
+    Element logicalModuleFrom;
+    logicalModuleFrom=new Element(genVar19);
+    java.lang.String genVar20;
+    genVar20="logicalModuleTo";
+    Element logicalModuleTo;
+    logicalModuleTo=new Element(genVar20);
+    logicalModulesElement.addContent(logicalModuleFrom);
+    logicalModulesElement.addContent(logicalModuleTo);
+    XmlExportUtils genVar21;
+    genVar21=this;
+    java.lang.String genVar22;
+    genVar22="logicalModulePath";
+    org.jdom2.Element genVar23;
+    genVar23=genVar21.createElementWithContent(genVar22,null);
+    logicalModuleFrom.addContent(genVar23);
+    XmlExportUtils genVar24;
+    genVar24=this;
+    java.lang.String genVar25;
+    genVar25="logicalModuleType";
+    org.jdom2.Element genVar26;
+    genVar26=genVar24.createElementWithContent(genVar25,null);
+    logicalModuleFrom.addContent(genVar26);
+    XmlExportUtils genVar27;
+    genVar27=this;
+    java.lang.String genVar28;
+    genVar28="logicalModulePath";
+    org.jdom2.Element genVar29;
+    genVar29=genVar27.createElementWithContent(genVar28,null);
+    logicalModuleTo.addContent(genVar29);
+    XmlExportUtils genVar30;
+    genVar30=this;
+    java.lang.String genVar31;
+    genVar31="logicalModuleType";
+    org.jdom2.Element genVar32;
+    genVar32=genVar30.createElementWithContent(genVar31,null);
+    logicalModuleTo.addContent(genVar32);
+    return logicalModulesElement;
+  }
+  protected Element createMessageElementFromMessageObject(  Message message){
+    java.lang.String genVar33;
+    genVar33="message";
+    Element messageElement;
+    messageElement=new Element(genVar33);
+    XmlExportUtils genVar34;
+    genVar34=this;
+    org.jdom2.Element genVar35;
+    genVar35=genVar34.createLogicalModulesElement(null);
+    messageElement.addContent(genVar35);
+    XmlExportUtils genVar36;
+    genVar36=this;
+    java.lang.String genVar37;
+    genVar37="ruleKey";
+    org.jdom2.Element genVar38;
+    genVar38=genVar36.createElementWithContent(genVar37,null);
+    messageElement.addContent(genVar38);
+    XmlExportUtils genVar39;
+    genVar39=this;
+    java.lang.String genVar40;
+    genVar40="regex";
+    org.jdom2.Element genVar41;
+    genVar41=genVar39.createElementWithContent(genVar40,null);
+    messageElement.addContent(genVar41);
+    java.lang.String genVar42;
+    genVar42="violationTypeKeys";
+    Element violationTypeKeysElement;
+    violationTypeKeysElement=new Element(genVar42);
+    messageElement.addContent(violationTypeKeysElement);
+    XmlExportUtils genVar43;
+    genVar43=this;
+    java.lang.String genVar44;
+    genVar44="violationTypeKey";
+    org.jdom2.Element genVar45;
+    genVar45=genVar43.createElementWithContent(genVar44,null);
+    violationTypeKeysElement.addContent(genVar45);
+    java.lang.String genVar46;
+    genVar46="exceptionMessages";
+    Element exceptionMessages;
+    exceptionMessages=new Element(genVar46);
+    messageElement.addContent(exceptionMessages);
+    XmlExportUtils genVar47;
+    genVar47=this;
+    org.jdom2.Element genVar48;
+    genVar48=genVar47.createMessageElementFromMessageObject(null);
+    exceptionMessages.addContent(genVar48);
+    return messageElement;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: HusacctResource.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import org.jdom2.Document;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+public class HusacctResource {
+  public Document load(  HashMap<String,Object> dataValues){
+    java.lang.String genVar49;
+    genVar49="file";
+    java.lang.Object genVar50;
+    genVar50=dataValues.get(genVar49);
+    File file;
+    file=(File)genVar50;
+    SAXBuilder sax;
+    sax=new SAXBuilder();
+    Document doc;
+    doc=new Document();
+    try {
+      doc=sax.build(file);
+    }
+ catch (    Exception e) {
+    }
+    return doc;
+  }
+  public boolean save(  Document doc,  HashMap<String,Object> dataValues){
+    java.lang.String genVar51;
+    genVar51="file";
+    java.lang.Object genVar52;
+    genVar52=dataValues.get(genVar51);
+    File file;
+    file=(File)genVar52;
+    try {
+      FileOutputStream outputStream;
+      outputStream=new FileOutputStream(file);
+      org.jdom2.output.Format genVar53;
+      genVar53=Format.getPrettyFormat();
+      XMLOutputter xout;
+      xout=new XMLOutputter(genVar53);
+      xout.output(doc,outputStream);
+      outputStream.close();
+      boolean genVar54;
+      genVar54=true;
+      return genVar54;
+    }
+ catch (    Exception e) {
+      new RuntimeException(e);
+    }
+    boolean genVar55;
+    genVar55=false;
+    return genVar55;
+  }
+  public boolean save(  Document doc,  HashMap<String,Object> dataValues,  HashMap<String,Object> config){
+    boolean genVar56;
+    genVar56=false;
+    return genVar56;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixPersistencyServiceImpl.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.Map;
+import javax.naming.directory.InvalidAttributesException;
+import org.jdom2.Element;
+public class FamixPersistencyServiceImpl {
+  private FamixModel theModel;
+  private Element rootNode, packages, libraries, classes, methods, variables, associations;
+  public Element saveModel(){
+    java.lang.String genVar57;
+    genVar57="EmptyAnalysedApplication";
+    Element analysedProject;
+    analysedProject=new Element(genVar57);
+    boolean saveAnalysedData;
+    saveAnalysedData=false;
+    boolean genVar58;
+    genVar58=!saveAnalysedData;
+    if (genVar58) {
+      return analysedProject;
+    }
+ else {
+      theModel=FamixModel.getInstance();
+      FamixPersistencyServiceImpl genVar59;
+      genVar59=this;
+      genVar59.initiateNodes();
+      FamixPersistencyServiceImpl genVar60;
+      genVar60=this;
+      org.jdom2.Element genVar61;
+      genVar61=genVar60.createXml();
+      return genVar61;
+    }
+  }
+  private void initiateNodes(){
+    husacct.FamixPersistencyServiceImpl genVar62;
+    genVar62=this;
+    java.lang.String genVar63;
+    genVar63="Root";
+    genVar62.rootNode=new Element(genVar63);
+    husacct.FamixPersistencyServiceImpl genVar64;
+    genVar64=this;
+    java.lang.String genVar65;
+    genVar65="Packages";
+    genVar64.packages=new Element(genVar65);
+    husacct.FamixPersistencyServiceImpl genVar66;
+    genVar66=this;
+    java.lang.String genVar67;
+    genVar67="Libraries";
+    genVar66.libraries=new Element(genVar67);
+    husacct.FamixPersistencyServiceImpl genVar68;
+    genVar68=this;
+    java.lang.String genVar69;
+    genVar69="Classes";
+    genVar68.classes=new Element(genVar69);
+    husacct.FamixPersistencyServiceImpl genVar70;
+    genVar70=this;
+    java.lang.String genVar71;
+    genVar71="Methods";
+    genVar70.methods=new Element(genVar71);
+    husacct.FamixPersistencyServiceImpl genVar72;
+    genVar72=this;
+    java.lang.String genVar73;
+    genVar73="Variables";
+    genVar72.variables=new Element(genVar73);
+    husacct.FamixPersistencyServiceImpl genVar74;
+    genVar74=this;
+    java.lang.String genVar75;
+    genVar75="Associations";
+    genVar74.associations=new Element(genVar75);
+  }
+  private Element createXml(){
+    java.lang.String genVar76;
+    genVar76="AnalysedApplication";
+    Element analysedProject;
+    analysedProject=new Element(genVar76);
+    java.lang.String genVar77;
+    genVar77="Packages";
+    Element ElemPackages;
+    ElemPackages=new Element(genVar77);
+    String famPackageKey;
+    java.lang.String genVar78;
+    genVar78="Package";
+    Element ElemPackage;
+    ElemPackage=new Element(genVar78);
+    java.lang.String genVar79;
+    genVar79="UniqueName";
+    org.jdom2.Element genVar80;
+    genVar80=new Element(genVar79);
+    org.jdom2.Element genVar81;
+    genVar81=genVar80.setText(null);
+    ElemPackage.addContent(genVar81);
+    java.lang.String genVar82;
+    genVar82="Name";
+    org.jdom2.Element genVar83;
+    genVar83=new Element(genVar82);
+    org.jdom2.Element genVar84;
+    genVar84=genVar83.setText(null);
+    ElemPackage.addContent(genVar84);
+    java.lang.String genVar85;
+    genVar85="BelongsToPackage";
+    org.jdom2.Element genVar86;
+    genVar86=new Element(genVar85);
+    org.jdom2.Element genVar87;
+    genVar87=genVar86.setText(null);
+    ElemPackage.addContent(genVar87);
+    ElemPackages.addContent(ElemPackage);
+    java.lang.String genVar88;
+    genVar88="";
+    analysedProject.addContent(genVar88);
+    java.lang.String genVar89;
+    genVar89="Libraries";
+    Element ElemLibraries;
+    ElemLibraries=new Element(genVar89);
+    java.lang.String genVar90;
+    genVar90="Library";
+    Element ElemLibrary;
+    ElemLibrary=new Element(genVar90);
+    java.lang.String genVar91;
+    genVar91="UniqueName";
+    org.jdom2.Element genVar92;
+    genVar92=new Element(genVar91);
+    java.lang.String genVar93;
+    genVar93="";
+    org.jdom2.Element genVar94;
+    genVar94=genVar92.setText(genVar93);
+    ElemLibrary.addContent(genVar94);
+    java.lang.String genVar95;
+    genVar95="Name";
+    org.jdom2.Element genVar96;
+    genVar96=new Element(genVar95);
+    org.jdom2.Element genVar97;
+    genVar97=genVar96.setText(null);
+    ElemLibrary.addContent(genVar97);
+    java.lang.String genVar98;
+    genVar98="BelongsToPackage";
+    org.jdom2.Element genVar99;
+    genVar99=new Element(genVar98);
+    org.jdom2.Element genVar100;
+    genVar100=genVar99.setText(null);
+    ElemLibrary.addContent(genVar100);
+    ElemLibrary.addContent(ElemLibrary);
+    analysedProject.addContent(ElemLibraries);
+    java.lang.String genVar101;
+    genVar101="Classes";
+    Element elemClasses;
+    elemClasses=new Element(genVar101);
+    java.lang.String genVar102;
+    genVar102="Class";
+    Element elemClass;
+    elemClass=new Element(genVar102);
+    java.lang.String genVar103;
+    genVar103="UniqueName";
+    org.jdom2.Element genVar104;
+    genVar104=new Element(genVar103);
+    org.jdom2.Element genVar105;
+    genVar105=genVar104.setText(null);
+    elemClass.addContent(genVar105);
+    java.lang.String genVar106;
+    genVar106="Name";
+    org.jdom2.Element genVar107;
+    genVar107=new Element(genVar106);
+    org.jdom2.Element genVar108;
+    genVar108=genVar107.setText(null);
+    elemClass.addContent(genVar108);
+    java.lang.String genVar109;
+    genVar109="BelongsToPackage";
+    org.jdom2.Element genVar110;
+    genVar110=new Element(genVar109);
+    org.jdom2.Element genVar111;
+    genVar111=genVar110.setText(null);
+    elemClass.addContent(genVar111);
+    java.lang.String genVar112;
+    genVar112="IsAbstract";
+    org.jdom2.Element genVar113;
+    genVar113=new Element(genVar112);
+    org.jdom2.Element genVar114;
+    genVar114=genVar113.setText(null);
+    elemClass.addContent(genVar114);
+    java.lang.String genVar115;
+    genVar115="IsInnerClass";
+    org.jdom2.Element genVar116;
+    genVar116=new Element(genVar115);
+    org.jdom2.Element genVar117;
+    genVar117=genVar116.setText(null);
+    elemClass.addContent(genVar117);
+    elemClasses.addContent(elemClass);
+    analysedProject.addContent(elemClasses);
+    java.lang.String genVar118;
+    genVar118="Methods";
+    Element elemMethods;
+    elemMethods=new Element(genVar118);
+    java.lang.String genVar119;
+    genVar119="Method";
+    Element elemMethod;
+    elemMethod=new Element(genVar119);
+    java.lang.String genVar120;
+    genVar120="UniqueName";
+    org.jdom2.Element genVar121;
+    genVar121=new Element(genVar120);
+    org.jdom2.Element genVar122;
+    genVar122=genVar121.setText(null);
+    elemMethod.addContent(genVar122);
+    java.lang.String genVar123;
+    genVar123="Name";
+    org.jdom2.Element genVar124;
+    genVar124=new Element(genVar123);
+    org.jdom2.Element genVar125;
+    genVar125=genVar124.setText(null);
+    elemMethod.addContent(genVar125);
+    java.lang.String genVar126;
+    genVar126="accessControlQualifier";
+    org.jdom2.Element genVar127;
+    genVar127=new Element(genVar126);
+    org.jdom2.Element genVar128;
+    genVar128=genVar127.setText(null);
+    elemMethod.addContent(genVar128);
+    java.lang.String genVar129;
+    genVar129="signature";
+    org.jdom2.Element genVar130;
+    genVar130=new Element(genVar129);
+    org.jdom2.Element genVar131;
+    genVar131=genVar130.setText(null);
+    elemMethod.addContent(genVar131);
+    java.lang.String genVar132;
+    genVar132="declaredReturnType";
+    org.jdom2.Element genVar133;
+    genVar133=new Element(genVar132);
+    org.jdom2.Element genVar134;
+    genVar134=genVar133.setText(null);
+    elemMethod.addContent(genVar134);
+    elemMethods.addContent(elemMethod);
+    analysedProject.addContent(elemMethods);
+    java.lang.String genVar135;
+    genVar135="Variables";
+    Element elemVariables;
+    elemVariables=new Element(genVar135);
+    java.lang.String genVar136;
+    genVar136="Variable";
+    Element elemVariable;
+    elemVariable=new Element(genVar136);
+    java.lang.String genVar137;
+    genVar137="UniqueName";
+    org.jdom2.Element genVar138;
+    genVar138=new Element(genVar137);
+    org.jdom2.Element genVar139;
+    genVar139=genVar138.setText(null);
+    elemVariable.addContent(genVar139);
+    java.lang.String genVar140;
+    genVar140="Name";
+    org.jdom2.Element genVar141;
+    genVar141=new Element(genVar140);
+    org.jdom2.Element genVar142;
+    genVar142=genVar141.setText(null);
+    elemVariable.addContent(genVar142);
+    java.lang.String genVar143;
+    genVar143="BelongsToClass";
+    org.jdom2.Element genVar144;
+    genVar144=new Element(genVar143);
+    org.jdom2.Element genVar145;
+    genVar145=genVar144.setText(null);
+    elemVariable.addContent(genVar145);
+    java.lang.String genVar146;
+    genVar146="declareType";
+    org.jdom2.Element genVar147;
+    genVar147=new Element(genVar146);
+    org.jdom2.Element genVar148;
+    genVar148=genVar147.setText(null);
+    elemVariable.addContent(genVar148);
+    elemVariables.addContent(elemVariable);
+    analysedProject.addContent(elemVariables);
+    java.lang.String genVar149;
+    genVar149="Associations";
+    Element elemAssociations;
+    elemAssociations=new Element(genVar149);
+    String From;
+    From="";
+    String To;
+    To="";
+    String Type;
+    Type="";
+    String LineNr;
+    LineNr="";
+    java.lang.String genVar150;
+    genVar150="Association";
+    Element elemAssociation;
+    elemAssociation=new Element(genVar150);
+    java.lang.String genVar151;
+    genVar151="From";
+    org.jdom2.Element genVar152;
+    genVar152=new Element(genVar151);
+    org.jdom2.Element genVar153;
+    genVar153=genVar152.setText(From);
+    elemAssociation.addContent(genVar153);
+    java.lang.String genVar154;
+    genVar154="To";
+    org.jdom2.Element genVar155;
+    genVar155=new Element(genVar154);
+    org.jdom2.Element genVar156;
+    genVar156=genVar155.setText(To);
+    elemAssociation.addContent(genVar156);
+    java.lang.String genVar157;
+    genVar157="Type";
+    org.jdom2.Element genVar158;
+    genVar158=new Element(genVar157);
+    org.jdom2.Element genVar159;
+    genVar159=genVar158.setText(Type);
+    elemAssociation.addContent(genVar159);
+    java.lang.String genVar160;
+    genVar160="linenumber";
+    org.jdom2.Element genVar161;
+    genVar161=new Element(genVar160);
+    org.jdom2.Element genVar162;
+    genVar162=genVar161.setText(LineNr);
+    elemAssociation.addContent(genVar162);
+    elemAssociations.addContent(elemAssociation);
+    analysedProject.addContent(elemAssociations);
+    return analysedProject;
+  }
+  public void loadModel(  Element analyseElement){
+    boolean saveAnalysedData;
+    saveAnalysedData=false;
+    boolean genVar163;
+    genVar163=!saveAnalysedData;
+    if (genVar163) {
+      return;
+    }
+ else {
+      theModel=FamixModel.getInstance();
+      java.util.List<org.jdom2.Element> genVar164;
+      genVar164=analyseElement.getChildren();
+      for (      Element rootElem : genVar164) {
+        java.util.List<org.jdom2.Element> genVar165;
+        genVar165=rootElem.getChildren();
+        for (        Element rootChild1Elem : genVar165) {
+          java.lang.String genVar166;
+          genVar166=rootChild1Elem.getName();
+          java.lang.String genVar167;
+          genVar167="Package";
+          boolean genVar168;
+          genVar168=genVar166.equalsIgnoreCase(genVar167);
+          if (genVar168) {
+            FamixPackage famTempPackage;
+            famTempPackage=new FamixPackage();
+            java.util.List<org.jdom2.Element> genVar169;
+            genVar169=rootChild1Elem.getChildren();
+            for (            Element rootChild1Attrs : genVar169) {
+              java.lang.String genVar170;
+              genVar170=rootChild1Attrs.getName();
+              java.lang.String genVar171;
+              genVar171="UniqueName";
+              boolean genVar172;
+              genVar172=genVar170.equalsIgnoreCase(genVar171);
+              if (genVar172) {
+                famTempPackage.uniqueName=rootChild1Attrs.getText();
+              }
+ else {
+                java.lang.String genVar173;
+                genVar173=rootChild1Attrs.getName();
+                java.lang.String genVar174;
+                genVar174="Name";
+                boolean genVar175;
+                genVar175=genVar173.equalsIgnoreCase(genVar174);
+                if (genVar175) {
+                  famTempPackage.name=rootChild1Attrs.getText();
+                }
+ else {
+                  java.lang.String genVar176;
+                  genVar176=rootChild1Attrs.getName();
+                  java.lang.String genVar177;
+                  genVar177="BelongsToPackage";
+                  boolean genVar178;
+                  genVar178=genVar176.equalsIgnoreCase(genVar177);
+                  if (genVar178) {
+                    famTempPackage.belongsToPackage=rootChild1Attrs.getText();
+                  }
+ else {
+                    ;
+                  }
+                }
+              }
+            }
+          }
+ else {
+            ;
+          }
+          java.lang.String genVar179;
+          genVar179=rootChild1Elem.getName();
+          java.lang.String genVar180;
+          genVar180="Class";
+          boolean genVar181;
+          genVar181=genVar179.equalsIgnoreCase(genVar180);
+          if (genVar181) {
+            FamixClass famTempClass;
+            famTempClass=new FamixClass();
+            java.util.List<org.jdom2.Element> genVar182;
+            genVar182=rootChild1Elem.getChildren();
+            for (            Element rootChild1Attrs : genVar182) {
+              java.lang.String genVar183;
+              genVar183=rootChild1Attrs.getName();
+              java.lang.String genVar184;
+              genVar184="UniqueName";
+              boolean genVar185;
+              genVar185=genVar183.equalsIgnoreCase(genVar184);
+              if (genVar185) {
+                famTempClass.uniqueName=rootChild1Attrs.getText();
+              }
+ else {
+                java.lang.String genVar186;
+                genVar186=rootChild1Attrs.getName();
+                java.lang.String genVar187;
+                genVar187="Name";
+                boolean genVar188;
+                genVar188=genVar186.equalsIgnoreCase(genVar187);
+                if (genVar188) {
+                  famTempClass.name=rootChild1Attrs.getText();
+                }
+ else {
+                  java.lang.String genVar189;
+                  genVar189=rootChild1Attrs.getName();
+                  java.lang.String genVar190;
+                  genVar190="BelongsToPackage";
+                  boolean genVar191;
+                  genVar191=genVar189.equalsIgnoreCase(genVar190);
+                  if (genVar191) {
+                    famTempClass.belongsToPackage=rootChild1Attrs.getText();
+                  }
+ else {
+                    java.lang.String genVar192;
+                    genVar192=rootChild1Attrs.getName();
+                    java.lang.String genVar193;
+                    genVar193="IsAbstract";
+                    boolean genVar194;
+                    genVar194=genVar192.equalsIgnoreCase(genVar193);
+                    if (genVar194) {
+                      java.lang.String genVar195;
+                      genVar195=rootChild1Attrs.getText();
+                      java.lang.String genVar196;
+                      genVar196="true";
+                      boolean genVar197;
+                      genVar197=genVar195.equalsIgnoreCase(genVar196);
+                      if (genVar197) {
+                        famTempClass.isAbstract=true;
+                      }
+ else {
+                        famTempClass.isAbstract=false;
+                      }
+                    }
+ else {
+                      java.lang.String genVar198;
+                      genVar198=rootChild1Attrs.getName();
+                      java.lang.String genVar199;
+                      genVar199="IsInnerClass";
+                      boolean genVar200;
+                      genVar200=genVar198.equalsIgnoreCase(genVar199);
+                      if (genVar200) {
+                        java.lang.String genVar201;
+                        genVar201=rootChild1Attrs.getText();
+                        java.lang.String genVar202;
+                        genVar202="true";
+                        boolean genVar203;
+                        genVar203=genVar201.equalsIgnoreCase(genVar202);
+                        if (genVar203) {
+                          famTempClass.isInnerClass=true;
+                        }
+ else {
+                          famTempClass.isInnerClass=false;
+                        }
+                      }
+ else {
+                        ;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+ else {
+            ;
+          }
+          java.lang.String genVar204;
+          genVar204=rootChild1Elem.getName();
+          java.lang.String genVar205;
+          genVar205="Method";
+          boolean genVar206;
+          genVar206=genVar204.equalsIgnoreCase(genVar205);
+          if (genVar206) {
+            FamixMethod famixMethod;
+            famixMethod=new FamixMethod();
+            java.util.List<org.jdom2.Element> genVar207;
+            genVar207=rootChild1Elem.getChildren();
+            for (            Element rootChild1Attrs : genVar207) {
+              famixMethod.isPureAccessor=false;
+              famixMethod.belongsToClass="";
+              famixMethod.isConstructor=false;
+              famixMethod.isAbstract=false;
+              famixMethod.hasClassScope=false;
+              java.lang.String genVar208;
+              genVar208=rootChild1Attrs.getName();
+              java.lang.String genVar209;
+              genVar209="Name";
+              boolean genVar210;
+              genVar210=genVar208.equalsIgnoreCase(genVar209);
+              if (genVar210) {
+                famixMethod.name=rootChild1Attrs.getText();
+              }
+ else {
+                java.lang.String genVar211;
+                genVar211=rootChild1Attrs.getName();
+                java.lang.String genVar212;
+                genVar212="UniqueName";
+                boolean genVar213;
+                genVar213=genVar211.equalsIgnoreCase(genVar212);
+                if (genVar213) {
+                  famixMethod.uniqueName=rootChild1Attrs.getText();
+                }
+ else {
+                  java.lang.String genVar214;
+                  genVar214=rootChild1Attrs.getName();
+                  java.lang.String genVar215;
+                  genVar215="accessControlQualifier";
+                  boolean genVar216;
+                  genVar216=genVar214.equalsIgnoreCase(genVar215);
+                  if (genVar216) {
+                    famixMethod.accessControlQualifier=rootChild1Attrs.getText();
+                  }
+ else {
+                    java.lang.String genVar217;
+                    genVar217=rootChild1Attrs.getName();
+                    java.lang.String genVar218;
+                    genVar218="signature";
+                    boolean genVar219;
+                    genVar219=genVar217.equalsIgnoreCase(genVar218);
+                    if (genVar219) {
+                      famixMethod.signature=rootChild1Attrs.getText();
+                    }
+ else {
+                      java.lang.String genVar220;
+                      genVar220=rootChild1Attrs.getName();
+                      java.lang.String genVar221;
+                      genVar221="declaredReturnType";
+                      boolean genVar222;
+                      genVar222=genVar220.equalsIgnoreCase(genVar221);
+                      if (genVar222) {
+                        famixMethod.declaredReturnType=rootChild1Attrs.getText();
+                      }
+ else {
+                        ;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+ else {
+            ;
+          }
+          java.lang.String genVar223;
+          genVar223=rootChild1Elem.getName();
+          java.lang.String genVar224;
+          genVar224="Variable";
+          boolean genVar225;
+          genVar225=genVar223.equalsIgnoreCase(genVar224);
+          if (genVar225) {
+            FamixAttribute famTempVariable;
+            famTempVariable=new FamixAttribute();
+            java.util.List<org.jdom2.Element> genVar226;
+            genVar226=rootChild1Elem.getChildren();
+            for (            Element rootChild1Attrs : genVar226) {
+              java.lang.String genVar227;
+              genVar227=rootChild1Attrs.getName();
+              java.lang.String genVar228;
+              genVar228="UniqueName";
+              boolean genVar229;
+              genVar229=genVar227.equalsIgnoreCase(genVar228);
+              if (genVar229) {
+                famTempVariable.uniqueName=rootChild1Attrs.getText();
+              }
+ else {
+                java.lang.String genVar230;
+                genVar230=rootChild1Attrs.getName();
+                java.lang.String genVar231;
+                genVar231="Name";
+                boolean genVar232;
+                genVar232=genVar230.equalsIgnoreCase(genVar231);
+                if (genVar232) {
+                  famTempVariable.name=rootChild1Attrs.getText();
+                }
+ else {
+                  java.lang.String genVar233;
+                  genVar233=rootChild1Attrs.getName();
+                  java.lang.String genVar234;
+                  genVar234="BelongsToClass";
+                  boolean genVar235;
+                  genVar235=genVar233.equalsIgnoreCase(genVar234);
+                  if (genVar235) {
+                    famTempVariable.belongsToClass=rootChild1Attrs.getText();
+                  }
+ else {
+                    java.lang.String genVar236;
+                    genVar236=rootChild1Attrs.getName();
+                    java.lang.String genVar237;
+                    genVar237="declareType";
+                    boolean genVar238;
+                    genVar238=genVar236.equalsIgnoreCase(genVar237);
+                    if (genVar238) {
+                      famTempVariable.declareType=rootChild1Attrs.getText();
+                    }
+ else {
+                      ;
+                    }
+                  }
+                }
+              }
+            }
+          }
+ else {
+            ;
+          }
+          java.lang.String genVar239;
+          genVar239=rootChild1Elem.getName();
+          java.lang.String genVar240;
+          genVar240="Association";
+          boolean genVar241;
+          genVar241=genVar239.equalsIgnoreCase(genVar240);
+          if (genVar241) {
+            FamixAssociation famTempAssociation;
+            famTempAssociation=new FamixAssociation();
+            java.util.List<org.jdom2.Element> genVar242;
+            genVar242=rootChild1Elem.getChildren();
+            for (            Element rootChild1Attrs : genVar242) {
+              java.lang.String genVar243;
+              genVar243=rootChild1Attrs.getName();
+              java.lang.String genVar244;
+              genVar244="From";
+              boolean genVar245;
+              genVar245=genVar243.equalsIgnoreCase(genVar244);
+              if (genVar245) {
+                famTempAssociation.from=rootChild1Attrs.getText();
+              }
+ else {
+                java.lang.String genVar246;
+                genVar246=rootChild1Attrs.getName();
+                java.lang.String genVar247;
+                genVar247="Type";
+                boolean genVar248;
+                genVar248=genVar246.equalsIgnoreCase(genVar247);
+                if (genVar248) {
+                  famTempAssociation.type=rootChild1Attrs.getText();
+                }
+ else {
+                  java.lang.String genVar249;
+                  genVar249=rootChild1Attrs.getName();
+                  java.lang.String genVar250;
+                  genVar250="linenumber";
+                  boolean genVar251;
+                  genVar251=genVar249.equalsIgnoreCase(genVar250);
+                  if (genVar251) {
+                    java.lang.String genVar252;
+                    genVar252=rootChild1Attrs.getText();
+                    famTempAssociation.lineNumber=Integer.parseInt(genVar252);
+                  }
+ else {
+                    java.lang.String genVar253;
+                    genVar253=rootChild1Attrs.getName();
+                    java.lang.String genVar254;
+                    genVar254="To";
+                    boolean genVar255;
+                    genVar255=genVar253.equalsIgnoreCase(genVar254);
+                    if (genVar255) {
+                      famTempAssociation.to=rootChild1Attrs.getText();
+                    }
+ else {
+                      ;
+                    }
+                  }
+                }
+              }
+            }
+          }
+ else {
+            ;
+          }
+        }
+      }
+    }
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixPackage.java --- BEGIN>>
+package husacct;
+public class FamixPackage {
+  public String uniqueName;
+  public String name;
+  public String belongsToPackage;
+}
+
+<<AST of the file --- END>>
+<<AST of the file: AppliedRuleStrategy.java --- BEGIN>>
+package husacct;
+public class AppliedRuleStrategy {
+  public long getId(){
+    int genVar256;
+    genVar256=0;
+    return genVar256;
+  }
+  public String getRuleTypeKey(){
+    return null;
+  }
+  public AppliedRuleStrategy getModuleFrom(){
+    return null;
+  }
+  public AppliedRuleStrategy getModuleTo(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ActiveRuleType.java --- BEGIN>>
+package husacct;
+import java.util.List;
+public class ActiveRuleType {
+  public ActiveRuleType(  String ruleTypeKey,  List<ActiveViolationType> activeViolationTypes){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ValidateServiceImpl.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+import javax.swing.JInternalFrame;
+import javax.xml.datatype.DatatypeConfigurationException;
+import org.jdom2.Element;
+public final class ValidateServiceImpl {
+  public Element getWorkspaceData(){
+    return null;
+  }
+  public void loadWorkspaceData(  Element workspaceData){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: LogicalModules.java --- BEGIN>>
+package husacct;
+public class LogicalModules {
+  public LogicalModules(  LogicalModule logicalModuleFrom,  LogicalModule logicalModuleTo){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: XMLDomain.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import org.jdom2.Element;
+public class XMLDomain {
+  private Element workspace;
+  public XMLDomain(  Element workspaceData){
+  }
+  public Application createApplication(){
+    try {
+      List<Element> applicationProperties;
+      applicationProperties=workspace.getChildren();
+      int genVar257;
+      genVar257=0;
+      Element name;
+      name=applicationProperties.get(genVar257);
+      int genVar258;
+      genVar258=1;
+      Element version;
+      version=applicationProperties.get(genVar258);
+      int genVar259;
+      genVar259=2;
+      Element projects;
+      projects=applicationProperties.get(genVar259);
+      int genVar260;
+      genVar260=3;
+      Element architecture;
+      architecture=applicationProperties.get(genVar260);
+      XMLDomain genVar261;
+      genVar261=this;
+      ArrayList<Project> projectsList;
+      projectsList=genVar261.getProjectsFromElement(projects);
+    }
+ catch (    Exception exe) {
+    }
+    return null;
+  }
+  private ArrayList<Project> getProjectsFromElement(  Element XMLElement){
+    ArrayList<Project> projects;
+    projects=new ArrayList<Project>();
+    java.lang.String genVar262;
+    genVar262="Project";
+    java.util.List<org.jdom2.Element> genVar263;
+    genVar263=XMLElement.getChildren(genVar262);
+    for (    Element project : genVar263) {
+      XMLDomain genVar264;
+      genVar264=this;
+      husacct.Project genVar265;
+      genVar265=genVar264.getProjectFromElement(project);
+      projects.add(genVar265);
+    }
+    return projects;
+  }
+  private Project getProjectFromElement(  Element XMLElement){
+    Project project;
+    project=new Project();
+    java.lang.String genVar266;
+    genVar266="name";
+    org.jdom2.Element genVar267;
+    genVar267=XMLElement.getChild(genVar266);
+    java.lang.String genVar268;
+    genVar268=genVar267.getText();
+    project.setName(genVar268);
+    java.lang.String genVar269;
+    genVar269="programmingLanguage";
+    org.jdom2.Element genVar270;
+    genVar270=XMLElement.getChild(genVar269);
+    java.lang.String genVar271;
+    genVar271=genVar270.getText();
+    project.setProgrammingLanguage(genVar271);
+    java.lang.String genVar272;
+    genVar272="version";
+    org.jdom2.Element genVar273;
+    genVar273=XMLElement.getChild(genVar272);
+    java.lang.String genVar274;
+    genVar274=genVar273.getText();
+    project.setVersion(genVar274);
+    java.lang.String genVar275;
+    genVar275="description";
+    org.jdom2.Element genVar276;
+    genVar276=XMLElement.getChild(genVar275);
+    java.lang.String genVar277;
+    genVar277=genVar276.getText();
+    project.setDescription(genVar277);
+    ArrayList<String> projectPaths;
+    projectPaths=new ArrayList<String>();
+    java.lang.String genVar278;
+    genVar278="paths";
+    org.jdom2.Element genVar279;
+    genVar279=XMLElement.getChild(genVar278);
+    java.lang.String genVar280;
+    genVar280="path";
+    List<Element> pathElements;
+    pathElements=genVar279.getChildren(genVar280);
+    for (    Element path : pathElements) {
+      java.lang.String genVar281;
+      genVar281=path.getText();
+      projectPaths.add(genVar281);
+    }
+    return project;
+  }
+  private void createArchitectureFromElement(  Element XMLElement){
+    SoftwareArchitecture softwareArchitecture;
+    softwareArchitecture=null;
+    java.lang.String genVar282;
+    genVar282="name";
+    org.jdom2.Element genVar283;
+    genVar283=XMLElement.getChild(genVar282);
+    java.lang.String genVar284;
+    genVar284=genVar283.getValue();
+    softwareArchitecture.setName(genVar284);
+    java.lang.String genVar285;
+    genVar285="description";
+    org.jdom2.Element genVar286;
+    genVar286=XMLElement.getChild(genVar285);
+    java.lang.String genVar287;
+    genVar287=genVar286.getValue();
+    softwareArchitecture.setDescription(genVar287);
+    java.lang.String genVar288;
+    genVar288="modules";
+    org.jdom2.Element genVar289;
+    genVar289=XMLElement.getChild(genVar288);
+    java.util.List<org.jdom2.Element> genVar290;
+    genVar290=genVar289.getChildren();
+    int genVar291;
+    genVar291=genVar290.size();
+    int genVar292;
+    genVar292=0;
+    boolean genVar293;
+    genVar293=genVar291 > genVar292;
+    if (genVar293) {
+      XMLDomain genVar294;
+      genVar294=this;
+      int genVar295;
+      genVar295=0;
+      long genVar296;
+      genVar296=(long)genVar295;
+      java.lang.String genVar297;
+      genVar297="modules";
+      org.jdom2.Element genVar298;
+      genVar298=XMLElement.getChild(genVar297);
+      genVar294.createModulesFromXML(genVar296,genVar298);
+    }
+ else {
+      ;
+    }
+    java.lang.String genVar299;
+    genVar299="rules";
+    org.jdom2.Element genVar300;
+    genVar300=XMLElement.getChild(genVar299);
+    java.util.List<org.jdom2.Element> genVar301;
+    genVar301=genVar300.getChildren();
+    int genVar302;
+    genVar302=genVar301.size();
+    int genVar303;
+    genVar303=0;
+    boolean genVar304;
+    genVar304=genVar302 > genVar303;
+    if (genVar304) {
+      XMLDomain genVar305;
+      genVar305=this;
+      java.lang.String genVar306;
+      genVar306="rules";
+      org.jdom2.Element genVar307;
+      genVar307=XMLElement.getChild(genVar306);
+      genVar305.createAppliedRulesFromXML(genVar307);
+    }
+ else {
+      ;
+    }
+  }
+  private void createModulesFromXML(  long parentId,  Element XMLElement){
+    try {
+      java.util.List<org.jdom2.Element> genVar308;
+      genVar308=XMLElement.getChildren();
+      for (      Element module : genVar308) {
+        ModuleStrategy newModule;
+        newModule=null;
+        java.lang.String genVar309;
+        genVar309="type";
+        String moduleType;
+        moduleType=module.getChildText(genVar309);
+        java.lang.String genVar310;
+        genVar310="description";
+        String moduleDescription;
+        moduleDescription=module.getChildText(genVar310);
+        java.lang.String genVar311;
+        genVar311="name";
+        String moduleName;
+        moduleName=module.getChildText(genVar311);
+        java.lang.String genVar312;
+        genVar312="SoftwareUnitDefinitions";
+        Element SoftwareUnitDefinitions;
+        SoftwareUnitDefinitions=module.getChild(genVar312);
+        java.lang.String genVar313;
+        genVar313="id";
+        java.lang.String genVar314;
+        genVar314=module.getChildText(genVar313);
+        int moduleId;
+        moduleId=Integer.parseInt(genVar314);
+        boolean fromStorage;
+        fromStorage=true;
+        newModule.set(moduleName,moduleDescription,fromStorage);
+        newModule.setId(moduleId);
+        boolean genVar315;
+        genVar315=SoftwareUnitDefinitions != null;
+        if (genVar315) {
+          java.lang.String genVar316;
+          genVar316="SoftwareUnitDefinition";
+          List<Element> SoftwareUnitDefinitionsList;
+          SoftwareUnitDefinitionsList=SoftwareUnitDefinitions.getChildren(genVar316);
+          Iterator SUDIterator;
+          SUDIterator=SoftwareUnitDefinitionsList.iterator();
+          boolean genVar317;
+          genVar317=SUDIterator.hasNext();
+          while (genVar317) {
+            Object o;
+            o=SUDIterator.next();
+            boolean genVar318;
+            genVar318=o instanceof Element;
+            if (genVar318) {
+              XMLDomain genVar319;
+              genVar319=this;
+              org.jdom2.Element genVar320;
+              genVar320=(Element)o;
+              husacct.SoftwareUnitDefinition genVar321;
+              genVar321=genVar319.getSoftwareUnitDefinitionFromXML(genVar320);
+              newModule.addSUDefinition(genVar321);
+            }
+ else {
+              ;
+            }
+          }
+        }
+ else {
+          ;
+        }
+        XMLDomain genVar322;
+        genVar322=this;
+        boolean genVar323;
+        genVar323=genVar322.hasSubmodules(module);
+        if (genVar323) {
+          XMLDomain genVar324;
+          genVar324=this;
+          long genVar325;
+          genVar325=newModule.getId();
+          java.lang.String genVar326;
+          genVar326="SubModules";
+          org.jdom2.Element genVar327;
+          genVar327=module.getChild(genVar326);
+          genVar324.createModulesFromXML(genVar325,genVar327);
+        }
+ else {
+          ;
+        }
+      }
+    }
+ catch (    Exception exe) {
+    }
+  }
+  public SoftwareUnitDefinition getSoftwareUnitDefinitionFromXML(  Element e){
+    java.lang.String genVar328;
+    genVar328="name";
+    Element SUDName;
+    SUDName=e.getChild(genVar328);
+    java.lang.String genVar329;
+    genVar329="type";
+    Element SUDType;
+    SUDType=e.getChild(genVar329);
+    java.lang.String genVar330;
+    genVar330=SUDType.getValue();
+    java.lang.String genVar331;
+    genVar331=genVar330.toUpperCase();
+    java.lang.String genVar332;
+    genVar332="CLASS";
+    boolean genVar333;
+    genVar333=genVar331.equals(genVar332);
+    if (genVar333) {
+    }
+ else {
+      java.lang.String genVar334;
+      genVar334=SUDType.getValue();
+      java.lang.String genVar335;
+      genVar335=genVar334.toUpperCase();
+      java.lang.String genVar336;
+      genVar336="INTERFACE";
+      boolean genVar337;
+      genVar337=genVar335.equals(genVar336);
+      if (genVar337) {
+      }
+ else {
+        java.lang.String genVar338;
+        genVar338=SUDType.getValue();
+        java.lang.String genVar339;
+        genVar339=genVar338.toUpperCase();
+        java.lang.String genVar340;
+        genVar340="EXTERNALLIBRARY";
+        boolean genVar341;
+        genVar341=genVar339.equals(genVar340);
+        if (genVar341) {
+        }
+ else {
+          java.lang.String genVar342;
+          genVar342=SUDType.getValue();
+          java.lang.String genVar343;
+          genVar343=genVar342.toUpperCase();
+          java.lang.String genVar344;
+          genVar344="LIBRARY";
+          boolean genVar345;
+          genVar345=genVar343.equals(genVar344);
+          if (genVar345) {
+          }
+ else {
+            java.lang.String genVar346;
+            genVar346=SUDType.getValue();
+            java.lang.String genVar347;
+            genVar347=genVar346.toUpperCase();
+            java.lang.String genVar348;
+            genVar348="PACKAGE";
+            boolean genVar349;
+            genVar349=genVar347.equals(genVar348);
+            if (genVar349) {
+            }
+ else {
+              java.lang.String genVar350;
+              genVar350=SUDType.getValue();
+              java.lang.String genVar351;
+              genVar351=genVar350.toUpperCase();
+              java.lang.String genVar352;
+              genVar352="SUBSYSTEM";
+              boolean genVar353;
+              genVar353=genVar351.equals(genVar352);
+              if (genVar353) {
+              }
+ else {
+              }
+            }
+          }
+        }
+      }
+    }
+    java.lang.String genVar354;
+    genVar354=SUDName.getText();
+    husacct.SoftwareUnitDefinition genVar355;
+    genVar355=new SoftwareUnitDefinition(genVar354,null);
+    return genVar355;
+  }
+  private boolean hasSubmodules(  Element XMLElement){
+    java.lang.String genVar356;
+    genVar356="SubModules";
+    java.util.List<org.jdom2.Element> genVar357;
+    genVar357=XMLElement.getChildren(genVar356);
+    int genVar358;
+    genVar358=genVar357.size();
+    int genVar359;
+    genVar359=0;
+    boolean genVar360;
+    genVar360=genVar358 > genVar359;
+    if (genVar360) {
+      boolean genVar361;
+      genVar361=true;
+      return genVar361;
+    }
+ else {
+      ;
+    }
+    boolean genVar362;
+    genVar362=false;
+    return genVar362;
+  }
+  private void createAppliedRulesFromXML(  Element XMLElement){
+    try {
+      java.util.List<org.jdom2.Element> genVar363;
+      genVar363=XMLElement.getChildren();
+      for (      Element appliedRule : genVar363) {
+        XMLDomain genVar364;
+        genVar364=this;
+        AppliedRuleStrategy rule;
+        rule=genVar364.createRuleFromXML(appliedRule);
+      }
+    }
+ catch (    Exception e) {
+    }
+  }
+  private AppliedRuleStrategy createRuleFromXML(  Element appliedRule){
+    AppliedRuleStrategy rule;
+    rule=null;
+    try {
+      java.lang.String genVar365;
+      genVar365="id";
+      java.lang.String genVar366;
+      genVar366=appliedRule.getChildText(genVar365);
+      long ruleId;
+      ruleId=Integer.parseInt(genVar366);
+      java.lang.String genVar367;
+      genVar367="type";
+      String ruleTypeKey;
+      ruleTypeKey=appliedRule.getChildText(genVar367);
+      java.lang.String genVar368;
+      genVar368="SuperClassInheritanceConvention";
+      boolean genVar369;
+      genVar369=ruleTypeKey.equals(genVar368);
+      boolean genVar370;
+      genVar370=(genVar369);
+      java.lang.String genVar371;
+      genVar371="InterfaceInheritanceConvention";
+      boolean genVar372;
+      genVar372=ruleTypeKey.equals(genVar371);
+      boolean genVar373;
+      genVar373=(genVar372);
+      boolean genVar374;
+      genVar374=genVar370 || genVar373;
+      if (genVar374) {
+        ruleTypeKey="InheritanceConvention";
+      }
+ else {
+        ;
+      }
+      java.lang.String genVar375;
+      genVar375="moduleFrom";
+      java.lang.String genVar376;
+      genVar376=appliedRule.getChildText(genVar375);
+      long moduleFromId;
+      moduleFromId=Integer.parseInt(genVar376);
+      java.lang.String genVar377;
+      genVar377="moduleTo";
+      java.lang.String genVar378;
+      genVar378=appliedRule.getChildText(genVar377);
+      long moduleToId;
+      moduleToId=Integer.parseInt(genVar378);
+      java.lang.String genVar379;
+      genVar379="enabled";
+      java.lang.String genVar380;
+      genVar380=appliedRule.getChildText(genVar379);
+      boolean isEnabled;
+      isEnabled=Boolean.parseBoolean(genVar380);
+      java.lang.String genVar381;
+      genVar381="description";
+      String description;
+      description=appliedRule.getChildText(genVar381);
+      java.lang.String genVar382;
+      genVar382="regex";
+      String regex;
+      regex=appliedRule.getChildText(genVar382);
+      java.lang.String genVar383;
+      genVar383="dependencies";
+      Element dependencies;
+      dependencies=appliedRule.getChild(genVar383);
+      XMLDomain genVar384;
+      genVar384=this;
+      String[] dependencyTypes;
+      dependencyTypes=genVar384.getDependencyTypesFromXML(dependencies);
+      java.lang.String genVar385;
+      genVar385="isException";
+      java.lang.String genVar386;
+      genVar386=appliedRule.getChildText(genVar385);
+      boolean isException;
+      isException=Boolean.parseBoolean(genVar386);
+      int genVar387;
+      genVar387=1;
+      long parentRule;
+      parentRule=-genVar387;
+      if (isException) {
+        java.lang.String genVar388;
+        genVar388="parentAppliedRuleId";
+        java.lang.String genVar389;
+        genVar389=appliedRule.getChildText(genVar388);
+        parentRule=Integer.parseInt(genVar389);
+      }
+ else {
+        ;
+      }
+    }
+ catch (    Exception e) {
+    }
+    return rule;
+  }
+  private String[] getDependencyTypesFromXML(  Element XMLElement){
+    ArrayList<String> dependencies;
+    dependencies=new ArrayList<String>();
+    java.lang.String genVar390;
+    genVar390="dependency";
+    java.util.List<org.jdom2.Element> genVar391;
+    genVar391=XMLElement.getChildren(genVar390);
+    for (    Element dependency : genVar391) {
+      java.lang.String genVar392;
+      genVar392=dependency.getValue();
+      dependencies.add(genVar392);
+    }
+    String[] returnValue;
+    returnValue=null;
+    java.lang.String[] genVar393;
+    genVar393=new String[dependencies.size()];
+    returnValue=dependencies.toArray(genVar393);
+    return returnValue;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: IModelPersistencyService.java --- BEGIN>>
+package husacct;
+import org.jdom2.Element;
+public interface IModelPersistencyService {
+  public Element saveModel();
+  public void loadModel(  Element analyseElement);
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportViolationsHistory.java --- BEGIN>>
+package husacct;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
+import org.jdom2.Element;
+public class ImportViolationsHistory {
+  public void importViolationsHistory(  Element violationHistoriesElement){
+    java.lang.String genVar394;
+    genVar394="violationHistory";
+    java.util.List<org.jdom2.Element> genVar395;
+    genVar395=violationHistoriesElement.getChildren(genVar394);
+    for (    Element violationHistoryElement : genVar395) {
+      java.lang.String genVar396;
+      genVar396="severities";
+      org.jdom2.Element genVar397;
+      genVar397=violationHistoryElement.getChild(genVar396);
+      java.util.List<org.jdom2.Element> genVar398;
+      genVar398=genVar397.getChildren();
+      for (      Element severityElement : genVar398) {
+        java.lang.String genVar399;
+        genVar399="id";
+        String stringUUID;
+        stringUUID=severityElement.getChildText(genVar399);
+        java.lang.String genVar400;
+        genVar400="id";
+        java.lang.String genVar401;
+        genVar401=severityElement.getChildText(genVar400);
+        java.util.UUID genVar402;
+        genVar402=UUID.fromString(genVar401);
+        java.lang.String genVar403;
+        genVar403="severityKey";
+        java.lang.String genVar404;
+        genVar404=severityElement.getChildText(genVar403);
+        java.lang.String genVar405;
+        genVar405="color";
+        java.lang.String genVar406;
+        genVar406=severityElement.getChildText(genVar405);
+        int genVar407;
+        genVar407=Integer.parseInt(genVar406);
+        java.awt.Color genVar408;
+        genVar408=new Color(genVar407);
+        Severity severity;
+        severity=new Severity(genVar402,genVar404,genVar408);
+      }
+      java.lang.String genVar409;
+      genVar409="date";
+      String validationDateString;
+      validationDateString=violationHistoryElement.getAttributeValue(genVar409);
+      java.lang.String genVar410;
+      genVar410="description";
+      String description;
+      description=violationHistoryElement.getChildText(genVar410);
+      java.lang.String genVar411;
+      genVar411="violations";
+      org.jdom2.Element genVar412;
+      genVar412=violationHistoryElement.getChild(genVar411);
+      java.util.List<org.jdom2.Element> genVar413;
+      genVar413=genVar412.getChildren();
+      for (      Element violationElement : genVar413) {
+        java.lang.String genVar414;
+        genVar414="lineNumber";
+        java.lang.String genVar415;
+        genVar415=violationElement.getChildText(genVar414);
+        int lineNumber;
+        lineNumber=Integer.parseInt(genVar415);
+        java.lang.String genVar416;
+        genVar416="ruletypeKey";
+        String ruleTypeKey;
+        ruleTypeKey=violationElement.getChildText(genVar416);
+        java.lang.String genVar417;
+        genVar417="violationtypeKey";
+        String violationTypeKey;
+        violationTypeKey=violationElement.getChildText(genVar417);
+        java.lang.String genVar418;
+        genVar418="classPathFrom";
+        String classPathFrom;
+        classPathFrom=violationElement.getChildText(genVar418);
+        java.lang.String genVar419;
+        genVar419="classPathTo";
+        String classPathTo;
+        classPathTo=violationElement.getChildText(genVar419);
+        java.lang.String genVar420;
+        genVar420="logicalModules";
+        violationElement.getChild(genVar420);
+        java.lang.String genVar421;
+        genVar421="message";
+        violationElement.getChild(genVar421);
+        java.lang.String genVar422;
+        genVar422="isIndirect";
+        java.lang.String genVar423;
+        genVar423=violationElement.getChildText(genVar422);
+        boolean isIndirect;
+        isIndirect=Boolean.parseBoolean(genVar423);
+        java.lang.String genVar424;
+        genVar424="occured";
+        String stringCalendar;
+        stringCalendar=violationElement.getChildText(genVar424);
+        java.lang.String genVar425;
+        genVar425="severityId";
+        String stringUUID;
+        stringUUID=violationElement.getChildText(genVar425);
+        boolean found;
+        found=false;
+      }
+    }
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: DomainXML.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import org.jdom2.Element;
+public class DomainXML {
+  public Element getApplicationInXML(  Application App){
+    return null;
+  }
+  public Element getAppliedRuleInXML(  AppliedRuleStrategy AR){
+    java.lang.String genVar435;
+    genVar435="AppliedRule";
+    Element XMLAppliedRule;
+    XMLAppliedRule=new Element(genVar435);
+    java.lang.String genVar436;
+    genVar436="id";
+    Element ruleId;
+    ruleId=new Element(genVar436);
+    long genVar437;
+    genVar437=AR.getId();
+    java.lang.String genVar438;
+    genVar438=Long.toString(genVar437);
+    ruleId.addContent(genVar438);
+    XMLAppliedRule.addContent(ruleId);
+    java.lang.String genVar439;
+    genVar439="type";
+    Element ruleType;
+    ruleType=new Element(genVar439);
+    java.lang.String genVar440;
+    genVar440=AR.getRuleTypeKey();
+    ruleType.addContent(genVar440);
+    XMLAppliedRule.addContent(ruleType);
+    java.lang.String genVar441;
+    genVar441="moduleFrom";
+    Element moduleFrom;
+    moduleFrom=new Element(genVar441);
+    husacct.AppliedRuleStrategy genVar442;
+    genVar442=AR.getModuleFrom();
+    long fromId;
+    fromId=genVar442.getId();
+    java.lang.String genVar443;
+    genVar443=Long.toString(fromId);
+    moduleFrom.addContent(genVar443);
+    XMLAppliedRule.addContent(moduleFrom);
+    java.lang.String genVar444;
+    genVar444="moduleTo";
+    Element moduleTo;
+    moduleTo=new Element(genVar444);
+    husacct.AppliedRuleStrategy genVar445;
+    genVar445=AR.getModuleTo();
+    long toId;
+    toId=genVar445.getId();
+    java.lang.String genVar446;
+    genVar446=Long.toString(toId);
+    moduleTo.addContent(genVar446);
+    XMLAppliedRule.addContent(moduleTo);
+    java.lang.String genVar447;
+    genVar447="enabled";
+    Element ruleEnabled;
+    ruleEnabled=new Element(genVar447);
+    java.lang.String genVar448;
+    genVar448="true";
+    ruleEnabled.addContent(genVar448);
+    java.lang.String genVar449;
+    genVar449="false";
+    ruleEnabled.addContent(genVar449);
+    java.lang.String genVar450;
+    genVar450="";
+    XMLAppliedRule.addContent(genVar450);
+    java.lang.String genVar451;
+    genVar451="description";
+    Element ruleDescription;
+    ruleDescription=new Element(genVar451);
+    java.lang.String genVar452;
+    genVar452="";
+    ruleDescription.addContent(genVar452);
+    XMLAppliedRule.addContent(ruleDescription);
+    java.lang.String genVar453;
+    genVar453="regex";
+    Element ruleRegex;
+    ruleRegex=new Element(genVar453);
+    java.lang.String genVar454;
+    genVar454="";
+    ruleRegex.addContent(genVar454);
+    XMLAppliedRule.addContent(ruleRegex);
+    java.lang.String genVar455;
+    genVar455="dependencies";
+    Element dependencies;
+    dependencies=new Element(genVar455);
+    java.lang.String genVar456;
+    genVar456="dependency";
+    Element dependency;
+    dependency=new Element(genVar456);
+    java.lang.String genVar457;
+    genVar457="";
+    dependency.addContent(genVar457);
+    dependencies.addContent(dependency);
+    XMLAppliedRule.addContent(dependencies);
+    java.lang.String genVar458;
+    genVar458="isException";
+    Element isException;
+    isException=new Element(genVar458);
+    java.lang.String genVar459;
+    genVar459="true";
+    isException.addContent(genVar459);
+    java.lang.String genVar460;
+    genVar460="false";
+    isException.addContent(genVar460);
+    java.lang.String genVar461;
+    genVar461="";
+    XMLAppliedRule.addContent(genVar461);
+    java.lang.String genVar462;
+    genVar462="parentAppliedRuleId";
+    Element parentAppliedRuleId;
+    parentAppliedRuleId=new Element(genVar462);
+    java.lang.String genVar463;
+    genVar463="";
+    parentAppliedRuleId.addContent(genVar463);
+    XMLAppliedRule.addContent(parentAppliedRuleId);
+    return XMLAppliedRule;
+  }
+  public Element getModuleInXML(  ModuleStrategy module){
+    java.lang.String genVar464;
+    genVar464="ModuleStrategy";
+    Element xmlModule;
+    xmlModule=new Element(genVar464);
+    java.lang.String genVar465;
+    genVar465="type";
+    Element moduleType;
+    moduleType=new Element(genVar465);
+    java.lang.Class genVar466;
+    genVar466=module.getClass();
+    java.lang.String genVar467;
+    genVar467=genVar466.getSimpleName();
+    moduleType.addContent(genVar467);
+    xmlModule.addContent(moduleType);
+    java.lang.String genVar468;
+    genVar468="description";
+    Element moduleDescription;
+    moduleDescription=new Element(genVar468);
+    java.lang.String genVar469;
+    genVar469=module.getDescription();
+    moduleDescription.addContent(genVar469);
+    xmlModule.addContent(moduleDescription);
+    java.lang.String genVar470;
+    genVar470="id";
+    Element moduleId;
+    moduleId=new Element(genVar470);
+    long genVar471;
+    genVar471=module.getId();
+    java.lang.String genVar472;
+    genVar472=Long.toString(genVar471);
+    moduleId.addContent(genVar472);
+    xmlModule.addContent(moduleId);
+    java.lang.String genVar473;
+    genVar473="name";
+    Element moduleName;
+    moduleName=new Element(genVar473);
+    java.lang.String genVar474;
+    genVar474=module.getName();
+    moduleName.addContent(genVar474);
+    xmlModule.addContent(moduleName);
+    java.lang.Class genVar475;
+    genVar475=module.getClass();
+    java.lang.String genVar476;
+    genVar476=genVar475.getSimpleName();
+    java.lang.String genVar477;
+    genVar477=genVar476.toLowerCase();
+    java.lang.String genVar478;
+    genVar478="layer";
+    boolean genVar479;
+    genVar479=genVar477.equals(genVar478);
+    if (genVar479) {
+      java.lang.String genVar480;
+      genVar480="HierarchicalLevel";
+      Element moduleLevel;
+      moduleLevel=new Element(genVar480);
+      java.lang.String genVar481;
+      genVar481="";
+      moduleLevel.addContent(genVar481);
+      xmlModule.addContent(moduleLevel);
+    }
+ else {
+      ;
+    }
+    java.lang.String genVar482;
+    genVar482="SoftwareUnitDefinitions";
+    Element units;
+    units=new Element(genVar482);
+    java.lang.String genVar483;
+    genVar483="PhysicalPaths";
+    Element physicalPaths;
+    physicalPaths=new Element(genVar483);
+    java.lang.String genVar484;
+    genVar484="";
+    units.addContent(genVar484);
+    java.lang.String genVar485;
+    genVar485="";
+    physicalPaths.addContent(genVar485);
+    xmlModule.addContent(units);
+    xmlModule.addContent(physicalPaths);
+    java.lang.String genVar486;
+    genVar486="SubModules";
+    Element subModule;
+    subModule=new Element(genVar486);
+    java.lang.String genVar487;
+    genVar487="";
+    subModule.addContent(genVar487);
+    xmlModule.addContent(subModule);
+    return xmlModule;
+  }
+  public Element getPhysicalPathInXML(  String path){
+    java.lang.String genVar488;
+    genVar488="path";
+    Element XMLPath;
+    XMLPath=new Element(genVar488);
+    XMLPath.addContent(path);
+    return XMLPath;
+  }
+  public Element getProjectInXML(  Project project){
+    java.lang.String genVar489;
+    genVar489="Project";
+    Element XMLProject;
+    XMLProject=new Element(genVar489);
+    java.lang.String genVar490;
+    genVar490="name";
+    Element projectName;
+    projectName=new Element(genVar490);
+    java.lang.String genVar491;
+    genVar491=project.getName();
+    projectName.addContent(genVar491);
+    XMLProject.addContent(projectName);
+    java.lang.String genVar492;
+    genVar492="paths";
+    Element projectPaths;
+    projectPaths=new Element(genVar492);
+    java.lang.String genVar493;
+    genVar493="path";
+    Element projectPath;
+    projectPath=new Element(genVar493);
+    java.lang.String genVar494;
+    genVar494="";
+    projectPath.addContent(genVar494);
+    projectPaths.addContent(projectPath);
+    XMLProject.addContent(projectPaths);
+    java.lang.String genVar495;
+    genVar495="programmingLanguage";
+    Element projectPrLanguage;
+    projectPrLanguage=new Element(genVar495);
+    java.lang.String genVar496;
+    genVar496="";
+    projectPrLanguage.addContent(genVar496);
+    XMLProject.addContent(projectPrLanguage);
+    java.lang.String genVar497;
+    genVar497="version";
+    Element projectVersion;
+    projectVersion=new Element(genVar497);
+    java.lang.String genVar498;
+    genVar498="";
+    projectVersion.addContent(genVar498);
+    XMLProject.addContent(projectVersion);
+    java.lang.String genVar499;
+    genVar499="description";
+    Element projectDescription;
+    projectDescription=new Element(genVar499);
+    java.lang.String genVar500;
+    genVar500="";
+    projectDescription.addContent(genVar500);
+    XMLProject.addContent(projectDescription);
+    return XMLProject;
+  }
+  public Element getSoftwareArchitectureInXML(){
+    java.lang.String genVar501;
+    genVar501="Architecture";
+    Element XMLArchitecture;
+    XMLArchitecture=new Element(genVar501);
+    try {
+      java.lang.String genVar502;
+      genVar502="name";
+      Element SAName;
+      SAName=new Element(genVar502);
+      java.lang.String genVar503;
+      genVar503="";
+      SAName.addContent(genVar503);
+      XMLArchitecture.addContent(SAName);
+      java.lang.String genVar504;
+      genVar504="description";
+      Element SADescription;
+      SADescription=new Element(genVar504);
+      java.lang.String genVar505;
+      genVar505="";
+      SADescription.addContent(genVar505);
+      XMLArchitecture.addContent(SADescription);
+      java.lang.String genVar506;
+      genVar506="modules";
+      Element SAModules;
+      SAModules=new Element(genVar506);
+      java.lang.String genVar507;
+      genVar507="";
+      SAModules.addContent(genVar507);
+      XMLArchitecture.addContent(SAModules);
+      java.lang.String genVar508;
+      genVar508="rules";
+      Element SARules;
+      SARules=new Element(genVar508);
+      java.lang.String genVar509;
+      genVar509="";
+      SARules.addContent(genVar509);
+      XMLArchitecture.addContent(SARules);
+    }
+ catch (    Exception er) {
+      er.getStackTrace();
+    }
+    return XMLArchitecture;
+  }
+  public Element getSoftwareUnitDefinitionInXML(  SoftwareUnitDefinition SUD){
+    java.lang.String genVar510;
+    genVar510="SoftwareUnitDefinition";
+    Element XMLSoftwareUnitDefinition;
+    XMLSoftwareUnitDefinition=new Element(genVar510);
+    java.lang.String genVar511;
+    genVar511="name";
+    Element SudName;
+    SudName=new Element(genVar511);
+    java.lang.String genVar512;
+    genVar512=SUD.getName();
+    SudName.addContent(genVar512);
+    XMLSoftwareUnitDefinition.addContent(SudName);
+    java.lang.String genVar513;
+    genVar513="type";
+    Element SudType;
+    SudType=new Element(genVar513);
+    java.lang.String genVar514;
+    genVar514="";
+    SudType.addContent(genVar514);
+    XMLSoftwareUnitDefinition.addContent(SudType);
+    return XMLSoftwareUnitDefinition;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportSeveritiesPerTypesPerProgrammingLanguages.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+public class ExportSeveritiesPerTypesPerProgrammingLanguages {
+  public Element exportSeveritiesPerTypesPerProgrammingLanguages(  HashMap<String,HashMap<String,Severity>> allSeveritiesPerTypesPerProgrammingLanguages){
+    java.lang.String genVar515;
+    genVar515="severitiesPerTypesPerProgrammingLanguages";
+    Element severitiesPerTypesPerProgrammingLanguagesElement;
+    severitiesPerTypesPerProgrammingLanguagesElement=new Element(genVar515);
+    java.util.Set<java.util.Map.Entry<java.lang.String,java.util.HashMap<java.lang.String,husacct.Severity>>> genVar516;
+    genVar516=allSeveritiesPerTypesPerProgrammingLanguages.entrySet();
+    for (    Entry<String,HashMap<String,Severity>> programminglanguageEntry : genVar516) {
+      ExportSeveritiesPerTypesPerProgrammingLanguages genVar517;
+      genVar517=this;
+      java.lang.String genVar518;
+      genVar518="severityPerTypePerProgrammingLanguage";
+      Element severityPerTypePerProgrammingLanguageElement;
+      severityPerTypePerProgrammingLanguageElement=genVar517.createElementWithoutContent(genVar518,severitiesPerTypesPerProgrammingLanguagesElement);
+      java.lang.String genVar519;
+      genVar519="language";
+      java.lang.String genVar520;
+      genVar520=programminglanguageEntry.getKey();
+      org.jdom2.Attribute genVar521;
+      genVar521=new Attribute(genVar519,genVar520);
+      severityPerTypePerProgrammingLanguageElement.setAttribute(genVar521);
+      java.util.HashMap<java.lang.String,husacct.Severity> genVar522;
+      genVar522=programminglanguageEntry.getValue();
+      java.util.Set<java.util.Map.Entry<java.lang.String,husacct.Severity>> genVar523;
+      genVar523=genVar522.entrySet();
+      for (      Entry<String,Severity> severityPerType : genVar523) {
+        ExportSeveritiesPerTypesPerProgrammingLanguages genVar524;
+        genVar524=this;
+        java.lang.String genVar525;
+        genVar525="severityPerType";
+        Element severityPerTypeElement;
+        severityPerTypeElement=genVar524.createElementWithoutContent(genVar525,severityPerTypePerProgrammingLanguageElement);
+        ExportSeveritiesPerTypesPerProgrammingLanguages genVar526;
+        genVar526=this;
+        java.lang.String genVar527;
+        genVar527="typeKey";
+        java.lang.String genVar528;
+        genVar528=severityPerType.getKey();
+        genVar526.createElementWithContent(genVar527,genVar528,severityPerTypeElement);
+        ExportSeveritiesPerTypesPerProgrammingLanguages genVar529;
+        genVar529=this;
+        java.lang.String genVar530;
+        genVar530="severityId";
+        java.lang.String genVar531;
+        genVar531="";
+        genVar529.createElementWithContent(genVar530,genVar531,severityPerTypeElement);
+      }
+    }
+    return severitiesPerTypesPerProgrammingLanguagesElement;
+  }
+  private void createElementWithContent(  String name,  String content,  Element destination){
+    Element element;
+    element=new Element(name);
+    element.addContent(content);
+    destination.addContent(element);
+  }
+  private Element createElementWithoutContent(  String name,  Element destination){
+    Element element;
+    element=new Element(name);
+    destination.addContent(element);
+    return element;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: IGraphicsService.java --- BEGIN>>
+package husacct;
+import org.jdom2.Element;
+public interface IGraphicsService {
+  Element getWorkspaceData();
+  void loadWorkspaceData(  Element workspaceData);
+}
+
+<<AST of the file --- END>>
+<<AST of the file: HelpTreeModelLoader.java --- BEGIN>>
+package husacct;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeModel;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+public class HelpTreeModelLoader {
+  public Document getXmlDocument() throws Exception {
+    Reader reader;
+    reader=new InputStreamReader(null);
+    SAXBuilder sax;
+    sax=new SAXBuilder();
+    Document doc;
+    doc=new Document();
+    doc=sax.build(reader);
+    return doc;
+  }
+  public DefaultMutableTreeNode getTreeModel() throws Exception {
+    HelpTreeModelLoader genVar532;
+    genVar532=this;
+    org.jdom2.Document genVar533;
+    genVar533=genVar532.getXmlDocument();
+    Element root;
+    root=genVar533.getRootElement();
+    java.lang.String genVar534;
+    genVar534=root.getName();
+    DefaultMutableTreeNode parent;
+    parent=new DefaultMutableTreeNode(genVar534);
+    java.util.List<org.jdom2.Element> genVar535;
+    genVar535=root.getChildren();
+    for (    Element child : genVar535) {
+      java.lang.String genVar536;
+      genVar536="filename";
+      java.lang.String genVar537;
+      genVar537=child.getAttributeValue(genVar536);
+      java.lang.String genVar538;
+      genVar538="viewname";
+      java.lang.String genVar539;
+      genVar539=child.getAttributeValue(genVar538);
+      java.lang.String genVar540;
+      genVar540=child.getName();
+      java.lang.String genVar541;
+      genVar541="html";
+      HelpTreeNode HelpNode;
+      HelpNode=new HelpTreeNode(genVar537,genVar539,genVar540,genVar541);
+      DefaultMutableTreeNode childNode;
+      childNode=new DefaultMutableTreeNode(HelpNode);
+      java.lang.Object genVar542;
+      genVar542=HelpNode.getParent();
+      boolean genVar543;
+      genVar543=genVar542 == null;
+      if (genVar543) {
+        parent.add(childNode);
+      }
+ else {
+        java.lang.Object genVar544;
+        genVar544=HelpNode.getParent();
+        java.lang.Object genVar545;
+        genVar545=HelpNode.getParent();
+        java.lang.Object genVar546;
+        genVar546=HelpNode.getParent();
+        java.lang.String genVar547;
+        genVar547="folder";
+        HelpTreeNode parentHelpNode;
+        parentHelpNode=new HelpTreeNode(genVar544,genVar545,genVar546,genVar547);
+        HelpTreeModelLoader genVar548;
+        genVar548=this;
+        DefaultMutableTreeNode parentNode;
+        parentNode=genVar548.findNode(parent,parentHelpNode);
+        parentNode.add(childNode);
+        parent.add(parentNode);
+      }
+    }
+    return parent;
+  }
+  private DefaultMutableTreeNode findNode(  DefaultMutableTreeNode parent,  HelpTreeNode parentHelpNode){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportFactory.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.jdom2.Element;
+public class ImportFactory {
+  private ImportSeverities importSeverities;
+  private ImportSeveritiesPerTypesPerProgrammingLanguages importSeveritiesPerRuleTypesPerProgrammingLanguages;
+  private ImportActiveViolationTypes importActiveViolationTypes;
+  ImportFactory(){
+    husacct.ImportFactory genVar549;
+    genVar549=this;
+    genVar549.importSeverities=new ImportSeverities();
+    husacct.ImportFactory genVar550;
+    genVar550=this;
+    genVar550.importSeveritiesPerRuleTypesPerProgrammingLanguages=new ImportSeveritiesPerTypesPerProgrammingLanguages();
+    husacct.ImportFactory genVar551;
+    genVar551=this;
+    genVar551.importActiveViolationTypes=new ImportActiveViolationTypes();
+  }
+  List<Severity> importSeverities(  Element element){
+    java.util.List<husacct.Severity> genVar552;
+    genVar552=importSeverities.importSeverities(element);
+    return genVar552;
+  }
+  HashMap<String,HashMap<String,Severity>> importSeveritiesPerTypesPerProgrammingLanguages(  Element element,  List<Severity> severities){
+    java.util.HashMap<java.lang.String,java.util.HashMap<java.lang.String,husacct.Severity>> genVar553;
+    genVar553=importSeveritiesPerRuleTypesPerProgrammingLanguages.importSeveritiesPerTypesPerProgrammingLanguages(element,severities);
+    return genVar553;
+  }
+  Map<String,List<ActiveRuleType>> importActiveViolationTypes(  Element activeViolationTypes){
+    java.util.Map<java.lang.String,java.util.List<husacct.ActiveRuleType>> genVar554;
+    genVar554=importActiveViolationTypes.importActiveViolationTypes(activeViolationTypes);
+    return genVar554;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: SoftwareUnitDefinition.java --- BEGIN>>
+package husacct;
+public class SoftwareUnitDefinition {
+  public SoftwareUnitDefinition(  String text,  Object object){
+  }
+  public String getName(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportController.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import org.jdom2.Document;
+import org.jdom2.Element;
+public class ExportController {
+  public void exportArchitecture(){
+    Element logicalData;
+    logicalData=null;
+    Document doc;
+    doc=new Document(logicalData);
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: GraphicsServiceImpl.java --- BEGIN>>
+package husacct;
+import javax.swing.JInternalFrame;
+import org.jdom2.Element;
+public class GraphicsServiceImpl {
+  private AnalysedController analysedController;
+  private DefinedController definedController;
+  public Element getWorkspaceData(){
+    String workspaceServiceName;
+    workspaceServiceName="";
+    Element data;
+    data=new Element(workspaceServiceName);
+    java.lang.String genVar555;
+    genVar555="";
+    data.addContent(genVar555);
+    java.lang.String genVar556;
+    genVar556="";
+    data.addContent(genVar556);
+    return data;
+  }
+  private Element getWorkspaceDataForController(  String controllerName,  DrawingController controller){
+    Element controllerElement;
+    controllerElement=new Element(controllerName);
+    java.lang.String genVar557;
+    genVar557="";
+    java.lang.String genVar558;
+    genVar558="";
+    controllerElement.setAttribute(genVar557,genVar558);
+    java.lang.String genVar559;
+    genVar559="";
+    java.lang.String genVar560;
+    genVar560="";
+    controllerElement.setAttribute(genVar559,genVar560);
+    java.lang.String genVar561;
+    genVar561="";
+    java.lang.String genVar562;
+    genVar562="";
+    controllerElement.setAttribute(genVar561,genVar562);
+    java.lang.String genVar563;
+    genVar563="";
+    java.lang.String genVar564;
+    genVar564="";
+    controllerElement.setAttribute(genVar563,genVar564);
+    java.lang.String genVar565;
+    genVar565="";
+    java.lang.String genVar566;
+    genVar566="";
+    controllerElement.setAttribute(genVar565,genVar566);
+    return controllerElement;
+  }
+  private boolean isActive(  Element controllerElement,  String attribute){
+    org.jdom2.Attribute genVar567;
+    genVar567=controllerElement.getAttribute(attribute);
+    java.lang.String genVar568;
+    genVar568=genVar567.getValue();
+    boolean genVar569;
+    genVar569=Boolean.parseBoolean(genVar568);
+    return genVar569;
+  }
+  public void loadWorkspaceData(  Element workspaceData){
+    try {
+      Element analysedControllerElement;
+      analysedControllerElement=workspaceData.getChild(null);
+    }
+ catch (    Exception e) {
+    }
+    try {
+      Element definedControllerElement;
+      definedControllerElement=workspaceData.getChild(null);
+    }
+ catch (    Exception e) {
+    }
+  }
+  private void loadWorkspaceDataForController(  DrawingController controller,  Element data){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: HelpTreeNode.java --- BEGIN>>
+package husacct;
+public class HelpTreeNode {
+  public HelpTreeNode(  String attributeValue,  String attributeValue2,  String name,  String string){
+  }
+  public HelpTreeNode(  Object parent,  Object parent2,  Object parent3,  String string){
+  }
+  public Object getParent(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: XMLReportWriter.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+public class XMLReportWriter {
+  public void createReport() throws IOException {
+    Document document;
+    document=new Document();
+    java.lang.String genVar570;
+    genVar570="report";
+    Element reportElement;
+    reportElement=new Element(genVar570);
+    document.setRootElement(reportElement);
+    java.lang.String genVar571;
+    genVar571="projectName";
+    Element projectName;
+    projectName=new Element(genVar571);
+    java.lang.String genVar572;
+    genVar572="";
+    projectName.setText(genVar572);
+    reportElement.addContent(projectName);
+    java.lang.String genVar573;
+    genVar573="version";
+    Element projectVersion;
+    projectVersion=new Element(genVar573);
+    java.lang.String genVar574;
+    genVar574="";
+    projectVersion.setText(genVar574);
+    reportElement.addContent(projectVersion);
+    java.lang.String genVar575;
+    genVar575="totalViolations";
+    Element totalViolations;
+    totalViolations=new Element(genVar575);
+    java.lang.String genVar576;
+    genVar576="";
+    totalViolations.setText(genVar576);
+    reportElement.addContent(totalViolations);
+    java.lang.String genVar577;
+    genVar577="violationsGeneratedOn";
+    Element violationGeneratedOn;
+    violationGeneratedOn=new Element(genVar577);
+    java.lang.String genVar578;
+    genVar578="";
+    violationGeneratedOn.setText(genVar578);
+    reportElement.addContent(violationGeneratedOn);
+    java.lang.String genVar579;
+    genVar579="violations";
+    Element violationsSeverities;
+    violationsSeverities=new Element(genVar579);
+    java.lang.String genVar580;
+    genVar580="totalViolations";
+    java.lang.String genVar581;
+    genVar581="";
+    org.jdom2.Attribute genVar582;
+    genVar582=new Attribute(genVar580,genVar581);
+    violationsSeverities.setAttribute(genVar582);
+    java.lang.String genVar583;
+    genVar583="";
+    Element violationElement;
+    violationElement=new Element(genVar583);
+    java.lang.String genVar584;
+    genVar584="";
+    violationElement.setText(genVar584);
+    violationsSeverities.addContent(violationElement);
+    reportElement.addContent(violationsSeverities);
+    java.lang.String genVar585;
+    genVar585="violations";
+    Element violations;
+    violations=new Element(genVar585);
+    reportElement.addContent(violations);
+    java.lang.String genVar586;
+    genVar586="violation";
+    Element xmlViolation;
+    xmlViolation=new Element(genVar586);
+    java.lang.String genVar587;
+    genVar587="source";
+    Element source;
+    source=new Element(genVar587);
+    java.lang.String genVar588;
+    genVar588="target";
+    Element target;
+    target=new Element(genVar588);
+    java.lang.String genVar589;
+    genVar589="lineNr";
+    Element lineNr;
+    lineNr=new Element(genVar589);
+    java.lang.String genVar590;
+    genVar590="severity";
+    Element severity;
+    severity=new Element(genVar590);
+    java.lang.String genVar591;
+    genVar591="ruleType";
+    Element ruleType;
+    ruleType=new Element(genVar591);
+    java.lang.String genVar592;
+    genVar592="dependencyKind";
+    Element dependencyKind;
+    dependencyKind=new Element(genVar592);
+    java.lang.String genVar593;
+    genVar593="isDirect";
+    Element isDirect;
+    isDirect=new Element(genVar593);
+    java.lang.String genVar594;
+    genVar594="";
+    target.setText(genVar594);
+    java.lang.String genVar595;
+    genVar595="";
+    source.setText(genVar595);
+    java.lang.String genVar596;
+    genVar596="";
+    lineNr.setText(genVar596);
+    java.lang.String genVar597;
+    genVar597="";
+    severity.setText(genVar597);
+    java.lang.String genVar598;
+    genVar598="";
+    ruleType.setText(genVar598);
+    java.lang.String genVar599;
+    genVar599="";
+    dependencyKind.setText(genVar599);
+    java.lang.String genVar600;
+    genVar600="";
+    isDirect.setText(genVar600);
+    xmlViolation.addContent(source);
+    xmlViolation.addContent(target);
+    xmlViolation.addContent(lineNr);
+    xmlViolation.addContent(severity);
+    xmlViolation.addContent(ruleType);
+    xmlViolation.addContent(dependencyKind);
+    xmlViolation.addContent(isDirect);
+    violations.addContent(xmlViolation);
+    org.jdom2.output.Format genVar601;
+    genVar601=Format.getPrettyFormat();
+    XMLOutputter outputter;
+    outputter=new XMLOutputter(genVar601);
+    java.lang.String genVar602;
+    genVar602="";
+    java.io.File genVar603;
+    genVar603=new File(genVar602);
+    FileWriter fileWriter;
+    fileWriter=new FileWriter(genVar603);
+    outputter.output(document,fileWriter);
+    fileWriter.close();
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: AnalyseControlServiceImpl.java --- BEGIN>>
+package husacct;
+import java.util.List;
+import org.jdom2.Element;
+public class AnalyseControlServiceImpl {
+  private IAnalyseDomainService domainService;
+  public Element saveModel(){
+    org.jdom2.Element genVar604;
+    genVar604=domainService.saveModel();
+    return genVar604;
+  }
+  public void loadModel(  Element analyseElement){
+    domainService.loadModel(analyseElement);
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixAttribute.java --- BEGIN>>
+package husacct;
+public class FamixAttribute {
+  public String uniqueName;
+  public String name;
+  public String belongsToClass;
+  public String declareType;
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ApplicationAnalysisHistoryLogController.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.jdom2.Document;
+import org.jdom2.Element;
+public class ApplicationAnalysisHistoryLogController {
+  public void getApplicationHistoryFromFile(  String workspace,  String application){
+    try {
+      Document doc;
+      doc=null;
+      Element xmlFileRootElement;
+      xmlFileRootElement=doc.getRootElement();
+      java.util.List<org.jdom2.Element> genVar605;
+      genVar605=xmlFileRootElement.getChildren();
+      for (      Element workspaceElement : genVar605) {
+        java.lang.String genVar606;
+        genVar606="name";
+        java.lang.String genVar607;
+        genVar607=workspaceElement.getAttributeValue(genVar606);
+        boolean genVar608;
+        genVar608=genVar607.equals(workspace);
+        if (genVar608) {
+          java.util.List<org.jdom2.Element> genVar609;
+          genVar609=workspaceElement.getChildren();
+          for (          Element applicationElement : genVar609) {
+            java.lang.String genVar610;
+            genVar610="name";
+            java.lang.String genVar611;
+            genVar611=applicationElement.getAttributeValue(genVar610);
+            boolean genVar612;
+            genVar612=genVar611.equals(application);
+            if (genVar612) {
+              java.util.List<org.jdom2.Element> genVar613;
+              genVar613=applicationElement.getChildren();
+              for (              Element projectElement : genVar613) {
+                java.lang.String genVar614;
+                genVar614="name";
+                java.lang.String genVar615;
+                genVar615=projectElement.getAttributeValue(genVar614);
+                boolean genVar616;
+                genVar616=genVar615.equals(null);
+                if (genVar616) {
+                  java.util.List<org.jdom2.Element> genVar617;
+                  genVar617=projectElement.getChildren();
+                  for (                  Element analysisElement : genVar617) {
+                    HashMap<String,String> analysisInfo;
+                    analysisInfo=new HashMap<String,String>();
+                    java.lang.String genVar618;
+                    genVar618="application";
+                    java.lang.String genVar619;
+                    genVar619="name";
+                    java.lang.String genVar620;
+                    genVar620=applicationElement.getAttributeValue(genVar619);
+                    analysisInfo.put(genVar618,genVar620);
+                    java.lang.String genVar621;
+                    genVar621="project";
+                    java.lang.String genVar622;
+                    genVar622="name";
+                    java.lang.String genVar623;
+                    genVar623=projectElement.getAttributeValue(genVar622);
+                    analysisInfo.put(genVar621,genVar623);
+                    java.util.List<org.jdom2.Element> genVar624;
+                    genVar624=analysisElement.getChildren();
+                    for (                    Element analysisInfoElement : genVar624) {
+                      java.lang.String genVar625;
+                      genVar625=analysisInfoElement.getName();
+                      java.lang.String genVar626;
+                      genVar626=analysisInfoElement.getText();
+                      analysisInfo.put(genVar625,genVar626);
+                    }
+                    java.lang.String genVar627;
+                    genVar627="timestamp";
+                    analysisElement.getAttributeValue(genVar627);
+                  }
+                }
+ else {
+                  ;
+                }
+              }
+            }
+ else {
+              ;
+            }
+          }
+        }
+ else {
+          ;
+        }
+      }
+    }
+ catch (    Exception e) {
+    }
+  }
+  public int getNumberOfAnalyses(  String workspace,  String application){
+    int output;
+    output=0;
+    try {
+      Document doc;
+      doc=null;
+      Element xmlFileRootElement;
+      xmlFileRootElement=doc.getRootElement();
+      java.util.List<org.jdom2.Element> genVar628;
+      genVar628=xmlFileRootElement.getChildren();
+      for (      Element workspaceElement : genVar628) {
+        java.lang.String genVar629;
+        genVar629="name";
+        java.lang.String genVar630;
+        genVar630=workspaceElement.getAttributeValue(genVar629);
+        boolean genVar631;
+        genVar631=genVar630.equals(workspace);
+        if (genVar631) {
+          java.util.List<org.jdom2.Element> genVar632;
+          genVar632=workspaceElement.getChildren();
+          for (          Element applicationElement : genVar632) {
+            java.lang.String genVar633;
+            genVar633="name";
+            java.lang.String genVar634;
+            genVar634=applicationElement.getAttributeValue(genVar633);
+            boolean genVar635;
+            genVar635=genVar634.equals(application);
+            if (genVar635) {
+              java.util.List<org.jdom2.Element> genVar636;
+              genVar636=applicationElement.getChildren();
+              for (              Element projectElement : genVar636) {
+                java.lang.String genVar637;
+                genVar637="name";
+                java.lang.String genVar638;
+                genVar638=projectElement.getAttributeValue(genVar637);
+                boolean genVar639;
+                genVar639=genVar638.equals(null);
+                if (genVar639) {
+                  java.util.List<org.jdom2.Element> genVar640;
+                  genVar640=projectElement.getChildren();
+                  output+=genVar640.size();
+                }
+ else {
+                  ;
+                }
+              }
+            }
+ else {
+              ;
+            }
+          }
+        }
+ else {
+          ;
+        }
+      }
+    }
+ catch (    Exception e) {
+    }
+    return output;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: Severity.java --- BEGIN>>
+package husacct;
+import java.awt.Color;
+import java.util.UUID;
+public class Severity {
+  public Severity(  UUID fromString,  String childText,  Color color){
+  }
+  public String getSeverityKey(){
+    return null;
+  }
+  public Object getId(){
+    return null;
+  }
+  public Object getColor(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: TaskServiceImpl.java --- BEGIN>>
+package husacct;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observer;
+import java.util.Set;
+import javax.xml.datatype.DatatypeConfigurationException;
+import org.jdom2.Element;
+public class TaskServiceImpl {
+  public void importValidationWorkspace(  Element element) throws DatatypeConfigurationException {
+  }
+  public Element exportValidationWorkspace(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportViolations.java --- BEGIN>>
+package husacct;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Calendar;
+import java.util.List;
+import org.jdom2.Element;
+public class ExportViolations {
+  public Element getAllViolations(  SimpleEntry<Calendar,List<Violation>> allViolations){
+    java.lang.String genVar641;
+    genVar641="violations";
+    Element root;
+    root=new Element(genVar641);
+    int i;
+    i=0;
+    for (; i < allViolations.getValue().size(); i++) {
+      java.util.List<husacct.Violation> genVar642;
+      genVar642=allViolations.getValue();
+      husacct.Violation genVar643;
+      genVar643=genVar642.get(i);
+      java.lang.String genVar644;
+      genVar644=genVar643.toString();
+      System.out.println(genVar644);
+    }
+    return root;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportController.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.xml.datatype.DatatypeConfigurationException;
+import org.jdom2.Element;
+public class ImportController {
+  private List<Severity> severities;
+  private ImportFactory importFactory;
+  private ConfigurationServiceImpl configuration;
+  public ImportController(  ConfigurationServiceImpl configuration){
+    husacct.ImportController genVar645;
+    genVar645=this;
+    genVar645.configuration=configuration;
+    husacct.ImportController genVar646;
+    genVar646=this;
+    genVar646.importFactory=new ImportFactory();
+    husacct.ImportController genVar647;
+    genVar647=this;
+    genVar647.severities=new ArrayList<Severity>();
+  }
+  public void importWorkspace(  Element element) throws DatatypeConfigurationException {
+    ImportController genVar648;
+    genVar648=this;
+    java.lang.String genVar649;
+    genVar649="severities";
+    org.jdom2.Element genVar650;
+    genVar650=element.getChild(genVar649);
+    genVar648.importSeverties(genVar650);
+    ImportController genVar651;
+    genVar651=this;
+    java.lang.String genVar652;
+    genVar652="severitiesPerTypesPerProgrammingLanguages";
+    org.jdom2.Element genVar653;
+    genVar653=element.getChild(genVar652);
+    genVar651.importSeveritiesPerTypesPerProgrammingLanguages(genVar653);
+    ImportController genVar654;
+    genVar654=this;
+    java.lang.String genVar655;
+    genVar655="activeViolationTypes";
+    org.jdom2.Element genVar656;
+    genVar656=element.getChild(genVar655);
+    genVar654.importActiveViolationTypes(genVar656);
+  }
+  private void importSeverties(  Element element){
+  }
+  private void importSeveritiesPerTypesPerProgrammingLanguages(  Element element){
+  }
+  private void importActiveViolationTypes(  Element element){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportSeveritiesPerTypesPerProgrammingLanguages.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.List;
+import org.jdom2.Element;
+public class ImportSeveritiesPerTypesPerProgrammingLanguages {
+  public HashMap<String,HashMap<String,Severity>> importSeveritiesPerTypesPerProgrammingLanguages(  Element element,  List<Severity> severities){
+    HashMap<String,HashMap<String,Severity>> severitiesPerTypesPerProgrammingLanguages;
+    severitiesPerTypesPerProgrammingLanguages=new HashMap<String,HashMap<String,Severity>>();
+    java.util.List<org.jdom2.Element> genVar657;
+    genVar657=element.getChildren();
+    for (    Element severityPerTypePerProgrammingLanguageElement : genVar657) {
+      java.lang.String genVar658;
+      genVar658="language";
+      String language;
+      language=severityPerTypePerProgrammingLanguageElement.getAttributeValue(genVar658);
+      HashMap<String,Severity> severitiesPerTypes;
+      severitiesPerTypes=new HashMap<String,Severity>();
+      java.lang.String genVar659;
+      genVar659="severityPerType";
+      java.util.List<org.jdom2.Element> genVar660;
+      genVar660=severityPerTypePerProgrammingLanguageElement.getChildren(genVar659);
+      for (      Element severityPerTypeElement : genVar660) {
+        for (        Severity severity : severities) {
+          java.lang.Object genVar661;
+          genVar661=severity.getId();
+          java.lang.String genVar662;
+          genVar662=genVar661.toString();
+          java.lang.String genVar663;
+          genVar663="severityId";
+          java.lang.String genVar664;
+          genVar664=severityPerTypeElement.getChildText(genVar663);
+          boolean genVar665;
+          genVar665=genVar662.equals(genVar664);
+          if (genVar665) {
+            java.lang.String genVar666;
+            genVar666="typeKey";
+            java.lang.String genVar667;
+            genVar667=severityPerTypeElement.getChildText(genVar666);
+            severitiesPerTypes.put(genVar667,severity);
+          }
+ else {
+            ;
+          }
+        }
+      }
+      severitiesPerTypesPerProgrammingLanguages.put(language,severitiesPerTypes);
+    }
+    return severitiesPerTypesPerProgrammingLanguages;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportSeverities.java --- BEGIN>>
+package husacct;
+import java.util.List;
+import org.jdom2.Element;
+public class ExportSeverities {
+  public Element exportSeverities(  List<Severity> severities){
+    java.lang.String genVar668;
+    genVar668="severities";
+    Element severitiesElement;
+    severitiesElement=new Element(genVar668);
+    Severity severity;
+    severity=null;
+    java.lang.String genVar669;
+    genVar669="severity";
+    Element severityElement;
+    severityElement=new Element(genVar669);
+    ExportSeverities genVar670;
+    genVar670=this;
+    java.lang.String genVar671;
+    genVar671="severityKey";
+    java.lang.String genVar672;
+    genVar672=severity.getSeverityKey();
+    genVar670.createElementWithContent(genVar671,genVar672,severityElement);
+    ExportSeverities genVar673;
+    genVar673=this;
+    java.lang.String genVar674;
+    genVar674="id";
+    java.lang.String genVar675;
+    genVar675="";
+    java.lang.Object genVar676;
+    genVar676=severity.getId();
+    java.lang.String genVar677;
+    genVar677=genVar676.toString();
+    java.lang.String genVar678;
+    genVar678=genVar675 + genVar677;
+    genVar673.createElementWithContent(genVar674,genVar678,severityElement);
+    ExportSeverities genVar679;
+    genVar679=this;
+    java.lang.String genVar680;
+    genVar680="color";
+    java.lang.String genVar681;
+    genVar681="";
+    java.lang.Object genVar682;
+    genVar682=severity.getColor();
+    java.lang.String genVar683;
+    genVar683=genVar681 + genVar682;
+    genVar679.createElementWithContent(genVar680,genVar683,severityElement);
+    severitiesElement.addContent(severityElement);
+    return severitiesElement;
+  }
+  private void createElementWithContent(  String name,  String content,  Element destination){
+    Element element;
+    element=new Element(name);
+    element.setText(content);
+    destination.addContent(element);
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: IResource.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import org.jdom2.Document;
+public interface IResource {
+  public Document load(  HashMap<String,Object> dataValues);
+  public boolean save(  Document doc,  HashMap<String,Object> dataValues,  HashMap<String,Object> config);
+  public boolean save(  Document doc,  HashMap<String,Object> dataValues);
+}
+
+<<AST of the file --- END>>
+<<AST of the file: IAnalyseControlService.java --- BEGIN>>
+package husacct;
+import java.util.List;
+import org.jdom2.Element;
+public interface IAnalyseControlService {
+  public Element saveModel();
+  public void loadModel(  Element analyseElement);
+}
+
+<<AST of the file --- END>>
+<<AST of the file: XmlImportUtils.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import org.jdom2.Element;
+public abstract class XmlImportUtils {
+  protected Message getMessage(  Element messageElement){
+    java.lang.String genVar684;
+    genVar684="logicalModules";
+    Element logicalModulesElement;
+    logicalModulesElement=messageElement.getChild(genVar684);
+    XmlImportUtils genVar685;
+    genVar685=this;
+    LogicalModules logicalModules;
+    logicalModules=genVar685.getLogicalModules(logicalModulesElement);
+    java.lang.String genVar686;
+    genVar686="ruleKey";
+    String ruleKey;
+    ruleKey=messageElement.getChildText(genVar686);
+    java.lang.String genVar687;
+    genVar687="regex";
+    String regex;
+    regex=messageElement.getChildText(genVar687);
+    java.lang.String genVar688;
+    genVar688="violationTypeKeys";
+    Element violationTypeKeys;
+    violationTypeKeys=messageElement.getChild(genVar688);
+    List<String> violationTypeKeysList;
+    violationTypeKeysList=new ArrayList<String>();
+    java.util.List<org.jdom2.Element> genVar689;
+    genVar689=violationTypeKeys.getChildren();
+    for (    Element violationTypeKey : genVar689) {
+      java.lang.String genVar690;
+      genVar690=violationTypeKey.getText();
+      violationTypeKeysList.add(genVar690);
+    }
+    List<Message> exceptionMessages;
+    exceptionMessages=new ArrayList<Message>();
+    java.lang.String genVar691;
+    genVar691="exceptionMessages";
+    Element exceptionMessagesElement;
+    exceptionMessagesElement=messageElement.getChild(genVar691);
+    boolean genVar692;
+    genVar692=exceptionMessagesElement != null;
+    if (genVar692) {
+      java.util.List<org.jdom2.Element> genVar693;
+      genVar693=exceptionMessagesElement.getChildren();
+      for (      Element exceptionMessageElement : genVar693) {
+        XmlImportUtils genVar694;
+        genVar694=this;
+        husacct.Message genVar695;
+        genVar695=genVar694.getMessage(exceptionMessageElement);
+        exceptionMessages.add(genVar695);
+      }
+    }
+ else {
+      ;
+    }
+    Message message;
+    message=new Message(logicalModules,ruleKey,violationTypeKeysList,regex,exceptionMessages);
+    return message;
+  }
+  protected LogicalModules getLogicalModules(  Element logicalModulesElement){
+    java.lang.String genVar696;
+    genVar696="logicalModuleFrom";
+    Element logicalModuleFromElement;
+    logicalModuleFromElement=logicalModulesElement.getChild(genVar696);
+    java.lang.String genVar697;
+    genVar697="logicalModuleTo";
+    Element logicalModuleToElement;
+    logicalModuleToElement=logicalModulesElement.getChild(genVar697);
+    java.lang.String genVar698;
+    genVar698="logicalModulePath";
+    java.lang.String genVar699;
+    genVar699=logicalModuleFromElement.getChildText(genVar698);
+    java.lang.String genVar700;
+    genVar700="logicalModuleType";
+    java.lang.String genVar701;
+    genVar701=logicalModuleFromElement.getChildText(genVar700);
+    LogicalModule logicalModuleFrom;
+    logicalModuleFrom=new LogicalModule(genVar699,genVar701);
+    java.lang.String genVar702;
+    genVar702="logicalModulePath";
+    java.lang.String genVar703;
+    genVar703=logicalModuleToElement.getChildText(genVar702);
+    java.lang.String genVar704;
+    genVar704="logicalModuleType";
+    java.lang.String genVar705;
+    genVar705=logicalModuleToElement.getChildText(genVar704);
+    LogicalModule logicalModuleTo;
+    logicalModuleTo=new LogicalModule(genVar703,genVar705);
+    LogicalModules logicalModules;
+    logicalModules=new LogicalModules(logicalModuleFrom,logicalModuleTo);
+    return logicalModules;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixMethod.java --- BEGIN>>
+package husacct;
+public class FamixMethod {
+  public boolean isPureAccessor;
+  public String belongsToClass;
+  public boolean isConstructor;
+  public boolean isAbstract;
+  public boolean hasClassScope;
+  public String name;
+  public String uniqueName;
+  public String accessControlQualifier;
+  public String signature;
+  public String declaredReturnType;
+}
+
+<<AST of the file --- END>>
+<<AST of the file: DefinedController.java --- BEGIN>>
+package husacct;
+public class DefinedController {
+}
+
+<<AST of the file --- END>>
+<<AST of the file: Project.java --- BEGIN>>
+package husacct;
+public class Project {
+  public String getName(){
+    return null;
+  }
+  public void setName(  String text){
+  }
+  public void setProgrammingLanguage(  String text){
+  }
+  public void setVersion(  String text){
+  }
+  public void setDescription(  String text){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: AnalyseServiceImpl.java --- BEGIN>>
+package husacct;
+import java.util.Date;
+import java.util.List;
+import org.jdom2.Element;
+public class AnalyseServiceImpl {
+  private IModelPersistencyService persistService;
+  public Element getWorkspaceData(){
+    java.lang.String genVar706;
+    genVar706="rootElement";
+    Element rootElement;
+    rootElement=new Element(genVar706);
+    org.jdom2.Element genVar707;
+    genVar707=persistService.saveModel();
+    rootElement.addContent(genVar707);
+    return rootElement;
+  }
+  public void loadWorkspaceData(  Element rootElement){
+    java.lang.String genVar708;
+    genVar708="AnalysedApplication";
+    org.jdom2.Element genVar709;
+    genVar709=rootElement.getChild(genVar708);
+    persistService.loadModel(genVar709);
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixAssociation.java --- BEGIN>>
+package husacct;
+public class FamixAssociation {
+  public String from;
+  public String type;
+  public int lineNumber;
+  public String to;
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportViolations.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
+import org.jdom2.Element;
+public class ImportViolations {
+  public List<Violation> importViolations(  Element violationsElement,  List<Severity> severities) throws DatatypeConfigurationException {
+    List<Violation> violations;
+    violations=new ArrayList<Violation>();
+    java.util.List<org.jdom2.Element> genVar710;
+    genVar710=violationsElement.getChildren();
+    for (    Element violationElement : genVar710) {
+      Severity violationSeverity;
+      violationSeverity=null;
+      java.lang.String genVar711;
+      genVar711="severityId";
+      String severityId;
+      severityId=violationElement.getChildText(genVar711);
+      for (      Severity severity : severities) {
+        java.lang.Object genVar712;
+        genVar712=severity.getId();
+        java.lang.String genVar713;
+        genVar713=genVar712.toString();
+        boolean genVar714;
+        genVar714=severityId.equals(genVar713);
+        if (genVar714) {
+          violationSeverity=severity;
+          break;
+        }
+ else {
+          ;
+        }
+      }
+      java.lang.String genVar715;
+      genVar715="lineNumber";
+      java.lang.String genVar716;
+      genVar716=violationElement.getChildText(genVar715);
+      int lineNumber;
+      lineNumber=Integer.parseInt(genVar716);
+      java.lang.String genVar717;
+      genVar717="ruletypeKey";
+      String ruleTypeKey;
+      ruleTypeKey=violationElement.getChildText(genVar717);
+      java.lang.String genVar718;
+      genVar718="violationtypeKey";
+      String violationTypeKey;
+      violationTypeKey=violationElement.getChildText(genVar718);
+      java.lang.String genVar719;
+      genVar719="classPathFrom";
+      String classPathFrom;
+      classPathFrom=violationElement.getChildText(genVar719);
+      java.lang.String genVar720;
+      genVar720="classPathTo";
+      String classPathTo;
+      classPathTo=violationElement.getChildText(genVar720);
+      java.lang.String genVar721;
+      genVar721="logicalModules";
+      violationElement.getChild(genVar721);
+      java.lang.String genVar722;
+      genVar722="message";
+      violationElement.getChild(genVar722);
+      java.lang.String genVar723;
+      genVar723="isIndirect";
+      java.lang.String genVar724;
+      genVar724=violationElement.getChildText(genVar723);
+      boolean isIndirect;
+      isIndirect=Boolean.parseBoolean(genVar724);
+      java.lang.String genVar725;
+      genVar725="occured";
+      String stringCalendar;
+      stringCalendar=violationElement.getChildText(genVar725);
+    }
+    return violations;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ISaveable.java --- BEGIN>>
+package husacct;
+import org.jdom2.Element;
+public interface ISaveable {
+  Element getWorkspaceData();
+  void loadWorkspaceData(  Element workspaceData);
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportController2.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.util.HashMap;
+import org.jdom2.Document;
+import org.jdom2.Element;
+public class ImportController2 {
+  public void importArchitecture(  File file){
+    Document doc;
+    doc=null;
+    Element logicalData;
+    logicalData=doc.getRootElement();
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: PersistentDomain.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import org.jdom2.Element;
+/** 
+ * This class enabled the feature to have the domain stored in XML format
+ */
+public class PersistentDomain {
+  public Element getWorkspaceData(){
+    return null;
+  }
+  public void loadWorkspaceData(  Element workspaceData){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: SoftwareArchitecture.java --- BEGIN>>
+package husacct;
+public class SoftwareArchitecture {
+  public void setName(  String value){
+  }
+  public void setDescription(  String value){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: AnalyseServiceStub.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import org.jdom2.Element;
+public class AnalyseServiceStub {
+  public Element getWorkspaceData(){
+    return null;
+  }
+  public void loadWorkspaceData(  Element root){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: Message.java --- BEGIN>>
+package husacct;
+import java.util.List;
+public class Message {
+  public Message(  LogicalModules logicalModules,  String ruleKey,  List<String> violationTypeKeysList,  String regex,  List<Message> exceptionMessages){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ModuleStrategy.java --- BEGIN>>
+package husacct;
+public class ModuleStrategy {
+  public String getDescription(){
+    return null;
+  }
+  public long getId(){
+    int genVar726;
+    genVar726=0;
+    return genVar726;
+  }
+  public String getName(){
+    return null;
+  }
+  public void set(  String moduleName,  String moduleDescription,  boolean fromStorage){
+  }
+  public void setId(  int moduleId){
+  }
+  public void addSUDefinition(  SoftwareUnitDefinition softwareUnitDefinitionFromXML){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: Application.java --- BEGIN>>
+package husacct;
+public class Application {
+  public String getName(){
+    return null;
+  }
+  public String getVersion(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ControlServiceImpl.java --- BEGIN>>
+package husacct;
+import java.awt.Component;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.JDialog;
+import org.jdom2.Element;
+public class ControlServiceImpl {
+  public Element getWorkspaceData(){
+    java.lang.String genVar727;
+    genVar727="workspace";
+    Element data;
+    data=new Element(genVar727);
+    java.lang.String genVar728;
+    genVar728="name";
+    java.lang.String genVar729;
+    genVar729="";
+    data.setAttribute(genVar728,genVar729);
+    java.lang.String genVar730;
+    genVar730="language";
+    java.lang.String genVar731;
+    genVar731="";
+    data.setAttribute(genVar730,genVar731);
+    return data;
+  }
+  public void loadWorkspaceData(  Element workspaceData){
+    String languageName;
+    languageName="en";
+    try {
+      java.lang.String genVar732;
+      genVar732="name";
+      String workspaceName;
+      workspaceName=workspaceData.getAttributeValue(genVar732);
+      java.lang.String genVar733;
+      genVar733="language";
+      languageName=workspaceData.getAttributeValue(genVar733);
+    }
+ catch (    Exception e) {
+    }
+    try {
+    }
+ catch (    Exception e) {
+    }
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ConfigurationServiceImpl.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+public class ConfigurationServiceImpl {
+  public List<Severity> getAllSeverities(){
+    return null;
+  }
+  public HashMap<String,HashMap<String,Severity>> getAllSeveritiesPerTypesPerProgrammingLanguages(){
+    return null;
+  }
+  public Map<String,List<ActiveRuleType>> getActiveViolationTypes(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportFactory.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.jdom2.Element;
+public class ExportFactory {
+  public Element exportSeverities(  List<Severity> severities){
+    return null;
+  }
+  public Element exportSeveritiesPerTypesPerProgrammingLanguages(  HashMap<String,HashMap<String,Severity>> allSeveritiesPerTypesPerProgrammingLanguages){
+    return null;
+  }
+  public Element exportActiveViolationTypes(  Map<String,List<ActiveRuleType>> activeViolationTypes){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: WorkspaceController.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import org.jdom2.Document;
+import org.jdom2.Element;
+public class WorkspaceController {
+  public boolean saveWorkspace(  String resourceIdentifier,  HashMap<String,Object> dataValues,  HashMap<String,Object> config){
+    WorkspaceController genVar734;
+    genVar734=this;
+    Document document;
+    document=genVar734.getWorkspaceData();
+    boolean genVar735;
+    genVar735=true;
+    return genVar735;
+  }
+  public boolean loadWorkspace(  String resourceIdentifier,  HashMap<String,Object> dataValues){
+    Document doc;
+    doc=null;
+    WorkspaceController genVar736;
+    genVar736=this;
+    boolean genVar737;
+    genVar737=genVar736.loadWorkspace(doc);
+    return genVar737;
+  }
+  public Document getWorkspaceData(){
+    java.lang.String genVar738;
+    genVar738="husacct";
+    Element rootElement;
+    rootElement=new Element(genVar738);
+    java.lang.String genVar739;
+    genVar739="version";
+    java.lang.String genVar740;
+    genVar740="3.4.1";
+    rootElement.setAttribute(genVar739,genVar740);
+    String serviceName;
+    serviceName="";
+    Element container;
+    container=new Element(serviceName);
+    Element serviceData;
+    serviceData=null;
+    container.addContent(serviceData);
+    rootElement.addContent(container);
+    Document doc;
+    doc=new Document(rootElement);
+    return doc;
+  }
+  public boolean loadWorkspace(  Document document){
+    try {
+      boolean genVar741;
+      genVar741=document.hasRootElement();
+      if (genVar741) {
+        Element rootElement;
+        rootElement=document.getRootElement();
+        String serviceName;
+        serviceName="";
+        List<Element> elementQuery;
+        elementQuery=rootElement.getChildren(serviceName);
+        for (        Element serviceDataContainer : elementQuery) {
+          java.util.List<org.jdom2.Element> genVar742;
+          genVar742=serviceDataContainer.getChildren();
+          int genVar743;
+          genVar743=0;
+          Element serviceData;
+          serviceData=genVar742.get(genVar743);
+        }
+      }
+ else {
+        ;
+      }
+      boolean genVar744;
+      genVar744=true;
+      return genVar744;
+    }
+ catch (    Exception exception) {
+      java.lang.String genVar745;
+      genVar745="Unable to load workspacedata\n";
+      java.lang.String genVar746;
+      genVar746=exception.getMessage();
+      String message;
+      message=genVar745 + genVar746;
+    }
+    boolean genVar747;
+    genVar747=false;
+    return genVar747;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: IDefineService.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.HashSet;
+import org.jdom2.Element;
+public interface IDefineService {
+  public Element getLogicalArchitectureData();
+  public void loadLogicalArchitectureData(  Element e);
+}
+
+<<AST of the file --- END>>
+<<AST of the file: AnalysedController.java --- BEGIN>>
+package husacct;
+public class AnalysedController {
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixModel.java --- BEGIN>>
+package husacct;
+public class FamixModel {
+  public static FamixModel getInstance(){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportActiveViolationTypes.java --- BEGIN>>
+package husacct;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+public class ExportActiveViolationTypes {
+  public Element exportActiveViolationTypes(){
+    java.lang.String genVar748;
+    genVar748="activeViolationTypes";
+    Element activeViolationTypesElement;
+    activeViolationTypesElement=new Element(genVar748);
+    java.lang.String genVar749;
+    genVar749="";
+    activeViolationTypesElement.addContent(genVar749);
+    return null;
+  }
+  private Element createActiveViolationTypeElement(){
+    java.lang.String genVar750;
+    genVar750="activeViolationType";
+    Element activeViolationTypeElement;
+    activeViolationTypeElement=new Element(genVar750);
+    java.lang.String genVar751;
+    genVar751="language";
+    org.jdom2.Attribute genVar752;
+    genVar752=new Attribute(genVar751,null);
+    activeViolationTypeElement.setAttribute(genVar752);
+    java.lang.String genVar753;
+    genVar753="";
+    activeViolationTypeElement.addContent(genVar753);
+    return activeViolationTypeElement;
+  }
+  private Element createActiveRuleTypeElement(){
+    java.lang.String genVar754;
+    genVar754="ruleType";
+    Element ruleTypeElement;
+    ruleTypeElement=new Element(genVar754);
+    java.lang.String genVar755;
+    genVar755="type";
+    java.lang.String genVar756;
+    genVar756="";
+    org.jdom2.Attribute genVar757;
+    genVar757=new Attribute(genVar755,genVar756);
+    ruleTypeElement.setAttribute(genVar757);
+    java.lang.String genVar758;
+    genVar758="violationTypes";
+    Element violationTypesElement;
+    violationTypesElement=new Element(genVar758);
+    ruleTypeElement.addContent(violationTypesElement);
+    java.lang.String genVar759;
+    genVar759="violationType";
+    Element violationTypeElement;
+    violationTypeElement=new Element(genVar759);
+    java.lang.String genVar760;
+    genVar760="";
+    violationTypeElement.addContent(genVar760);
+    java.lang.String genVar761;
+    genVar761="";
+    violationTypeElement.addContent(genVar761);
+    violationTypesElement.addContent(violationTypeElement);
+    return ruleTypeElement;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: XmlResource.java --- BEGIN>>
+package husacct;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import org.jdom2.Document;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+public class XmlResource {
+  public Document load(  HashMap<String,Object> dataValues){
+    java.lang.String genVar762;
+    genVar762="file";
+    java.lang.Object genVar763;
+    genVar763=dataValues.get(genVar762);
+    File file;
+    file=(File)genVar763;
+    SAXBuilder sax;
+    sax=new SAXBuilder();
+    Document doc;
+    doc=new Document();
+    try {
+      doc=sax.build(file);
+    }
+ catch (    Exception ex) {
+      String password;
+      password="";
+      java.lang.String genVar764;
+      genVar764="";
+      boolean genVar765;
+      genVar765=password.equals(genVar764);
+      while (genVar765) {
+        java.lang.String genVar766;
+        genVar766="";
+        boolean genVar767;
+        genVar767=password.equals(genVar766);
+        if (genVar767) {
+          break;
+        }
+ else {
+          ;
+        }
+        try {
+          doc=sax.build(file);
+        }
+ catch (        Exception e) {
+          password="";
+        }
+      }
+    }
+    return doc;
+  }
+  public boolean save(  Document doc,  HashMap<String,Object> dataValues,  HashMap<String,Object> config){
+    java.lang.String genVar768;
+    genVar768="file";
+    java.lang.Object genVar769;
+    genVar769=dataValues.get(genVar768);
+    File file;
+    file=(File)genVar769;
+    try {
+      FileOutputStream outputStream;
+      outputStream=new FileOutputStream(file);
+      XMLOutputter xout;
+      boolean genVar770;
+      genVar770=true;
+      if (genVar770) {
+        java.lang.String genVar771;
+        genVar771="compress";
+        System.out.println(genVar771);
+        org.jdom2.output.Format genVar772;
+        genVar772=Format.getRawFormat();
+        xout=new XMLOutputter(genVar772);
+      }
+ else {
+        org.jdom2.output.Format genVar773;
+        genVar773=Format.getPrettyFormat();
+        xout=new XMLOutputter(genVar773);
+      }
+      xout.output(doc,outputStream);
+      outputStream.close();
+      boolean genVar774;
+      genVar774=true;
+      return genVar774;
+    }
+ catch (    Exception e) {
+    }
+    boolean genVar775;
+    genVar775=false;
+    return genVar775;
+  }
+  public boolean save(  Document doc,  HashMap<String,Object> dataValues){
+    boolean genVar776;
+    genVar776=false;
+    return genVar776;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: Main.java --- BEGIN>>
+package husacct;
+public class Main {
+  public static void main(  String[] args){
+    java.lang.String genVar199;
+    genVar199="haha";
+    System.out.println(genVar199);
+    java.lang.Class<husacct.ActiveRuleType> genVar0;
+    genVar0=ActiveRuleType.class;
+    System.out.println(genVar0);
+    java.lang.Class<husacct.ActiveViolationType> genVar1;
+    genVar1=ActiveViolationType.class;
+    System.out.println(genVar1);
+    java.lang.Class<husacct.AnalyseControlServiceImpl> genVar2;
+    genVar2=AnalyseControlServiceImpl.class;
+    System.out.println(genVar2);
+    java.lang.Class<husacct.AnalyseServiceImpl> genVar3;
+    genVar3=AnalyseServiceImpl.class;
+    System.out.println(genVar3);
+    java.lang.Class<husacct.AnalyseServiceStub> genVar4;
+    genVar4=AnalyseServiceStub.class;
+    System.out.println(genVar4);
+    java.lang.Class<husacct.AnalysedController> genVar5;
+    genVar5=AnalysedController.class;
+    System.out.println(genVar5);
+    java.lang.Class<husacct.Application> genVar6;
+    genVar6=Application.class;
+    System.out.println(genVar6);
+    java.lang.Class<husacct.ApplicationAnalysisHistoryLogController> genVar7;
+    genVar7=ApplicationAnalysisHistoryLogController.class;
+    System.out.println(genVar7);
+    java.lang.Class<husacct.AppliedRuleStrategy> genVar8;
+    genVar8=AppliedRuleStrategy.class;
+    System.out.println(genVar8);
+    java.lang.Class<husacct.ConfigurationServiceImpl> genVar9;
+    genVar9=ConfigurationServiceImpl.class;
+    System.out.println(genVar9);
+    java.lang.Class<husacct.ControlServiceImpl> genVar10;
+    genVar10=ControlServiceImpl.class;
+    System.out.println(genVar10);
+    java.lang.Class<husacct.DefineServiceImpl> genVar11;
+    genVar11=DefineServiceImpl.class;
+    System.out.println(genVar11);
+    java.lang.Class<husacct.DefinedController> genVar12;
+    genVar12=DefinedController.class;
+    System.out.println(genVar12);
+    java.lang.Class<husacct.DomainXML> genVar13;
+    genVar13=DomainXML.class;
+    System.out.println(genVar13);
+    java.lang.Class<husacct.DrawingController> genVar14;
+    genVar14=DrawingController.class;
+    System.out.println(genVar14);
+    java.lang.Class<husacct.ExportActiveViolationTypes> genVar15;
+    genVar15=ExportActiveViolationTypes.class;
+    System.out.println(genVar15);
+    java.lang.Class<husacct.ExportController> genVar16;
+    genVar16=ExportController.class;
+    System.out.println(genVar16);
+    java.lang.Class<husacct.ExportController2> genVar17;
+    genVar17=ExportController2.class;
+    System.out.println(genVar17);
+    java.lang.Class<husacct.ExportFactory> genVar18;
+    genVar18=ExportFactory.class;
+    System.out.println(genVar18);
+    java.lang.Class<husacct.ExportSeverities> genVar19;
+    genVar19=ExportSeverities.class;
+    System.out.println(genVar19);
+    java.lang.Class<husacct.ExportSeveritiesPerTypesPerProgrammingLanguages> genVar20;
+    genVar20=ExportSeveritiesPerTypesPerProgrammingLanguages.class;
+    System.out.println(genVar20);
+    java.lang.Class<husacct.ExportViolations> genVar21;
+    genVar21=ExportViolations.class;
+    System.out.println(genVar21);
+    java.lang.Class<husacct.FamixAssociation> genVar22;
+    genVar22=FamixAssociation.class;
+    System.out.println(genVar22);
+    java.lang.Class<husacct.FamixAttribute> genVar23;
+    genVar23=FamixAttribute.class;
+    System.out.println(genVar23);
+    java.lang.Class<husacct.FamixClass> genVar24;
+    genVar24=FamixClass.class;
+    System.out.println(genVar24);
+    java.lang.Class<husacct.FamixMethod> genVar25;
+    genVar25=FamixMethod.class;
+    System.out.println(genVar25);
+    java.lang.Class<husacct.FamixModel> genVar26;
+    genVar26=FamixModel.class;
+    System.out.println(genVar26);
+    java.lang.Class<husacct.FamixPackage> genVar27;
+    genVar27=FamixPackage.class;
+    System.out.println(genVar27);
+    java.lang.Class<husacct.FamixPersistencyServiceImpl> genVar28;
+    genVar28=FamixPersistencyServiceImpl.class;
+    System.out.println(genVar28);
+    java.lang.Class<husacct.GraphicsServiceImpl> genVar29;
+    genVar29=GraphicsServiceImpl.class;
+    System.out.println(genVar29);
+    java.lang.Class<husacct.HelpTreeModelLoader> genVar30;
+    genVar30=HelpTreeModelLoader.class;
+    System.out.println(genVar30);
+    java.lang.Class<husacct.HelpTreeNode> genVar31;
+    genVar31=HelpTreeNode.class;
+    System.out.println(genVar31);
+    java.lang.Class<husacct.HusacctResource> genVar32;
+    genVar32=HusacctResource.class;
+    System.out.println(genVar32);
+    java.lang.Class<husacct.IAnalyseControlService> genVar33;
+    genVar33=IAnalyseControlService.class;
+    System.out.println(genVar33);
+    java.lang.Class<husacct.IAnalyseDomainService> genVar34;
+    genVar34=IAnalyseDomainService.class;
+    System.out.println(genVar34);
+    java.lang.Class<husacct.IDefineService> genVar35;
+    genVar35=IDefineService.class;
+    System.out.println(genVar35);
+    java.lang.Class<husacct.IGraphicsService> genVar36;
+    genVar36=IGraphicsService.class;
+    System.out.println(genVar36);
+    java.lang.Class<husacct.IModelPersistencyService> genVar37;
+    genVar37=IModelPersistencyService.class;
+    System.out.println(genVar37);
+    java.lang.Class<husacct.IResource> genVar38;
+    genVar38=IResource.class;
+    System.out.println(genVar38);
+    java.lang.Class<husacct.ISaveable> genVar39;
+    genVar39=ISaveable.class;
+    System.out.println(genVar39);
+    java.lang.Class<husacct.ImportActiveViolationTypes> genVar40;
+    genVar40=ImportActiveViolationTypes.class;
+    System.out.println(genVar40);
+    java.lang.Class<husacct.ImportController> genVar41;
+    genVar41=ImportController.class;
+    System.out.println(genVar41);
+    java.lang.Class<husacct.ImportController2> genVar42;
+    genVar42=ImportController2.class;
+    System.out.println(genVar42);
+    java.lang.Class<husacct.ImportFactory> genVar43;
+    genVar43=ImportFactory.class;
+    System.out.println(genVar43);
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ExportController2.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.jdom2.Element;
+public class ExportController2 {
+  public Element exportAllData(  ConfigurationServiceImpl configuration){
+    java.lang.String genVar777;
+    genVar777="validate";
+    Element rootValidateElement;
+    rootValidateElement=new Element(genVar777);
+    ExportController2 genVar778;
+    genVar778=this;
+    java.util.List<husacct.Severity> genVar779;
+    genVar779=configuration.getAllSeverities();
+    org.jdom2.Element genVar780;
+    genVar780=genVar778.exportSeveritiesXML(genVar779);
+    rootValidateElement.addContent(genVar780);
+    ExportController2 genVar781;
+    genVar781=this;
+    java.util.HashMap<java.lang.String,java.util.HashMap<java.lang.String,husacct.Severity>> genVar782;
+    genVar782=configuration.getAllSeveritiesPerTypesPerProgrammingLanguages();
+    org.jdom2.Element genVar783;
+    genVar783=genVar781.exportSeveritiesPerTypesPerProgrammingLanguagesXML(genVar782);
+    rootValidateElement.addContent(genVar783);
+    ExportController2 genVar784;
+    genVar784=this;
+    java.util.Map<java.lang.String,java.util.List<husacct.ActiveRuleType>> genVar785;
+    genVar785=configuration.getActiveViolationTypes();
+    org.jdom2.Element genVar786;
+    genVar786=genVar784.exportActiveViolationTypesPerRuleTypes(genVar785);
+    rootValidateElement.addContent(genVar786);
+    return rootValidateElement;
+  }
+  private Element exportSeveritiesXML(  List<Severity> severities){
+    return null;
+  }
+  private Element exportSeveritiesPerTypesPerProgrammingLanguagesXML(  HashMap<String,HashMap<String,Severity>> allSeveritiesPerTypesPerProgrammingLanguages){
+    return null;
+  }
+  private Element exportActiveViolationTypesPerRuleTypes(  Map<String,List<ActiveRuleType>> activeViolationTypes){
+    return null;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: FamixClass.java --- BEGIN>>
+package husacct;
+public class FamixClass {
+  public String uniqueName;
+  public String name;
+  public String belongsToPackage;
+  public boolean isAbstract;
+  public boolean isInnerClass;
+}
+
+<<AST of the file --- END>>
+<<AST of the file: DrawingController.java --- BEGIN>>
+package husacct;
+public class DrawingController {
+}
+
+<<AST of the file --- END>>
+<<AST of the file: resourceGatherer.java --- BEGIN>>
+package husacct;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import org.jdom2.Attribute;
+import org.jdom2.Content;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+public class resourceGatherer implements Runnable {
+  public void run(){
+    java.lang.String genVar787;
+    genVar787="root";
+    Element root;
+    root=new Element(genVar787);
+    String serviceName;
+    serviceName="";
+    Element container;
+    container=new Element(serviceName);
+    Element serviceData;
+    serviceData=null;
+    container.addContent(serviceData);
+    root.addContent(container);
+    new Document(root);
+  }
+  private int calculateNewNodeSize(  Document d){
+    ByteArrayOutputStream os;
+    os=new ByteArrayOutputStream();
+    XMLOutputter xout;
+    boolean genVar788;
+    genVar788=true;
+    if (genVar788) {
+      org.jdom2.output.Format genVar789;
+      genVar789=Format.getRawFormat();
+      xout=new XMLOutputter(genVar789);
+    }
+ else {
+      org.jdom2.output.Format genVar790;
+      genVar790=Format.getPrettyFormat();
+      xout=new XMLOutputter(genVar790);
+    }
+    try {
+      xout.output(d,os);
+      os.close();
+      int genVar791;
+      genVar791=os.size();
+      int genVar792;
+      genVar792=(genVar791);
+      return genVar792;
+    }
+ catch (    Exception e) {
+      e.printStackTrace();
+    }
+    int genVar793;
+    genVar793=0;
+    return genVar793;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: LogicalModule.java --- BEGIN>>
+package husacct;
+public class LogicalModule {
+  public LogicalModule(  String childText,  String childText2){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ImportSeverities.java --- BEGIN>>
+package husacct;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import org.jdom2.Element;
+public class ImportSeverities {
+  public List<Severity> importSeverities(  Element element){
+    List<Severity> severities;
+    severities=new ArrayList<Severity>();
+    java.util.List<org.jdom2.Element> genVar794;
+    genVar794=element.getChildren();
+    for (    Element severityElement : genVar794) {
+      java.lang.String genVar795;
+      genVar795="id";
+      java.lang.String genVar796;
+      genVar796=severityElement.getChildText(genVar795);
+      UUID id;
+      id=UUID.fromString(genVar796);
+      java.lang.String genVar797;
+      genVar797="severityKey";
+      String severityKey;
+      severityKey=severityElement.getChildText(genVar797);
+      java.lang.String genVar798;
+      genVar798="color";
+      String rgbColor;
+      rgbColor=severityElement.getChildText(genVar798);
+    }
+    return severities;
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: DefineServiceImpl.java --- BEGIN>>
+package husacct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
+import javax.swing.JInternalFrame;
+import org.jdom2.Element;
+public class DefineServiceImpl {
+  public Element getLogicalArchitectureData(){
+    return null;
+  }
+  public Element getWorkspaceData(){
+    return null;
+  }
+  public void loadLogicalArchitectureData(  Element e){
+  }
+  public void loadWorkspaceData(  Element workspaceData){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: Violation.java --- BEGIN>>
+package husacct;
+public class Violation {
+}
+
+<<AST of the file --- END>>
+<<AST of the file: ActiveViolationType.java --- BEGIN>>
+package husacct;
+public class ActiveViolationType {
+  public ActiveViolationType(  String violationTypeKey,  boolean enabled){
+  }
+}
+
+<<AST of the file --- END>>
+<<AST of the file: IAnalyseDomainService.java --- BEGIN>>
+package husacct;
+import java.util.HashMap;
+import java.util.List;
+import org.jdom2.Element;
+public interface IAnalyseDomainService {
+  public Element saveModel();
+  public void loadModel(  Element analyseElement);
+}
+
+<<AST of the file --- END>>
+[JavaWorkspace@44]Project 'org.apache.commons.io' is closed.
+[JavaWorkspace@44]Project 'testAB' is closed.
+[JavaWorkspace@44]Project 'testM2M' is closed.
+[JavaWorkspace@44]Project 'testXML' is closed.
+
+[[Transformation Start]] Project: HUSACCT-simple
+[[Normalization Begin]]
+[[Normalize Start]] Project:HUSACCT-simple
+[[Normlaization End]]
+[[Collect Rules Begin]]
+[SOOT Classpath]: C:\Program Files\Java\jdk1.8.0_11\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_11\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_11\jre\lib\rt.jar;D:\runtime-EclipseApplication\HUSACCT-simple\bin;D:\runtime-EclipseApplication\HUSACCT-simple\jdom-2.0.0;D:\runtime-EclipseApplication\HUSACCT-simple\dom4j-2.0.0-ALPHA-2\
+[Main class] husacct.Main
+¸ãÃ«£º husacct.ActiveRuleType
+¸ãÃ«£º husacct.ActiveViolationType
+¸ãÃ«£º husacct.AnalyseControlServiceImpl
+¸ãÃ«£º husacct.AnalyseServiceImpl
+¸ãÃ«£º husacct.AnalyseServiceStub
+¸ãÃ«£º husacct.AnalysedController
+¸ãÃ«£º husacct.Application
+¸ãÃ«£º husacct.ApplicationAnalysisHistoryLogController
+¸ãÃ«£º husacct.AppliedRuleStrategy
+¸ãÃ«£º husacct.ConfigurationServiceImpl
+¸ãÃ«£º husacct.ControlServiceImpl
+¸ãÃ«£º husacct.DefineServiceImpl
+¸ãÃ«£º husacct.DefinedController
+¸ãÃ«£º husacct.DomainXML
+¸ãÃ«£º husacct.DrawingController
+¸ãÃ«£º husacct.ExportActiveViolationTypes
+¸ãÃ«£º husacct.ExportController
+¸ãÃ«£º husacct.ExportController2
+¸ãÃ«£º husacct.ExportFactory
+¸ãÃ«£º husacct.ExportSeverities
+¸ãÃ«£º husacct.ExportSeveritiesPerTypesPerProgrammingLanguages
+¸ãÃ«£º husacct.ExportViolations
+¸ãÃ«£º husacct.FamixAssociation
+¸ãÃ«£º husacct.FamixAttribute
+¸ãÃ«£º husacct.FamixClass
+¸ãÃ«£º husacct.FamixMethod
+¸ãÃ«£º husacct.FamixModel
+¸ãÃ«£º husacct.FamixPackage
+¸ãÃ«£º husacct.FamixPersistencyServiceImpl
+¸ãÃ«£º husacct.GraphicsServiceImpl
+¸ãÃ«£º husacct.HelpTreeModelLoader
+¸ãÃ«£º husacct.HelpTreeNode
+¸ãÃ«£º husacct.HusacctResource
+¸ãÃ«£º husacct.IAnalyseControlService
+¸ãÃ«£º husacct.IAnalyseDomainService
+¸ãÃ«£º husacct.IDefineService
+¸ãÃ«£º husacct.IGraphicsService
+¸ãÃ«£º husacct.IModelPersistencyService
+¸ãÃ«£º husacct.IResource
+¸ãÃ«£º husacct.ISaveable
+¸ãÃ«£º husacct.ImportActiveViolationTypes
+¸ãÃ«£º husacct.ImportController
+¸ãÃ«£º husacct.ImportController2
+¸ãÃ«£º husacct.ImportFactory
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.5 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 115.1 seconds.
+[Spark] Solution found in 115.1 seconds.

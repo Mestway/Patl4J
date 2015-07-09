@@ -26,6 +26,8 @@ public class PatlOption {
 
 	List<String> classPath = new LinkedList<String>();
 	
+	List<String> classToLoad = new ArrayList<String>();
+	
 	// For soot config
 	String mainClassName = "";
 	
@@ -75,6 +77,8 @@ public class PatlOption {
     	    			this.filterByExclude = false;
     	    	} else if (e.getName().equals("mainClassName")) {
     	    		this.mainClassName = e.getText();
+    	    	} else if (e.getName().equals("classToLoad")) {
+    	    		this.classToLoad.add(e.getText());
     	    	}
     	    }
     	    
@@ -136,6 +140,10 @@ public class PatlOption {
 	
 	public String getMainClassName() {
 		return this.mainClassName;
+	}
+	
+	public List<String> getClassToLoad() {
+		return this.classToLoad;
 	}
 	
 	@Override

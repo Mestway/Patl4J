@@ -27,8 +27,8 @@ public class Patl4JTransformer extends AbstractHandler {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
-        */
+		} */
+        
 		
 		// Read in all projects with all packages and java files
 		JavaWorkspace workspace = new JavaWorkspace(ResourcesPlugin.getWorkspace());
