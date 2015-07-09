@@ -7,6 +7,7 @@ import soot.PackManager;
 import soot.Scene;
 import soot.SootClass;
 import soot.options.Options;
+import soot.*;
 
 /*
  * This class is used to set global configuration of soot. 
@@ -39,9 +40,10 @@ public class SootConfig {
 	 */
 	public static void configSoot(String entryClass, PatlOption option) {
 		setClassPath(option);
-		
+
 		Options.v().set_whole_program(true);
         //Options.v().setPhaseOption("cg.spark","on");
+        Options.v().setPhaseOption("jb", "use-original-names:true");
         Options.v().set_keep_line_number(true);
 		
         System.out.println("[Main class] " + option.getMainClassName());
@@ -51,7 +53,9 @@ public class SootConfig {
         }
         Scene.v().loadNecessaryClasses();
         Options.v().set_main_class(entryClass);
-        
+        Scene.v().addBasicClass("husacct.XMLReportWriter",SootClass.SIGNATURES);
+        Scene.v().addBasicClass("javax.crypto.IllegalBlockSizeException",SootClass.SIGNATURES);
+
         PackManager.v().runPacks();
 	}
 }

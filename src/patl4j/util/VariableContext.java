@@ -1,5 +1,6 @@
 package patl4j.util;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -7,10 +8,33 @@ import java.util.Set;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Name;
 
+import patl4j.java.analyzer.AliasAnalysis;
 import patl4j.matcher.WrappedName;
 import patl4j.patl.ast.MetaVariable;
+import soot.Body;
+import soot.Local;
+import soot.Scene;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.util.Chain;
 
 public class VariableContext {
+	
+	Chain<Local> locals;
+	AliasAnalysis analysis;
+	
+	public VariableContext(String className, String methodName) {
+		SootClass s = null;
+		for (SootClass x : Scene.v().getClasses()) {
+			if(x.getName().equals(className))
+				s = x;
+        }
+		SootMethod m = s.getMethodByName(methodName);
+		if (m.getSource() == null) return;
+		Body body = m.retrieveActiveBody();
+		locals = body.getLocals();
+		analysis = new AliasAnalysis();
+	}
 	
 	// TODO: add matched statements here
 	public boolean variableMatchCheck(Expression exp, MetaVariable mv) {
@@ -51,11 +75,22 @@ public class VariableContext {
 	public boolean aliasCheck(Expression a, Expression b) {
 		if (!(a instanceof Name) || !(b instanceof Name))
 			return false;
-		System.out.println("VariableContext56==> alias check: " + ((Name)a).getFullyQualifiedName() + " :: " + ((Name)b).getFullyQualifiedName());
-		if (((Name)a).getFullyQualifiedName().equals(((Name)b).getFullyQualifiedName())) {
-			return true;
+		String nameA = ((Name) a).getFullyQualifiedName();
+		String nameB = ((Name) b).getFullyQualifiedName();
+		if (locals == null) {
+			System.out.println("VariableContext56==> alias check: " + ((Name)a).getFullyQualifiedName() + " :: " + ((Name)b).getFullyQualifiedName());
+			if (nameA.equals(nameB)) {
+				return true;
+			}
+			return false;
+		} else {
+			Local la = null, lb = null;
+			for (Local l: locals) {
+				if (l.getName() == nameA) la = l;
+				if (l.getName() == nameB) lb = l;
+			}
+			return analysis.mayAlias(la, lb);
 		}
-		return false;
 	}
 	
 }

@@ -57,8 +57,7 @@ public class TransformationVisitor extends ASTVisitor {
 		if (node.getBody() == null)
 			return false;
 		
-		VariableContext vc = new VariableContext();
-		
+		VariableContext vc = new VariableContext("", "");
 		Transformer transformer = new Transformer(rules);
 		
 		ASTNode newBody = transformer.execute(
@@ -77,7 +76,7 @@ public class TransformationVisitor extends ASTVisitor {
 	
 	public boolean visit(Initializer node) {
 		
-		VariableContext vc = new VariableContext();
+		VariableContext vc = new VariableContext("", "");
 		
 		Transformer transformer = new Transformer(rules);
 		
@@ -85,7 +84,7 @@ public class TransformationVisitor extends ASTVisitor {
 				(Block) ASTNode.copySubtree(
 						node.getAST(),
 
-		transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$我也不知是什么", vc)));
+		transformer.execute(node.getBody(), this.currentAnalyzer, "$initializer$锟斤拷也锟斤拷知锟斤拷什么", vc)));
 		return false;
 	}
 	

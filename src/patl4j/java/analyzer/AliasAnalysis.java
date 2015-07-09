@@ -12,7 +12,8 @@ public class AliasAnalysis {
 		analysis = Scene.v().getPointsToAnalysis();
 	}
 	
-	boolean mayAlias(Local x, Local y) {
+	public boolean mayAlias(Local x, Local y) {
+		if (x == null || y == null) return false;
 		PointsToSet xset = analysis.reachingObjects(x);
 		PointsToSet yset = analysis.reachingObjects(y);
 		return xset.hasNonEmptyIntersection(yset);
