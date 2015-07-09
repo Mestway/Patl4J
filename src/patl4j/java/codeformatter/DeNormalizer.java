@@ -287,7 +287,7 @@ public class DeNormalizer extends ASTVisitor {
 			//System.out.println("$$$" + name);
 			//System.out.println("[" + name + "] Class: " + exp.getClass().getName() + " [" + exp.getParent() + "] pClass " + exp.getParent().getClass().getName());
 
-			if (isAuxilVariable(name) && nameCount.get(name).intValue() == 1) {
+			if (isAuxilVariable(name) && nameCount.get(name) != null && nameCount.get(name).intValue() == 1) {
 				Expression newExp = (Expression) ASTNode.copySubtree(exp.getAST(), name2exp.get(name));
 				
 				//System.out.println("[" + exp + "] -> " + "[" + p + "]");

@@ -28,9 +28,9 @@ public class DataDependency {
                 SootMethod fun = (SootMethod) it.next();
                 System.out.println(fun.getDeclaration());
 
+                if (fun.getSource() == null) continue;
+                System.out.println("[Fun Success] " + fun.getSignature());
                 Body body = fun.retrieveActiveBody();
-
-                System.out.println(body);
                 
                 // print the Jimple units
                 PatchingChain<Unit> u = body.getUnits();
