@@ -56,7 +56,7 @@ public class MatcherBinder {
 	}
 	
 	private MatcherSet bind(Block body, MatcherSet inSet, VariableContext context) {
-		MatcherSet currentSet = inSet;		
+		MatcherSet currentSet = inSet;
 		for (Object i : body.statements()) {
 			Statement s = (Statement) i;
 			currentSet = bind(s, currentSet, context);

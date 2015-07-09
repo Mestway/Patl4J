@@ -41,7 +41,7 @@ public class SootConfig {
 		setClassPath(option);
 		
 		Options.v().set_whole_program(true);
-        //Options.v().setPhaseOption("cg.spark","on");
+        Options.v().setPhaseOption("cg.spark","on");
         Options.v().set_keep_line_number(true);
 		
         System.out.println("[Main class] " + option.getMainClassName());

@@ -39,6 +39,9 @@ public class Transformer {
 	 * @return an statement representing the method body
 	 */
 	public Statement execute(Block body, Analyzer analyzer, String methodName, VariableContext context) {
+		
+		System.out.println("[[Current Transformming Method]] " + methodName);
+		
 		this.matchers = this.matching(body, context);
 		
 		this.matchers.setMethodName(methodName);

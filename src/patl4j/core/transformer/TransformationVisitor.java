@@ -6,8 +6,10 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import patl4j.handlers.PatlOption;
@@ -39,7 +41,6 @@ public class TransformationVisitor extends ASTVisitor {
 		// We will not initialize the analyzer here, but every time get in to a class
 		this.currentAnalyzer = null;
 		this.option = option;
-		System.out.println(option.toString());
 	}
 	
 	// Set the environment of the transformer
@@ -52,6 +53,9 @@ public class TransformationVisitor extends ASTVisitor {
 	// We only need to visit top level node, do not need to dive into statements with "visit"
 	// TODO: Again, What are all of the necessary "top-level" nodes?
 	public boolean visit(MethodDeclaration node) {
+		
+		if (node.getBody() == null)
+			return false;
 		
 		VariableContext vc = new VariableContext();
 		

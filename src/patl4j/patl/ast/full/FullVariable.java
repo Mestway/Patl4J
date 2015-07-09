@@ -38,6 +38,8 @@ public class FullVariable implements FullExpression {
 				StringLiteral stringNode = AST.newAST(AST.JLS8).newStringLiteral();
 				stringNode.setEscapedValue(this.variable);
 				return stringNode;
+			} else if (this.variable.equals("null")) {
+				return AST.newAST(AST.JLS8).newNullLiteral();
 			} else {
 				return AST.newAST(AST.JLS8).newSimpleName(this.variable);
 			}

@@ -447,13 +447,14 @@ public class Matcher {
 				return true;
 		}
 		ErrorManager.error("Matcher@374", "The matcher is no valid\n\t" + this.toString());
+		System.out.println("<<Matcher Not Valid>>" + this.toString());
 		return false;
 	}
 
 	@SuppressWarnings("unchecked")
 	public void collectStatementsToBeShifted() {
 
-		if (this.highLevelBlockNode == null || this.lowLevelBlockNode == null || this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
+		if (this.highLevelBlockNode.getId().equals(this.lowLevelBlockNode.getId())) {
 			// In this case, all statements are in the same block
 			return;
 		}
@@ -572,8 +573,6 @@ public class Matcher {
 	}
 
 	public void collectStatementsToBeDeletedInBlock(BlockSTreeNode blk) {
-		if(this.lowLevelBlockNode == null)
-			return;
 		
 		if (this.lowLevelBlockNode.getId() == blk.getId()) {
 			for (Statement s : this.firstHalfStatementsToBeShifted) {
