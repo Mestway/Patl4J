@@ -3,6 +3,7 @@ package patl4j.patl.ast;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 
@@ -103,6 +104,7 @@ public class ModInstruction {
 	public Pair<List<Pair<String, Name>>, Boolean> tryMatch(Statement s,
 			Map<String, String> var2type,
 			VariableContext context) {
+		
 		
 		if (!this.isSrcPattern()) {
 			ErrorManager.error("ModInstruction@line58", "Trying to match a pattern with + label");

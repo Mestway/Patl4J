@@ -56,6 +56,8 @@ public class BlockSTreeNode {
 	// The children of the blocknode
 	private List<BlockSTreeNode> internalBlocks = new ArrayList<BlockSTreeNode>();
 	
+	private MatcherSet correspondingMatchers = null;
+	
 	@SuppressWarnings("unchecked")
 	public BlockSTreeNode(Block blk, Statement blockOwner) {
 		this.id = genNewId();
@@ -240,6 +242,7 @@ public class BlockSTreeNode {
 	
 	// Calculate which statements are supposed to be add at the block. This is done recursively
 	public void collectStatementsToBeShiftedForEachBlock(MatcherSet matchers) {
+		this.correspondingMatchers = matchers;
 		matchers.getStatementsToBeAddedToTheBlock(this);
 		for (BlockSTreeNode i : this.internalBlocks) {
 			i.collectStatementsToBeShiftedForEachBlock(matchers);
@@ -343,6 +346,10 @@ public class BlockSTreeNode {
 		matchers.collectStatementsToBeDeletedInBlock(this);
 		for (BlockSTreeNode i : this.internalBlocks)
 			i.collectStatementsToBeDeleted(matchers);
+	}
+	
+	public MatcherSet getCorrespondingMatcherSet() {
+		return this.correspondingMatchers;
 	}
 
 }

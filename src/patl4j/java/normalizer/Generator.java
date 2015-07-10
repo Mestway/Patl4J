@@ -117,6 +117,10 @@ public class Generator {
 	
 	private static Type resolveQualifiedType(String s) {
 		
+		if (s.equals("byte")) {
+			return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE);
+		}
+		
 		if (s.equals("")) {
 			return AST.newAST(AST.JLS8).newWildcardType();
 		}

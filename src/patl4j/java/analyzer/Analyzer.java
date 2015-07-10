@@ -24,6 +24,8 @@ public class Analyzer {
 	
 	DataDependency dependency;
 	String classStr;
+	String cls = "";
+	
 	
 	/**
 	 * 
@@ -31,6 +33,7 @@ public class Analyzer {
 	 * @param _classStr the class code literal
 	 */
 	public Analyzer(String className, String _classStr) {
+		cls = className;
 		classStr = _classStr;
 		FileWriter fileWriter;
 		SootClass s = null;
@@ -79,6 +82,10 @@ public class Analyzer {
 		}
 		boolean ret = dependency.isDependent(methodName, sLine, tLine);
 		return ret;
+	}
+	
+	public String getClassName() {
+		return this.cls;
 	}
 	
 }

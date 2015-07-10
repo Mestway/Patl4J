@@ -268,6 +268,28 @@ public class Matcher {
 		this.theFirstGenPointTaken = true;
 	} 
 	
+	public boolean matchedToFirstMinus(Statement s) {
+		Pair<ModInstruction, Optional<Statement>> i = instrBindings.get(0);
+		if (i.getSecond().isPresent() == false)
+			return false;
+		if (!i.getSecond().get().getClass().equals(s.getClass()) || !i.getFirst().isSrcPattern())
+			return false;
+		if (i.getSecond().get().getStartPosition() == s.getStartPosition())
+			return true;
+		return false;
+	}
+	
+	public boolean matchedToLastMinus(Statement s) {
+		Pair<ModInstruction, Optional<Statement>> i = this.getTheLastSrcPatternBinding();
+		if (i.getSecond().isPresent() == false)
+			return false;
+		if (!i.getSecond().get().getClass().equals(s.getClass()) || !i.getFirst().isSrcPattern())
+			return false;
+		if (i.getSecond().get().getStartPosition() == s.getStartPosition())
+			return true;
+		return false;
+	}
+	
 	// Check whether a statement is matched to some pattern in the model
 	public boolean matchedToSrcStmtPattern(Statement s) {
 		for (Pair<ModInstruction, Optional<Statement>> i : instrBindings) {
@@ -398,6 +420,7 @@ public class Matcher {
 					if (thisblk.isPresent())
 						theirblocks.add(thisblk.get());
 					else {
+						System.out.println("<<Matcher Not Valid>>" + this.toString());
 						ErrorManager.error("Matcher@332", "The matcher is no valid\n\t" + this.toString());
 						return false;
 					}
@@ -410,6 +433,7 @@ public class Matcher {
 			// If there exists statements in three levels
 			if ((lowLevel != -1 && highLevel != -1 && lowLevel != highLevel) 
 					&& (bst.getLevel() != lowLevel && bst.getLevel() != highLevel)) {
+				System.out.println("<<Matcher Not Valid>>" + this.toString());
 				ErrorManager.error("Matcher@344", "The matcher is no valid\n\t" + this.toString());
 				return false;
 			}
@@ -433,6 +457,7 @@ public class Matcher {
 			// If there exists two levels, there should be only two nodes holding all of the info.
 			if ((lowLevel == bst.getLevel() && !lowLevelBlockNode.getId().equals(bst.getId()))
 				|| (highLevel == bst.getLevel() && !highLevelBlockNode.getId().equals(bst.getId()))) {
+				System.out.println("<<Matcher Not Valid>>" + this.toString());
 				ErrorManager.error("Matcher@363", "The matcher is no valid\n\t" + this.toString());
 				return false;
 			}

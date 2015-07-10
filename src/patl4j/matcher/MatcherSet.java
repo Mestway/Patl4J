@@ -136,6 +136,26 @@ public class MatcherSet {
 		return false;
 	}
 	
+	public List<Matcher> CalcStmtMatchedToFirstMatchPoint(Statement s) {
+		List<Matcher> mm = new ArrayList<Matcher>();
+		for (Matcher m : this.matchers) {
+			if (m.matchedToFirstMinus(s)) {
+				mm.add(m);
+			}
+		}
+		return mm;
+	}
+	
+	public List<Matcher> CalcStmtMatchedToLastMatchPoint(Statement s) {
+		List<Matcher> mm = new ArrayList<Matcher>();
+		for (Matcher m : this.matchers){
+			if (m.matchedToLastMinus(s)) {
+				mm.add(m);
+			}
+		}
+		return mm;
+	}
+	
 	/**
 	 * Given a statement, if the statement s is the last statement matched in the matcher, 
 	 * 	then the corresponding generated new statements will be returned from the matchers
@@ -197,7 +217,21 @@ public class MatcherSet {
 		if (typeName.contains("<") && typeName.contains(">"))
 			return tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("<"))));
 		else if (typeName.contains("[") && typeName.contains("]")) {
-			return tAST.newArrayType(tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("[")))));
+			
+			Type arrayInterType = null;
+			
+			switch(typeName.substring(0, typeName.indexOf("["))) {
+				case "void": arrayInterType = tAST.newPrimitiveType(PrimitiveType.VOID);break;
+				case "int": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.INT);break;
+				case "char": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.CHAR);break;
+				case "long": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.LONG); break;
+				case "boolean": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.BOOLEAN);break;
+				case "float": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.FLOAT);break;
+				case "short": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.SHORT);break;
+				case "byte": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.BYTE);break;
+				default: tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("["))));
+			}
+			return tAST.newArrayType(arrayInterType);
 		} else {
 			// To work more
 			return tAST.newSimpleType(tAST.newName(typeName));

@@ -40,7 +40,7 @@ public class Transformer {
 	 */
 	public Statement execute(Block body, Analyzer analyzer, String methodName, VariableContext context) {
 		
-		System.out.println("[[Current Transformming Method]] " + methodName);
+		System.out.println("[[Current Transformming Method]] " + analyzer.getClassName() + "::" + methodName);
 		
 		this.matchers = this.matching(body, context);
 		
@@ -56,6 +56,7 @@ public class Transformer {
 		// Perform adaptation on the statements
 		// The body of the program to be adapted is in the shifter
 		Statement adaptedBody = this.adapt(this.matchers, shifter);
+		System.out.println("~<OAST + " + analyzer.getClassName() + ":" + methodName + "> " + adaptedBody);
 		return adaptedBody;
 	}
 
@@ -64,7 +65,10 @@ public class Transformer {
 	}
 	
 	private Statement adapt(MatcherSet bindedMatcher, Shifter shifter) {
-		return new CodeAdapter(bindedMatcher, shifter).adaptCode();
+		CodeAdapter ca = new CodeAdapter(bindedMatcher, shifter);
+		Statement s = ca.adaptCode();
+		System.out.println("~<MidInstrs> " + ca.getStatementCount());
+		return s;
 	}
 	
 }

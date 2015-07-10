@@ -48,7 +48,6 @@ public class AssignStmtPattern implements StatementPattern {
 		if (s instanceof ExpressionStatement) {
 			Expression exp = ((ExpressionStatement) s).getExpression();
 			if (exp instanceof Assignment) {
-				
 				Assignment assignment = (Assignment) exp;
 				
 				// Note that the left hand side expression of an assignment expression is always a *name*
