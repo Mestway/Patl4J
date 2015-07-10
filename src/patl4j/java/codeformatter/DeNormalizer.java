@@ -134,6 +134,11 @@ public class DeNormalizer extends ASTVisitor {
 		//	System.out.println("Parent is " + p);
 			((IfStatement) p).setExpression(newExp);
 		}
+		if (p instanceof EnhancedForStatement) {	
+			System.out.println("@EnhancedForStatement -> " + "Replace var " + exp + " with exp " + newExp);
+			System.out.println("Parent is " + p);
+			((EnhancedForStatement) p).setExpression(newExp);
+		}
 		if (p instanceof ReturnStatement) {
 		//	System.out.println("@ReturnStatement -> " + "Replace var " + name + " with exp " + newExp);
 		//	System.out.println("Parent is " + p);
