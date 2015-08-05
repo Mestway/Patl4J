@@ -5,12 +5,12 @@
          point="org.eclipse.ui.commands">
       <category
             id="Patl4J.commands.category"
-            name="Sample Category">
+            name="Patl4J">
       </category>
       <command
             categoryId="Patl4J.commands.category"
             id="Patl4J.commands.sampleCommand"
-            name="Sample Command">
+            name="transform projects">
       </command>
    </extension>
    <extension
@@ -35,7 +35,7 @@
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
                id="Patl4J.menus.sampleMenu"
-               label="Sample Menu"
+               label="Patl4J"
                mnemonic="M">
             <command
                   commandId="Patl4J.commands.sampleCommand"
