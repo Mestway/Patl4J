@@ -20,14 +20,14 @@ public class Patl4JTransformer extends AbstractHandler {
 		
 		// Set output to log files
 		
-		PrintStream ps;
+		/*PrintStream ps;
 		try {
 			ps = new PrintStream(new FileOutputStream("D:\\workspace\\Patl4J\\patllog"));
 			System.setOut(ps);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		// Read in all projects with all packages and java files
 		JavaWorkspace workspace = new JavaWorkspace(ResourcesPlugin.getWorkspace());

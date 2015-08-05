@@ -205,6 +205,7 @@ public class MatcherSet {
 			case "float": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT);
 			case "short": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT);
 			case "byte": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE);
+			case "double": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE);
 		}
 		
 		for (Matcher m : this.matchers) {
@@ -219,7 +220,6 @@ public class MatcherSet {
 		else if (typeName.contains("[") && typeName.contains("]")) {
 			
 			Type arrayInterType = null;
-			
 			switch(typeName.substring(0, typeName.indexOf("["))) {
 				case "void": arrayInterType = tAST.newPrimitiveType(PrimitiveType.VOID);break;
 				case "int": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.INT);break;
@@ -229,7 +229,8 @@ public class MatcherSet {
 				case "float": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.FLOAT);break;
 				case "short": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.SHORT);break;
 				case "byte": arrayInterType =  tAST.newPrimitiveType(PrimitiveType.BYTE);break;
-				default: tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("["))));
+				case "double": arrayInterType = tAST.newPrimitiveType(PrimitiveType.DOUBLE);break;
+				default: arrayInterType = tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("["))));
 			}
 			return tAST.newArrayType(arrayInterType);
 		} else {

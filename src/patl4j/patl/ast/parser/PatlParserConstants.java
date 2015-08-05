@@ -37,31 +37,33 @@ public interface PatlParserConstants {
   /** RegularExpression Id. */
   int STRING = 22;
   /** RegularExpression Id. */
-  int NEW = 23;
+  int NUMBERLITERAL = 23;
   /** RegularExpression Id. */
-  int MOD = 24;
+  int NEW = 24;
   /** RegularExpression Id. */
-  int PLUS = 25;
+  int MOD = 25;
   /** RegularExpression Id. */
-  int MINUS = 26;
+  int PLUS = 26;
   /** RegularExpression Id. */
-  int STAR = 27;
+  int MINUS = 27;
   /** RegularExpression Id. */
-  int SLASH = 28;
+  int STAR = 28;
   /** RegularExpression Id. */
-  int BIT_AND = 29;
+  int SLASH = 29;
   /** RegularExpression Id. */
-  int BIT_OR = 30;
+  int BIT_AND = 30;
   /** RegularExpression Id. */
-  int XOR = 31;
+  int BIT_OR = 31;
   /** RegularExpression Id. */
-  int REM = 32;
+  int XOR = 32;
   /** RegularExpression Id. */
-  int IDENTIFIER = 33;
+  int REM = 33;
   /** RegularExpression Id. */
-  int LETTER = 34;
+  int IDENTIFIER = 34;
   /** RegularExpression Id. */
-  int PART_LETTER = 35;
+  int LETTER = 35;
+  /** RegularExpression Id. */
+  int PART_LETTER = 36;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -93,6 +95,7 @@ public interface PatlParserConstants {
     "<CONSTANT>",
     "<DIGIT>",
     "<STRING>",
+    "<NUMBERLITERAL>",
     "\"new\"",
     "\"m\"",
     "\"+\"",

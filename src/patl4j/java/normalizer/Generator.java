@@ -47,6 +47,7 @@ public class Generator {
 				case "float": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT); break;
 				case "short" :varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT); break;
 				case "byte": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE); break;
+				case "double": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE);break;
 				}
 			} else {
 				
@@ -152,6 +153,17 @@ public class Generator {
 			AST ast = AST.newAST(AST.JLS8);
 			if (s == null || s.equals("null")) {
 				return ast.newSimpleType((Name) ASTNode.copySubtree(ast, genSimpleName("String")));
+			}
+			switch (s) {
+			case "void": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.VOID); 
+			case "int": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.INT); 
+			case "char": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.CHAR); 
+			case "long": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.LONG); 
+			case "boolean": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BOOLEAN); 
+			case "float": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT);
+			case "short" :return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT); 
+			case "byte": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE); 
+			case "double": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE);
 			}
 			return ast.newSimpleType((Name) ASTNode.copySubtree(ast, genSimpleName(s)));
 		} else {

@@ -18,9 +18,9 @@ public class PatlParser implements PatlParserConstants {
 		  	System.out.println(i);
 		}*/
 
-                String testExample = "+ z=xx.f.e(e, b, c).g(a.t(a,b),x,y).e();";
+                String testExample = "+ z=x.f(\u005c"\u005c\u005cn\u005c\u005cr\u005c");";
                 String eg2 = "(x: A -> B) { m x.getR();\u0009+ A x = x.getP().getSecond();}";
-                Rule tl = new PatlParser(new java.io.StringReader(eg2)).pi();
+                ModInstruction tl = new PatlParser(new java.io.StringReader(testExample)).i();
                 System.out.println(tl);
         }
 
@@ -112,7 +112,7 @@ public class PatlParser implements PatlParserConstants {
   final public VarDecl Declaration() throws ParseException {
         Token t1,t2,t3;
     t1 = jj_consume_token(IDENTIFIER);
-    jj_consume_token(36);
+    jj_consume_token(37);
     t2 = jj_consume_token(IDENTIFIER);
     jj_consume_token(ARROW);
     t3 = jj_consume_token(IDENTIFIER);
@@ -152,7 +152,7 @@ public class PatlParser implements PatlParserConstants {
         RHSPattern r;
     if (jj_2_1(2)) {
       var = jj_consume_token(IDENTIFIER);
-      jj_consume_token(37);
+      jj_consume_token(38);
       r = r();
       jj_consume_token(SEMICOLON);
                 MetaVariable mVar = new MetaVariable(var.toString(), varDecls);
@@ -363,6 +363,7 @@ public class PatlParser implements PatlParserConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case CONSTANT:
       case STRING:
+      case NUMBERLITERAL:
       case NEW:
       case IDENTIFIER:
         fs = fullExpressionStatement();
@@ -383,7 +384,7 @@ public class PatlParser implements PatlParserConstants {
         FullExpression fullexp;
     if (jj_2_5(3)) {
       v = jj_consume_token(IDENTIFIER);
-      jj_consume_token(37);
+      jj_consume_token(38);
       fullexp = fullExpression();
       jj_consume_token(SEMICOLON);
                 {if (true) return new FullAssignment(v.toString(), fullexp);}
@@ -392,7 +393,7 @@ public class PatlParser implements PatlParserConstants {
       case IDENTIFIER:
         type = jj_consume_token(IDENTIFIER);
         v = jj_consume_token(IDENTIFIER);
-        jj_consume_token(37);
+        jj_consume_token(38);
         fullexp = fullExpression();
         jj_consume_token(SEMICOLON);
                 {if (true) return new FullAssignment(type.toString(), v.toString(), fullexp);}
@@ -422,6 +423,8 @@ public class PatlParser implements PatlParserConstants {
         String s;
         List<String> operands = new ArrayList<String>();
         List<Boolean> operators = new ArrayList<Boolean>();
+        Token numberLiteral;
+        Token quotedString;
     if (jj_2_6(3)) {
       s = symbol();
                        operands.add(s);
@@ -490,6 +493,14 @@ public class PatlParser implements PatlParserConstants {
                 else
                         {if (true) return tail.toExpression(fn);}
         break;
+      case NUMBERLITERAL:
+        numberLiteral = jj_consume_token(NUMBERLITERAL);
+                {if (true) return new FullNumberLiteral(numberLiteral.toString());}
+        break;
+      case STRING:
+        quotedString = jj_consume_token(STRING);
+                {if (true) return new FullQuotedString(quotedString.toString());}
+        break;
       default:
         jj_la1[21] = jj_gen;
         jj_consume_token(-1);
@@ -553,6 +564,7 @@ public class PatlParser implements PatlParserConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CONSTANT:
     case STRING:
+    case NUMBERLITERAL:
     case NEW:
     case IDENTIFIER:
       args = fullArgumentList();
@@ -659,33 +671,18 @@ public class PatlParser implements PatlParserConstants {
     finally { jj_save(6, xla); }
   }
 
-  private boolean jj_3R_21() {
-    if (jj_scan_token(IDENTIFIER)) return true;
+  private boolean jj_3R_22() {
+    if (jj_3R_23()) return true;
     return false;
   }
 
-  private boolean jj_3R_10() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(33)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(20)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(22)) return true;
-    }
-    }
+  private boolean jj_3R_17() {
+    if (jj_scan_token(NUMBERLITERAL)) return true;
     return false;
   }
 
-  private boolean jj_3_7() {
-    if (jj_scan_token(DOT)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_20() {
-    if (jj_3R_21()) return true;
+  private boolean jj_3R_18() {
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
@@ -697,22 +694,27 @@ public class PatlParser implements PatlParserConstants {
   private boolean jj_3R_14() {
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(37)) return true;
+    if (jj_scan_token(38)) return true;
     return false;
   }
 
-  private boolean jj_3R_19() {
+  private boolean jj_3R_21() {
     if (jj_scan_token(LPAREN)) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_20()) jj_scanpos = xsp;
+    if (jj_3R_22()) jj_scanpos = xsp;
     if (jj_scan_token(RPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    if (jj_scan_token(NEW)) return true;
     return false;
   }
 
   private boolean jj_3_5() {
     if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(37)) return true;
+    if (jj_scan_token(38)) return true;
     if (jj_3R_9()) return true;
     return false;
   }
@@ -727,31 +729,20 @@ public class PatlParser implements PatlParserConstants {
     return false;
   }
 
-  private boolean jj_3R_16() {
-    if (jj_scan_token(NEW)) return true;
+  private boolean jj_3R_12() {
+    if (jj_scan_token(LPAREN)) return true;
     return false;
   }
 
   private boolean jj_3R_13() {
     if (jj_scan_token(NEW)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_3R_19()) return true;
+    if (jj_3R_21()) return true;
     return false;
   }
 
   private boolean jj_3R_15() {
     if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(37)) return true;
     return false;
   }
 
@@ -773,9 +764,21 @@ public class PatlParser implements PatlParserConstants {
     jj_scanpos = xsp;
     if (jj_3R_15()) {
     jj_scanpos = xsp;
-    if (jj_3R_16()) return true;
+    if (jj_3R_16()) {
+    jj_scanpos = xsp;
+    if (jj_3R_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_18()) return true;
     }
     }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(38)) return true;
     return false;
   }
 
@@ -794,11 +797,11 @@ public class PatlParser implements PatlParserConstants {
     if (jj_scan_token(DOT)) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(33)) {
+    if (jj_scan_token(34)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(24)) return true;
+    if (jj_scan_token(25)) return true;
     }
-    if (jj_3R_19()) return true;
+    if (jj_3R_21()) return true;
     return false;
   }
 
@@ -807,12 +810,12 @@ public class PatlParser implements PatlParserConstants {
     return false;
   }
 
-  private boolean jj_3R_18() {
+  private boolean jj_3R_20() {
     if (jj_scan_token(MINUS)) return true;
     return false;
   }
 
-  private boolean jj_3R_17() {
+  private boolean jj_3R_19() {
     if (jj_scan_token(PLUS)) return true;
     return false;
   }
@@ -820,11 +823,36 @@ public class PatlParser implements PatlParserConstants {
   private boolean jj_3R_11() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_17()) {
+    if (jj_3R_19()) {
     jj_scanpos = xsp;
-    if (jj_3R_18()) return true;
+    if (jj_3R_20()) return true;
     }
     if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(34)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(20)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(22)) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3_7() {
+    if (jj_scan_token(DOT)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
@@ -847,10 +875,10 @@ public class PatlParser implements PatlParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x400,0x7000000,0x0,0x20000,0x7000000,0x800000,0x1000000,0xfe000000,0x100000,0xfe040000,0x0,0x1000000,0x800000,0x0,0x20000,0xd00000,0x0,0x6000000,0x6000000,0x40000,0x40000,0x800000,0x40000,0x40000,0x40000,0xd00000,0x20000,0x500000,};
+      jj_la1_0 = new int[] {0x400,0xe000000,0x0,0x20000,0xe000000,0x1000000,0x2000000,0xfc000000,0x100000,0xfc040000,0x0,0x2000000,0x1000000,0x0,0x20000,0x1d00000,0x0,0xc000000,0xc000000,0x40000,0x40000,0x1c00000,0x40000,0x40000,0x40000,0x1d00000,0x20000,0x500000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x2,0x0,0x0,0x2,0x2,0x1,0x2,0x1,0x2,0x2,0x0,0x2,0x0,0x2,0x2,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x2,0x0,0x2,};
+      jj_la1_1 = new int[] {0x0,0x0,0x4,0x0,0x0,0x4,0x4,0x3,0x4,0x3,0x4,0x4,0x0,0x4,0x0,0x4,0x4,0x0,0x0,0x0,0x0,0x4,0x0,0x0,0x0,0x4,0x0,0x4,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[7];
   private boolean jj_rescan = false;
@@ -1036,7 +1064,7 @@ public class PatlParser implements PatlParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[38];
+    boolean[] la1tokens = new boolean[39];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1053,7 +1081,7 @@ public class PatlParser implements PatlParserConstants {
         }
       }
     }
-    for (int i = 0; i < 38; i++) {
+    for (int i = 0; i < 39; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

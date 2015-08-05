@@ -22,6 +22,7 @@ public class VariableContext {
 	
 	Chain<Local> locals;
 	AliasAnalysis analysis;
+	boolean exist = true;
 	
 	public VariableContext(String className, String methodName) {
 		SootClass s = null;
@@ -29,6 +30,11 @@ public class VariableContext {
 			if(x.getName().equals(className))
 				s = x;
         }
+		if (s == null) {
+			exist = false;
+			return;
+		}
+		System.out.println("Ãû×Ö½ÐÊ²Ã´£¿" + className + "::" + methodName);
 		SootMethod m = s.getMethodByName(methodName);
 		if (m.getSource() == null) return;
 		Body body = m.retrieveActiveBody();
@@ -38,6 +44,8 @@ public class VariableContext {
 	
 	// TODO: add matched statements here
 	public boolean variableMatchCheck(Expression exp, MetaVariable mv) {
+		if (this.exist == false)
+			return false;
 		try {
 			if (mv.getOldType().equals("") && mv.getNewType().equals("")) {
 				if (exp.toString().equals(mv.getName()))
@@ -57,7 +65,8 @@ public class VariableContext {
 	
 	// Notice that: here, we only store one alias map in varMap, as the alias relation commutes. 
 	public boolean checkAliasRelation(Pair<String, Name> matchPair,  Map<String, Optional<WrappedName>> varMap) {
-		
+		if (this.exist == false)
+			return false;
 		// This is a special case for static match mapping: e.g. Format --> Format (both of them are types)
 		if (!varMap.containsKey(matchPair.getFirst())) {
 			return true;
@@ -73,6 +82,8 @@ public class VariableContext {
 	
 	// TODO: alias check here
 	public boolean aliasCheck(Expression a, Expression b) {
+		if (this.exist == false)
+			return false;
 		if (!(a instanceof Name) || !(b instanceof Name))
 			return false;
 		String nameA = ((Name) a).getFullyQualifiedName();
