@@ -39,6 +39,8 @@ public class SootConfig {
 	 * @param option the patl option class
 	 */
 	public static void configSoot(String entryClass, PatlOption option) {
+		System.out.println("[[Configuring soot]]...");
+		
 		setClassPath(option);
 
 		Options.v().set_whole_program(true);
@@ -58,5 +60,7 @@ public class SootConfig {
         Scene.v().addBasicClass("javax.crypto.IllegalBlockSizeException",SootClass.SIGNATURES);
 
         PackManager.v().runPacks();
+        
+        System.out.println("[[Successfully Configured soot.]]");
 	}
 }

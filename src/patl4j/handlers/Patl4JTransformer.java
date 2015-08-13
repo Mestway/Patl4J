@@ -8,6 +8,11 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 import patl4j.java.JavaProject;
 import patl4j.java.JavaWorkspace;
@@ -19,11 +24,17 @@ public class Patl4JTransformer extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
 		// Set output to log files
+		MessageConsole console = findConsole("Patl4J:console");
+		MessageConsoleStream stream = console.newMessageStream();
+		System.setErr(new PrintStream(stream));
+		System.setOut(new PrintStream(stream));
 		
-		/*PrintStream ps;
+		/*PrintStream ps, ps2;
 		try {
-			ps = new PrintStream(new FileOutputStream("D:\\workspace\\Patl4J\\patllog"));
+			ps = new PrintStream(new FileOutputStream(".\\patllog-outlog"));
 			System.setOut(ps);
+			ps2 = new PrintStream(new FileOutputStream(".\\patllog-errlog"));
+			System.setErr(ps2);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,5 +68,18 @@ public class Patl4JTransformer extends AbstractHandler {
 		
 		return null;
 	}
+	
+	   private MessageConsole findConsole(String name) {
+		      ConsolePlugin plugin = ConsolePlugin.getDefault();
+		      IConsoleManager conMan = plugin.getConsoleManager();
+		      IConsole[] existing = conMan.getConsoles();
+		      for (int i = 0; i < existing.length; i++)
+		         if (name.equals(existing[i].getName()))
+		            return (MessageConsole) existing[i];
+		      //no console found, so create a new one
+		      MessageConsole myConsole = new MessageConsole(name, null);
+		      conMan.addConsoles(new IConsole[]{myConsole});
+		      return myConsole;
+		   }
 	
 }
