@@ -1,1 +1,0 @@
-This is a link with additional Text [http://openfuxml.sourceforge.net openFuXML]

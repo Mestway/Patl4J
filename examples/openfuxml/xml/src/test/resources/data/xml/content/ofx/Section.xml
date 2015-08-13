@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ofx:section xmlns:ofx="http://www.openfuxml.org" xmlns:layout="http://www.openfuxml.org/layout" xmlns:table="http://www.openfuxml.org/table" xmlns:l="http://www.openfuxml.org/list" xmlns:text="http://www.openfuxml.org/text" xmlns:wiki="http://www.openfuxml.org/wiki" xmlns:media="http://www.openfuxml.org/media" id="myId" classifier="myClassifier" lang="myLang" include="myInclude">
-    <ofx:comment/>
-    <ofx:title numbering="true" lang="myLang">myTitle</ofx:title>
-    <ofx:title numbering="true" lang="myLang">myTitle</ofx:title>
-    <ofx:paragraph/>
-    <ofx:listing id="myId" codeLang="myCodeLang"/>
-    <media:image id="myId"/>
-</ofx:section>

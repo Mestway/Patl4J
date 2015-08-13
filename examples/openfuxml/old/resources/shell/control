@@ -1,6 +1,0 @@
-Package: openfuxml
-Version: @@@openfuxml-version@@@
-Architecture: all
-Depends: gs, tetex-base, tetex-extra, latex-ucs, imagemagick, tex4ht, samba
-Maintainer: Helge Hemmer [helge.hemmer@fernuni-hagen.de]
-Description: Redaktionssystem für PDF und HTML Ausgabe.

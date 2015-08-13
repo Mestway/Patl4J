@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Gerd Steinkamp (FernUniversität Hagen) -->
+<!DOCTYPE abschnitt SYSTEM "../system/dtd/openfuxml.dtd">
+<abschnitt id="kapitel3">
+	<titel id="c3">Kapitel III</titel>
+	<abschnitt id="a_einleitung">
+		<titel>Ein Bild</titel>
+		<medienobjekt gleiten="ja"><grafik align="center" fileref="../bilder/web/list.gif" fliessen="nicht" width="491" depth="461"/><objekttitel> <absatz-ohne>Ein Bild</absatz-ohne></objekttitel> 
+</medienobjekt>
+		
+	</abschnitt>
+	
+	
+	
+	
+<aenderungsdatum>Mittwoch, 19. November 2008 15:46:36</aenderungsdatum></abschnitt>

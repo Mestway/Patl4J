@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<l:list xmlns:l="http://www.openfuxml.org/list" xmlns:ofx="http://www.openfuxml.org" xmlns:layout="http://www.openfuxml.org/layout" xmlns:table="http://www.openfuxml.org/table" xmlns:wiki="http://www.openfuxml.org/wiki">
-    <l:type ordering="ordered" description="false"/>
-    <l:item lang="myLang" name="myName">myMixed</l:item>
-    <l:item lang="myLang" name="myName">myMixed</l:item>
-    <ofx:comment/>
-</l:list>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<wiki:injections xmlns:wiki="http://www.openfuxml.org/wiki">
-    <!-- This file seems to be deprecated ... -->
-    <wiki:wikiinjection format="xml" wikitag="gallery" ofxtag="ofxgallery"/>
-    <wiki:wikiinjection format="xml" wikitag="timeline" ofxtag="ofxchart"/>
-</wiki:injections>

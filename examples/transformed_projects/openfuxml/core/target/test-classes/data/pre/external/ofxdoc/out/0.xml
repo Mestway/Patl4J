@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:document xmlns:ofx="http://www.openfuxml.org" xmlns:wiki="http://www.openfuxml.org/wiki" xmlns:ns3="http://www.openfuxml.org/list" xmlns:layout="http://www.openfuxml.org/layout" xmlns:table="http://www.openfuxml.org/table">
+    <ofx:metadata>
+        <ofx:title>Title</ofx:title>
+    </ofx:metadata>
+    <ofx:content>
+    	<ofx:section>
+			<ofx:title>Main</ofx:title>
+			<ofx:paragraph>a</ofx:paragraph>
+			<ofx:section>
+	<ofx:title>External Section Sublevel 1</ofx:title>
+    <ofx:paragraph>sl1 paragraph</ofx:paragraph>
+    <ofx:section>
+    <ofx:title>External Section Sublevel 1.1</ofx:title>
+    <ofx:paragraph>sl1.1 paragraph</ofx:paragraph>
+</ofx:section>
+</ofx:section>
+			<ofx:section id="sec-2int">
+				<ofx:title>The second (non external section)</ofx:title>
+				<ofx:paragraph>Dummy paragraph</ofx:paragraph>
+			</ofx:section>
+			<ofx:section id="">
+				<ofx:title>The third (non external section)</ofx:title>
+				<ofx:paragraph>Dummy paragraph</ofx:paragraph>
+			</ofx:section>
+		</ofx:section>
+    </ofx:content>
+</ofx:document>

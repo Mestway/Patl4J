@@ -1,5 +1,0 @@
-package husacct.control.task;
-
-public enum States {
-	NONE, OPENED, APPSET,  ANALYSING, PREANALYSED,ANALYSED, DEFINED, MAPPED, VALIDATING, VALIDATED
-}

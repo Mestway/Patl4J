@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+
+<project name="OFX-XML"  basedir="../../..">
+
+	<property name="src.dir" location="${basedir}/src/main/java" />
+	<property name="rsrc.dir" location="${basedir}/src/main" />
+	<property name="xsd.dir" location="${rsrc.dir}/xsd" />
+	
+	<property name="jaxb.version" value="2.2.2"/>
+	<property name="jaxb-api.lib" value="${user.home}/.m2/repository/javax/xml/bind/jaxb-api/${jaxb.version}/jaxb-api-${jaxb.version}.jar"/>
+	<property name="jaxb-impl.lib" value="${user.home}/.m2/repository/com/sun/xml/bind/jaxb-impl/${jaxb.version}/jaxb-impl-${jaxb.version}.jar"/>
+	<property name="jaxb-xjc.lib" value="${user.home}/.m2/repository/com/sun/xml/bind/jaxb-xjc/${jaxb.version}/jaxb-xjc-${jaxb.version}.jar"/>	
+	
+	<target name="JAXB Class generation" description="Compiles all JAXB classes">
+		<echo level="info">Using Maven-Repository: ${user.home}/.m2</echo>
+		<echo level="debug">    jaxb-api.lib=${jaxb-api.lib}</echo>
+		<echo level="debug">    jaxb-impl.lib=${jaxb-impl.lib}</echo>
+		<echo level="debug">    jaxb-xjc.lib=${jaxb-xjc.lib}</echo>
+		<echo level="info">Creating JAXB</echo>
+		<echo level="info">basedir = ${basedir}</echo>
+		<echo level="info">src.dir = ${src.dir}</echo>
+		<echo level="info">xsd.dir = ${xsd.dir}</echo>
+	    <java classname="com.sun.tools.xjc.XJCFacade" fork="true" failonerror="true"  maxmemory="128m">
+			<arg value="-extension"/>
+			<arg value="${xsd.dir}/xsd.xsd"/>
+			<arg value="-d"/><arg value="${src.dir}"/>
+			<arg value="-b"/><arg value="${rsrc.dir}/ant/xsd.xjb"/>
+	    	<arg value="-no-header"/>
+			<classpath>
+				<pathelement location="${jaxb-api.lib}"/>
+				<pathelement location="${jaxb-impl.lib}"/>
+				<pathelement location="${jaxb-xjc.lib}"/>
+			</classpath>
+		</java>
+		<delete dir="${src.dir}/net"/>
+	</target>	
+</project>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ofx:section xmlns:ofx="http://www.openfuxml.org" xmlns:list="http://www.openfuxml.org/list" xmlns:table="http://www.openfuxml.org/table" xmlns:layout="http://www.openfuxml.org/layout" xmlns:wiki="http://www.openfuxml.org/wiki">
-	<ofx:title>Link</ofx:title>
-	<ofx:paragraph>This is a link with additional Text 
-		<ofx:reference target="http://openfuxml.sourceforge.net">openFuXML</ofx:reference>
-	</ofx:paragraph>
-</ofx:section>

@@ -1,6 +1,0 @@
-Currently only a command line interface is available.
-
-<code>
- usage: java -jar xxx.jar
- -config <FILENAME>   Use configuration file FILENAME (optional, default is properties.txt)
-</code>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abschnitt id="sec-tags-div">
+	<titel>T</titel>
+	<absatz>
+		<schreibmaschine>Schreibmaschine</schreibmaschine>
+		Normal f-f
+		<fett>Normal f-t</fett>
+		<kursiv>Normal t-f</kursiv>
+		<kursiv><fett>Normal t-t</fett></kursiv>
+		<kursiv><unterstrichen>Normal t-t</unterstrichen></kursiv>
+	</absatz>
+</abschnitt>

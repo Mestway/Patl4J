@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cmp:cmp xmlns:cmp="http://www.openfuxml.org/cmp" xmlns:wiki="http://www.openfuxml.org/wiki" xmlns:html="http://www.openfuxml.org/renderer/html" xmlns:io="http://exlp.sf.net/io">
+	<cmp:source>
+		<io:dirs>
+			<io:dir code="content" name=".">
+				<io:file code="root" name="ofx.xml"/>
+				<io:file code="target" name="ofx.ofx.xml"/>
+			</io:dir>
+		</io:dirs>
+	</cmp:source>
+	<cmp:preprocessor>
+		<io:dirs>
+			<io:dir code="working" name="working"/>
+		</io:dirs>
+		<cmp:merge code="iniMerge" writeIntermediate="true" />
+		<cmp:wiki fetchArticle="false">
+			<wiki:markupProcessor>
+				<wiki:replacements external="true" source="../core/src/main/resources/config/cmp/wiki/replacementsWiki.xml"/>
+				<wiki:injections external="true" source="../core/src/main/resources/config/cmp/wiki/injectionsWiki.xml"/>
+			</wiki:markupProcessor>
+			<wiki:xhtmlProcessor>
+				<wiki:replacements external="true" source="../core/src/main/resources/config/cmp/wiki/replacementsXhtml.xml"/>
+			</wiki:xhtmlProcessor>
+			<wiki:templates>
+				<wiki:template name="Requirement" class="com.aht.x"/>
+			</wiki:templates>
+			<wiki:servers>
+				<wiki:server url="http://sourceforge.net/apps/mediawiki/openfuxml/api.php"/>
+			</wiki:servers>
+		</cmp:wiki>
+	</cmp:preprocessor>
+	<cmp:targets>
+		<cmp:pdf>
+			<io:dirs>
+				<io:dir code="latex" name="latex" allowCreate="true">
+					<io:file code="latex" name="ofx.tex"/>
+				</io:dir>
+			</io:dirs>
+			<cmp:toc print="true"/>
+		</cmp:pdf>
+		<cmp:html>
+			<io:dirs>
+				<io:dir code="template" name="html/template">
+					<io:file code="section1" name="main.xhtml"/>
+				</io:dir>
+			</io:dirs>
+			<html:template fileCode="section1"/>
+			<html:renderer code="nav" className="org.openfuxml.renderer.processor.html.navigation.NavUnorderedListRenderer"/>
+			<html:renderer code="header" className="org.openfuxml.renderer.processor.html.header.StringHeaderRenderer"/>
+			<html:renderer code="section" className="org.openfuxml.renderer.processor.html.section.DefaultSectionRenderer"/>
+		</cmp:html>
+	</cmp:targets>
+</cmp:cmp>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:section xmlns:ofx="http://www.openfuxml.org" xmlns:wiki="http://www.openfuxml.org/wiki" xmlns:ns4="http://www.openfuxml.org/list" xmlns:layout="http://www.openfuxml.org/layout" xmlns:table="http://www.openfuxml.org/table" transparent="true">
+
+    
+	
+
+	<ofx:paragraph>In software engineering, a 
+		<ofx:emphasis bold="true">functional requirement</ofx:emphasis>.
+	</ofx:paragraph>
+
+</ofx:section>

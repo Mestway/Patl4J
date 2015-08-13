@@ -51,7 +51,11 @@ public class Patl4JTransformer extends AbstractHandler {
 			
 			System.out.println("[[Normalization Begin]]");
 			/* second step: normalize the client program */
-			new ProjectNormalizer().normalize(project);
+			if (!project.getOption().isAlreadyNormalized()) {
+				System.out.println("[[Normalize Start]] Project:" + project.getIJavaProject().getElementName());
+				new ProjectNormalizer().normalize(project);
+				continue;
+			}
 			System.out.println("[[Normlaization End]]");
 			
 			System.out.println("[[Collect Rules Begin]]");

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+	<net>
+		<server typ="socket" host="localhost" port="4455"/>
+		<report active="false"
+				from="from@domain.org"
+				to="bugreporter@fuxml.org">
+			<server typ="smtp" host="localhost" port="25"/>
+		</report>
+	</net>
+	<dirs>
+		<dir typ="basedir">whatever</dir>
+		<dir typ="log">logs</dir>
+		<dir typ="output">share/output</dir>
+		<dir typ="repository">share/repository</dir>
+	</dirs>
+	<files>
+		<file typ="lib">@@@ant@@@</file>
+		<file typ="lib">@@@antlauncher@@@</file>
+		<file typ="lib">@@@saxon@@@</file>
+		<file typ="lib">@@@openfuxml@@@</file>
+	</files>
+	<client>
+	</client>
+</properties>
+

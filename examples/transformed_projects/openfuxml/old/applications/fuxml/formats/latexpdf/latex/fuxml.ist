@@ -1,0 +1,10 @@
+%Makeindex Stylefile adapted for German Umlaute
+quote '>'
+heading_prefix "{\\bfseries "
+heading_suffix "}\\nopagebreak\n "
+symhead_positive "Symbole"
+numhead_positive "Zahlen"
+headings_flag 1
+delim_0 " "
+delim_1 " "
+delim_2 " "

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cmp:cmp xmlns:cmp="http://www.openfuxml.org/cmp" xmlns:wiki="http://www.openfuxml.org/wiki" xmlns:html="http://www.openfuxml.org/renderer/html" xmlns:io="http://exlp.sf.net/io">
+	<cmp:source>
+			<io:dir code="content" name=".">
+				<io:file code="root" name="content.xml"/>
+				<io:file code="target" name="otr.ofx.xml"/>
+			</io:dir>
+	</cmp:source>
+	<cmp:preprocessor>
+			<io:dir code="working" name="working">
+				<io:file code="external1"       name="01-ExternalFirst.xml"/>
+				<io:file code="wikiIntegrate"   name="02-WikiIntegrated.xml"/>
+				<io:file code="external2"       name="04-ExternalAfterWiki.xml"/>
+				<io:file code="container1"      name="05-ContainerAfterWiki.xml"/>
+				<io:file code="template"        name="06-Template.xml"/>
+				<io:file code="external3"       name="07-ExternalAfterTemplate.xml"/>
+				<io:file code="container2"      name="08-ContainerAfterTemplate.xml"/>
+				<io:file code="idsGenerated"    name="09-IDsGenerated.xml"/>
+				<io:file code="ofxPreFinished"  name="10-PreProcessingFinished.xml"/>
+			</io:dir>
+		<cmp:merge code="iniMerge" writeIntermediate="true" />
+		<cmp:wiki fetchArticle="false">
+			<wiki:markupProcessor>
+				<wiki:replacements external="true" source="config/cmp/wiki/replacementsWiki.xml"/>
+				<wiki:injections external="true" source="config/cmp/wiki/injectionsWiki.xml"/>
+			</wiki:markupProcessor>
+			<wiki:xhtmlProcessor>
+				<wiki:replacements external="true" source="config/cmp/wiki/replacementsXhtml.xml"/>
+			</wiki:xhtmlProcessor>
+			<wiki:templates>
+				<wiki:template name="Requirement" class="foo"/>
+			</wiki:templates>
+			<wiki:servers>
+				<wiki:server url="http://en.wikipedia.org/w/api.php"/>
+			</wiki:servers>
+		</cmp:wiki>
+	</cmp:preprocessor>
+	<cmp:targets>
+		<cmp:pdf>
+			<io:dir code="latex" name="latex" allowCreate="true">
+				<io:file code="latex" name="ofx.tex"/>
+			</io:dir>
+			<cmp:toc print="true"/>
+		</cmp:pdf>
+		<cmp:html>
+			<io:dir code="template" name="html/template">
+				<io:file code="section1" name="main.xhtml"/>
+			</io:dir>
+			<io:dir code="web" name="html/web" allowCreate="true"/>
+			<html:template fileCode="section1"/>
+			<html:renderer code="nav" className="org.openfuxml.renderer.processor.html.navigation.NavUnorderedListRenderer"/>
+			<html:renderer code="header" className="org.openfuxml.renderer.processor.html.header.StringHeaderRenderer"/>
+			<html:renderer code="section" className="org.openfuxml.renderer.processor.html.section.DefaultSectionRenderer"/>
+		</cmp:html>
+	</cmp:targets>
+</cmp:cmp>

@@ -105,8 +105,8 @@ public class ProjectTransformer {
 				deNomalizer.setSecondRound();
 				f.getNormalizedAST().accept(deNomalizer);
 				
-				System.out.println(">>>>>>>");
-				System.out.println(f.getNormalizedAST());
+				//System.out.println(">>>>>>>");
+				//System.out.println(f.getNormalizedAST());
 				// Generate the transformed body in the package
 				
 				p.putTheOriginalASTBack(this.option);

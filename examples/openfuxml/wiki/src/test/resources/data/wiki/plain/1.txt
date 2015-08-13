@@ -1,3 +1,0 @@
-#user clicks link for language (English, Swahili)
-#on the server side, the Locale for the current session is updated
-#the web page is displayed in the selected language

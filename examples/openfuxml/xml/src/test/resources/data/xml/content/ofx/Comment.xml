@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ofx:comment xmlns:ofx="http://www.openfuxml.org">
-    <ofx:raw>myValue</ofx:raw>
-</ofx:comment>

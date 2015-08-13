@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:section xmlns:ofx="http://www.openfuxml.org" id="how">
+	<ofx:title>How does it work?</ofx:title>
+	<ofx:paragraph>
+		Test-Paragraph
+	</ofx:paragraph>
+	<ofx:section>
+		<ofx:title>Subsection</ofx:title>
+		<ofx:paragraph>
+			Sub-Paragraph
+		</ofx:paragraph>
+	</ofx:section>
+</ofx:section>

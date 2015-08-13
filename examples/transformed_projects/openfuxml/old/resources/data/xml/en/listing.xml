@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<section xmlns="http://www.openfuxml.org">
+    <title>ListingSection</title>
+	<listing>
+		<title numbering="true">TestTitle</title>
+		<raw>sdsdf</raw>
+	</listing>
+	<paragraph top="normal">absatz</paragraph>
+</section>

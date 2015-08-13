@@ -293,4 +293,8 @@ public class MatcherSet {
 		for (Matcher m : this.matchers)		
 			m.addAnalyzer(analyzer);
 	}
+	
+	public boolean isEmpty() {
+		return this.matchers.isEmpty();
+	}
 }

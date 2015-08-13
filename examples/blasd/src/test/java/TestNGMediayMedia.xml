@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-
-<suite name="Pruebas completas mediaymedia" verbose="2" parallel="false">
-   <suite-files >
-       <suite-file path="mediaymedia/src/test/com/mediaymedia/seam/google/TestNGSeamGoogleService.xml"/>
-       <suite-file path="mediaymedia/src/test/com/mediaymedia/gdata/TestNGGoogleService.xml"/>
-   </suite-files>
-</suite>

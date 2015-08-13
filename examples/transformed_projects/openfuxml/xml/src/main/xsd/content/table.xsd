@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.openfuxml.org/table"
+	xmlns:t="http://www.openfuxml.org/table"
+	xmlns:ofx="http://www.openfuxml.org"
+	xmlns:list="http://www.openfuxml.org/list"
+	xmlns:media="http://www.openfuxml.org/media"
+	xmlns:layout="http://www.openfuxml.org/layout"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    jaxb:extensionBindingPrefixes="xjc"
+    jaxb:version="2.0">
+    <xsd:import namespace="http://www.openfuxml.org" schemaLocation="ofx.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/layout" schemaLocation="layout.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/list" schemaLocation="list.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/media" schemaLocation="media.xsd"/>
+    <xsd:element name="table">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ofx:title" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="t:specification" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="t:content" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="ofx:comment" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="specification">
+        <xsd:complexType>
+            <xsd:sequence>
+            	<xsd:element ref="t:columns" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="layout:alignment" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="layout:width" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="layout:float" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="long" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="columns">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="t:column" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="column">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="layout:alignment" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="layout:width" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="content">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="t:head" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="t:body" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element ref="t:foot" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="head">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="t:row" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="body">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="t:row" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="foot">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="t:row" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="row">
+        <xsd:complexType>
+            <xsd:sequence>
+            	<xsd:element ref="layout:layout" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="t:cell" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cell">
+        <xsd:complexType mixed="true">
+            <xsd:sequence>
+                <xsd:element ref="ofx:paragraph" maxOccurs="unbounded"/>
+                <xsd:element ref="list:list" maxOccurs="unbounded"/>
+                <xsd:element ref="media:image" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

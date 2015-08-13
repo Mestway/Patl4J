@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Main-Class: goofs.fs.GoofsFS
+Class-Path: activation.jar mail.jar commons-logging-1.1.1.jar fuse-j.jar        
+ gdata-appsforyourdomain-1.0.jar gdata-appsforyourdomain-meta-1.0.jar  
+ gdata-base-1.0.jar gdata-blogger-2.0.jar gdata-blogger-meta-2.0.jar   
+ gdata-books-1.0.jar gdata-books-meta-1.0.jar gdata-calendar-2.0.jar   
+ gdata-calendar-meta-2.0.jar gdata-client-1.0.jar                      
+ gdata-client-meta-1.0.jar gdata-codesearch-2.0.jar                    
+ gdata-codesearch-meta-2.0.jar gdata-contacts-3.0.jar                  
+ gdata-contacts-meta-3.0.jar gdata-core-1.0.jar gdata-docs-3.0.jar     
+ gdata-docs-meta-3.0.jar gdata-finance-2.0.jar                          
+ gdata-finance-meta-2.0.jar gdata-health-2.0.jar                       
+ gdata-health-meta-2.0.jar gdata-media-1.0.jar gdata-photos-2.0.jar    
+ gdata-photos-meta-2.0.jar gdata-spreadsheet-3.0.jar                   
+ gdata-spreadsheet-meta-3.0.jar gdata-webmastertools-2.0.jar           
+ gdata-webmastertools-meta-2.0.jar gdata-youtube-2.0.jar               
+ gdata-youtube-meta-2.0.jar google-collect-1.0-rc2.jar
+
+

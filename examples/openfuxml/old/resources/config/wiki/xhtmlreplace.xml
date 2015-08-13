@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ofx xmlns="http://www.openfuxml.org/wiki">
-    <wikireplace from="&#160;" to=""/>
-    <wikireplace from="\{\{Dieser Artikel\}\}" to=""><description>Removes Article Explanation</description></wikireplace>
-    <wikireplace from="\{\{Commons\}\}" to=""><description>Removes Article Explanation</description></wikireplace>
-</ofx>

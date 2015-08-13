@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<l:item xmlns:ofx="http://www.openfuxml.org" xmlns:text="http://www.openfuxml.org/text" xmlns:l="http://www.openfuxml.org/list" xmlns:wiki="http://www.openfuxml.org/wiki" xmlns:layout="http://www.openfuxml.org/layout" xmlns:media="http://www.openfuxml.org/media" xmlns:table="http://www.openfuxml.org/table" lang="myLang" name="myName">myMixed<ofx:paragraph lang="en"/>
-</l:item>

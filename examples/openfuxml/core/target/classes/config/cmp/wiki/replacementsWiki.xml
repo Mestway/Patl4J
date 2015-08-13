@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<wiki:replacements xmlns:wiki="http://www.openfuxml.org/wiki">
-    <wiki:wikireplace from="&lt;noinclude&gt;" to=""/>
-    <wiki:wikireplace from="&lt;/noinclude&gt;" to=""/>
-    <wiki:wikireplace from="\{\{Belege\}\}" to=""><description>Removes Belege-Box</description></wiki:wikireplace>
-</wiki:replacements>

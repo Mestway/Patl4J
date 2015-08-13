@@ -1,2 +1,0 @@
-
-Lorem \textbf{\textit{Lorem ipsum}} Lorem ipsum dolor

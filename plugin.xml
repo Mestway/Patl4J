@@ -9,7 +9,7 @@
       </category>
       <command
             categoryId="Patl4J.commands.category"
-            id="Patl4J.commands.sampleCommand"
+            id="Patl4J.commands.transform"
             name="transform projects">
       </command>
    </extension>
@@ -17,13 +17,13 @@
          point="org.eclipse.ui.handlers">
       <handler
             class="patl4j.handlers.Patl4JTransformer"
-            commandId="Patl4J.commands.sampleCommand">
+            commandId="Patl4J.commands.transform">
       </handler>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="Patl4J.commands.sampleCommand"
+            commandId="Patl4J.commands.transform"
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+6">
@@ -38,8 +38,8 @@
                label="Patl4J"
                mnemonic="M">
             <command
-                  commandId="Patl4J.commands.sampleCommand"
-                  id="Patl4J.menus.sampleCommand"
+                  commandId="Patl4J.commands.transform"
+                  id="Patl4J.menus.transform"
                   mnemonic="S">
             </command>
          </menu>
@@ -49,10 +49,10 @@
          <toolbar
                id="Patl4J.toolbars.sampleToolbar">
             <command
-                  commandId="Patl4J.commands.sampleCommand"
+                  commandId="Patl4J.commands.transform"
                   icon="icons/sample.gif"
-                  id="Patl4J.toolbars.sampleCommand"
-                  tooltip="Say hello world">
+                  id="Patl4J.toolbars.transform"
+                  tooltip="Transform projects with Patl4J">
             </command>
          </toolbar>
       </menuContribution>

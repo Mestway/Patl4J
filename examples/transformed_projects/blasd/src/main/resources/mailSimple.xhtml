@@ -1,0 +1,16 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:f="http://java.sun.com/jsf/core"
+           xmlns:m="http://jboss.com/products/seam/mail"
+           xmlns:h="http://java.sun.com/jsf/html">
+    
+          <m:from name="appEnJava" address="info@enjava.com" />
+          <m:to name="Juan Antonio Ruz">juanantonioruz@gmail.com</m:to>
+          <m:subject>Nueva acceso #{usuarioEnJava.app}!</m:subject>
+          <m:body>
+              <p><h:outputText value="acceso #{usuarioEnJava.mail}" />
+              en <h:outputText value="#{usuarioEnJava.fecha.time}" >
+              <f:convertDateTime  pattern="yyyy-MM-dd HH:mm"/>
+              </h:outputText>
+              </p>
+    </m:body>
+</m:message>

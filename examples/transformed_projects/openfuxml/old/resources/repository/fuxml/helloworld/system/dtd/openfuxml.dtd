@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Basis Modul -->
+<!ENTITY % redaktion.module "INCLUDE">
+<![%redaktion.module;[
+<!ENTITY % redaktion SYSTEM
+"redaktion.dtd">
+%redaktion;
+]]>
+
+
+<!-- Parameter fuer CALS-Tabellenmodell -->
+<!-- redefinition: Titel Element, Aufbau, Zelleninhalt, Attribute,  -->
+<!ENTITY % yesorno              "CDATA">
+<!-- no if zero(s), yes if any other digits value -->
+<!ENTITY % titles               "titel?">
+<!ENTITY % tbl.table-main.mdl   "(tgroup+|grafik+)">
+<!ENTITY % paracon              "%tabelleninhalt.mix;">
+<!ENTITY % tbl.entry.mdl        "(%paracon;)*">
+<!ENTITY % secur                "%standardattr;">     
+<!ENTITY % cals.module "INCLUDE">
+<![%cals.module;[
+<!ENTITY % cals SYSTEM
+"calstblx.dtd">
+%cals;
+]]>

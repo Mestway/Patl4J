@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Do not modify, class migrated to ofx-chart -->
+<xsd:schema targetNamespace="http://www.openfuxml.org/chart"
+    xmlns="http://www.openfuxml.org/chart"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="chart">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="charttype" maxOccurs="1"/>
+                <xsd:element ref="axis" maxOccurs="2"/>
+                <xsd:element name="title" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="label" type="xsd:string"/>
+                        <xsd:attribute name="key" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="colors" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element ref="color" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="size" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="height" type="xsd:int"/>
+                        <xsd:attribute name="width" type="xsd:int"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="grid" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="range" type="xsd:boolean"/>
+                        <xsd:attribute name="domain" type="xsd:boolean"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element ref="container" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:int"/>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="legend" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="axis">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="axisType" maxOccurs="1"/>
+                
+                <xsd:element ref="label" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="dateformat" type="xsd:string"/>
+            <xsd:attribute name="autoRangIncludeNull" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="axisType">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="number" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="ticker" maxOccurs="1">
+                                <xsd:complexType>
+                                    <xsd:attribute name="size" type="xsd:int"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="date" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="ticker" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:attribute name="timePeriod" type="xsd:string"/>
+                                    <xsd:attribute name="format" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="autoRangeTimePeriod" type="xsd:string"/>
+                        <xsd:attribute name="majorTickTimePeriod" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="charttype">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="timeseries" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="gap" type="xsd:boolean"/>
+                        <xsd:attribute name="from" type="xsd:dateTime"/>
+                        <xsd:attribute name="to" type="xsd:dateTime"/>
+                        <xsd:attribute name="cumulate" type="xsd:boolean"/>
+                        <xsd:attribute name="timePeriod" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="timebar" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="shadow" type="xsd:boolean"/>
+                        <xsd:attribute name="gradient" type="xsd:boolean"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="bar" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="vertical" type="xsd:boolean"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="gantt" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:attribute name="timePeriod" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="spline" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="color">
+        <xsd:complexType>
+            <xsd:attribute name="typ" type="xsd:string"/>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="r" type="xsd:int"/>
+            <xsd:attribute name="g" type="xsd:int"/>
+            <xsd:attribute name="b" type="xsd:int"/>
+            <xsd:attribute name="a" type="xsd:int"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="container">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="data" maxOccurs="unbounded"/>
+                <xsd:element ref="container" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="rangeIndex" type="xsd:int"/>
+            <xsd:attribute name="colorIndex" type="xsd:int"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="label">
+        <xsd:complexType>
+            <xsd:attribute name="key" type="xsd:string"/>
+            <xsd:attribute name="text" type="xsd:string"/>
+            <xsd:attribute name="size" type="xsd:int"/>
+            <xsd:attribute name="font" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="data">
+        <xsd:complexType>
+            <xsd:attribute name="x" type="xsd:double"/>
+            <xsd:attribute name="y" type="xsd:double"/>
+            <xsd:attribute name="record" type="xsd:dateTime"/>
+            <xsd:attribute name="from" type="xsd:dateTime"/>
+            <xsd:attribute name="to" type="xsd:dateTime"/>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="category" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

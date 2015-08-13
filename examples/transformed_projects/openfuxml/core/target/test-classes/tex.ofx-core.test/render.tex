@@ -1,0 +1,27 @@
+\documentclass[
+	10pt,
+	smallheadings,
+	headsepline,
+	pointlessnumbers,
+	bibtotocnumbered,
+	openany
+]{scrbook}
+
+%###
+\include{tex/packages}
+%###
+
+\graphicspath{{pdf/}{png/}}
+
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+ 
+\hyphenation{}
+
+\begin{document}
+
+%###
+\include{test}
+%###
+
+\end{document}

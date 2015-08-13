@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="productionresult">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="producedentities">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="file" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="description"  type="xsd:string" />
+                                    </xsd:sequence>
+                                    <xsd:attribute name="filename" type="xsd:string"/>
+                                    <xsd:attribute name="directory" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="logfile" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

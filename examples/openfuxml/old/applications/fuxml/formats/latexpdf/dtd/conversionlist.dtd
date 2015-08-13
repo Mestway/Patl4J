@@ -1,9 +1,0 @@
-<!ELEMENT CharacterConversionList (Entry+, AttributeInclusionList, ElementExclusionList)>
-<!ELEMENT Entry (From, To)>
-<!ELEMENT From (#PCDATA)>
-<!ELEMENT To (#PCDATA)>
-<!ELEMENT ElementExclusionList (Element+)>
-<!ELEMENT AttributeInclusionList (Attribute+)>
-<!ELEMENT Element (#PCDATA)>
-<!ELEMENT Attribute (#PCDATA)>
-

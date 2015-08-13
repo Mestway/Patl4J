@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<project name="OFX JSF Tag Library" basedir="../../..">
+
+	<property name="lib.dir" location="${user.home}/.m2/repository" />
+	<property name="dist.dir" location="${basedir}/dist/" />
+	<property name="build.dir" location="${basedir}/target" />
+	
+	<property name="ofx.version" value="1.3.0-SNAPSHOT"/>
+	<property name="exlp.version" value="0.1.3-SNAPSHOT"/>
+	<property name="jdom.version" value="1.1"/>
+	<property name="commons-logging.version" value="1.1.1"/>
+	<property name="commons-config.version" value="1.6"/>
+	<property name="commons-lang.version" value="2.6"/>
+	<property name="commons-jxpath.version" value="1.3"/>
+	<property name="commons-collections.version" value="3.2.1"/>
+		
+    <target name="0 Task" description="Task definition">
+    	<taskdef name="tagfac" classname="org.openfuxml.addon.jsf.factory.TaglibFactoryTask">
+    		<classpath>
+    			<fileset dir="${lib.dir}/org/openfuxml/ofx-jsf/${ofx.version}" includes="ofx-jsf-${ofx.version}.jar"/>
+    			<fileset dir="${lib.dir}/org/openfuxml/ofx-xml/${ofx.version}" includes="ofx-xml-${ofx.version}.jar"/>
+    			<fileset dir="${lib.dir}/commons-logging/commons-logging/${commons-logging.version}" includes="commons-logging-${commons-logging.version}.jar"/>
+    			<fileset dir="${lib.dir}/commons-configuration/commons-configuration/${commons-config.version}" includes="commons-configuration-${commons-config.version}.jar"/>
+    			<fileset dir="${lib.dir}/commons-lang/commons-lang/${commons-lang.version}" includes="commons-lang-${commons-lang.version}.jar"/>
+    			<fileset dir="${lib.dir}/commons-jxpath/commons-jxpath/${commons-jxpath.version}" includes="commons-jxpath-${commons-jxpath.version}.jar"/>
+    			<fileset dir="${lib.dir}/commons-collections/commons-collections/${commons-collections.version}" includes="commons-collections-${commons-collections.version}.jar"/>
+    			<fileset dir="${lib.dir}/net/sf/exlp/exlp-util/${exlp.version}" includes="exlp-util-${exlp.version}.jar"/>
+    			<fileset dir="${lib.dir}/org/jdom/jdom/${jdom.version}" includes="jdom-${jdom.version}.jar"/>
+    			<!--<fileset dir="${lib.dir}/${log4j.dir}" includes="${log4j.lib}"/>
+    			<fileset dir="${lib.dir}/${exlp.dir}" includes="${exlp.lib}"/>
+    			<fileset dir="${lib.dir}/${commonsconfig.dir}" includes="${commonsconfig.lib}"/>
+    			<fileset dir="${lib.dir}/${commonslang.dir}" includes="${commonslang.lib}"/>
+    			<fileset dir="${lib.dir}/${commonsjxpath.dir}" includes="${commonsjxpath.lib}"/>
+    			<fileset dir="${lib.dir}/${commonscollections.dir}" includes="${commonscollections.lib}"/> -->
+    		</classpath>	
+    	</taskdef>
+    </target>
+	
+	<property name="tldConfig" value="src/main/tld/tldConfig.xml"/>
+	<property name="tagRoot" value="src/main/tld"/>
+	<property name="tld" value="src/main/resources/META-INF/ofx.tld"/>
+	<property name="facesConfig" value="src/main/resources/META-INF/faces-config.xml"/>
+	
+	<target name="1 Taglib" depends="0 Task">
+		<echo level="info">tldConfig=${tldConfig}</echo>
+		<echo level="info">tagRoot=${tagRoot}</echo>
+		<echo level="info">tld=${tld}</echo>
+		<echo level="info">facesConfig=${facesConfig}</echo>
+		<!--		<delete dir="${build.dir}/META-INF"/>
+		<mkdir dir="${build.dir}/META-INF"/> 
+-->		<tagfac tldConfig="${basedir}/${tldConfig}"
+				tagRoot="${basedir}/${tagRoot}"
+				tld="${basedir}/${tld}"
+				facesConfig="${basedir}/${facesConfig}"/>
+<!--		<copy file="${rsrc.dir}/jsf/tld/aht.tld" todir="${build.dir}/META-INF"/>
+		<copy file="${rsrc.dir}/jsf/tld/faces-config.xml" todir="${build.dir}/META-INF"/>
+		<jar destfile="${dist.dir}/aht-tld-${erp-version}.jar">
+			<fileset dir="${build.dir}/">
+				<include name="com/aht/net/http/jsf/tld/**/*.class"/>
+				<include name="META-INF/**/*.*"/>
+			</fileset>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+			</manifest>        	
+		</jar> 
+		<delete dir="${build.dir}/META-INF"/>
+		-->
+	</target>
+	
+</project>
