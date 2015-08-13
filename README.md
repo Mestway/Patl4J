@@ -49,7 +49,7 @@ When they are configured, you can start the transformation engine by clicking th
 * Step 1. In your project, remove the alreadyNormalized option. Click 'transform project' button and then your project is normalized but not transformed..
 * Step 2. As after normalization, there can be compile errors in the project, you need to fix these compile errors and then add the <alreadyNormalized>Ture</alreadyNormalized> option back to the file patl.option.
 * Step 3. Then click 'transformation project' again, and the transformed programs are written in their corresponding directories or output to console based on your option.
-* 
+
 ### Sample Patl rules and projects
 We transformed six projects in our experiment, and they can be found in the folder [examples](https://github.com/Mestway/Patl4J/tree/master/examples). 
 
@@ -69,15 +69,13 @@ The six projects involved are:
 ### Transformation Rules
 Besides, we also put the transformation rules separated in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder. There are in total two APIs to transform, one is Google Calendar v2 to v3, and the other is Jdom to Dom4j. We listed which classes are cover in the rules below.
 
-#### Google Calender v2 to v3
-  
+##### Google Calender v2 to v3
   This is the PATL program for migrating programs using Google Calendar v2 to v3. Totally 45 methods in the API set in Google Calendar v2 are migrated with 84 transformation rules. Methods in the following API files will be transformed by the PATL program. 
   * CalendarEventEntry
   * CalendarEntry
   * AclEntry
   
-#### JDom 1.1.3 to Dom4J 1.6.1
-  
+##### JDom 1.1.3 to Dom4J 1.6.1
   This is the transformation case for a subset of JDom 1.1.3 to a subset of Dom4J 1.6.1. Toally 84 rules are used in the transformation.
   (Classes on the left hand side of the arrow are classes in JDom 1.1.3 and those on the right are their corresponding classes in Dom4J 1.6.1)
   * Element -> Element
