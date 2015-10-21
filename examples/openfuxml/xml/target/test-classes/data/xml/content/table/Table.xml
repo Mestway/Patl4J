@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<table:table xmlns:ofx="http://www.openfuxml.org" xmlns:layout="http://www.openfuxml.org/layout" xmlns:table="http://www.openfuxml.org/table" xmlns:media="http://www.openfuxml.org/media" xmlns:l="http://www.openfuxml.org/list" xmlns:text="http://www.openfuxml.org/text" xmlns:wiki="http://www.openfuxml.org/wiki" id="myId">
+    <table:specification long="false"/>
+    <ofx:comment/>
+</table:table>

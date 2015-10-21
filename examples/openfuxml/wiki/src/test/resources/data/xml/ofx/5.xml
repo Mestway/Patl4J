@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ofx:section xmlns:ofx="http://www.openfuxml.org" xmlns:list="http://www.openfuxml.org/list" xmlns:table="http://www.openfuxml.org/table" xmlns:layout="http://www.openfuxml.org/layout" xmlns:wiki="http://www.openfuxml.org/wiki" transparent="true">
+
+    
+	
+
+
+
+
+	<ofx:section>
+		<ofx:title>Contents</ofx:title>
+
+	</ofx:section>
+
+	<list:list>
+		<list:type ordering="unordered" />
+
+		<list:list>
+			<list:type ordering="unordered" />
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#Phase_:_External_Integrator">Phase : External Integrator</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseWikiContentFetcher">phaseWikiContentFetcher</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseWikiProcessing">phaseWikiProcessing</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseMerge">phaseMerge</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseContainerMerge">phaseContainerMerge</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseExternalMerge">phaseExternalMerge</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseTemplate">phaseTemplate</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+			<list:item>
+				<ofx:paragraph>
+					<ofx:reference target="#phaseExternalMerge">phaseExternalMerge</ofx:reference>
+
+				</ofx:paragraph>
+			</list:item>
+
+		</list:list>
+
+	</list:list>
+
+	<ofx:section>
+		<ofx:title>Phase : External Integrator</ofx:title>
+
+
+		<ofx:paragraph>Wiki Elements are defined inside &lt;wiki:content/&gt; tags.</ofx:paragraph>
+
+
+		<ofx:paragraph>This is transformed to an external ofx:section</ofx:paragraph>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseWikiContentFetcher</ofx:title>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseWikiProcessing</ofx:title>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseMerge</ofx:title>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseContainerMerge</ofx:title>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseExternalMerge</ofx:title>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseTemplate</ofx:title>
+
+
+	</ofx:section>
+	<ofx:section>
+		<ofx:title>phaseExternalMerge</ofx:title>
+	</ofx:section>
+
+</ofx:section>

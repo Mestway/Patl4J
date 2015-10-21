@@ -1,0 +1,8 @@
+
+% ******************************************************
+% Rendering a (list) List with: LatexListRenderer
+
+\begin{compactitem}
+
+\end{compactitem}
+

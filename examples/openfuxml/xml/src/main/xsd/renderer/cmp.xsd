@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.openfuxml.org/cmp"
+    xmlns:cmp="http://www.openfuxml.org/cmp"
+    xmlns:wiki="http://www.openfuxml.org/wiki"
+    xmlns:html="http://www.openfuxml.org/renderer/html"
+    xmlns:io="http://exlp.sf.net/io"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.openfuxml.org/wiki" schemaLocation="../addon/wiki.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/renderer/html" schemaLocation="html.xsd"/>
+    <xsd:import namespace="http://exlp.sf.net/io" schemaLocation="../../../../../../exlp/xml/src/main/xsd/util/io.xsd"/>
+    <xsd:element name="cmp">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cmp:targets" maxOccurs="1"/>
+                <xsd:element ref="cmp:source" maxOccurs="1"/>
+                <xsd:element ref="cmp:preprocessor" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="source">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="io:dir" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="targets">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cmp:pdf" maxOccurs="unbounded"/>
+                <xsd:element ref="cmp:html" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="preprocessor">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="io:dir" maxOccurs="unbounded"/>
+                <xsd:element ref="cmp:merge" maxOccurs="unbounded"/>
+                <xsd:element ref="cmp:wiki" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="pdf">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="io:dir" maxOccurs="unbounded"/>
+				<xsd:element ref="cmp:toc" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="active" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="toc">
+        <xsd:complexType>
+            <xsd:sequence>
+
+            </xsd:sequence>
+            <xsd:attribute name="print" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="merge">
+        <xsd:complexType>
+            <xsd:sequence>
+                
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="writeIntermediate" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="wiki">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="wiki:markupProcessor" maxOccurs="1"/>
+                <xsd:element ref="wiki:xhtmlProcessor" maxOccurs="1"/>
+                <xsd:element ref="wiki:templates" maxOccurs="1"/>
+                <xsd:element ref="wiki:servers" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="fetchArticle" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="html">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="io:dir" maxOccurs="unbounded"/>
+                <xsd:element ref="html:renderer" maxOccurs="unbounded"/>
+                <xsd:element ref="html:template" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="active" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

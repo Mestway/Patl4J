@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="openfuxml">
+        <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="server" minOccurs="1" maxOccurs="1">
+                <xsd:complexType mixed="true">
+                    <xsd:attribute name="version" type="xsd:string"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="net" minOccurs="1" maxOccurs="1">
+            	<xsd:complexType>
+            		<xsd:sequence>
+                		<xsd:element name="host" type="xsd:string"/>
+                		<xsd:element name="port" type="xsd:int"/>
+            		</xsd:sequence>
+            	</xsd:complexType>
+        	</xsd:element>
+            <xsd:element ref="dirs" minOccurs="1" maxOccurs="1"/>
+            <xsd:element ref="files" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="version" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    
+	<xsd:element name="dirs">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="dir" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType mixed="true">
+                        <xsd:attribute name="type" type="xsd:string"/>
+                        <xsd:attribute name="rel" type="xsd:boolean"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="files">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="file" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType mixed="true">
+                        <xsd:attribute name="type" type="xsd:string"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+       
+</xsd:schema>

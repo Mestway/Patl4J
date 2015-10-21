@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<project name="ofx"  basedir="../..">
+
+	<property file="resources/properties/user.properties"/>
+	<property file="resources/properties/ant.properties"/>
+
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="dist.dir" location="${basedir}/dist/" />
+	<property name="build.dir" location="${dist.dir}/build/" />
+	<property name="rsrc.dir" location="${basedir}/resources" />
+	<property name="xsd.dir" location="${basedir}/resources/xsd" />
+	
+	<import file="ant-libs.xml"/>
+	<import file="ant-classpath.xml"/>
+	<import file="ant-tasks.xml"/>
+		
+    <target name="2 - init" description="Init ...">
+    	<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${build.dir}"/>
+	</target>
+	
+    <target name="2 - Clean" description="Removes build artifacts">
+    	<delete dir="${dist.dir}"/>
+    </target>
+	
+	<target name="3 - compile" depends="2 - init" description="Compile the source">
+		<echo level="info">Compiling with ${java-version}</echo>
+		<javac	srcdir="${src.dir}"
+				destdir="${build.dir}"
+				debug="true"
+				debuglevel="lines,vars,source" 
+				deprecation="on"
+				optimize="on"
+				encoding="UTF-8"
+				target="${java-version}"
+				classpathref="classpath">
+			<include name="org/openfuxml/**"/>
+		</javac>
+	</target>
+	
+	<target name="4 - JAXB" description="Create JAXB classes">
+		<echo level="info">Creating JAXB Configuration Class</echo>		
+		<java classname="com.sun.tools.xjc.XJCFacade"
+				fork="true" failonerror="true"  maxmemory="128m">
+			<arg value="-extension"/>
+			<arg value="${xsd.dir}/ofx.xsd"/>
+			<arg value="-d"/><arg value="${src.dir}"/>
+			<arg value="-b"/><arg value="${xsd.dir}/ofx.xjb"/>
+			<classpath>
+				<pathelement location="${lib.dir}/${jaxb.dir}/${jaxbimpl.lib}"/>
+	         	<pathelement location="${lib.dir}/${jaxb.dir}/${jaxbxjc.lib}"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="5 - OFX Release" depends="3 - compile">
+		<echo>Create ofx lib: openFuXML-${openfuxml-version}.jar</echo>
+        <jar destfile="${dist.dir}/openFuXML-${openfuxml-version}.jar">
+            <fileset dir="${build.dir}/"/>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+			</manifest>        	
+        </jar>
+	</target> 
+	
+    <target name="6 - OFX JSF Taglib" depends="1 - Tasks,5 - OFX Release">
+    	<mkdir dir="${build.dir}/META-INF"/>
+    	<tagfac tagConfig="${rsrc.dir}/config/ofx-tld.xml" xPathPrefix="tag"
+				tagBaseDir="${rsrc.dir}/jsf/tld"
+				tldFile="${rsrc.dir}/jsf/tld/ofx.tld"
+    			fcFile="${rsrc.dir}/jsf/tld/faces-config.xml"
+    			l4jFile="${rsrc.dir}/config/log4j.xml"/>
+		<copy file="${rsrc.dir}/jsf/tld/ofx.tld" todir="${build.dir}/META-INF"/>
+    	<copy file="${rsrc.dir}/jsf/tld/faces-config.xml" todir="${build.dir}/META-INF"/>
+    	<jar destfile="${dist.dir}/ofx-tld-${openfuxml-version}.jar">
+            <fileset dir="${build.dir}/" includes="org/openfuxml/addon/jsf/tld/**/*.class"/>
+    		<fileset dir="${build.dir}/" includes="META-INF/*.*"/>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+			</manifest>        	
+        </jar>
+    	<delete dir="${build.dir}/META-INF"/>
+	</target>
+</project>

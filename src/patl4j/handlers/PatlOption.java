@@ -12,8 +12,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 
-import patl4j.java.JavaProject;
-
 public class PatlOption {
 	
 	boolean ignored = true;
@@ -40,7 +38,6 @@ public class PatlOption {
 	boolean outputToFile = false;
 	
 	boolean alreadyNormalized = false;
-	boolean logToFile = false;
 	
 	// Changed to be built from IJavaProject instead of JavaProject
 	public PatlOption(IJavaProject project) {
@@ -69,9 +66,6 @@ public class PatlOption {
     	    	Element e = (Element) i.next();
     	    	if (e.getName().equals("classPath")) {
         	    	this.classPath.add(e.getText());
-    	    	} else if (e.getName().equals("log")) {
-    	    		if (e.getText().equals("File"))
-    	    			this.logToFile  = true;
     	    	} else if (e.getName().equals("platform")) {
     	    		this.platform = e.getText();
     	    	} else if (e.getName().equals("output")) {
@@ -156,10 +150,6 @@ public class PatlOption {
 	
 	public boolean isAlreadyNormalized() {
 		return this.alreadyNormalized;
-	}
-	
-	public boolean isLogToFile() {
-		return this.logToFile;
 	}
 	
 	@Override

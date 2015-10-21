@@ -39,28 +39,23 @@ public class SootConfig {
 	 * @param option the patl option class
 	 */
 	public static void configSoot(String entryClass, PatlOption option) {
-		System.out.println("[[Configuring soot]]...");
-		
 		setClassPath(option);
 
 		Options.v().set_whole_program(true);
         //Options.v().setPhaseOption("cg.spark","on");
         Options.v().setPhaseOption("jb", "use-original-names:true");
         Options.v().set_keep_line_number(true);
-
+		
         System.out.println("[Main class] " + option.getMainClassName());
-        Scene.v().loadClassAndSupport(option.getMainClassName());
+        SootClass s = Scene.v().loadClassAndSupport(option.getMainClassName());
         for (String classToLoad : option.getClassToLoad()) {
-        	System.out.println("Touble at: " + classToLoad);
         	Scene.v().loadClassAndSupport(classToLoad);
         }
         Scene.v().loadNecessaryClasses();
         Options.v().set_main_class(entryClass);
-        //Scene.v().addBasicClass("husacct.XMLReportWriter",SootClass.SIGNATURES);
+        Scene.v().addBasicClass("husacct.XMLReportWriter",SootClass.SIGNATURES);
         Scene.v().addBasicClass("javax.crypto.IllegalBlockSizeException",SootClass.SIGNATURES);
 
         PackManager.v().runPacks();
-        
-        System.out.println("[[Successfully Configured soot.]]");
 	}
 }

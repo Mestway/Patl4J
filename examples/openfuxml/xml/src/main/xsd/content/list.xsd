@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.openfuxml.org/list"
+	xmlns:l="http://www.openfuxml.org/list"
+	xmlns:ofx="http://www.openfuxml.org"
+	xmlns:layout="http://www.openfuxml.org/layout"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    jaxb:extensionBindingPrefixes="xjc"
+    jaxb:version="2.0">
+    <xsd:import namespace="http://www.openfuxml.org" schemaLocation="ofx.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/layout" schemaLocation="layout.xsd"/>
+    <xsd:element name="list">
+        <xsd:complexType>
+            <xsd:sequence>
+				<xsd:element ref="l:type" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="l:item" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="ofx:comment" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="type">
+        <xsd:complexType>
+            <xsd:attribute name="ordering">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="ordered"/>
+						<xsd:enumeration value="unordered"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="description" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="item">
+        <xsd:complexType mixed="true">
+            <xsd:sequence>
+                <xsd:element ref="ofx:paragraph" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="lang" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

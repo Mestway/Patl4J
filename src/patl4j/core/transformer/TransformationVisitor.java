@@ -56,8 +56,9 @@ public class TransformationVisitor extends ASTVisitor {
 		
 		if (node.getBody() == null)
 			return false;
-		
-		VariableContext vc = new VariableContext("", "");
+		//the parameters should be finished while running 
+		//according to the main class of the transformed project
+		VariableContext vc = new VariableContext(option.getMainClassName(), "main");
 		Transformer transformer = new Transformer(rules);
 		
 		ASTNode newBody = transformer.execute(
@@ -76,7 +77,9 @@ public class TransformationVisitor extends ASTVisitor {
 	
 	public boolean visit(Initializer node) {
 		
-		VariableContext vc = new VariableContext("", "");
+		//the parameters should be finished while running 
+		//according to the main class of the transformed project
+		VariableContext vc = new VariableContext(option.getMainClassName(),"main");
 		
 		Transformer transformer = new Transformer(rules);
 		

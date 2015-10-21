@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<format id="validation" title="Validation" outputformat="xml" type="internal">
+	<buildfile fileref="build.xml"/>
+	<requires>
+		<requirement>rs.jar (preprocessors)</requirement>
+		<requirement>saxon.jar (XSLT processor)</requirement>
+		<requirement>Latex System</requirement>
+		<requirement>Ghostscript (inkl. ps2pdf)</requirement>
+	</requires>
+	<description>Format that carries out validation of application conformant documents.</description>
+	<author>Gerd Steinkamp</author>
+	<options>
+		<option name="recursive" type="boolean" value="false" displayname="Externe Dokumente einbinden">
+			<description>Wenn "true" werden externe Dokumente mit eingebunden.</description>
+		</option>
+	</options>
+</format>

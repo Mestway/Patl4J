@@ -26,9 +26,9 @@ public class PatlParser {
 		  	System.out.println(i);
 		}*/
 		
-		String testExample = "+ z=x.f(\"\\n\\r\");";
+		String testExample = "+ z=xx.f.e(e, b, c).g(a.t(a,b),x,y).e();";
 		String eg2 = "(x: A -> B) { m x.getR();	+ A x = x.getP().getSecond();}";
-		ModInstruction tl = new PatlParser(new java.io.StringReader(testExample)).i();
+		Rule tl = new PatlParser(new java.io.StringReader(eg2)).pi();
 		System.out.println(tl);
 	}
 }
@@ -81,12 +81,8 @@ SKIP :
 
 <DEFAULT> TOKEN:
 {
-	<STRING: "\"" (<IDENTIFIER> | <CONSTANT> | " " | ("\\"["a"-"z"]))+ "\"">
+	<STRING: "\"" (<IDENTIFIER> | <CONSTANT> | " ")+ "\"">
 }
-
-<DEFAULT> TOKEN:
-{
-  <NUMBERLITERAL: <CONSTANT> ("." <CONSTANT>)? >}
 
 /* Keyword */
 <DEFAULT> TOKEN : 
@@ -330,9 +326,7 @@ FullExpression fullExpression():
   	FullExpTail tail = null;
   	String s;
   	List<String> operands = new ArrayList<String>();
-  	List<Boolean> operators = new ArrayList<Boolean>();
-  	Token numberLiteral;
-  	Token quotedString;
+  	List<Boolean> operators = new ArrayList<Boolean>(); 
 }
 {
   	LOOKAHEAD(3)
@@ -356,10 +350,6 @@ FullExpression fullExpression():
  	  	else
  	  		return tail.toExpression(fn);
  	}
-|	numberLiteral = <NUMBERLITERAL>	{		return new FullNumberLiteral(numberLiteral.toString());
-	}
-|  quotedString = <STRING>	{		return new FullQuotedString(quotedString.toString());
-	}
 }
 
 FullExpTail fullExpTail():

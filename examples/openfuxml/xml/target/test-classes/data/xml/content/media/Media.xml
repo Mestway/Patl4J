@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<media:media xmlns:media="http://www.openfuxml.org/media" id="myId" src="mySrc" dst="myDst"/>

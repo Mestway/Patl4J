@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Do not modify, class migrated to ofx-core -->
+<xsd:schema targetNamespace="http://www.openfuxml.org/cmp"
+    xmlns:cmp="http://www.openfuxml.org/cmp"
+    xmlns:wiki="http://www.openfuxml.org/wiki"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.openfuxml.org/wiki" schemaLocation="../addon/wiki.xsd"/>
+    <xsd:element name="cmp">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cmp:targets" maxOccurs="1"/>
+                <xsd:element ref="cmp:preprocessor" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="targets">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cmp:pdf" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="preprocessor">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cmp:merge" maxOccurs="unbounded"/>
+                <xsd:element ref="cmp:wiki" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="pdf">
+        <xsd:complexType>
+            <xsd:sequence>
+				<xsd:element ref="cmp:toc" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="toc">
+        <xsd:complexType>
+            <xsd:sequence>
+
+            </xsd:sequence>
+            <xsd:attribute name="print" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="merge">
+        <xsd:complexType>
+            <xsd:sequence>
+                
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string"/>
+            <xsd:attribute name="writeIntermediate" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="wiki">
+        <xsd:complexType>
+            <xsd:sequence>
+                 <xsd:element ref="wiki:markupProcessor" maxOccurs="1"/>
+                 <xsd:element ref="wiki:xhtmlProcessor" maxOccurs="1"/>
+                 <xsd:element ref="wiki:templates" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -12,18 +12,18 @@ import patl4j.matcher.Matcher;
 import patl4j.util.ErrorManager;
 
 public class FullAddExpression implements FullExpression {
-	List<FullExpression> operands = new ArrayList<FullExpression>();
+	List<FullVariable> operands = new ArrayList<FullVariable>();
 	List<Boolean> operators = new ArrayList<Boolean>(); 
 	
 	public FullAddExpression(List<String> operands, List<Boolean> operators) {
-		this.operands = new ArrayList<FullExpression>();
+		this.operands = new ArrayList<FullVariable>();
 		for (String s : operands) {
 			this.operands.add(new FullVariable(s));
 		}
 		this.operators = operators;
 	}
 	
-	public List<FullExpression> getOperands() {
+	public List<FullVariable> getOperands() {
 		return operands;
 	}
 	
@@ -55,7 +55,7 @@ public class FullAddExpression implements FullExpression {
 	 * @param m: the matcher for translation
 	 * @return the translated expression
 	 */
-	private Expression listToInfixAddExp(List<FullExpression> operands, List<Boolean> operators, Matcher m) {
+	private Expression listToInfixAddExp(List<FullVariable> operands, List<Boolean> operators, Matcher m) {
 		if (operands.size() != operators.size() + 1) {
 			ErrorManager.error("FullAddExpression@54", "The size of operands does not match the size of operators.");
 		}

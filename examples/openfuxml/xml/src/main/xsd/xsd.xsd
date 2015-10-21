@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.openfuxml.org/xsd"
+    xmlns="http://www.openfuxml.org/xsd"
+    xmlns:ofx="http://www.openfuxml.org"
+    xmlns:table="http://www.openfuxml.org/table"
+    xmlns:media="http://www.openfuxml.org/media"
+    xmlns:list="http://www.openfuxml.org/list"
+    xmlns:text="http://www.openfuxml.org/text"
+    xmlns:layout="http://www.openfuxml.org/layout"
+    xmlns:cmp="http://www.openfuxml.org/cmp"
+    xmlns:wiki="http://www.openfuxml.org/wiki"
+    xmlns:graph="http://www.openfuxml.org/graph"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc"
+    jaxb:version="2.0">
+    <xsd:import namespace="http://www.openfuxml.org"        schemaLocation="content/ofx.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/layout" schemaLocation="content/layout.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/list"   schemaLocation="content/list.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/table"  schemaLocation="content/table.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/media"  schemaLocation="content/media.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/text"   schemaLocation="content/text.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/graph"   schemaLocation="content/graph.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/cmp"    schemaLocation="renderer/cmp.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/chart"  schemaLocation="addon/chart.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/fuxml"  schemaLocation="addon/fuxml.xsd"/>
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:globalBindings generateIsSetMethod="true">
+                <xjc:serializable uid="1"/>
+            </jaxb:globalBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+</xsd:schema>

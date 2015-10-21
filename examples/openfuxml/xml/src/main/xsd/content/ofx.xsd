@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.openfuxml.org"
+    xmlns="http://www.openfuxml.org"
+    xmlns:table="http://www.openfuxml.org/table"
+    xmlns:text="http://www.openfuxml.org/text"
+    xmlns:media="http://www.openfuxml.org/media"
+    xmlns:list="http://www.openfuxml.org/list"
+    xmlns:layout="http://www.openfuxml.org/layout"
+    xmlns:wiki="http://www.openfuxml.org/wiki"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.openfuxml.org/table" schemaLocation="table.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/text" schemaLocation="text.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/media" schemaLocation="media.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/list" schemaLocation="list.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/layout" schemaLocation="layout.xsd"/>
+    <xsd:import namespace="http://www.openfuxml.org/wiki" schemaLocation="../addon/wiki.xsd"/>
+    <xsd:element name="document">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="metadata" maxOccurs="1"/>
+                <xsd:element ref="content" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="paragraph">
+        <xsd:complexType mixed="true">
+            <xsd:sequence>
+                <xsd:element ref="text:emphasis" maxOccurs="unbounded"/>
+                <xsd:element ref="reference" maxOccurs="unbounded"/>
+                <xsd:element ref="media:image" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="lang" type="xsd:string"/>
+            <xsd:attribute name="top" use="required">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="normal"/>
+                        <xsd:enumeration value="small"/>
+                        <xsd:enumeration value="mini"/>
+                        <xsd:enumeration value="zero"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="metadata">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="title" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="content">
+        <xsd:complexType mixed="true">
+            <xsd:sequence>
+            	<xsd:element ref="sections" maxOccurs="unbounded"/>
+                <xsd:element ref="section" maxOccurs="unbounded"/>
+                <xsd:element ref="wiki:content" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="reference">
+        <xsd:complexType>
+        	<xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute name="type" use="required">
+		                <xsd:simpleType>
+		                    <xsd:restriction base="xsd:string">
+		                        <xsd:enumeration value="internal"/>
+		                        <xsd:enumeration value="external"/>
+		                    </xsd:restriction>
+		                </xsd:simpleType>
+		            </xsd:attribute>
+		            <xsd:attribute name="target" type="xsd:string"/>
+		            <xsd:attribute name="name" type="xsd:string"/>
+		            <xsd:attribute name="prefix" type="xsd:string"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+	<xsd:element name="listing">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="title" maxOccurs="1"/>
+				<xsd:element ref="raw" maxOccurs="1"/>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:string"/>
+			<xsd:attribute name="external" type="xsd:string"/>
+			<xsd:attribute name="codeLang" type="xsd:string"/>
+			<xsd:attribute name="classifier" type="xsd:string"/><!-- Can be used for global content filters -->
+			<xsd:attribute name="setting" type="xsd:string"/><!-- Can be used for default settings -->
+			<xsd:attribute name="numbering" type="xsd:boolean"/>
+			<xsd:attribute name="linebreak" type="xsd:boolean"/>
+	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="raw">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string"/>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="sections">
+        <xsd:complexType mixed="true">
+            <xsd:sequence>
+                <xsd:element ref="section" maxOccurs="unbounded"/>
+            </xsd:sequence>
+             <xsd:attribute name="external" type="xsd:boolean"/>
+            <xsd:attribute name="source" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="section">
+        <xsd:complexType mixed="true">
+            <xsd:sequence>
+            	<xsd:element ref="comment" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="title" maxOccurs="unbounded"/>
+                <xsd:element ref="wiki:content" maxOccurs="unbounded"/>
+                <xsd:element ref="paragraph" maxOccurs="unbounded"/>
+                <xsd:element ref="section" maxOccurs="unbounded"/>
+	            <xsd:element ref="listing" maxOccurs="unbounded"/>
+                <xsd:element ref="sections" maxOccurs="unbounded"/>
+                <xsd:element ref="table:table" maxOccurs="unbounded"/>
+                <xsd:element ref="media:image" maxOccurs="unbounded"/>
+                <xsd:element ref="list:list" maxOccurs="unbounded"/>
+                <xsd:element ref="wiki:template" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string"/>
+            <xsd:attribute name="classifier" type="xsd:string"/><!-- Can be used for global content filters -->
+            <xsd:attribute name="lang" type="xsd:string"/>
+            
+            <xsd:attribute name="external" type="xsd:boolean"/><!-- Deprecated, use include -->
+            <xsd:attribute name="source" type="xsd:string"/><!-- Deprecated, use include -->
+            
+            <xsd:attribute name="include" type="xsd:string"/>
+            <xsd:attribute name="container" type="xsd:boolean"/><!-- true: Not rendered as a section, only as a container -->
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="title">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute name="numbering" type="xsd:boolean"/>
+                    <xsd:attribute name="lang" type="xsd:string"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="comment">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="raw" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<servers xmlns="http://www.openfuxml.org/wiki">
+    <server id="myId" default="true" name="name" url="http://"/>
+    <server id="myId" default="true" name="name" url="http://"/>
+</servers>

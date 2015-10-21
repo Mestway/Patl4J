@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:chart xmlns:ofx="http://www.openfuxml.org/chart" legend="true">
+    <ofx:charttype>
+        <spline/>
+    </ofx:charttype>
+    <ofx:axis code="domain" label="xLabel" autoRangIncludeNull="false"/>
+    <ofx:axis code="range0" label="yLabel" autoRangIncludeNull="true"/>
+    <title label="test"/>
+    <colors>
+        <ofx:color a="255" b="245" g="245" r="245" typ="backgroundChart"/>
+        <ofx:color a="255" b="255" g="255" r="255" typ="backgroundPlot"/>
+    </colors>
+    <size width="665" height="440"/>
+    <grid domain="false" range="true"/>
+    <ofx:container label="had">
+        <ofx:data y="16.4" x="1.0"/>
+        <ofx:data y="19.8" x="2.0"/>
+        <ofx:data y="22.9" x="3.0"/>
+        <ofx:data y="24.8" x="4.0"/>
+        <ofx:data y="24.5" x="5.0"/>
+        <ofx:data y="23.1" x="6.0"/>
+        <ofx:data y="22.3" x="7.0"/>
+        <ofx:data y="21.3" x="8.0"/>
+        <ofx:data y="21.3" x="9.0"/>
+        <ofx:data y="21.6" x="10.0"/>
+        <ofx:data y="18.8" x="11.0"/>
+        <ofx:data y="16.9" x="12.0"/>
+    </ofx:container>
+    <ofx:container label="ref">
+        <ofx:data y="0.0" x="1.0"/>
+        <ofx:data y="2.0" x="2.0"/>
+        <ofx:data y="4.0" x="3.0"/>
+        <ofx:data y="29.0" x="4.0"/>
+        <ofx:data y="88.0" x="5.0"/>
+        <ofx:data y="138.0" x="6.0"/>
+        <ofx:data y="253.0" x="7.0"/>
+        <ofx:data y="285.0" x="8.0"/>
+        <ofx:data y="170.0" x="9.0"/>
+        <ofx:data y="37.0" x="10.0"/>
+        <ofx:data y="0.0" x="11.0"/>
+        <ofx:data y="0.0" x="12.0"/>
+    </ofx:container>
+</ofx:chart>

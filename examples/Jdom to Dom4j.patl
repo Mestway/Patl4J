@@ -1,3 +1,6 @@
+//84 rules ( including 12 m-to-m rules )
+
+//Element:
 ( x : Element -> Element, y : String -> String ) {
     - x = new Element(y);
     + x = DocumentHelper.createElement(y);
@@ -24,94 +27,45 @@
     pos : int -> int )
 {
     - res = obj.addContent(pos, content);
-    + List list = obj.content();
+    + List<Node> list = obj.content();
     + list.add(pos, content);
 }
 
-( obj : Element -> Element, res : List -> List )
+( obj : Element -> Element, res : List<Content> -> List<Node> )
 {
     - res = obj.getContent();
     + res = obj.content();
 }
 
-( obj : Element -> Element, res : List -> List, 
+( obj : Element -> Element, res : List<Element> -> List<Element>, 
     localName : String -> String, namespace : Namespace -> Namespace )
 {
-    - res = obj.getChildren();
-    + res = obj.elements();
+    - res = obj.getChildren( void | localName | localName, namespace );
+    + res = obj.elements( void | localName | new QName(localName, namespace) );
 }
 
-( obj : Element -> Element, res : List -> List, 
-    localName : String -> String, namespace : Namespace -> Namespace )
-{
-    - res = obj.getChildren(localName);
-    + res = obj.elements(localName);
-}
-
-( obj : Element -> Element, res : List -> List, 
-    localName : String -> String, namespace : Namespace -> Namespace )
-{
-    - res = obj.getChildren(localName, namespace);
-    + res = obj.elements(new QName(localName, namespace));
-}
-
-( obj : Element -> Element, res : List -> List, name : String -> String,
+( obj : Element -> Element, res : List<Element> -> List<Element>, name : String -> String,
     ns : Namespace -> Namespace )
 {
-    - res = obj.getChild( name );
-    + res = obj.element( name );
-}
-
-( obj : Element -> Element, res : List -> List, name : String -> String,
-    ns : Namespace -> Namespace )
-{
-    - res = obj.getChild( name, ns );
-    + res = obj.element( new QName(name, ns) );
+    - res = obj.getChild( name | name, ns );
+    + res = obj.element( name | new QName(name, ns) );
 }
 
 ( obj : Element -> Element, res : String -> String, 
     name : String -> String, def : String -> String, ns : Namespace -> Namespace )
 {
-    - res = obj.getAttributeValue(name);
-    + res = obj.attributeValue(name);
-}
-
-( obj : Element -> Element, res : String -> String, 
-    name : String -> String, def : String -> String, ns : Namespace -> Namespace )
-{
-    - res = obj.getAttributeValue(name, def);
-    + res = obj.attributeValue(name, def);
-}
-
-( obj : Element -> Element, res : String -> String, 
-    name : String -> String, def : String -> String, ns : Namespace -> Namespace )
-{
-    - res = obj.getAttributeValue(name, ns);
-    + res = obj.attributeValue(new QName(name, ns));
-}
-
-( obj : Element -> Element, res : String -> String, 
-    name : String -> String, def : String -> String, ns : Namespace -> Namespace )
-{
-    - res = obj.getAttributeValue(name, ns, def);
-    + res = obj.attributeValue(new QName(name, ns), def);
+    - res = obj.getAttributeValue(name | name, def | name, ns | name, ns, def);
+    + res = obj.attributeValue(name | name, def | new QName(name, ns) | new QName(name, ns), def);
 }
 
 ( obj : Element -> Element, res : Attribute -> Attribute, name : String -> String,
     ns : Namespace -> Namespace )
 {
-    - res = obj.getAttribute( name );
-    + res = obj.attribute( name );
+    - res = obj.getAttribute( name | name, ns );
+    + res = obj.attribute( name | new QName(name, ns) );
 }
 
-( obj : Element -> Element, res : Attribute -> Attribute, name : String -> String,
-    ns : Namespace -> Namespace )
-{
-    - res = obj.getAttribute( name, ns );
-    + res = obj.attribute( new QName(name, ns) );
-}
-
-( obj : Element -> Element, res : List -> List )
+( obj : Element -> Element, res : List<Attribute> -> List<Attribute> )
 {
     - res = obj.getAttributes();
     + res = obj.attributes();
@@ -120,29 +74,15 @@
 ( obj : Element -> Element, res : String -> String, name : String -> String,
     ns : Namespace -> Namespace )
 {
-    - res = obj.getChildText( name );
-    + res = obj.elementText( name );
+    - res = obj.getChildText( name | name, ns );
+    + res = obj.elementText( name | new QName(name, ns) );
 }
 
 ( obj : Element -> Element, res : String -> String, name : String -> String,
     ns : Namespace -> Namespace )
 {
-    - res = obj.getChildText( name, ns );
-    + res = obj.elementText( new QName(name, ns) );
-}
-
-( obj : Element -> Element, res : String -> String, name : String -> String,
-    ns : Namespace -> Namespace )
-{
-    - res = obj.getChildTextTrim( name );
-    + res = obj.elementTextTrim( name );
-}
-
-( obj : Element -> Element, res : String -> String, name : String -> String,
-    ns : Namespace -> Namespace )
-{
-    - res = obj.getChildTextTrim( name, ns );
-    + res = obj.elementTextTrim( new QName(name, ns) );
+    - res = obj.getChildTextTrim( name | name, ns );
+    + res = obj.elementTextTrim( name | new QName(name, ns) );
 }
 
 ( obj : Element ->  Element, res : Element -> Element )
@@ -190,22 +130,8 @@
 ( obj : Element -> Element, name : String ->  String, value : String -> String,
     attr : Attribute -> Attribute, ns : Namespace -> Namespace )
 {
-    - obj.setAttribute( name, value );
-    + obj.addAttribute( name, value );
-}
-
-( obj : Element -> Element, name : String ->  String, value : String -> String,
-    attr : Attribute -> Attribute, ns : Namespace -> Namespace )
-{
-    - obj.setAttribute( attr );
-    + obj.addAttribute( attr.getName(), attr.getValue() );
-}
-
-( obj : Element -> Element, name : String ->  String, value : String -> String,
-    attr : Attribute -> Attribute, ns : Namespace -> Namespace )
-{
-    - obj.setAttribute( name, value, ns );
-    + obj.addAttribute( new QName(name, ns), value );
+    - obj.setAttribute( name, value | attr | name, value, ns );
+    + obj.addAttribute( name, value | attr.getName(), attr.getValue() | new QName(name, ns), value );
 }
 
 ( obj : Element -> Element, res : String -> String )
@@ -230,7 +156,7 @@
 {
     - res = obj.removeContent(content);
     + res = obj.remove(content);
-} 
+} // dom4j : remove( Element | Text | Attribute | Comment | Node ) can be transformed by this rule
 
 ( obj : Element -> Element, res : Element -> Element )
 {
@@ -244,13 +170,14 @@
     + res = obj.createCopy();
 }
 
-( obj : Element -> Element, res : List -> List )
+( obj : Element -> Element, res : List<Content> -> List<Node> )
 {
     - res = obj.cloneContent();
     + Element e = obj.createCopy();
     + res = obj.content();
 }
 
+//Document:
 ( res : Document -> Document )
 {
     - res = new Document();
@@ -291,24 +218,19 @@
     pos : int -> int )
 {
     - res = obj.addContent(pos, content);
-    + List list = obj.content();
+    + List<Node> list = obj.content();
     + list.add(pos, content);
 }
 
+//Attribute:
 ( res : Attribute -> Attribute,  name : String -> String, value : String -> String, 
     ns : Namespace -> Namespace )
 {
-    - res = new Attribute( name, value );
-    + res = DocumentHelper.createAttribute( null, name, value );
+    - res = new Attribute( name, value | name, value, ns );
+    + res = DocumentHelper.createAttribute( null, name, value | null, new QName(name, ns), value );
 }
 
-( res : Attribute -> Attribute,  name : String -> String, value : String -> String, 
-    ns : Namespace -> Namespace )
-{
-    - res = new Attribute( name, value, ns );
-    + res = DocumentHelper.createAttribute( null, new QName(name, ns), value );
-}
-
+//SAXBuilder <-> SAXReader:
 ( res : SAXBuilder -> SAXReader )
 {
     - res = new SAXBuilder();
@@ -318,17 +240,11 @@
 ( obj : SAXBuilder -> SAXReader, res : Document -> Document, rd : Reader -> Reader,
     f : File -> File )
 {
-    - res = obj.build( rd );
-    + res = obj.read( rd );
+    - res = obj.build( rd | f );
+    + res = obj.read( rd | f );
 }
 
-( obj : SAXBuilder -> SAXReader, res : Document -> Document, rd : Reader -> Reader,
-    f : File -> File )
-{
-    - res = obj.build( f );
-    + res = obj.read( f );
-}
-
+//DOMBuilder <-> DOMReader
 ( res : DOMBuilder-> DOMReader)
 {
     - res = new DOMBuilder();
@@ -341,22 +257,11 @@
     + res = obj.read( doc );
 }
 
+//Format <-> OutputFormat
 ( res : Format -> OutputFormat ) 
 {
-    - res = Format.getPrettyFormat();
-    + res = OutputFormat.createPrettyFormat();
-}
-
-( res : Format -> OutputFormat ) 
-{
-    - res = Format.getCompactFormat();
-    + res = OutputFormat.createCompactFormat();
-}
-
-( res : Format -> OutputFormat ) 
-{
-    - res = Format.getRawFormat();
-    + res = new OutputFormat();
+    - res = Format.getPrettyFormat() | getCompactFormat() | getRawFormat();
+    + res = OutputFormat.createPrettyFormat() | createCompactFormat() | new OutputFormat();
 }
 
 ( obj : Format -> OutputFormat, cd : String -> String  ) 
@@ -365,6 +270,7 @@
     + obj.setEncoding( cd );
 }
 
+//XMLOutputter <-> XMLWriter
 ( res : XMLOutputter -> XMLWriter )
 {
     - res = new XMLOutputter();
@@ -380,16 +286,8 @@
 ( obj : XMLOutputter -> XMLWriter, doc : Document -> Document, os : OutputStream -> OutputStream,
     wrt : Writer -> Writer )
 {
-    - obj.output( doc, os );
-    + obj.setOutputStream(os);
-    + obj.write( doc );
-}
-
-( obj : XMLOutputter -> XMLWriter, doc : Document -> Document, os : OutputStream -> OutputStream,
-    wrt : Writer -> Writer )
-{
-    - obj.output( doc, wrt );
-    + obj.setWriter( wrt );
+    - obj.output( doc, os | doc, wrt );
+    + obj.setOutputStream(os) | obj.setWriter( wrt );
     + obj.write( doc );
 }
 
@@ -402,19 +300,13 @@
     + res = ele.asXML();
 }
 
-( obj : XMLOutputter -> XMLWriter, f2 : Format -> OutputFormat )
-{
-    - obj = new XMLOutputter();
-    - obj.setFormat(f2);
-    + obj = new XMLWriter(f2);
-}
-
 ( obj : XMLOutputter -> XMLWriter, f1 : Format -> OutputFormat, f2 : Format -> OutputFormat )
 {
-    - obj = new XMLOutputter(f1);
+    - obj = new XMLOutputter( void or f1 );
     - obj.setFormat(f2);
     + obj = new XMLWriter(f2);
 }
+// syntax sugar: 'or' and '|'
 
 ( obj : XMLOutputter -> XMLWriter, f : Format -> OutputFormat, ele : Element -> Element,
     res : String -> String )
@@ -425,28 +317,43 @@
     + res = obj.asXML();
 }
 
-( obj : XMLOutputter -> XMLWriter, res : String -> String, ele : Element -> Element, x : Format -> Format )
+( obj : XMLOutputter -> XMLWriter, f : Format -> OutputFormat, ele : Element -> Element,
+    res : String -> String )
 {
-    - x = Format.getPrettyFormat();
-    - obj = new XMLOutputter(x);
+    - obj = new XMLOutputter( void or Format.getPrettyFormat() or Format.getCompactFormat() )
+    - f = Format.getPrettyFormat();
+    - obj.setFormat(f);
     - res = obj.outputString(ele);
     + StringWriter sw = new StringWriter();
-    + obj = new XMLWriter( sw, OutputFormat.createPrettyPrint());
+    + obj = new XMLWriter( sw, OutputFormat.createPrettyPrint() );
     + obj.write(ele);
     + res = sw.toString();
 }
 
-( obj : XMLOutputter -> XMLWriter, res : String -> String, ele : Element -> Element, x : Format -> Format)
+( obj : XMLOutputter -> XMLWriter, f : Format -> OutputFormat, ele : Element -> Element,
+    res : String -> String )
 {
-    - x = Format.getCompactFormat();
-    - obj = new XMLOutputter(x);
+    - obj = new XMLOutputter( void or Format.getPrettyFormat() or Format.getCompactFormat() )
+    - f = Format.getCompactFormat();
+    - obj.setFormat(f);
     - res = obj.outputString(ele);
     + StringWriter sw = new StringWriter();
-    + obj = new XMLWriter( sw, OutputFormat.createCompactFormat() );
+    + obj = new XMLWriter( sw, OutputFormat.createPrettyPrint() );
     + obj.write(ele);
     + res = sw.toString();
 }
 
+( obj : XMLOutputter -> XMLWriter, res : String -> String, ele : Element -> Element )
+{
+    - obj = new XMLOutputter( Format.getPrettyFormat() | Format.getCompactFormat() );
+    - res = obj.outputString(ele);
+    + StringWriter sw = new StringWriter();
+    + obj = new XMLWriter( sw, OutputFormat.createPrettyPrint() | OutputFormat.createCompactFormat() );
+    + obj.write(ele);
+    + res = sw.toString();
+}
+
+//XPath:
 ( obj : XPath -> XPath, path : String -> String )
 {
     - obj = XPath.newInstance( path );
@@ -462,41 +369,21 @@
 ( obj : XPath -> XPath, res : Object -> Object, content : Object -> Object, 
     path : String -> String )
 {
-    - res = obj.selectSingleNode( content );
-    + res = obj.selectSingleNode( content );
+    - res = obj.selectSingleNode( content | content, path );
+    + res = obj.selectSingleNode( content | content, path );
 }
 
-( obj : XPath -> XPath, res : Object -> Object, content : Object -> Object, 
+( obj : XPath -> XPath, res : List<?> -> List<? extends Node>, content : Object -> Object,
     path : String -> String )
 {
-    - res = obj.selectSingleNode( content, path );
-    + res = obj.selectSingleNode( content, path );
+    - res = obj.selectNodes( content | content, path );
+    + res = obj.selectNodes( content | content, path );
 }
 
-( obj : XPath -> XPath, res : List -> List, content : Object -> Object,
-    path : String -> String )
-{
-    - res = obj.selectNodes( content );
-    + res = obj.selectNodes( content );
-}
-
-( obj : XPath -> XPath, res : List -> List, content : Object -> Object,
-    path : String -> String )
-{
-    - res = obj.selectNodes( content, path );
-    + res = obj.selectNodes( content, path );
-}
-
+//Namespace:
 ( obj : Namespace -> Namespace, res : Namespace -> Namespace, pre : String -> String, 
     uri : String -> String )
 {
-    - res = obj.getNamespace( pre );
-    + res = obj.getNamespace( pre );
-}
-
-( obj : Namespace -> Namespace, res : Namespace -> Namespace, pre : String -> String, 
-    uri : String -> String )
-{
-    - res = obj.getNamespace( pre, uri );
-    + res = obj.getNamespace( pre, uri );
+    - res = obj.getNamespace( pre | pre, uri );
+    + res = obj.getNamespace( pre | pre, uri );
 }

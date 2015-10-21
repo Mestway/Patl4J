@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<project basedir="../..">
+	<property file="resources/properties/user.properties"/>
+	<property file="resources/properties/ant.properties"/>
+	<import file="ant-libs.xml"/>
+	<path id="classpath">
+	<!-- Utils  -->
+		<pathelement location="${lib.dir}/${log4j.dir}/${log4j.lib}"/>
+		<pathelement location="${lib.dir}/${commonslang.dir}/${commonslang.lib}"/>
+		<pathelement location="${locallib.dir}/${jmsutils.dir}/${jmsutils.lib}"/>
+		<pathelement location="${lib.dir}/${exlp.dir}/${exlp.lib}"/>
+		<pathelement location="${lib.dir}/${ahtutils.dir}/${ahtutils.lib}"/>
+		<pathelement location="${lib.dir}/${commonsconfig.dir}/${commonsconfig.lib}"/>
+		<pathelement location="${lib.dir}/${commonsio.dir}/${commonsio.lib}"/>
+		<pathelement location="${lib.dir}/${commonsxmlgraphics.dir}/${commonsxmlgraphics.lib}"/>
+		<pathelement location="${lib.dir}/${commonslogging.dir}/${commonslogging.lib}"/>
+	<!-- XML  -->
+		<pathelement location="${lib.dir}/${jaxb.dir}/${jaxbapi.lib}"/>
+		<pathelement location="${lib.dir}/${jaxb.dir}/${jaxbimpl.lib}"/>
+		<pathelement location="${lib.dir}/${jdom.dir}/${jdom.lib}"/>
+		<pathelement location="${lib.dir}/${bliki.dir}/${bliki.lib}"/>
+		<pathelement location="${lib.dir}/${jwbf.dir}/${jwbf-core.lib}"/>
+		<pathelement location="${lib.dir}/${jwbf.dir}/${jwbf-mediawiki.lib}"/>
+		<pathelement location="${lib.dir}/${htmlcleaner.dir}/${htmlcleaner.lib}"/>
+	<!-- HTTP  -->
+		<pathelement location="${lib.dir}/${jsch.dir}/${jsch.lib}"/>
+		<pathelement location="${lib.dir}/${jmdns.dir}/${jmdns.lib}"/>
+		<pathelement location="${lib.dir}/${mail.dir}/${mail.lib}"/>
+		<pathelement location="${lib.dir}/${servlet.dir}/${servlet.lib}"/>
+	<!-- HTTP  -->
+		<pathelement location="${lib.dir}/${htmlcleaner.dir}/${htmlcleaner.lib}"/>
+		<pathelement location="${lib.dir}/${jetty.dir}/${jetty.lib}"/>
+		<pathelement location="${lib.dir}/${jetty.dir}/${jettyutil.lib}"/>
+		<pathelement location="${lib.dir}/${servlet.dir}/${servlet.lib}"/>
+		<pathelement location="${lib.dir}/${jsp.dir}/${jsp-api.lib}"/>
+		<pathelement location="${lib.dir}/${jsf.dir}/${jsf-api.lib}"/>
+	<!-- GUI -->
+		<pathelement location="${lib.dir}/${jcommon.dir}/${jcommon.lib}"/>
+		<pathelement location="${lib.dir}/${jfreechart.dir}/${jfreechart.lib}"/>
+
+	<!-- JBoss  -->
+		<pathelement location="${lib.dir}/${jboss.dir}/${jboss-ejb3.lib}"/>
+		<pathelement location="${lib.dir}/${jboss.dir}/${jboss-javaee.lib}"/>
+		<pathelement location="${lib.dir}/${jboss.dir}/${jboss-stax.lib}"/>
+		<pathelement location="${lib.dir}/${jboss.dir}/${jboss-ejb3extapi.lib}"/>
+	</path>
+</project>

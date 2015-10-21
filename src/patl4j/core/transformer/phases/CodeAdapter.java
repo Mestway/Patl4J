@@ -3,7 +3,6 @@ package patl4j.core.transformer.phases;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -19,7 +18,6 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
-import patl4j.matcher.Matcher;
 import patl4j.matcher.MatcherSet;
 import patl4j.shifter.datastructure.BlockSTreeNode;
 import patl4j.util.ErrorManager;
@@ -30,9 +28,6 @@ public class CodeAdapter {
 	Block body;
 	MatcherSet matchers;
 	Shifter shifter;
-	
-	List<Matcher> currentExisting = new ArrayList<Matcher>();
-	Integer instrCount = 0;
 	
 	public CodeAdapter(MatcherSet bindedMatcher, Shifter shifter) {
 		this.body = shifter.getBody();
@@ -133,8 +128,6 @@ public class CodeAdapter {
 	
 	private Pair<List<Statement>, Boolean> adapt(ExpressionStatement stmt, BlockSTreeNode currentBlock) {
 		List<Statement> stmtList = new ArrayList<Statement>();
-		
-		this.maintainCount(stmt,currentBlock);
 		
 		/* This is the old version without shifting, now we dont use this*/
 		/* if (!matchers.stmtMathedToMinus(stmt)) {
@@ -287,28 +280,6 @@ public class CodeAdapter {
 				return false;
 		}
 		return true;
-	}
-	
-	private void maintainCount(Statement s, BlockSTreeNode currentBlock) {
-		List<Matcher> fst = currentBlock.getCorrespondingMatcherSet().CalcStmtMatchedToFirstMatchPoint(s);
-		List<Matcher> lst = currentBlock.getCorrespondingMatcherSet().CalcStmtMatchedToLastMatchPoint(s);
-		for (Matcher x : fst) {
-			this.currentExisting.add(x);
-		}
-		for (Matcher x : lst) {
-			if (this.currentExisting.contains(x)) {
-				currentExisting.remove(x);
-			}
-		}
-		if (!this.currentExisting.isEmpty() && !currentBlock.getCorrespondingMatcherSet().stmtMathedToMinus(s) && !(s instanceof VariableDeclarationStatement))
-		{	
-			System.out.println("**ThisOne: " + s.toString());
-			this.instrCount ++;
-		}
-	}
-	
-	public Integer getStatementCount() {
-		return this.instrCount;
 	}
 	
 }

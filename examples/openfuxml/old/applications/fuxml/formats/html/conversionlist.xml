@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by ttdown.com (ttdown.com) -->
+<!DOCTYPE CharacterConversionList SYSTEM "dtd/conversionlist.dtd">
+<CharacterConversionList>
+	<Entry>
+		<From>&#x202F;</From>
+		<To>&#x00A0;</To>
+		<!--nnb to nbsp-hack; wg. Darstellung im Internet Explorer 7.0-->
+	</Entry>
+<!--List of elements for which character conversion does not apply-->
+	<AttributeInclusionList>
+		<Attribute>number</Attribute>
+		<Attribute>alt</Attribute>
+		<Attribute>srccredit</Attribute>
+		<Attribute>adresse</Attribute>
+		<Attribute>sortals</Attribute>
+		<Attribute>width</Attribute>
+		<Attribute>height</Attribute>
+	</AttributeInclusionList>
+	<ElementExclusionList>
+		<Element>description</Element>
+	</ElementExclusionList>
+</CharacterConversionList>

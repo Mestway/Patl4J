@@ -12,9 +12,18 @@
             id="Patl4J.commands.transform"
             name="transform projects">
       </command>
+      <command
+            categoryId="Patl4J.commands.category"
+            id="Patl4J.commands.normalize"
+            name="normalize projects">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
+      <handler
+            class="patl4j.handlers.Patl4JNormalizer"
+            commandId="Patl4J.commands.normalize">
+      </handler>
       <handler
             class="patl4j.handlers.Patl4JTransformer"
             commandId="Patl4J.commands.transform">
@@ -27,6 +36,12 @@
             contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+6">
+      </key>
+      <key
+            commandId="Patl4J.commands.normalize"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+7">
       </key>
    </extension>
    <extension
@@ -42,6 +57,11 @@
                   id="Patl4J.menus.transform"
                   mnemonic="S">
             </command>
+            <command
+                  commandId="Patl4J.commands.normalize"
+                  id="Patl4J.menus.normalize"
+                  mnemonic="F">
+            </command>
          </menu>
       </menuContribution>
       <menuContribution
@@ -54,9 +74,13 @@
                   id="Patl4J.toolbars.transform"
                   tooltip="Transform projects with Patl4J">
             </command>
+            <command
+                  commandId="Patl4J.commands.normalize"
+                  icon="icons/sample.gif"
+                  id="Patl4J.toolbars.normalize"
+                  tooltip="Normalize projects with Patl4J">
+            </command>
          </toolbar>
       </menuContribution>
    </extension>
-
-
 </plugin>

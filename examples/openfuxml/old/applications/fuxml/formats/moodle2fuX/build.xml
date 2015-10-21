@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*******************************************************************************
+  | openFuXML open source                                                       |
+*******************************************************************************
+  | Copyright (c) 2002-2006 openFuXML open source, University of Hagen          |
+  |                                                                             |
+  | This program is free software; you can redistribute it and/or               |
+  | modify it under the terms of the GNU General Public License                 |
+  | as published by the Free Software Foundation; either version 2              |
+  | of the License, or (at your option) any later version.                      |
+  |                                                                             |
+  | This program is distributed in the hope that it will be useful,             |
+  | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+  | GNU General Public License for more details.                                |
+  |                                                                             |
+  | You should have received a copy of the GNU General Public License           |
+  | along with this program; if not, write to the Free Software                 |
+  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+*******************************************************************************
+	-->
+<project name="m2f" default="start">
+	<property name="document" value="Test"/>
+	<property name="document.plain" value="moodle"/>
+	<target name="init">
+		<record name="${document}.build.log" action="start" append="no"/>
+		<tstamp>
+			<format property="time" pattern="dd/MM/yyyy hh:mm aa"/>
+		</tstamp>
+		<echo>Time: ${time}</echo>
+		<property environment="env"/>
+		<echo message="Ant Version = ${ant.home}"/>
+		<echo message="Ant Version = ${ant.version}"/>
+		<echo message="Java Version = ${java.version}"/>
+	</target>
+	<target name="start" depends="init">
+		<basename property="document.plain" file="${document.plain}" suffix=".xml"/>
+		<echo message="Pass1"/>
+		<apply executable="java" dest="" parallel="false" failonerror="true">
+			<arg value="net.sf.saxon.Transform"/>
+			<!--arg value="-ds"/-->
+			<!--arg value="-w0"/-->
+			<arg value="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<arg value="M2F_pass1.xsl"/>
+			<arg value="projectname=${project}"/>
+			<arg value="documentname=${document.plain}"/>
+			<fileset dir="" includes="${document.plain}.xml"/>
+			<mapper type="glob" from="*.xml" to="*.pass1.xml"/>
+		</apply>
+		<echo message="Pass2"/>
+		<apply executable="java" dest="${document.plain}" parallel="false" failonerror="true">
+			<arg value="net.sf.saxon.Transform"/>
+			<!--arg value="-ds"/-->
+			<!--arg value="-w0"/-->
+			<arg value="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<arg value="M2F_pass2.xsl"/>
+			<arg value="projectname=${project}"/>
+			<arg value="documentname=${document.plain}"/>
+			<fileset dir="" includes="${document.plain}.pass1.xml"/>
+			<mapper type="glob" from="*.pass1.xml" to="*.pass2.xml"/>
+		</apply>
+		<echo message="Pass3"/>
+		<apply executable="java" dest="${document.plain}" parallel="false" failonerror="true">
+			<arg value="net.sf.saxon.Transform"/>
+			<!--arg value="-ds"/-->
+			<!--arg value="-w0"/-->
+			<arg value="-o"/>
+			<targetfile/>
+			<srcfile/>
+			<arg value="M2F_pass3.xsl"/>
+			<arg value="projectname=${project}"/>
+			<arg value="documentname=${document.plain}"/>
+			<fileset dir="${document.plain}" includes="${document.plain}.pass2.xml"/>
+			<mapper type="glob" from="*.pass2.xml" to="*.pass3.xml"/>
+		</apply>
+		<record name="${document.plain}/${document.plain}.build.log" action="stop"/>
+	</target>
+</project>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:section xmlns:ofx="http://www.openfuxml.org" xmlns:layout="http://www.openfuxml.org/layout" xmlns:media="http://www.openfuxml.org/media" xmlns:table="http://www.openfuxml.org/table" xmlns:text="http://www.openfuxml.org/text" xmlns:l="http://www.openfuxml.org/list" xmlns:wiki="http://www.openfuxml.org/wiki" include="myInclude" container="true"/>

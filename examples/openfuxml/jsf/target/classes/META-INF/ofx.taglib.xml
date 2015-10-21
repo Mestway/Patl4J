@@ -1,0 +1,15 @@
+<facelet-taglib version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee  http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+ <namespace>http://www.openfuxml.org/jsf</namespace> 
+ <composite-library-name>ofx</composite-library-name>
+ 
+     <tag>
+        <tag-name>outputText</tag-name>
+        <component>
+            <component-type>org.openfuxml.addon.jsf.component.OutputText</component-type>
+        </component>
+    </tag>
+ 
+ </facelet-taglib> 

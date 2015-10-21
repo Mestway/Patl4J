@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib xmlns="http://www.openfuxml.org/jsf" xmlns:ofx="http://www.openfuxml.org">
+	<tlibversion>1.1</tlibversion>
+	<jspversion>2.1</jspversion>
+	<shortname>ofxTldTest</shortname>
+	<uri>http://www.openfuxml.org/ofxTldTest</uri>
+	<info>openFuXML Test Tag Library</info>
+</facelet-taglib>

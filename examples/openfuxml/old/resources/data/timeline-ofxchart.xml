@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofxchart xmlns="http://www.openfuxml.org/wiki" type="bar">
+    <ofxchartcontainer type="label">
+        <ofxchartdata type="1861">1861.0</ofxchartdata>
+        <ofxchartdata type="1871">1871.0</ofxchartdata>
+        <ofxchartdata type="1881">1881.0</ofxchartdata>
+        <ofxchartdata type="1901">1901.0</ofxchartdata>
+        <ofxchartdata type="1911">1911.0</ofxchartdata>
+        <ofxchartdata type="1921">1921.0</ofxchartdata>
+        <ofxchartdata type="1931">1931.0</ofxchartdata>
+        <ofxchartdata type="1936">1936.0</ofxchartdata>
+        <ofxchartdata type="1951">1951.0</ofxchartdata>
+        <ofxchartdata type="1961">1961.0</ofxchartdata>
+        <ofxchartdata type="1971">1971.0</ofxchartdata>
+        <ofxchartdata type="1981">1981.0</ofxchartdata>
+        <ofxchartdata type="1991">1991.0</ofxchartdata>
+        <ofxchartdata type="2001">2001.0</ofxchartdata>
+    </ofxchartcontainer>
+    <ofxchartcontainer type="dataseries">
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1861.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">2782.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1871.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">2885.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1881.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3397.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1901.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3635.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1911.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3776.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1921.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3460.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1931.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3720.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1936.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3643.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1951.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3712.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1961.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3536.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1971.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3413.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1981.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3189.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">1991.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">3012.0</ofxchartdata>
+        </ofxchartcontainer>
+        <ofxchartcontainer type="dataset">
+            <ofxchartdata type="X">2001.0</ofxchartdata>
+            <ofxchartdata type="minY">0.0</ofxchartdata>
+            <ofxchartdata type="maxY">2949.0</ofxchartdata>
+        </ofxchartcontainer>
+    </ofxchartcontainer>
+    <ofxchartcontainer type="dataseries"/>
+</ofxchart>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <taglib>tld.xml</taglib>
+    <tag dir="html">iframe.xml</tag>
+    <descriptions>
+        <description name="id">Every component may have a unique id that is not automatically created if omitted</description>
+        <description name="binding">The attribute takes a value-binding expression for a component property of a backing bean.</description>
+        <description name="rendered">If false this component is not rendered.</description>
+    </descriptions>
+</config>

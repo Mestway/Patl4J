@@ -25,10 +25,10 @@
     + x = new NoWhen();
 }
 
-( x : Recurrence -> NoRecurrence, str : String -> String, y : CalendarEventEntry -> Event ) {
+( x : Recurrence -> NoRecurrence, str : String -> String, y : CalendarEventEntry <-> Event ) {
     m x.setValue(str);
     - y.setRecurrence(x);
-    + y.setRecurrence(Arrays.asList(str.split("\r\n")));
+    + y.setRecurrence(Arrays.asList(str.split("\r\n"));
 }
 
 ( x : Recurrence -> NoRecurrence, str : String -> String ) {
@@ -40,12 +40,10 @@
     + x = new NoRecurrence();
 }
 
-(x : CalendarEventEntry -> Event, y : String -> String, u:String -> String, v:String -> String, w: String->String)
+(x : CalendarEventEntry -> Event, y : String -> String)
 {
     - y = x.getId();
-    - v = y.lastIndexOf(w);
-    - u = v + 1;
-    - z = y.substring(u);
+    - z = y.substring(y.lastIndexOf("/") + 1);
     + y = x.getId();
 }
 
@@ -73,7 +71,7 @@
 }
 
 ( x : CalendarEventEntry -> Event, y : TextConstruct -> NoTextConstruct, z : String -> String ) { 
-    m y = new PlainTextConstruct(z);
+    m TextConstruct y = new PlainTextConstruct(z);
     - x.setTitle(y);
     + x.setSummary(z);
 }
@@ -84,6 +82,7 @@
 }
 
 ( x : CalendarEventEntry -> Event, y : TextConstruct -> NoTextConstruct, z : String -> String ) {
+{
     m y = x.getTitle();
     - z = y.getPlainText();
     + z = x.getSummary();
@@ -97,6 +96,7 @@
 
 ( x : CalendarEventEntry -> Event, y : TextConstruct -> NoTextConstruct, 
         z : String -> String ) {
+{
     m y = x.getSummary();
     - z = y.getPlainText();
     + z = x.getDescription();
@@ -108,33 +108,33 @@
     + y = NoTextConstruct.instance();
 }
 
-( x : CalendarEventEntry -> Event, y : List -> List, z : When -> NoWhen,
-  u : DateTime -> DateTime, v : EventDateTime -> EventDateTime, w:Integer->Integer ) 
+( x : CalendarEventEntry -> Event, y : List<When> -> List<NoWhen>, z : When -> NoWhen,
+  u : DateTime -> DateTime, v : EventDateTime -> EventDateTime ) 
 {
     - y = x.getTimes();
-    - z = y.get(w); 
+    - z = y.get(0); 
     - u = z.getStartTime();
     + EventDateTime v = new EventDateTime();
     + v = x.getStart();
     + u = v.getDate();
 } 
 
-( x : CalendarEventEntry -> Event, y : List -> List, z : When -> NoWhen,
-  u : DateTime -> DateTime, v : EventDateTime -> EventDateTime,w:Integer->Integer ) 
+( x : CalendarEventEntry -> Event, y : List<When> -> List<NoWhen>, z : When -> NoWhen,
+  u : DateTime -> DateTime, v : EventDateTime -> EventDateTime ) 
 {
     - y = x.getTimes();
-    - z = y.get(w); 
+    - z = y.get(0); 
     - u = z.getEndTime();
     + EventDateTime v = new EventDateTime();
     + v = x.getEnd();
     + u = v.getDate();
 }
 
-( x : CalendarEventEntry -> Event, y : List -> List, z : Where -> NoWhere,
-    u : String -> String, w:Integer->Integer )
+( x : CalendarEventEntry -> Event, y : List<Where> -> List<NoWhere>, z : Where -> NoWhere,
+    u : String -> String )
 {
     - y = x.getLocations();
-    - z = y.get(w);
+    - z = y.get(0);
     - u = z.getValueString();
     + u = x.getLocation();
 }
@@ -146,14 +146,13 @@
     + x = new CalendarListEntry();
 }
 
-// Not supported by our tool right now
-/*( x : CalendarEntry -> CalendarListEntry, y : String -> String, 
+( x : CalendarEntry -> CalendarListEntry, y : String -> String, 
         v : String -> String, u : String[] -> String[] )  {
     - v = x.getId();
     - u = v.split("/");
     - y = u[u.length-1];
     + y = x.getId();
-}*/
+}
 
 ( x : CalendarEntry -> CalendarListEntry, y : TextConstruct -> NoTextConstruct, z : String -> String) 
 {
@@ -237,8 +236,7 @@
         y : String -> String, z : String -> String ) {
     m loc = new Where( x, y, z );
     - obj.addLocation( loc );
-    + obj.setLocation( x + y + z );
-    // + obj.setLocation(x + "/" + y + "/" + z);
+    + obj.setLocation( x + "/" + y + "/" + z );
 }
 
 ( x : Where -> NoWhere, u : String -> String, v : String -> String, w : String -> String ) {

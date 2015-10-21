@@ -40,27 +40,22 @@ public class Transformer {
 	 */
 	public Statement execute(Block body, Analyzer analyzer, String methodName, VariableContext context) {
 		
-		System.out.println("........[[Current Transformming Method]] " + analyzer.getClassName() + "::" + methodName);
+		System.out.println("[[Current Transformming Method]] " + methodName);
 		
 		this.matchers = this.matching(body, context);
 		
 		this.matchers.setMethodName(methodName);
 		
 		// This is the matcher binded from the method
+		System.out.println("---Matcher printed here (After clear)---");
+		System.out.println(matchers.toString());
 		
-		if (!matchers.isEmpty()) {
-			System.out.println("[Print Matcher(After clear)]");
-			System.out.println(matchers.toString());
-		}
 		// Perform shift operation on the given statements
 		Shifter shifter = new Shifter(body, matchers, analyzer);
 		
 		// Perform adaptation on the statements
 		// The body of the program to be adapted is in the shifter
 		Statement adaptedBody = this.adapt(this.matchers, shifter);
-		if (!matchers.isEmpty()) {
-			System.out.println("[Method After Transformation: " + analyzer.getClassName() + ":" + methodName + "]\n" + adaptedBody);
-		}
 		return adaptedBody;
 	}
 
@@ -69,9 +64,7 @@ public class Transformer {
 	}
 	
 	private Statement adapt(MatcherSet bindedMatcher, Shifter shifter) {
-		CodeAdapter ca = new CodeAdapter(bindedMatcher, shifter);
-		Statement s = ca.adaptCode();
-		return s;
+		return new CodeAdapter(bindedMatcher, shifter).adaptCode();
 	}
 	
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<section xmlns="http://www.openfuxml.org">
+    <paragraph>a</paragraph>
+	<section source="filename.xml" external="true">
+		<title>introduction</title>
+		<paragraph>absatz (ohne top)</paragraph>
+		<paragraph top="normal">absatz</paragraph>
+		<paragraph top="small">klein</paragraph>
+		<paragraph top="mini">mini</paragraph>
+		<paragraph top="zero">ohne</paragraph>
+	</section>
+</section>

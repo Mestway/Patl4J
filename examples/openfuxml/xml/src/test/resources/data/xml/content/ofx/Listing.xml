@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ofx:listing xmlns:ofx="http://www.openfuxml.org" id="myId" codeLang="myCodeLang">
+    <ofx:title numbering="true" lang="myLang">myTitle</ofx:title>
+    <ofx:raw>myValue</ofx:raw>
+</ofx:listing>

@@ -13,6 +13,7 @@ public class ProjectNormalizer {
 	// normalize a project
 	public void normalize(JavaProject project) {
 		PatlOption option = project.getOption();
+		System.out.println("[[Normalize Start]] Project:" + project.getIJavaProject().getElementName());
 		try {
 			normalizePackage(project, option);
 		} catch (JavaModelException e) {
@@ -24,6 +25,9 @@ public class ProjectNormalizer {
 	private void normalizePackage(JavaProject javaProject, PatlOption option)
 			throws JavaModelException {
 		for (JavaPackage mypackage : javaProject.getPackages()) {
+			
+//			System.out.println("ProjectNormalizer >> method >> normalizePackage @29 start nomalize package:"+mypackage);
+			
 			// Only deal with the programs in the source library
 			// Other packages are in the build path
 			if (option.packageIgnored(mypackage.getIPackageFrag().getElementName()))

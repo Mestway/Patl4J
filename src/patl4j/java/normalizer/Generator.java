@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
-import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Name;
@@ -17,8 +16,10 @@ import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
+import org.eclipse.jdt.core.dom.WildcardType;
 
 import patl4j.util.VariableGenerator;
 
@@ -44,10 +45,10 @@ public class Generator {
 				case "char": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.CHAR); break;
 				case "long": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.LONG); break;
 				case "boolean": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BOOLEAN); break;
+				case "double": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE); break;
 				case "float": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT); break;
 				case "short" :varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT); break;
 				case "byte": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE); break;
-				case "double": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE);break;
 				}
 			} else {
 				
@@ -57,10 +58,13 @@ public class Generator {
 				AST tempAST = AST.newAST(AST.JLS8);
 				varType = tempAST.newSimpleType((Name) ASTNode.copySubtree(tempAST, typeName));
 				*/
+				
+				System.out.println("In Generator.java @60 genVarDeclStatement "+exp+","+exp.resolveTypeBinding().getQualifiedName());
 
 				varType = resolveQualifiedType(exp.resolveTypeBinding().getQualifiedName());
 			}
 		}
+		
 		// Declaration Fragment
 		fragment.setName(
 				(SimpleName) ASTNode.copySubtree(
@@ -113,13 +117,33 @@ public class Generator {
 	
 	// generate a SimpleName node
 	public static SimpleName genSimpleName(String s) {
+		System.out.println("In the Generator.java @115 genSimpleName  "+s);
 		return AST.newAST(AST.JLS8).newSimpleName(s);
 	}
 	
-	private static Type resolveQualifiedType(String s) {
+	public static Type resolveQualifiedType(String s) {
 		
-		if (s.equals("byte")) {
-			return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE);
+		System.out.println("In the Generator.java @124 resolveQualifiedType  "+s);
+		
+		Type varType = null;
+		switch (s) {
+			case "void": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.VOID); return varType;
+			case "int": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.INT); return varType;
+			case "char": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.CHAR); return varType;
+			case "long": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.LONG); return varType;
+			case "boolean": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BOOLEAN); return varType;
+			case "double": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE); return varType;
+			case "float": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT); return varType;
+			case "short" :varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT); return varType;
+			case "byte": varType = AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE); return varType;
+		}
+		
+		if(s.startsWith("?")){
+			String a[] = s.split(" ");
+			if(a.length <= 1){
+				return AST.newAST(AST.JLS8).newWildcardType();
+			}
+			return resolveQualifiedType(a[a.length-1]);
 		}
 		
 		if (s.equals("")) {
@@ -143,6 +167,9 @@ public class Generator {
 		// It's an array type
 		if(s.contains("[") && s.contains("]")) {
 			String s0 = s.substring(0, s.indexOf("["));
+			
+			System.out.println("In Generator @145 resolveQualifiedType "+s0);
+			
 			Type hd = resolveQualifiedType(s0);
 			AST tast = AST.newAST(AST.JLS8);
 			ArrayType pt = tast.newArrayType((Type) ASTNode.copySubtree(tast, hd));
@@ -153,17 +180,6 @@ public class Generator {
 			AST ast = AST.newAST(AST.JLS8);
 			if (s == null || s.equals("null")) {
 				return ast.newSimpleType((Name) ASTNode.copySubtree(ast, genSimpleName("String")));
-			}
-			switch (s) {
-			case "void": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.VOID); 
-			case "int": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.INT); 
-			case "char": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.CHAR); 
-			case "long": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.LONG); 
-			case "boolean": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BOOLEAN); 
-			case "float": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT);
-			case "short" :return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT); 
-			case "byte": return  AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE); 
-			case "double": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE);
 			}
 			return ast.newSimpleType((Name) ASTNode.copySubtree(ast, genSimpleName(s)));
 		} else {

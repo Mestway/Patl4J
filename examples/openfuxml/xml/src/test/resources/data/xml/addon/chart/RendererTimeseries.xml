@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><chart:rendererTimeseries xmlns:chart="http://www.openfuxml.org/chart" gap="true" from="2011-11-11T11:11:11" to="2011-11-11T11:11:11" cumulate="true" timePeriod="myTimePeriod" orderRecords="true" sumDate="true"/>

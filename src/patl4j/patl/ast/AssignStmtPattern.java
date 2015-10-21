@@ -48,16 +48,11 @@ public class AssignStmtPattern implements StatementPattern {
 		if (s instanceof ExpressionStatement) {
 			Expression exp = ((ExpressionStatement) s).getExpression();
 			if (exp instanceof Assignment) {
+				
 				Assignment assignment = (Assignment) exp;
 				
 				// Note that the left hand side expression of an assignment expression is always a *name*
-				Name lhsExp = null;;
-				try {
-					lhsExp = (Name) assignment.getLeftHandSide();
-				} catch(Exception e) {
-					ErrorManager.error("AssignStmtPattrn@58", "The left hand side pattern is not a name, instead: " + assignment);
-					return new Pair<List<Pair<String, Name>>, Boolean>(matchedVarList, matchedSuccessful);
-				}
+				Name lhsExp = (Name) assignment.getLeftHandSide();
 				
 				// Debugging types
 				TypeHandler.printTypeMatchInfo(lhsExp, var2type.get(this.variable), "AssignStmtPattern@57");

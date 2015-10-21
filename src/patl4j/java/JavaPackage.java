@@ -39,6 +39,8 @@ public class JavaPackage {
 	}
 	
 	public void createNormalizedFiles(PatlOption option) {
+		if (option.isAlreadyNormalized())
+			return;
 		for (JavaFile i : files) {
 			if (option.fileIgnored(i.getCU().getElementName()))
 				continue;
