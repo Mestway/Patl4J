@@ -67,7 +67,7 @@ public class JavaFile {
 	 * After normalization, ast is the normalized AST.
 	 * @return ast
 	 */
-	public ASTNode getAST() {
+	public CompilationUnit getAST() {
 		return ast;
 	}
 	

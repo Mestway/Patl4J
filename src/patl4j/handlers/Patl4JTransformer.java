@@ -12,6 +12,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import patl4j.java.JavaProject;
 import patl4j.java.JavaWorkspace;
 import patl4j.tools.Console;
+import patl4j.tools.ProjectNormalizer;
 import patl4j.tools.ProjectTransformer;
 
 public class Patl4JTransformer extends AbstractHandler {
@@ -32,6 +33,8 @@ public class Patl4JTransformer extends AbstractHandler {
 		// Loop over the projects
 		for (JavaProject project : workspace.getProjects()) {
 			//new ProjectPrinter().printJavaProjectInfo(project);
+			
+			new ProjectNormalizer().normalize(project);
 			
 			System.out.println("[Transformation Start] Project: " + project.getIJavaProject().getElementName()); 
 			

@@ -97,6 +97,7 @@ public class ProjectTransformer {
 			for (JavaFile f : p.getFiles()) {
 
 				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST(), this.option);
+//				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getAST(), this.option);
 				f.getNormalizedAST().accept(tv);
 				
 				// Perform 
