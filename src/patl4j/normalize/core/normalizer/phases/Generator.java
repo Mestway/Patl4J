@@ -60,8 +60,16 @@ public class Generator {
 				*/
 				
 				System.out.println("In Generator.java @60 genVarDeclStatement "+exp+","+exp.resolveTypeBinding().getQualifiedName());
-
-				varType = resolveQualifiedType(exp.resolveTypeBinding().getQualifiedName());
+				String name = exp.resolveTypeBinding().getQualifiedName();
+				if(name.equals("") && exp.toString().contains("new ")){
+					int left = exp.toString().indexOf("new ");
+					int right = exp.toString().indexOf("(", left);
+					if(left != -1 && right != -1){
+						name = exp.toString().substring(left+4, right).trim();
+					}
+				}
+				
+				varType = resolveQualifiedType(name);
 			}
 		}
 		

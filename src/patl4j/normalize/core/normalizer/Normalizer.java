@@ -384,9 +384,13 @@ public class Normalizer {
 			
 			WhileStatement node = (WhileStatement) input;
 			
-			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
+//			Pair<List<Statement>, Expression> expPair = wrapExpression(normalizeExp(node.getExpression()));
+			
+			Pair<List<Statement>, Expression> expPair = new Pair(new ArrayList<>(), node.getExpression());
 			
 			node.setExpression((Expression) ASTNode.copySubtree(node.getAST(), expPair.getSecond()));
+			
+			
 			node.setBody((Block) ASTNode.copySubtree(node.getAST(), wrapToBlock(normalizeStmt(node.getBody()).getStatement())));
 			
 			expPair.getFirst().add(node);
