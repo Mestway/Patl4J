@@ -98,6 +98,9 @@ public class ProjectTransformer {
 
 				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST(), this.option);
 //				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getAST(), this.option);
+				
+				System.out.println(f.getNormalizedAST());
+				
 				f.getNormalizedAST().accept(tv);
 				
 				// Perform 

@@ -34,7 +34,7 @@ public class Patl4JTransformer extends AbstractHandler {
 		for (JavaProject project : workspace.getProjects()) {
 			//new ProjectPrinter().printJavaProjectInfo(project);
 			
-			new ProjectNormalizer().normalize(project);
+//			new ProjectNormalizer().normalize(project);
 			
 			System.out.println("[Transformation Start] Project: " + project.getIJavaProject().getElementName()); 
 			

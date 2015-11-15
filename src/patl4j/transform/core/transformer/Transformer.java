@@ -53,9 +53,15 @@ public class Transformer {
 		// Perform shift operation on the given statements
 		Shifter shifter = new Shifter(body, matchers, analyzer);
 		
+		System.out.println("Transformer.java @ 56 after shifter : "+matchers.toString());
+		
 		// Perform adaptation on the statements
 		// The body of the program to be adapted is in the shifter
 		Statement adaptedBody = this.adapt(this.matchers, shifter);
+		
+		System.out.println("Transformer.java @ 62 after adapt : "+matchers.toString());
+		
+		
 		return adaptedBody;
 	}
 

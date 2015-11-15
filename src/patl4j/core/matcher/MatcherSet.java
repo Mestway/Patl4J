@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.Type;
@@ -182,6 +183,7 @@ public class MatcherSet {
 			case "char": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.CHAR);
 			case "long": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.LONG); 
 			case "boolean": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BOOLEAN);
+			case "double": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.DOUBLE);
 			case "float": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.FLOAT);
 			case "short": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.SHORT);
 			case "byte": return AST.newAST(AST.JLS8).newPrimitiveType(PrimitiveType.BYTE);
@@ -197,7 +199,10 @@ public class MatcherSet {
 		if (typeName.contains("<") && typeName.contains(">"))
 			return tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("<"))));
 		else if (typeName.contains("[") && typeName.contains("]")) {
-			return tAST.newArrayType(tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("[")))));
+			
+			System.out.println("MatcherSet.java @202 arrayType : "+typeName);
+			return tAST.newArrayType((Type) ASTNode.copySubtree(tAST, mappedType(typeName.substring(0, typeName.indexOf("[")))));
+//			return tAST.newArrayType(tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("[")))));
 		} else {
 			// To work more
 			return tAST.newSimpleType(tAST.newName(typeName));
