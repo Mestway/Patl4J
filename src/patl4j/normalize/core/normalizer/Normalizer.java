@@ -334,14 +334,6 @@ public class Normalizer {
 
 				AST tempAST = AST.newAST(AST.JLS8);
 								
-				// Separate the declaration with the initializer into Decl + Assignment
-				// E.g. A a = new A(b,c); will be transformed into A a; a = new A(b,c);
-				VariableDeclarationFragment declPart = tempAST.newVariableDeclarationFragment();
-				declPart.setName((SimpleName) ASTNode.copySubtree(tempAST, i.getName()));
-						
-				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, declPart));
-				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType())); 
-				
 				/* We don't add any modifier 
 				for (IExtendedModifier j : (List<IExtendedModifier>)node.modifiers()) {
 					vs.modifiers().add(j);
@@ -356,6 +348,7 @@ public class Normalizer {
 					}
 				}
 				
+				
 				// Add the normalized statements first
 				if (i.getInitializer() != null) {
 					Pair<List<Statement>, Expression> expPair = normalizeExp(i.getInitializer());
@@ -365,15 +358,22 @@ public class Normalizer {
 					}
 				}
 				
-				result.add(vs);
+
+				// Separate the declaration with the initializer into Decl + Assignment
+				// E.g. A a = new A(b,c); will be transformed into A a; a = new A(b,c);
+				VariableDeclarationFragment declPart = tempAST.newVariableDeclarationFragment();
+				declPart.setName((SimpleName) ASTNode.copySubtree(tempAST, i.getName()));
 				
 				// Add the assginment statement
 				if (i.getInitializer() != null) {
-					Assignment assign = tempAST.newAssignment();
-					assign.setLeftHandSide((Expression) ASTNode.copySubtree(tempAST, i.getName()));
-					assign.setRightHandSide((Expression) ASTNode.copySubtree(tempAST, i.getInitializer()));
-					result.add(tempAST.newExpressionStatement(assign));
+					declPart.setInitializer((Expression) ASTNode.copySubtree(tempAST, i.getInitializer()));
 				}
+				
+				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, declPart));
+				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType())); 
+				
+				result.add(vs);
+				
 			}
 			
 			return wrapStatement(result);
@@ -461,7 +461,7 @@ public class Normalizer {
 			ArrayList<Statement> stmtList = new ArrayList<Statement>();
 			for (Expression i : (List<Expression>) node.expressions()) {
 				Pair<List<Statement>, Expression> pair = wrapExpression(normalizeExp(i));
-				expList.add(pair.getSecond());
+				//expList.add(pair.getSecond());
 				for (Statement j : pair.getFirst()) {	
 					stmtList.add(j);
 				}
