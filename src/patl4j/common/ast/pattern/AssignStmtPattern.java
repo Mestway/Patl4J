@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
+import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -51,7 +53,18 @@ public class AssignStmtPattern implements StatementPattern {
 				
 				Assignment assignment = (Assignment) exp;
 				
+//				System.out.println("AssignStmtPattern @ 56 assignment: "+assignment);
+				
 				// Note that the left hand side expression of an assignment expression is always a *name*
+				Expression ex = assignment.getLeftHandSide();
+				if(ex instanceof ArrayAccess || ex instanceof FieldAccess){
+
+//					System.out.println("AssignStmtPattern @ 63 ArrayAccess | FieldAccess: "+assignment);
+					
+					matchedSuccessful = false;
+					return new Pair<List<Pair<String, Name>>, Boolean>(matchedVarList, matchedSuccessful) ;
+				}
+				
 				Name lhsExp = (Name) assignment.getLeftHandSide();
 				
 				// Debugging types
@@ -78,6 +91,8 @@ public class AssignStmtPattern implements StatementPattern {
 				}
 			}
 		} else if (s instanceof VariableDeclarationStatement) {
+			
+//			System.out.println("AssignStmtPattern @ 95 variableDeclarationStatment: "+s);
 			
 			VariableDeclarationStatement vds = (VariableDeclarationStatement) s;
 		

@@ -40,6 +40,11 @@ public class FullVariable implements FullExpression {
 				return stringNode;
 			} else if (this.variable.equals("null")) {
 				return AST.newAST(AST.JLS8).newNullLiteral();
+			} else if(this.variable.contains("this")){
+				
+//				System.out.println("FullVariable @45 cantains 'this':"+this.variable);
+				
+				return AST.newAST(AST.JLS8).newThisExpression();
 			} else {
 				return AST.newAST(AST.JLS8).newSimpleName(this.variable);
 			}

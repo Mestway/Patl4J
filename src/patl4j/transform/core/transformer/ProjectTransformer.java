@@ -99,18 +99,18 @@ public class ProjectTransformer {
 				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getNormalizedAST(), this.option);
 //				TransformationVisitor tv = new TransformationVisitor(patlRules, f.getAST(), this.option);
 				
-				System.out.println(f.getNormalizedAST());
+//				System.out.println(f.getNormalizedAST());
 				
 				f.getNormalizedAST().accept(tv);
 				
 				// Perform 
-				DeNormalizer deNomalizer = new DeNormalizer(f.getNormalizedAST());
-				f.getNormalizedAST().accept(deNomalizer);
-				deNomalizer.setSecondRound();
-				f.getNormalizedAST().accept(deNomalizer);
+//				DeNormalizer deNomalizer = new DeNormalizer(f.getNormalizedAST());
+//				f.getNormalizedAST().accept(deNomalizer);
+//				deNomalizer.setSecondRound();
+//				f.getNormalizedAST().accept(deNomalizer);
 				
-				System.out.println(">>>>>>>");
-				System.out.println(f.getNormalizedAST());
+//				System.out.println(">>>>>>>");
+//				System.out.println(f.getNormalizedAST());
 				// Generate the transformed body in the package
 				
 				p.putTheOriginalASTBack(this.option);

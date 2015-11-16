@@ -50,6 +50,9 @@ public class MethodPattern implements PEPattern {
 		Boolean matchedSuccessful = true;
 		
 		if (exp instanceof MethodInvocation) {
+			
+//			System.out.println("MethodPattern @54 MethodInvocation: "+exp);
+			
 			MethodInvocation mi = (MethodInvocation) exp;
 			
 			// Check whether the method name is correct

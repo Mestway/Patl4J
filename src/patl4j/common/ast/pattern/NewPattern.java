@@ -48,6 +48,9 @@ public class NewPattern implements PEPattern{
 		Boolean matchedSuccessful = true;	
 		
 		if (exp instanceof ClassInstanceCreation) {
+			
+//			System.out.println("NewPattern @ 52 ClassInstanceCreation: "+exp);
+			
 			ClassInstanceCreation cic = (ClassInstanceCreation) exp;
 			
 			// Check if it is a simple type

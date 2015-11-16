@@ -39,16 +39,19 @@ public class BinaryOperation implements RHSPattern {
 		Boolean matchedSuccessful = true;
 		
 		if (exp instanceof InfixExpression) {
+			
+//			System.out.println("BinaryOperation @ 43 infixExpression: "+exp);
+			
 			InfixExpression ie = (InfixExpression) exp;
 			if (this.operator.equals(ie.getOperator().toString())) {
 				Expression left = ie.getLeftOperand();
 				Expression right = ie.getRightOperand();
 				if (!(left instanceof SimpleName && right instanceof SimpleName)) {
 					// TODO: add type check
-					System.out.println("[Typeinfo BinaryOperation 46] " + left.resolveTypeBinding() + " " + var2type.get(this.first));
+//					System.out.println("[Typeinfo BinaryOperation 46] " + left.resolveTypeBinding() + " " + var2type.get(this.first));
 					matchedVarList.add(new Pair<String, Name>(this.first.getName(), (SimpleName)left));
 					// TODO: add type check
-					System.out.println("[Typeinfo BinaryOperation 49] " + right.resolveTypeBinding() + " " + var2type.get(this.second));
+//					System.out.println("[Typeinfo BinaryOperation 49] " + right.resolveTypeBinding() + " " + var2type.get(this.second));
 					matchedVarList.add(new Pair<String, Name>(this.second.getName(), (SimpleName)right));
 				} else {
 					// The argument of the expression is not normalized

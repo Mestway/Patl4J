@@ -33,6 +33,9 @@ public class ExpStmtPattern implements StatementPattern {
 	
 		// Promote to the match of its expression
 		if (s instanceof ExpressionStatement) {
+			
+//			System.out.println("ExpStmtPattern @ 37 ExpressionStatment: "+s);
+			
 			ExpressionStatement exps = (ExpressionStatement) s;
 			return this.expression.tryMatch(exps.getExpression(), var2type, context);
 		} else {

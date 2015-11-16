@@ -36,12 +36,15 @@ public class FieldAccessPattern implements RHSPattern {
 		Boolean matchedSccessful = false;
 		
 		if (exp instanceof QualifiedName) {
+			
+//			System.out.println("FieldAccessPattern @ 40 QualifiedName: "+exp);
+			
 			QualifiedName qn = (QualifiedName) exp;
 			if (qn.getQualifier() instanceof SimpleName) {
 				
 				SimpleName sn = (SimpleName) qn.getQualifier();
 				// TODO: add type check on the matching check
-				System.out.println("[TypeInfo from FieldAccessPattern] " + sn.resolveTypeBinding() + " " + var2type.get(target));
+//				System.out.println("[TypeInfo from FieldAccessPattern] " + sn.resolveTypeBinding() + " " + var2type.get(target));
 				matchedVarList.add(new Pair<String,Name>(this.target.getName(), sn));
 				
 				// Note that the field won't generate a binding
