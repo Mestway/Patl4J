@@ -104,10 +104,10 @@ public class ProjectTransformer {
 				f.getNormalizedAST().accept(tv);
 				
 				// Perform 
-//				DeNormalizer deNomalizer = new DeNormalizer(f.getNormalizedAST());
-//				f.getNormalizedAST().accept(deNomalizer);
-//				deNomalizer.setSecondRound();
-//				f.getNormalizedAST().accept(deNomalizer);
+				DeNormalizer deNomalizer = new DeNormalizer(f.getNormalizedAST());
+				f.getNormalizedAST().accept(deNomalizer);
+				deNomalizer.setSecondRound();
+				f.getNormalizedAST().accept(deNomalizer);
 				
 //				System.out.println(">>>>>>>");
 //				System.out.println(f.getNormalizedAST());
