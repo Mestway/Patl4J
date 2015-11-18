@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import patl4j.common.config.PatlOption;
 import patl4j.common.tools.ErrorManager;
+import patl4j.normalize.core.normalizer.visitor.NormalizeVisitor;
 
 public class JavaPackage {
 
@@ -45,6 +46,7 @@ public class JavaPackage {
 			if (option.fileIgnored(i.getCU().getElementName()))
 				continue;
 			try {
+				
 				// Temporarily generate the normalized-file to regenerate an AST with type binding
 				ICompilationUnit icu = packageFrag.createCompilationUnit(
 						i.getCU().getElementName(), 

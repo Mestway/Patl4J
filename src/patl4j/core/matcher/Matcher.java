@@ -236,7 +236,8 @@ public class Matcher {
 		//   ...but not sure if it is correct. (Probably not...as copySubtree is used everywhere...)
 		// Thus probably I should use the start position to achieve the goal (what if it does't work? I don't know...)
 		
-		Pair<ModInstruction, Optional<Statement>> lastSrcPatternBinding = this.getTheLastSrcPatternBinding();
+//		Pair<ModInstruction, Optional<Statement>> lastSrcPatternBinding = this.getTheLastSrcPatternBinding();
+		Pair<ModInstruction, Optional<Statement>> lastSrcPatternBinding = this.getTheFirstSrcPatternBinding();
 		if (!lastSrcPatternBinding.getSecond().isPresent()) {
 			ErrorManager.error("Matcher@212", "The last pattern is not binded.");
 		}
@@ -302,6 +303,17 @@ public class Matcher {
 	private Pair<ModInstruction, Optional<Statement>> getTheLastSrcPatternBinding() {
 		for (int i = instrBindings.size() - 1; i >= 0; i --) {
 			Pair<ModInstruction, Optional<Statement>> ib = instrBindings.get(i);
+			if (ib.getFirst().isSrcPattern()) {
+				return ib;
+			}
+		}
+		ErrorManager.error("Matcher@252", "This matcher contains no src pattern");
+		return null;
+	}
+	
+	private Pair<ModInstruction, Optional<Statement>> getTheFirstSrcPatternBinding() {
+		if (instrBindings.size() > 0) {
+			Pair<ModInstruction, Optional<Statement>> ib = instrBindings.get(0);
 			if (ib.getFirst().isSrcPattern()) {
 				return ib;
 			}

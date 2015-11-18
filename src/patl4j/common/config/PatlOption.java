@@ -80,7 +80,11 @@ public class PatlOption {
     	    	} else if (e.getName().equals("classToLoad")) {
     	    		this.classToLoad.add(e.getText());
     	    	} else if (e.getName().equals("alreadyNormalized")) {
-    	    		this.alreadyNormalized = true;
+    	    		if(e.getText().equals("true")){
+    	    			this.alreadyNormalized = true;
+    	    		}else{
+    	    			this.alreadyNormalized = true;
+    	    		}
     	    	}
     	    }
     	    
@@ -113,6 +117,10 @@ public class PatlOption {
 			}
 		}
 		return false;
+	}
+	
+	public void setAlreadyNormalized(Boolean normalized){
+		this.alreadyNormalized = normalized;
 	}
 
 	public boolean packageIgnored(String packagename) {

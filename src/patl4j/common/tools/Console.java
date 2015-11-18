@@ -1,12 +1,12 @@
 package patl4j.common.tools;
 
-//import org.eclipse.ui.console.ConsolePlugin;
-//import org.eclipse.ui.console.IConsole;
-//import org.eclipse.ui.console.IConsoleManager;
-//import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
 
 public class Console {
-	   /*public static MessageConsole findConsole(String name) {
+	   public static MessageConsole findConsole(String name) {
 		      ConsolePlugin plugin = ConsolePlugin.getDefault();
 		      IConsoleManager conMan = plugin.getConsoleManager();
 		      IConsole[] existing = conMan.getConsoles();
@@ -17,5 +17,5 @@ public class Console {
 		      MessageConsole myConsole = new MessageConsole(name, null);
 		      conMan.addConsoles(new IConsole[]{myConsole});
 		      return myConsole;
-		   }*/
+		   }
 }

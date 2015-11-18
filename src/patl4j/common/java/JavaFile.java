@@ -27,18 +27,18 @@ public class JavaFile {
 		ast = genASTFromICU(fileCU);
 		originalASTString = ast.toString();
 		
-//		if (!option.isAlreadyNormalized()) {
-//			NormalizeVisitor jn = new NormalizeVisitor(ast);
-//			/*System.out.println("<<AST of the file: " + f.getElementName() +  " --- BEGIN>>");
-//			System.out.println(ast);
-//			System.out.println("<<AST of the file --- END>>");*/
-//			ast.accept(jn);
-//			// Maybe not, just for simplicity consideration
-//			// VariableGenerator.reset();
-//			normalizedAST = jn.getCU();
-//		} else {
+		if (!option.isAlreadyNormalized()) {
+			NormalizeVisitor jn = new NormalizeVisitor(ast);
+			/*System.out.println("<<AST of the file: " + f.getElementName() +  " --- BEGIN>>");
+			System.out.println(ast);
+			System.out.println("<<AST of the file --- END>>");*/
+			ast.accept(jn);
+			// Maybe not, just for simplicity consideration
+			// VariableGenerator.reset();
+			normalizedAST = jn.getCU();
+		} else {
 			normalizedAST = ast;
-//		}
+		}
 
 	}
 	

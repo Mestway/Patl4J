@@ -53,6 +53,7 @@ public class SootConfig {
         }
         Scene.v().loadNecessaryClasses();
         Options.v().set_main_class(entryClass);
+        Scene.v().addBasicClass(entryClass, SootClass.SIGNATURES);
         Scene.v().addBasicClass("husacct.XMLReportWriter",SootClass.SIGNATURES);
         Scene.v().addBasicClass("javax.crypto.IllegalBlockSizeException",SootClass.SIGNATURES);
 

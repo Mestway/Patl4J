@@ -13,6 +13,7 @@ public class ProjectNormalizer {
 	// normalize a project
 	public void normalize(JavaProject project) {
 		PatlOption option = project.getOption();
+		option.setAlreadyNormalized(false);
 		System.out.println("[[Normalize Start]] Project:" + project.getIJavaProject().getElementName());
 		try {
 			normalizePackage(project, option);

@@ -37,6 +37,7 @@ public class ProjectTransformer {
 	public ProjectTransformer(JavaProject project) {
 		this.project = project;
 		this.option = project.getOption();
+		this.option.setAlreadyNormalized(true);
 		SootConfig.configSoot(this.option.getMainClassName(), this.option);
 		try {
 			this.collectPatlRules();
