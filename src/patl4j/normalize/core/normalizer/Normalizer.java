@@ -366,15 +366,18 @@ public class Normalizer {
 				VariableDeclarationFragment declPart = tempAST.newVariableDeclarationFragment();
 				declPart.setName((SimpleName) ASTNode.copySubtree(tempAST, i.getName()));
 				
+				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, declPart));
+				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType()));
+				result.add(vs);
 				// Add the assginment statement
 				if (i.getInitializer() != null) {
-					declPart.setInitializer((Expression) ASTNode.copySubtree(tempAST, i.getInitializer()));
-				}
-				
-				VariableDeclarationStatement vs = tempAST.newVariableDeclarationStatement((VariableDeclarationFragment) ASTNode.copySubtree(tempAST, declPart));
-				vs.setType((Type) ASTNode.copySubtree(vs.getAST(), node.getType())); 
-				
-				result.add(vs);
+					Assignment assignment = tempAST.newAssignment();
+					assignment.setLeftHandSide((Expression) ASTNode.copySubtree(tempAST, i.getName()));
+					assignment.setRightHandSide((Expression) ASTNode.copySubtree(tempAST, i.getInitializer()));
+					
+					ExpressionStatement es = tempAST.newExpressionStatement(assignment);
+					result.add(es);
+				} 
 				
 			}
 			
