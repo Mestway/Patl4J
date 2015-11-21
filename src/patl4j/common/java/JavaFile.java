@@ -28,6 +28,9 @@ public class JavaFile {
 		originalASTString = ast.toString();
 		
 		if (!option.isAlreadyNormalized()) {
+			
+			System.out.println("start normalize procedure");
+			
 			NormalizeVisitor jn = new NormalizeVisitor(ast);
 			/*System.out.println("<<AST of the file: " + f.getElementName() +  " --- BEGIN>>");
 			System.out.println(ast);

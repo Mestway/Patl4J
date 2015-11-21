@@ -340,13 +340,13 @@ public class Normalizer {
 				}
 				*/
 				
-				if (i.getInitializer() != null) {
-					Pair<List<Statement>, Expression> expPair = normalizeExp(i.getInitializer());
-					i.setInitializer((Expression) ASTNode.copySubtree(i.getAST(), expPair.getSecond()));
-					for (Statement j : expPair.getFirst()) {
-						result.add(j);
-					}
-				}
+//				if (i.getInitializer() != null) {
+//					Pair<List<Statement>, Expression> expPair = normalizeExp(i.getInitializer());
+//					i.setInitializer((Expression) ASTNode.copySubtree(i.getAST(), expPair.getSecond()));
+//					for (Statement j : expPair.getFirst()) {
+//						result.add(j);
+//					}
+//				}
 				
 				
 				// Add the normalized statements first
@@ -357,6 +357,8 @@ public class Normalizer {
 						result.add(j);
 					}
 				}
+				
+				
 				
 
 				// Separate the declaration with the initializer into Decl + Assignment

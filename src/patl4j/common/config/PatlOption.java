@@ -14,6 +14,8 @@ import org.eclipse.jdt.core.JavaModelException;
 
 public class PatlOption {
 	
+	private String projectPath;
+	
 	boolean ignored = true;
 	// only work for java program and patl program
 	List<String> ignoredFiles = new ArrayList<String>();
@@ -41,6 +43,9 @@ public class PatlOption {
 	
 	// Changed to be built from IJavaProject instead of JavaProject
 	public PatlOption(IJavaProject project) {
+		
+		projectPath = project.getProject().getLocation().makeAbsolute().toString().replace("/", "\\");
+		
 		try {
 			for (Object i : project.getNonJavaResources()) {
 				if (i instanceof IFile) {
@@ -65,7 +70,10 @@ public class PatlOption {
     	    for (Iterator i = root.elementIterator(); i.hasNext();) {
     	    	Element e = (Element) i.next();
     	    	if (e.getName().equals("classPath")) {
-        	    	this.classPath.add(e.getText());
+    	    		String path = e.getText();
+    	    		if(!path.endsWith(".jar"))
+    	    			path = projectPath + path;
+        	    	this.classPath.add(path);
     	    	} else if (e.getName().equals("platform")) {
     	    		this.platform = e.getText();
     	    	} else if (e.getName().equals("output")) {
@@ -80,10 +88,10 @@ public class PatlOption {
     	    	} else if (e.getName().equals("classToLoad")) {
     	    		this.classToLoad.add(e.getText());
     	    	} else if (e.getName().equals("alreadyNormalized")) {
-    	    		if(e.getText().equals("true")){
+    	    		if(e.getText().equalsIgnoreCase("true")){
     	    			this.alreadyNormalized = true;
     	    		}else{
-    	    			this.alreadyNormalized = true;
+    	    			this.alreadyNormalized = false;
     	    		}
     	    	}
     	    }

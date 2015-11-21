@@ -28,7 +28,7 @@ public class Patl4JTransformer extends AbstractHandler {
 		System.out.println("=============Excuting Patl4JTransformer===============");
 		
 		// Read in all projects with all packages and java files
-		JavaWorkspace workspace = new JavaWorkspace(ResourcesPlugin.getWorkspace());
+		JavaWorkspace workspace = new JavaWorkspace(ResourcesPlugin.getWorkspace(), false);
 		
 		// Loop over the projects
 		for (JavaProject project : workspace.getProjects()) {

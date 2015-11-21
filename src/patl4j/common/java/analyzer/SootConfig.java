@@ -25,6 +25,9 @@ public class SootConfig {
 		List<String> classPath = option.getClassPath();
 		String concatPath = "";
 		for (String st: classPath) {
+			
+			System.out.println(concatPath);
+			
 			concatPath += seperator + st;
 		}
 		

@@ -22,11 +22,16 @@ public class JavaWorkspace {
 	* 				--> JavaFile
 	*/
 	IWorkspace workspace;
+	Boolean needConfigNormalize;
 	ArrayList<JavaProject> projects = new ArrayList<JavaProject>();
 	
-	public JavaWorkspace(IWorkspace _workspace) {
+	public JavaWorkspace(IWorkspace _workspace){
+		this(_workspace, true);
+	}
+	
+	public JavaWorkspace(IWorkspace _workspace, Boolean needNormalize) {
 		this.workspace = _workspace;
-		
+		this.needConfigNormalize = needConfigNormalize;
 		// Get the root of the workspace
 		IWorkspaceRoot root = this.workspace.getRoot();
 		
@@ -45,6 +50,9 @@ public class JavaWorkspace {
 				if (project.isNatureEnabled("org.eclipse.jdt.core.javanature") && project.isOpen()) {
 					IJavaProject javaProject = JavaCore.create(project);
 					PatlOption option = new PatlOption(javaProject);
+					if(!needNormalize){
+						option.setAlreadyNormalized(true);
+					}
 					JavaProject newProject = new JavaProject(javaProject, option);
 					if (option.projectIgnored() == true)
 						continue;
