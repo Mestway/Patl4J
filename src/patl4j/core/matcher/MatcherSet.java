@@ -64,21 +64,64 @@ public class MatcherSet {
 			}
 		}
 		// Check whether there is a statement binded to more than one minus mod instruction
-		for (Matcher m : cleared) {
-			for (Matcher n : cleared) {
-				if (m.equals(n)) continue;
-					for (Pair<ModInstruction, Optional<Statement>> p : m.getInstructionBindings()) {
-						for (Pair<ModInstruction, Optional<Statement>> q : n.getInstructionBindings()) {
-							if (p.getSecond().isPresent() && q.getSecond().isPresent()) {
-								if (p.getFirst().isMinus() && q.getFirst().isMinus() && p.getSecond().get().getStartPosition() == q.getSecond().get().getStartPosition()) {
-									ErrorManager.Message("Statement bound to mutiple minus instr", p.getSecond().get().toString() + "@" + p.getSecond().get().getStartPosition());
+		for(int i = 0; i < cleared.size(); i++){
+			for(int j = i + 1; j < cleared.size(); j++){
+				Matcher m = cleared.get(i);
+				Matcher n = cleared.get(j);
+				for (Pair<ModInstruction, Optional<Statement>> p : m.getInstructionBindings()) {
+					for (Pair<ModInstruction, Optional<Statement>> q : n.getInstructionBindings()) {
+						if (p.getSecond().isPresent() && q.getSecond().isPresent()) {
+							if (p.getFirst().isMinus() && q.getFirst().isMinus() && p.getSecond().get().getStartPosition() == q.getSecond().get().getStartPosition()) {
+								ErrorManager.Message("Statement bound to mutiple minus instr", p.getSecond().get().toString() + "@" + p.getSecond().get().getStartPosition());
+								if(m.getInstructionBindings().size() > n.getInstructionBindings().size()){
+									deleteMatcher.add(j);
+								}else{
+									deleteMatcher.add(i);
 								}
 							}
 						}
 					}
+				}
 			}
 		}
-		this.matchers = cleared;
+		
+		List<Integer> list = new ArrayList<>(deleteMatcher);
+		
+		Collections.sort(list);
+	
+		int index = 0;
+		this.matchers.clear();
+		for(int i =0; i < cleared.size(); i++){
+			if(index < list.size() && i == list.get(index)){
+				index ++;
+				continue;
+			}
+			this.matchers.add(cleared.get(i));
+		}
+		
+		
+//		for (Matcher m : cleared) {
+//			for (Matcher n : cleared) {
+//				if (m.equals(n)) continue;
+//				for (Pair<ModInstruction, Optional<Statement>> p : m.getInstructionBindings()) {
+//					for (Pair<ModInstruction, Optional<Statement>> q : n.getInstructionBindings()) {
+//						if (p.getSecond().isPresent() && q.getSecond().isPresent()) {
+//							if (p.getFirst().isMinus() && q.getFirst().isMinus() && p.getSecond().get().getStartPosition() == q.getSecond().get().getStartPosition()) {
+//								ErrorManager.Message("Statement bound to mutiple minus instr", p.getSecond().get().toString() + "@" + p.getSecond().get().getStartPosition());
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+		
+		
+		
+//		for(Integer m : deleteMatcher){
+//			cleared.remove(m);
+//		}
+		
+//		this.matchers = cleared;
 		return this;
 	}
 	
