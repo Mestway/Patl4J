@@ -49,7 +49,7 @@ We use our language to transform the following projects in the [examples](https:
   * husacct: a software architecture conformance checking tool. (Jdom -> Dom4j)
   * openfuxml: an XML publishing framework. (Jdom -> Dom4j)
   * serenoa:  a tool for context-aware adaptation of user interfaces. (Jdom -> Dom4j)
-  * EvolutionChamber: an application that is used to spped up a building up procedure. (Swing -> SWT)
+  * EvolutionChamber: an application used to speed up a building up procedure. (Swing -> SWT)
   * Marble: an simple multi-user game with an friendly UI designed using Swing. (Swing -> SWT)
   * SwingHeat: a tool that is used to analyze transfer heat through fins. (Swing -> SWT)
 
