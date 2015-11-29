@@ -1,6 +1,8 @@
 package patl4j.core.matcher;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +65,7 @@ public class MatcherSet {
 				cleared.add(m);
 			}
 		}
+		HashSet<Integer> deleteMatcher = new HashSet<>();
 		// Check whether there is a statement binded to more than one minus mod instruction
 		for(int i = 0; i < cleared.size(); i++){
 			for(int j = i + 1; j < cleared.size(); j++){

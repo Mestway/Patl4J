@@ -1,0 +1,767 @@
+(frame : JFrame->Shell)
+{
+     - frame = new JFrame();
+     + frame = new Shell(Display.getDefault());
+}
+
+(frame : JFrame->Shell, title : String->String)
+{
+     - frame.setTitle(title);
+     + frame.setText(title);
+}
+
+(icon : ImageIcon->Image, url : URL->String)
+{
+     - icon = new ImageIcon(url);
+     + s = url.toString();
+     + icon = new Image(Display.getDefault(), s);
+}
+
+(frame : JFrame->Shell, icon : Image->Image)
+{
+     - frame.setIconImage(icon);
+     + frame.setImage(icon);
+}
+
+(frame : JFrame->Shell, size : Dimension->Point)
+{
+     - frame.setPreferredSize(size);
+     + frame.setSize(size);
+}
+
+(frame : JFrame->Shell, visible : Boolean->Boolean)
+{
+     - frame.setVisible(visible);
+     + frame.pack();
+     + frame.open();
+}
+
+(frame : JFrame->Shell, layout : LayoutManager->Layout)
+{
+     - frame.setLayout(layout);
+     + frame.setLayout(layout);
+}
+
+(splitpane : JSplitPane->SashForm, parent : JPanel->Composite, style : int->int)
+{
+     - splitpane = new JSplitPane(style);
+     - parent.add(splitpane);
+     + splitPane = new SashForm(parent, style);
+}
+
+(splitpane : JSplitPane->SashForm, parent : JFrame->Shell, style : int->int)
+{
+     - splitpane = new JSplitPane(style);
+     - parent.add(splitpane);
+     + splitPane = new SashForm(parent, style);
+}
+
+(panel : JPanel->Composite, parent : JSplitPane->SashForm)
+{
+     - panel = new JPanel();
+     - parent.setLeftComponent(panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JSplitPane->SashForm)
+{
+     - panel = new JPanel();
+     - parent.setRightComponent(panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JPanel->Composite)
+{
+     - panel = new JPanel();
+     - parent.add(panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JFrame->Shell)
+{
+     - panel = new JPanel();
+     - parent.add(panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JPanel->Composite, layout : GridBagConstraints->GridBagConstraints)
+{
+     - panel = new JPanel();
+     - parent.add(panel, layout);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JPanel->Composite, layout : String->String)
+{
+     - panel = new JPanel();
+     - parent.add(panel, layout);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JPanel->Composite, bly : BorderLayout->BorderLayout, layout : String->String)
+{
+     - panel = new JPanel(bly);
+     - parent.add(panel, layout);
+     + panel = new Composite(parent, SWT.NONE);
+     + panel.setLayout(bly);
+}
+
+(panel : JPanel->Composite, parent : JPanel->Composite, gly : GridLayout->GridLayout, layout : String->String)
+{
+     - panel = new JPanel(gly);
+     - parent.add(panel, layout);
+     + panel = new Composite(parent, SWT.NONE);
+     + panel.setLayout(gly);
+}
+
+(panel : JPanel->Composite, parent : Container->Composite, layout : String->String)
+{
+     - panel = new JPanel();
+     - parent.add(panel, layout);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JSplitPane->SashForm, scroll : JScrollPane->JScrollPane)
+{
+     - panel = new JPanel();
+     - scroll = new JScrollPane(panel);
+     - parent.setLeftComponent(scroll);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JSplitPane->SashForm, scroll : JScrollPane->JScrollPane)
+{
+     - panel = new JPanel();
+     - scroll = new JScrollPane(panel);
+     - parent.setRightComponent(scroll);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JFrame->Shell, scroll : JScrollPane->JScrollPane)
+{
+     - panel = new JPanel();
+     - scroll = new JScrollPane(panel);
+     - parent.add(panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+
+(panel : JPanel->Composite, parent : JPanel->Composite, scroll : JScrollPane->JScrollPane)
+{
+     - panel = new JPanel(layout);
+     - scroll = new JScrollPane(panel);
+     - parent.add(panel);
+     + panel = new Composite(parent, SWT.NONE);
+     + panel.setLayout(layout);
+}
+
+(panel : JPanel->Composite, parent : JTabbedPane->TabFolder, title : String->String)
+{
+     - panel = new JPanel();
+     - parent.add(title, panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, layout : BorderLayout->BorderLayout)
+{
+     - panel.setLayout(layout);
+     + panel.setLayout(layout);
+}
+
+(panel : JPanel->Composite, layout : GridBagConstraints->Layout)
+{
+     - panel.setLayout(layout);
+     + panel.setLayout(layout);
+}
+
+(layout : LayoutManager->Layout, panel : JPanel->Composite)
+{
+	- layout = panel.getLayout();
+	+ layout = panel.getLayout();
+}
+
+(panel : JPanel->Composite, parent : JPanel->Composite, border : LineBorder->LineBorder, color : Color->Color)
+{
+	- panel = new JPanel();
+	- border = new LineBorder(color);
+	- panel.setBorder(border);
+	- parent.add(panel);
+	+ panel = new Composite(parent, SWT.BORDER);
+}
+
+(panel : JPanel->Compsoite, x : int->int, y : int->int, w : int->int, h : int->int)
+{
+	- panel.setBounds(x, y, w, h);
+	+ panel.setBounds(x, y, w, h);
+}
+
+(group : ButtonGroup->Group, parent : JPanel->Composite, layout : GridBagConstraints->Layout)
+{
+     - group = new ButtonGroup();
+     - parent.add(group, layout);
+     + group = new Group(parent, SWT,NONE);
+}
+
+(group : ButtonGroup->Group, boder : TitledBoder->TitledBoder, title : String->String)
+{
+     - border = BorderFactory.createTitledBoder(title);
+     - group.setBorder(border);
+     + group.setText(title);
+}
+
+(tabpane : JTabbedPane->TabFolder, parent : JPanel->Composite, style : int->int, layout : GridBagConstraints->GridBagConstraints)
+{
+     - tabpane = new JTabbedPane(style);
+     - parent.add(tabpane, layout);
+     + tabpane = new TabFolder(parent, SWT.NONE);
+}
+
+(panel : JPanel->Composite, parent : JTabbedPane->TabFolder, title : String->String)
+{
+     - panel = new JPanel();
+     - parent.addTab(title, panel);
+     + panel = new Composite(parent, SWT.NONE);
+}
+
+(tab : JTabbedPane->TabFolder)
+{
+     - tab.getSelectedComponent();
+     + tab.getSelection();
+}
+
+(tab : JTabbedPane->TabFolder, id : int->int, text : String->String)
+{
+	- tab.setToolTipTextAt(id, text);
+	+ tab.getItem(id).setToolTipText(text);
+}
+
+(select : Component->TabItem, tab : JTabbedPane->TabFolder)
+{
+     - select = tab.getSelectedComponent();
+     + select = tab.getSelection().getControl();
+}
+
+(tab : JTabbedPane->TabFolder, listener : ChangeListener->SelectionListener)
+{
+     - tab.addChangeListener(listener);
+     + tab.addSelectionListener(listener);
+}
+
+(tab : JTabbedPane->TabFolder, listener : MouseListener->MouseListener)
+{
+     - tab.addMouseListener(listener);
+     + tab.addMouseListener(listener);
+}
+
+(bar : JXStatusBar->Composite, parent : JPanel->Composite, layout : GridBagConstraints->Layout)
+{
+     - bar = new JXStatusBar();
+     - parent.add(bar, layout);
+     + bar = new Composite(parent, SWT.BODER);
+     + bar.setLayout(layout);
+}
+
+(tab : JTabbedPane->TabFolder, index : int->int)
+{
+     - index = tab.getSelectedIndex();
+     + index = tab.getSelectionIndex();
+}
+
+(tab : JTabbedPane->TabFolder, index : int->int)
+{
+     - tab.setSelectedIndex(index);
+     + tab.setSelectionIndex(index);
+}
+
+(list : JList->List, parent : JPanel->Composite, scroll : JScrollPane->JScrollPane, x : int->int, y : int->int, w : int->int, h : int->int)
+{
+	 - scroll = new JScrollPane();
+	 - scroll.setBounds(x, y, w, h);
+	 - parent.add(scroll);
+     - list = new JList();
+     - scroll.setColumnHeaderView(list);
+     + list = new List(parent, SWT.NONE);
+     + list.setBounds(x, y, w, h);
+}
+
+(list : JList->List, scroll : JScrollPane->JScrollPane, parent : JPanel->Composite)
+{
+     - list = new JList();
+     - scroll = new JScrollPane(list);
+     - parent.add(scroll);
+     + list = new List(parent, SWT.V_SCROLL);
+}
+
+(list : JList->List, scroll : JScrollPane->JScrollPane, parent : JPanel->Composite, layout : String->String)
+{
+     - list = new JList();
+     - scroll = new JScrollPane(list);
+     - parent.add(scroll, layout);
+     + list = new List(parent, SWT.V_SCROLL);
+}
+
+(list : JList->List, parent : JPanel->Compsoite, layout : String->String)
+{
+	- list = new Jlist();
+	- parent.add(list, layout);
+	+ list = new List(parent, SWT.NONE);
+}
+
+(list : JList->List, listener : ListSelectionListener->SelectionListener)
+{
+     - list.addListSelectionListener(listener);
+     + list.addSelectionListener(listener);
+}
+
+(list : JList->List, listener : MouseListener->MouseListener)
+{
+     - list.addMouseListener(listener);
+     + list.addMouseListener(listener);
+}
+
+(list : JList->List, listener : MouseAdapter->MouseAdapter)
+{
+     - list.addMouseListener(listener);
+     + list.addMouseListener(listener);
+}
+
+(list : JList->List)
+{
+	- list.removeAll();
+	+ list.removeAll();
+}
+
+//(list : JList->List, items : String[]->String[])
+//{
+//	- list.setListData(items);
+//	+ list.setItems(items);
+//}
+
+(list : JList->List, menu : JPopupMenu->Menu)
+{
+	- list.add(menu);
+	+ list.setMenu(menu);
+}
+
+(menu : JMenu->Menu, menuBar : JMenuBar->Menu, text : String->String)
+{
+	- menu = new JMenu(text);
+	- menuBar.add(menu);
+	+ menu = new Menu(menuBar, SWT.MENU);
+	+ menuCascade = new MenuItem(menuBar, SWT.CASCADE);
+	+ menuCascade.setText(text);
+	+ Menu menu = new Menu(menuCascade);
+	+ menuCascade.setMenu(menu);
+}
+
+(menu : JMenu->Menu, item : JMenuItem->MenuItem, text : String->String)
+{
+	- item = new JMenuItem(text);
+	- menu.add(item);
+	+ item = new MenuItem(menu, SWT.PUSH);
+	+ item.setText(text);
+}
+
+(menu : PopupMenu->Menu, title : String->String)
+{
+     - menu = new PopupMenu(title);
+     + menu = new Menu(this.getShell(), SWT.POP_UP);
+     + menu.setData(title);
+}
+
+
+(menu : PopupMenu->Menu, parent : JList->List)
+{
+     - parent.add(menu);
+     + parent.setMenu(menu);
+}
+
+(menuItem : MenuItem->MenuItem, parent : PopupMenu->Menu, text : String->String)
+{
+     - menuItem = new MenuItem(text);
+     - parent.add(menuItem);
+     + menuItem = new MenuItem(parent, SWT.PUSH);
+     + menuItem.setText(text);
+}
+
+(menuItem : MenuItem->MenuItem, listener : ActionListener->SelectionListener)
+{
+     - menuItem.addActionListener(listener);
+     + menuItem.addSelectionListener(listener);
+}
+
+(menu : JPopupMenu->Menu)
+{
+	- menu = new JPopupMenu();
+	+ menu = new Menu(this.getShell(), SWT.POP_UP);
+}
+
+(menuItem : JMenuItem->MenuItem, parent : JPopupMenu->Menu, text : String->String)
+{
+	- menuItem = new JMenuItem(text);
+	- parent.add(menuItem);
+	+ menuItem = new MenuItem(parent, SWT.NONE);
+	+ menuItem.setText(text);
+}
+
+(menuItem : JMenuItem->MenuItem, listener : ActionListener->SelectionListener)
+{
+	- menuItem.addActionListener(listener);
+	+ menuItem.addSelectionListener(listener);
+}
+
+(txt : JTextArea->Text, parent : JPanel->Composite)
+{
+     - txt = new JTextArea();
+     - parent.add(txt);
+     + txt = new Text(parent, SWT.MULTI);
+}
+
+(txt : JTextArea->Text, parent : JPanel->Composite, layout : GridBagConstraints->GridBagConstraints)
+{
+     - txt = new JTextArea();
+     - parent.add(txt, layout);
+     + txt = new Text(parent, SWT.MULTI);
+}
+
+(txt : JTextArea->Text, parent : JPanel->Composite, scroll : JScrollPane->JScrollPane, layout : GridBagConstraints->GridBagConstraints)
+{
+     - txt = new JTextArea();
+     - scroll = new JScrollPane(txt);
+     - parent.add(scroll, layout);
+     + txt = new Text(parent, SWT.MULTI);
+}
+
+(txt : JTextArea->Text, parent : JPanel->Composite, scroll : JScrollPane->JScrollPane, layout : String->String, row : int->int, col : int->int)
+{
+     - txt = new JTextArea(row, col);
+     - scroll = new JScrollPane(txt);
+     - parent.add(scroll, layout);
+     + txt = new Text(parent, SWT.MULTI);
+}
+
+(txt : JTextArea->Text, parent : JPanel->Composite, scroll : JScrollPane->JScrollPane, x : int->int, y : int->int, w : int->int, h : int->int)
+{
+	 - scroll = new JScrollPane();
+	 - scroll.setBounds(x, y, w, h);
+	 - parent.add(scroll);
+     - txt = new JTextArea();
+     - scroll.setViewportView(txt);
+     + txt = new Text(parent, SWT.MULTI);
+     + txt.setBounds(x, y, w, h);
+}
+
+(txt : JTextArea->Text, col : int->int)
+{
+	- txt.setColumns(col);
+	+ txt.setTextLimit(col);
+}
+
+(txt : JTextArea->Text, tab : int->int)
+{
+     - txt.setTabSize(tab);
+     + txt.setTabs(tab);
+}
+
+(txt : JTextArea->Text, editable : Boolean->Boolean)
+{
+     - txt.setEditable(editable);
+     + txt.setEditable(editable);
+}
+
+(txt : JTextArea->Text, msg : String->String)
+{
+     - msg = txt.getText();
+     + msg = txt.getText();
+}
+
+(txt : JTextArea->Text, msg : String->String)
+{
+     - txt.setText(msg);
+     + txt.setText(msg);
+}
+
+(txt : JTextArea->Text, listener : ActionListener->SelectionListener)
+{
+	- txt.addActionListener(listener);
+	+ txt.addSelectionListener(listener);
+}
+
+(txt : JTextField->Text, parent : JPanel->Composite)
+{
+     - txt = new JTextField();
+     - parent.add(txt);
+     + txt = new Text(parent, SWT.NONE);
+}
+
+(txt : JTextField->Text, parent : JPanel->Composite, w : int->int, boder : Border->Border)
+{
+     - txt = new JTextField(w);
+     - txt.setBorder(border);
+     - parent.add(txt);
+     + txt = new Text(parent, SWT.BORDER);
+     + txt.setTextLimit(w);
+}
+
+(txt : JTextField->Text, parent : JPanel->Composite, layout : String->String)
+{
+     - txt = new JTextField();
+     - parent.add(txt, layout);
+     + txt = new Text(parent, SWT.NONE);
+}
+
+(txt : JTextField->Text, parent : JPanel->Composite, w : int->int, layout : String->String)
+{
+     - txt = new JTextField(w);
+     - parent.add(txt, layout);
+     + txt = new Text(parent, SWT.NONE);
+     + txt.setTextLimit(w);
+}
+
+(txt : JTextField->Text, parent : JDialog->Shell, w : int->int, layout : String->String)
+{
+     - txt = new JTextField(w);
+     - parent.add(txt, layout);
+     + txt = new Text(parent, SWT.NONE);
+     + txt.setTextLimit(w);
+}
+
+(txt : JTextField->Text, parent : JPanel->Composite, border : Border->Border, text : String->String, layout : String->String)
+{
+     - txt = new JTextField(text);
+     - txt.setBorder(border);
+     - parent.add(txt, layout);
+     + txt = new Text(parent, SWT.BORDER);
+     + txt.setText(text);
+}
+
+(txt : JTextField->Text, listener : ActionListener->SelectionListener)
+{
+     - listener = txt.getActionListener();
+     + listener = txt.getListeners(SWT.Selection);
+}
+
+(txt : JTextField->Text, msg : String->String)
+{
+     - msg = txt.getText();
+     + msg = txt.getText();
+}
+
+(txt : JTextField->Text, msg : String->String)
+{
+     - txt.setText(msg);
+     + txt.setText(msg);
+}
+
+(txt : JTextField->Text, col : int->int)
+{
+     - txt.setColumns(col);
+     + txt.setTextLimit(col);
+}
+
+(txt : JTextField->Text, editable : Boolean->Boolean)
+{
+     - txt.setEditable(editable);
+     + txt.setEditable(editable);
+}
+
+(label : JLabel->Label, parent : JXStatusBar->Composite, text : String->String)
+{
+     - label = new JLabel(title);
+     - parent.add(label);
+     + label = new Label(parent, SWT.NONE);
+     + label.setText(title);
+}
+
+(label : JLabel->Label, parent : JPanel->Composite)
+{
+     - label = new JLabel();
+     - parent.add(label);
+     + label = new Label(parent, SWT.NONE);
+}
+
+(label : JLabel->Label, parent : JPanel->Composite, text : String->String)
+{
+     - label = new JLabel(text);
+     - parent.add(label);
+     + label = new Label(parent, SWT.NONE);
+     + label.setText(text);
+}
+
+(label : JLabel->Label, parent : JPanel->Composite, layout : GridBagConstraints->GridBagConstraints)
+{
+     - label = new JLabel();
+     - parent.add(label, layout);
+     + label = new Label(parent, SWT.NONE);
+}
+
+(label : JLabel->Label, parent : JPanel->Composite, text : String->String, layout : GridBagConstraints->GridBagConstraints)
+{
+     - label = new JLabel(text);
+     - parent.add(label, layout);
+     + label = new Label(parent, SWT.NONE);
+     + label.setText(text);
+}
+
+(label : JLabel->Label, text : String->String)
+{
+     - label.setText(text);
+     + label.setText(text);
+}
+
+(label : JLabel->Label, icon : ImageIcon->Image)
+{
+	- label.setIcon(icon);
+	+ label.setImage(icon);
+}
+
+(label : JXLabel->Label, text : String->String, parent : JPanel->Composite, layout : GridBagConstraints->GridBagConstraints)
+{
+	- label = new JXLabel(text);
+	- parent.add(label, layout);
+	+ label = new Label(parent, SWT.NONE);
+	+ label.setText(text);
+}
+
+(button : JButton->Button, parent : JPanel->Composite, text : String->String)
+{
+     - button = new JButton(text);
+     - parent.add(button);
+     + button = new Button(parent, SWT.PUSH);
+     + button.setText(text);
+}
+
+(button : JButton->Button, parent : JPanel->Composite, text : String->String, layout : GridBagConstraints->GridBagConstraints)
+{
+     - button = new JButton(text);
+     - parent.add(button, layout);
+     + button = new Button(parent, SWT.PUSH);
+     + button.setText(text);
+}
+
+(button : JButton->Button, parent : JPanel->Composite, text : String->String, layout : String->String)
+{
+     - button = new JButton(text);
+     - parent.add(button, layout);
+     + button = new Button(parent, SWT.PUSH);
+     + button.setText(text);
+}
+
+(button : JButton->Button, parent : JPanel->Composite, layout : GridBagConstraints->GridBagConstraints)
+{
+     - button = new JButton();
+     - parent.add(button, layout);
+     + button = new Button(parent, SWT.PUSH);
+}
+
+(button : JButton->Button, parent : JDialog->Shell, layout : String->String)
+{
+     - button = new JButton();
+     - parent.add(button, layout);
+     + button = new Button(parent, SWT.PUSH);
+}
+
+(button : JButton->Button, align : int->int)
+{
+	- button.setAlignmentX(align);
+	+ button.setAlignment(align);
+}
+
+(button : JButton->Button, text : String->String)
+{
+     - button.setText(text);
+     + button.setText(text);
+}
+
+(button : JButton->Button, enable : Boolean->Boolean)
+{
+     - button.setEnabled(enable);
+     + button.setEnabled(enable);
+}
+
+(button : JButton->Button, size : Dimension->Point)
+{
+     - button.setPreferredSize(size);
+     + button.setSize(size);
+}
+
+(button : JButton->Button, listener : ActionListener->SelectionListener)
+{
+     - button.addActionListener(listener);
+     + button.addSelectionListener(listener);
+}
+
+(radio : JRadioButton->Button, parent : ButtonGroup->Group, layout : GridBagConstraints->GridBagConstraints, text : String->String)
+{
+     - radio = new JRadioButton(text);
+     - parent.add(radio, layout);
+     + radio = new Button(parent, SWT.RADIO);
+     + radio.setText(text);
+}
+
+(radio : JRadioButton->Button, listener : ActionListener->SelectionListener)
+{
+     - radio.addActionListener(listener);
+     + radio.addSelectionListener(listener);
+}
+
+(radio : JRadioButton->Button, select : Boolean->Boolean)
+{
+     - radio.setSelected(select);
+     + radio.setSelection(select);
+}
+
+(radio : JRadioButton->Button, text : String->String, tt : String->String)
+{
+     - tt = radio.getText(text);
+     + tt = radio.getText(text);
+}
+
+(radio : JRadioButton->Button, text : String->String)
+{
+     - radio.setText(text);
+     + radio.setText(text);
+}
+
+(check : JCheckBox->Button, parent : JPanel->Composite, layout : GridBagConstraints->GridBagConstraints)
+{
+     - check = new JCheckBox();
+     - parent.add(check, layout);
+     + check = new Button(parent, SWT.CHECK);
+}
+
+(check : JCheckBox->Button, text : String->String)
+{
+     - check.setText(text);
+     + check.setText(text);
+}
+
+(check : JCheckBox->Button, listener : ActionListener->SelectionListener)
+{
+     - check.addActionListener(listener);
+     + check.addSelectionListener(listener);
+}
+
+(check : JCheckBox->Button, select : Boolean->Boolean)
+{
+     - check.setSelected(select);
+     + check.setSelection(select);
+}
+
+(check : JCheckBox->Button, select : Boolean->Boolean)
+{
+     - select = check.isSelected();
+     + select = check.getSelection();
+}
+
+(dimension : Dimension->Point, w : int->int, h : int->int)
+{
+     - dimension = new Dimension(w, h);
+     + dimension = new Point(w, h);
+}
+
+(color : Color->Color, r : int->int, g : int->int, b : int->int)
+{
+	- color = new Color(r, g, b);
+	+ color = new Color(Display.getDefault(), r, g, b);
+}

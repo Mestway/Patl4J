@@ -49,6 +49,9 @@ We use our language to transform the following projects in the [examples](https:
   * husacct: a software architecture conformance checking tool. (Jdom -> Dom4j)
   * openfuxml: an XML publishing framework. (Jdom -> Dom4j)
   * serenoa:  a tool for context-aware adaptation of user interfaces. (Jdom -> Dom4j)
+  * EvolutionChamber: an application that is used to spped up a building up procedure. (Swing -> SWT)
+  * Marble: an simple multi-user game with an friendly UI designed using Swing. (Swing -> SWT)
+  * SwingHeat: a tool that is used to analyze transfer heat through fins. (Swing -> SWT)
 
 ### Transformation Program Examples
 Several transformation examples are provided in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder, including the following several test cases.
@@ -72,3 +75,10 @@ Several transformation examples are provided in the [examples](https://github.co
   * XMLOutputter -> XMLWriter
   * XPath -> XPath
   * Namespace -> Namespace
+
+#### Java Swing to SWT
+  This is the transformation case for a subset of Java GUI designing, Swing to SWT. Totally there are 110 rules involved in the transformation.
+  * JFrame -> Shell
+  * JPanel -> Composite
+  * JButton -> Button
+  * ...
