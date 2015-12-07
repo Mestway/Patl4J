@@ -16,7 +16,7 @@ public class NormalizeVisitor extends ASTVisitor {
 	// TODO: What are all of the necessary "top-level" nodes?
 	public boolean visit(MethodDeclaration node) {
 		
-		System.out.println("NormalizeVisitor >> method >> visit >> @17 normalize MethodDeclaration:"+node.toString());
+//		System.out.println("NormalizeVisitor >> method >> visit >> @17 normalize MethodDeclaration:"+node.toString());
 		
 		node.setBody(
 				(Block) ASTNode.copySubtree(
@@ -27,7 +27,7 @@ public class NormalizeVisitor extends ASTVisitor {
 	
 	public boolean visit(Initializer node) {
 		
-		System.out.println("NormalizeVisitor >> method >> visit >> @28 normalize Initializer:"+node.toString());
+//		System.out.println("NormalizeVisitor >> method >> visit >> @28 normalize Initializer:"+node.toString());
 		
 		
 		node.setBody(

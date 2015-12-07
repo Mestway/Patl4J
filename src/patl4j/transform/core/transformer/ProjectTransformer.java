@@ -48,7 +48,7 @@ public class ProjectTransformer {
 	
 	// Collect Patl rules for transformation purpose
 	private void collectPatlRules() throws JavaModelException {
-		System.out.println("Projectname: " + project.getIJavaProject().getElementName());
+//		System.out.println("Projectname: " + project.getIJavaProject().getElementName());
 		for (Object i : project.getIJavaProject().getNonJavaResources()) {
 			if (i instanceof IFile) {
 				try {

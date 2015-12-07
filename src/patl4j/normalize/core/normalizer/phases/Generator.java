@@ -59,7 +59,7 @@ public class Generator {
 				varType = tempAST.newSimpleType((Name) ASTNode.copySubtree(tempAST, typeName));
 				*/
 				
-				System.out.println("In Generator.java @60 genVarDeclStatement "+exp+","+exp.resolveTypeBinding().getQualifiedName());
+//				System.out.println("In Generator.java @60 genVarDeclStatement "+exp+","+exp.resolveTypeBinding().getQualifiedName());
 				String name = exp.resolveTypeBinding().getQualifiedName();
 				if(name.equals("") && exp.toString().contains("new ")){
 					int left = exp.toString().indexOf("new ");
@@ -125,13 +125,13 @@ public class Generator {
 	
 	// generate a SimpleName node
 	public static SimpleName genSimpleName(String s) {
-		System.out.println("In the Generator.java @115 genSimpleName  "+s);
+//		System.out.println("In the Generator.java @115 genSimpleName  "+s);
 		return AST.newAST(AST.JLS8).newSimpleName(s);
 	}
 	
 	public static Type resolveQualifiedType(String s) {
 		
-		System.out.println("In the Generator.java @124 resolveQualifiedType  "+s);
+//		System.out.println("In the Generator.java @124 resolveQualifiedType  "+s);
 		
 		Type varType = null;
 		switch (s) {
@@ -176,7 +176,7 @@ public class Generator {
 		if(s.contains("[") && s.contains("]")) {
 			String s0 = s.substring(0, s.indexOf("["));
 			
-			System.out.println("In Generator @145 resolveQualifiedType "+s0);
+//			System.out.println("In Generator @145 resolveQualifiedType "+s0);
 			
 			Type hd = resolveQualifiedType(s0);
 			AST tast = AST.newAST(AST.JLS8);

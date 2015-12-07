@@ -246,7 +246,7 @@ public class MatcherSet {
 			return tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("<"))));
 		else if (typeName.contains("[") && typeName.contains("]")) {
 			
-			System.out.println("MatcherSet.java @202 arrayType : "+typeName);
+//			System.out.println("MatcherSet.java @202 arrayType : "+typeName);
 			return tAST.newArrayType((Type) ASTNode.copySubtree(tAST, mappedType(typeName.substring(0, typeName.indexOf("[")))));
 //			return tAST.newArrayType(tAST.newSimpleType(tAST.newName(typeName.substring(0, typeName.indexOf("[")))));
 		} else {

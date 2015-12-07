@@ -40,15 +40,15 @@ public class Transformer {
 	 */
 	public Statement execute(Block body, Analyzer analyzer, String methodName, VariableContext context) {
 		
-		System.out.println("[[Current Transformming Method]] " + methodName);
+//		System.out.println("[[Current Transformming Method]] " + methodName);
 		
 		this.matchers = this.matching(body, context);
 		
 		this.matchers.setMethodName(methodName);
 		
 		// This is the matcher binded from the method
-		System.out.println("---Matcher printed here (After clear)---");
-		System.out.println(matchers.toString());
+//		System.out.println("---Matcher printed here (After clear)---");
+//		System.out.println(matchers.toString());
 		
 		// Perform shift operation on the given statements
 		Shifter shifter = new Shifter(body, matchers, analyzer);

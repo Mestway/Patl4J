@@ -29,7 +29,7 @@ public class JavaFile {
 		
 		if (!option.isAlreadyNormalized()) {
 			
-			System.out.println("start normalize procedure");
+//			System.out.println("start normalize procedure");
 			
 			NormalizeVisitor jn = new NormalizeVisitor(ast);
 			/*System.out.println("<<AST of the file: " + f.getElementName() +  " --- BEGIN>>");
