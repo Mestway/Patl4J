@@ -57,9 +57,18 @@ When they are configured, you can start the transformation engine by clicking th
 * Step 3. Then click 'transform projects' button, and the transformed programs are written in their corresponding directories or output to console based on your option.
 
 ### Sample Patl rules and projects
-We transformed nine projects in our experiment, and they can be found in the folder [examples](https://github.com/Mestway/Patl4J/tree/master/examples). 
+We transformed nine projects in our experiment, and they can be found in the folder [examples](https://github.com/Mestway/Patl4J/tree/master/examples). In this directory, mainly contains four sub-folders: [raw_projects](https://github.com/Mestway/Patl4J/tree/master/examples/raw_projects), [statistics](https://github.com/Mestway/Patl4J/tree/master/examples/statistics), [transformation_rules](https://github.com/Mestway/Patl4J/tree/master/examples/transformation_rules) and [transformed_projects](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_projects).
 
 The folder [raw_projects](https://github.com/Mestway/Patl4J/tree/master/examples/raw_projects) contains the configured Eclipse Java of the six experiment projects. You can download them and import as Eclipse Java projects, and then use the plugin to transform them. (Do not forget revise the class paths in the patl.option file.) 
+
+The folder [statistics](https://github.com/Mestway/Patl4J/tree/master/examples/statistics) contains all the source projects used in experiments, which are labeled by different identifiers at the end of each line of source code.
+  * //Y: This statement can be transformed by one-to-one transformation rule.
+  * //Ym: This statement can be transformed by many-to-many transformation rule along with some other statements.
+  * //Ymm: This statment can be transformed by many-to-many transformation rule, but need to perform our guided-normalization before transformation.
+  * //N: This statment cannot be transformed by Patl4J.
+  * //W: This statement can be transformed, but some warnings will be raised.
+
+The folder [transformed_rules](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_rules) contains three configure files: [Google_Calender v2 to v3.patl], [Java Swing to SWT.patl] and [Jdom to Dom4j.patl], which are used in the transformation procedure. [More detail information](#Transformation Rules)
 
 The folder [transformed_projects](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_projects) contains the transformed source code of the projects. These source code are manually revised by human labor after transformation, as our implementation have some simplication on our language design.
 
@@ -76,7 +85,7 @@ The nine projects involved are:
   * SwingHeat: a tool that is used to analyze transfer heat through fins. (Swing -> SWT)
 
 ### Transformation Rules
-Besides, we also put the transformation rules separated in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples) folder. There are in total three APIs to transform, one is Google Calendar v2 to v3, one is Jdom to Dom4j and another is Java GUI API Swing to SWT. We listed which classes are cover in the rules below.
+Besides, we also put the transformation rules separated in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples/transformation_rules) folder. There are in total three APIs to transform, one is Google Calendar v2 to v3, one is Jdom to Dom4j and another is Java GUI API Swing to SWT. We listed which classes are cover in the rules below.
 
 ##### Google Calender v2 to v3
   This is the PATL program for migrating programs using Google Calendar v2 to v3. Totally 45 methods in the API set in Google Calendar v2 are migrated with 84 transformation rules. Methods in the following API files will be transformed by the PATL program. 
