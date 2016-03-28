@@ -64,8 +64,8 @@ The folder [raw_projects](https://github.com/Mestway/Patl4J/tree/master/examples
 The folder [statistics](https://github.com/Mestway/Patl4J/tree/master/examples/statistics) contains all the source projects used in experiments, which are labeled by different identifiers at the end of each line of source code.
   * __//Y__: This statement can be transformed by one-to-one transformation rule.
   * __//Ym__: This statement can be transformed by many-to-many transformation rule along with some other statements.
-  * __//Ymm__: This statment can be transformed by many-to-many transformation rule, but need to perform our guided-normalization before transformation.
-  * __//N__: This statment cannot be transformed by Patl4J.
+  * __//Ymm__: This statement can be transformed by many-to-many transformation rule, but need to perform our guided-normalization before transformation.
+  * __//N__: This statement cannot be transformed by Patl4J.
   * __//W__: This statement can be transformed, but some warnings will be raised.
 
 The folder [transformation_rules](https://github.com/Mestway/Patl4J/tree/master/examples/transformation_rules) contains three configure files: [Google_Calender v2 to v3.patl](#google-calender-v2-to-v3), [Jdom to Dom4j.patl](#jdom-113-to-dom4j-161) and [Java Swing to SWT.patl](#java-swing-to-swt), which are used in the transformation procedure. [More detail information](#transformation-rules)
