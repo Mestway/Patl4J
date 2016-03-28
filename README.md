@@ -106,7 +106,7 @@ Besides, we also put the transformation rules separated in the [examples](https:
   * XPath -> XPath
   * Namespace -> Namespace
 
-#### Java Swing to SWT
+##### Java Swing to SWT
   This is the transformation case for a subset of Java GUI designing, Swing to SWT. Totally there are 110 rules involved in the transformation.
   * JFrame -> Shell
   * JPanel -> Composite
