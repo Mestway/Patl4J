@@ -62,11 +62,11 @@ We transformed nine projects in our experiment, and they can be found in the fol
 The folder [raw_projects](https://github.com/Mestway/Patl4J/tree/master/examples/raw_projects) contains the configured Eclipse Java of the six experiment projects. You can download them and import as Eclipse Java projects, and then use the plugin to transform them. (Do not forget revise the class paths in the patl.option file.) 
 
 The folder [statistics](https://github.com/Mestway/Patl4J/tree/master/examples/statistics) contains all the source projects used in experiments, which are labeled by different identifiers at the end of each line of source code.
-  * //Y: This statement can be transformed by one-to-one transformation rule.
-  * //Ym: This statement can be transformed by many-to-many transformation rule along with some other statements.
-  * //Ymm: This statment can be transformed by many-to-many transformation rule, but need to perform our guided-normalization before transformation.
-  * //N: This statment cannot be transformed by Patl4J.
-  * //W: This statement can be transformed, but some warnings will be raised.
+  * __//Y__: This statement can be transformed by one-to-one transformation rule.
+  * __//Ym__: This statement can be transformed by many-to-many transformation rule along with some other statements.
+  * __//Ymm__: This statment can be transformed by many-to-many transformation rule, but need to perform our guided-normalization before transformation.
+  * __//N__: This statment cannot be transformed by Patl4J.
+  * __//W__: This statement can be transformed, but some warnings will be raised.
 
 The folder [transformed_rules](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_rules) contains three configure files: [Google_Calender v2 to v3.patl], [Java Swing to SWT.patl] and [Jdom to Dom4j.patl], which are used in the transformation procedure. [More detail information](#Transformation Rules)
 
@@ -74,15 +74,15 @@ The folder [transformed_projects](https://github.com/Mestway/Patl4J/tree/master/
 
 The nine projects involved are: 
 
-  * blasd: a simple mail system. (Google Calendar v2 -> v3)
-  * clinicaweb: a web automation system for medical clinic. (Google Calendar v2 -> v3)
-  * goofs: a file system. (Google Calendar v2 -> v3)
-  * husacct: a software architecture conformance checking tool. (Jdom -> Dom4j)
-  * openfuxml: an XML publishing framework. (Jdom -> Dom4j)
-  * serenoa:  a tool for context-aware adaptation of user interfaces. (Jdom -> Dom4j)
-  * EvolutionChamber: an application that generates Starcraft 2 build orders. (Swing -> SWT)
-  * Marble: an simple multi-user game with an friendly UI designed using Swing. (Swing -> SWT)
-  * SwingHeat: a tool that is used to analyze transfer heat through fins. (Swing -> SWT)
+  * __blasd__: a simple mail system. (Google Calendar v2 -> v3)
+  * __clinicaweb__: a web automation system for medical clinic. (Google Calendar v2 -> v3)
+  * __goofs__: a file system. (Google Calendar v2 -> v3)
+  * __husacct__: a software architecture conformance checking tool. (Jdom -> Dom4j)
+  * __openfuxml__: an XML publishing framework. (Jdom -> Dom4j)
+  * __serenoa__:  a tool for context-aware adaptation of user interfaces. (Jdom -> Dom4j)
+  * __EvolutionChamber__: an application that generates Starcraft 2 build orders. (Swing -> SWT)
+  * __Marble__: an simple multi-user game with an friendly UI designed using Swing. (Swing -> SWT)
+  * __SwingHeat__: a tool that is used to analyze transfer heat through fins. (Swing -> SWT)
 
 ### Transformation Rules
 Besides, we also put the transformation rules separated in the [examples](https://github.com/Mestway/Patl4J/tree/master/examples/transformation_rules) folder. There are in total three APIs to transform, one is Google Calendar v2 to v3, one is Jdom to Dom4j and another is Java GUI API Swing to SWT. We listed which classes are cover in the rules below.
