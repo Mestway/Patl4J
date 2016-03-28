@@ -68,7 +68,7 @@ The folder [statistics](https://github.com/Mestway/Patl4J/tree/master/examples/s
   * __//N__: This statment cannot be transformed by Patl4J.
   * __//W__: This statement can be transformed, but some warnings will be raised.
 
-The folder [transformed_rules](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_rules) contains three configure files: [Google_Calender v2 to v3.patl], [Java Swing to SWT.patl] and [Jdom to Dom4j.patl], which are used in the transformation procedure. [More detail information](#Transformation Rules)
+The folder [transformed_rules](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_rules) contains three configure files: [Google_Calender v2 to v3.patl](#google-calender-v2-to-v3), [Java Swing to SWT.patl](#jdom-113-to-dom4j-161) and [Jdom to Dom4j.patl](#java-swing-to-swt), which are used in the transformation procedure. [More detail information](#transformation-rules)
 
 The folder [transformed_projects](https://github.com/Mestway/Patl4J/tree/master/examples/transformed_projects) contains the transformed source code of the projects. These source code are manually revised by human labor after transformation, as our implementation have some simplication on our language design.
 
