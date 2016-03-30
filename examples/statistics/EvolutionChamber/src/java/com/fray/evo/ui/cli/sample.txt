@@ -1,0 +1,105 @@
+#sample input file
+
+#the time to send a scouting worker (optional)
+scout-timing 2:00
+
+#define each waypoint
+
+waypoint 3:00
+	zergling 6
+	
+waypoint 6:00
+	roach 7
+
+waypoint 2:00:00
+	mutalisk 6
+
+#======================
+	
+#You may optionally define a number of settings for the build.
+#If a settings block is *not* defined, the defaults will be used (defaults are listed below)
+#If a settings block *is* defined and a boolean field is left out (such as "use-extractor-trick"), then it will be set to false
+settings
+	enforce-worker-parity none		#defaults to "none"
+#	enforce-worker-parity until-saturation
+#	enforce-worker-parity allow-overdroning
+
+	use-extractor-trick 			#defaults to true
+
+#	Allow workers on gas to be reassigned to mining minerals as needed
+	push-pull-workers-gas			#defaults to true
+
+#	Always push/pull workers to/from gas in groups of three
+	push-pull-in-threes				#defaults to false
+
+#	Don't build an Extractor if the build does not require gas.
+	avoid-unnecessary-extractor		#defaults to true
+
+#	Allow the Extractor trick to be performed until the build reaches this amount of supply.
+	max-extractor-trick-supply 200	#defaults to 200
+
+#	The minimum total supply the build must have before EC considers building a Spawning Pool.
+	min-pool-supply 2				#defaults to 2
+
+#	The minimum total supply the build must have before EC considers building an Extractor.
+	min-extractor-supply 2			#defaults to 2
+
+#	The minimum total supply the build must have before EC considers building additional Hatcheries.
+	min-hatchery-supply 2			#defaults to 2
+
+#Complete list of all valid waypoint fields:
+#Note: Leveled upgrades (such as Melee Attack) require a number to specify the level ("1" for level one, "2" for level two, "3" for level three)
+waypoint 2:00:00
+#	<unit-name> <number-of-units>
+	drone 0
+	baneling 0
+	brood-lord 0
+	corruptor 0
+	hydralisk 0
+	infestor 0
+	mutalisk 0
+	overlord 0
+	overseer 0
+	queen 0
+	roach 0
+	ultralisk 0
+	zergling 0
+
+#	<building-name> <number-of-buildings>
+	baneling-nest 0		
+	evolution-chamber 0
+	extractor 0
+	greater-spire 0
+	hatchery 0
+	hive 0
+	hydralisk-den 0
+	infestation-pit 0
+	lair 0
+	nydus-network 0
+	nydus-worm 0
+	roach-warren 0
+	spawning-pool 0
+	spine-crawler 0
+	spire 0
+	spore-crawler 0
+	ultralisk-cavern 0
+	
+#	Most upgrades: <upgrade-name>
+#	Leveled upgrades (such as Melee Attack): <upgrade-name> <level>
+	adrenal-glands
+	burrow
+	carapace 1
+	centrifugal-hooks
+	chitinous-plating
+	flyer-armor 2
+	flyer-attacks 3
+	glial-reconstitution
+	grooved-spines
+	melee 1
+	metabolic-boost
+	missile 2
+	neural-parasite
+	pathogen-glands
+	pneumatized-carapace
+	tunneling-claws
+	ventral-sacs
