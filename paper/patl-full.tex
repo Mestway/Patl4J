@@ -732,13 +732,12 @@ as: (1) the statements generated from a binding $b$, if exists
 $b=(\bar{s}^-,\pi,\sigma)\in \mathcal{B}$ s.t. $s\in\bar{s}^-$,  or (2)
 $s$ itself, if $s$ is not matched by any rule. We have the following theorem.
 
-\begin{theorem}[Def-use Preservation\footnote{Due to space limit, the proofs of all theorems or properties are omitted, please refer to \url{https://github.com/Mestway/Patl4J/blob/master/patl-full.pdf} for full version with proofs.}] Given a method $M$ and a checked \PATL program $\Pi$, suppose the statement-level transformation is $\Pi\triangleright \bar{s}_M=\bar{s}'_{M}$, then:
+\begin{theorem}[Def-use Preservation\footnote{Please refer to the appendix for proofs of all theorems and properties.}] Given a method $M$ and a checked \PATL program $\Pi$, suppose the statement-level transformation is $\Pi\triangleright \bar{s}_M=\bar{s}'_{M}$, then:
   \begin{enumerate}
     \item Suppose $s_1$ and $s_n$ are two statements in a basic block in $\bar{s}_M$, and there exists a variable $x$ that is used in $s_n$ and defined in $s_1$, then after transformation, either $\Pi(s_n)$ does not use the variable $x$, or the occurrences of $x$ used in $\Pi(s_n)$ is defined in $\Pi(s_1)$. 
     \item Suppose $x$ is a variable newly introduced in $\bar{s}'_M$, then $x$ is used after definition.
   \end{enumerate}
 \end{theorem}
-
 
 %%%
 %%% g-normalization
