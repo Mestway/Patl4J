@@ -1,0 +1,1911 @@
+\documentclass[letterpaper, USenglish]{lipics-v2016}
+%This is a template for producing LIPIcs articles. 
+%See lipics-manual.pdf for further information.
+%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
+%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
+% for section-numbered lemmas etc., use "numberwithinsect"
+
+\usepackage{amsmath, amscd}
+\usepackage{listings}
+\usepackage[noend,linesnumbered]{algorithm2e}
+\usepackage{xcolor}
+
+% this command is used to control code fonts
+\renewcommand*{\ttdefault}{pcr}
+\renewcommand{\thefootnote}{\alph{footnote}}
+
+\newsavebox{\fmbox}
+\newenvironment{smpage}[1]
+{\begin{lrbox}{\fmbox}\begin{minipage}{#1}}
+{\end{minipage}\end{lrbox}\usebox{\fmbox}}
+\newcommand{\code}[1]{\texttt{\footnotesize #1}}
+
+\bibliographystyle{plain}% the recommended bibstyle
+
+\lstdefinestyle{patl}{ % Define a style for your code snippet, multiple definitions can be made if, for example, you wish to insert multiple code snippets using different programming languages into one document
+%backgroundcolor=\color{highlight}, % Set the background color for the snippet - useful for highlighting
+language=java,
+basicstyle=\footnotesize\ttfamily, % The default font size and style of the code
+breakatwhitespace=false, % If true, only allows line breaks at white space
+breaklines=true, % Automatic line breaking (prevents code from protruding outside the box)
+captionpos=b, % Sets the caption position: b for bottom; t for top
+commentstyle=\color[rgb]{0,0.6,0}, % Style of comments within the code - dark green courier font
+deletekeywords={}, % If you want to delete any keywords from the current language separate them by commas
+%escapeinside={\%}, % This allows you to escape to LaTeX using the character in the bracket
+firstnumber=1, % Line numbers begin at line 1
+frame=none, % Frame around the code box, value can be: none, leftline, topline, bottomline, lines, single, shadowbox
+frameround=tttt, % Rounds the corners of the frame for the top left, top right, bottom left and bottom right positions
+keywordstyle={[1]\color{blue!90!black}},
+keywordstyle={[3]\color{red!80!orange}},
+morekeywords={}, % Add any functions no included by default here separated by commas
+numbers=left, % Location of line numbers, can take the values of: none, left, right
+numbersep=3pt, % Distance of line numbers from the code box
+numberstyle=\tiny\color[rgb]{0.5,0.5,0.5}, % Style used for line numbers
+rulecolor=\color{black}, % Frame border color
+showstringspaces=false, % Don't put marks in string spaces
+showtabs=false, % Display tabs in the code as lines
+stepnumber=1, % The step distance between line numbers, i.e. how often will lines be numbered
+tabsize=2, % Number of spaces per tab in the code
+backgroundcolor=\color{white}
+}
+\lstset{escapeinside={@}{@}}
+
+\lstdefinestyle{java}{ % Define a style for your code snippet, multiple definitions can be made if, for example, you wish to insert multiple code snippets using different programming languages into one document
+%backgroundcolor=\color{highlight}, % Set the background color for the snippet - useful for highlighting
+language=java,
+basicstyle=\footnotesize\ttfamily, % The default font size and style of the code
+breakatwhitespace=false, % If true, only allows line breaks at white space
+breaklines=true, % Automatic line breaking (prevents code from protruding outside the box)
+captionpos=b, % Sets the caption position: b for bottom; t for top
+commentstyle=\color[rgb]{0,0.6,0}, % Style of comments within the code - dark green courier font
+deletekeywords={}, % If you want to delete any keywords from the current language separate them by commas
+%escapeinside={\%}, % This allows you to escape to LaTeX using the character in the bracket
+firstnumber=1, % Line numbers begin at line 1
+frame=none, % Frame around the code box, value can be: none, leftline, topline, bottomline, lines, single, shadowbox
+frameround=tttt, % Rounds the corners of the frame for the top left, top right, bottom left and bottom right positions
+keywordstyle={[1]\color{blue!90!black}},
+keywordstyle={[3]\color{red!80!orange}},
+morekeywords={}, % Add any functions no included by default here separated by commas
+numbers=left, % Location of line numbers, can take the values of: none, left, right
+numbersep=3pt, % Distance of line numbers from the code box
+numberstyle=\tiny\color[rgb]{0.5,0.5,0.5}, % Style used for line numbers
+rulecolor=\color{black}, % Frame border color
+showstringspaces=false, % Don't put marks in string spaces
+showtabs=false, % Display tabs in the code as lines
+stepnumber=1, % The step distance between line numbers, i.e. how often will lines be numbered
+tabsize=2, % Number of spaces per tab in the code
+backgroundcolor=\color{white}
+}
+
+\newcommand{\PATL}{PATL\xspace}
+
+\theoremstyle{plain}
+\newtheorem{property}[theorem]{Property}
+ 
+\usepackage{microtype}%if unwanted, comment out or use option "draft"
+
+%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+
+
+% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Transforming Programs between APIs with Many-to-Many Mappings}
+%\titlerunning{A Sample LIPIcs Article} %optional, in case that the title is too long; the running title should fit into the top page column
+
+%%%% Author section..
+\author[1,2]{Chenglong Wang}
+\author[1,2]{Jiajun Jiang}
+\author[1,2]{Jun Li}
+\author[1,2]{Yingfei Xiong}
+\author[1,2]{Xiangyu Luo}
+\author[1,2]{Lu Zhang}
+\author[3,1,2]{Zhenjiang Hu}
+
+\affil[1]{Key Laboratory of High Confidence Software Technologies, MoE}
+\affil[2]{Software Engineering Institute, Peking University, Beijing, 100871, China\\
+\text{\footnotesize \{chenglongwang, jiangjiajun, lij, xiongyf, vani, zhanglu\}@pku.edu.cn}}
+\affil[3]{National Institute of Informatics, Tokyo 101-8430, Japan\\ 
+\text{\footnotesize hu@nii.ac.jp}}
+
+\authorrunning{C.\,Wang et al.} %mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et. al.'
+
+\Copyright{Chenglong Wang, Jiajun Jiang, Jun Li, Yingfei Xiong, Xiangyu Luo, Lu Zhang and Zhenjiang Hu} %mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+
+\subjclass{D.1.2 Automatic Programming.}% mandatory: Please choose ACM 1998 classifications from http://www.acm.org/about/class/ccs98-html . E.g., cite as "F.1.1 Models of Computation". 
+\keywords{Program transformation, API migration}% mandatory: Please provide 1-5 keywords
+% Author macros::end %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\serieslogo{}%please provide filename (without suffix)
+%\volumeinfo%(easychair interface)
+%  {Billy Editor and Bill Editors}% editors
+%  {2}% number of editors: 1, 2, ....
+%  {Conference title on which this volume is based on}% event
+%  {1}% volume
+%  {1}% issue
+%  {1}% starting page number
+%\EventShortName{}
+%\DOI{10.4230/LIPIcs.xxx.yyy.p}% to be completed by the volume editor
+% Editor-only macros::end %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+Transforming programs between two APIs or different versions of the
+same API is a common software engineering task. However, existing languages support for such transformation cannot
+satisfactorily handle the cases when the relations between elements in
+the old API and the new API are many-to-many mappings: multiple
+invocations to the old API are supposed to be replaced
+by multiple invocations to the new API. Since the multiple invocations
+of the old APIs may not appear consecutively and the variables in these calls
+may have different names, writing a tool to correctly cover all
+such invocation cases is not an easy task.
+
+In this paper we propose a novel \emph{guided-normalization} approach
+to address this problem. Our core insight is that programs in
+different forms can be normalized to a semantically equivalent 
+basic form guided by transformation goals, and developers only need to
+write rules for the basic form to address the transformation. Based on
+this approach, we design a declarative program transformation
+language, \PATL, for adapting Java programs between different APIs.
+\PATL has simple syntax and basic semantics to handle transformations
+only considering consecutive statements inside basic blocks, while
+with guided-normalization, it can be extended to handle complex forms
+of invocations. Furthermore, \PATL ensures that the user-written rules would not
+accidentally break def-use relations in the program.
+
+We formalize the semantics of \PATL on Middleweight Java and prove the semantics-preserving property of guided-normalization. We also evaluated our approach on three non-trivial case studies: i.e. updating Google Calendar API, switching from JDom to Dom4j, and switching from Swing to SWT. The result is encouraging; it shows that our language allows successful transformations of real world programs with a small number of rules and a small number of manual resolutions.
+\end{abstract}
+
+%%%
+%%% Introduction Section
+%%%
+
+\section{Introduction}
+\label{sec:intro}
+Modern programs depend on library APIs, and when those APIs change, usually
+many places of the client programs need to be changed. As a result, it
+is desirable for API vendors to provide program transformation tools
+that automate the task of transforming client programs. 
+In practice, such transformation tools are developed for two purposes.
+One is for API upgrade~\cite{Dig:2006:AES:1133105.1133107,Li:2013:WSA:2514946.2515486}: when an incompatible new version of an API is released, the tool helps upgrade the client programs to work with the new
+API. For example, a tool named 2to3 script~\cite{Pilgrim:2009:DP:1655836} is provided to
+help users migrate programs from Python 2 to Python 3. Another is for
+API switching~\cite{246}, where the tool migrates programs from
+one platform to another platform. For example, RIM provides a
+migration tool for transforming Android applications to Blackberry
+applications in order to attract more developers to the Blackberry
+platform. 
+
+Given the importance of developing program transformation tools,
+dedicated program transformation languages have been proposed, such as SmPL~\cite{DBLP:conf/eurosys/PadioleauLHM08}, Stratego~\cite{Bravenboer:2008:SLT:1385689.1385715},
+TXL~\cite{Cordy:2006:TST:1149670.1149672}, Syntax Macros~\cite{Weise:1993:PSM:155090.155105}, Twinning~\cite{Nita:2010:UTA:1806799.1806832} and SWIN~\cite{Li:2015:STT:2678015.2682534}. These languages typically allow
+the developers to describe a set of rules for program transformation, and a rule usually consists of a pattern that matches a piece of code and an action for generating new code to replace the matched one. 
+
+For example, the rule \code{rSetAlign} in the left of Figure~\ref{running-rules} is a simple rule to transform a method invocation in Swing to its counterpart in SWT. The rule is written in \PATL (PAtch-like Transformation Language), the transformation language to be introduced in the paper, with a similary patch-style syntax used in SmPL~\cite{DBLP:conf/eurosys/PadioleauLHM08}. This rule matches a call to method \code{JButton.setAlignmentX} and replaces it by
+a call to method \code{Button.setAlignment}. The line marked with `-' describes a
+pattern to match a statement, while the line marked with `+' describes
+a pattern for generating statements. 
+The declaration of parameter \code{jb} declares a metavariable used in the patterns and \code{JButton->Button} indicates that \code{jb} is of type \code{JButton} in the old API and of type \code{Button} in the new API.
+
+Though program transformation languages have greatly reduced the difficulty of
+writing program transformations, dealing with many-to-many mappings between APIs remains difficult. 
+\emph{Many-to-many mapping} means that a
+sequence of invocations to the old API is mapped to a sequence of
+invocations to the new API, and this mapping is minimal: there exists no 
+mapping from a subsequence of invocations to the old API to a
+subsequence of the new API. As shown by existing studies~\cite{246,Bartolomei:2009:SAM:2127907.2127914},
+\emph{many-to-many mappings} are very common in transformation between APIs.
+Below we present the two key challenges in dealing with many-to-many mappings.
+
+\textit{Challenge 1.} The first challenge is
+  that the same sequence of API invocations at runtime can appear in many
+  different forms in the code, and all such possible forms should be considered in transformation. 
+ 
+Let us consider the rule
+\code{rButton} in the right of Figure~\ref{running-rules}. In this case, the class \code{JButton} is mapped to the class \code{Button}, and the two calls in the Swing API are merged into one call to the constructor of \code{Button} in SWT.
+While this rule captures the basic forms of consecutively
+invoking the respective methods, many other different forms may produce
+the sequential invocation to these two statements, such as those in Figure~\ref{eg:intro:3cases}.
+
+\begin{figure}[t]
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none,basicstyle=\scriptsize\ttfamily]
+//rule rSetAlign
+(jb: JButton->Button, align: int->int){
+ - jb.setAlignmentX(align);
+ + jb.setAlignment(align);
+}
+\end{lstlisting}
+\end{smpage}
+~
+\begin{smpage}{0.42\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none,basicstyle=\scriptsize\ttfamily]
+//rule rButton
+(jb: JButton->Button, 
+ parent: JPanel->Composite) {
+ - jb = new JButton();
+ - parent.add(jb);
+ + jb = new Button(parent, SWT.PUSH);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-20pt}
+\caption{Two transformation rules used in transformation of programs between Swing to SWT.}
+\label{running-rules}
+\vspace{-10pt}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=java,frame=none, basicstyle=\scriptsize\ttfamily]
+//Case 1:
+jb = new JButton();
+if(parent != null) {
+  parent.add(jb);
+}
+\end{lstlisting}
+\end{smpage}
+~~
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=java,frame=none, basicstyle=\scriptsize\ttfamily]
+//Case 2:
+jb = new JButton();
+s = jb.getUIClassID(();
+parent = new JPanel();
+parent.add(jb);
+\end{lstlisting}
+\end{smpage}
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=java,frame=none, basicstyle=\scriptsize\ttfamily]
+//Case 3:
+jb = new JButton();
+defaultButton = jb;
+parent.set(defaultButton);
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-15pt}
+\caption{Three examples of non-consecutive API invocations.}
+\label{eg:intro:3cases}
+\vspace{-12pt}
+\end{figure}
+
+In this first case, every time the program enters the if-branch,
+the calls to \code{jb = new JButton()} and \code{parent.add(jb)}
+actually form consecutive calls defined in the pattern, while in the
+else-branch, such consecutive calls will not be produced. In the second case, 
+though the two invocations are not consecutive, their behavior is
+equivalent to consecutive invocations and thus should be transformed. (In this case, the third statement \code{parent = new JPanel()} has no dependency on the first two statements, nor does the second statement
+depend on the last two statements. So the whole execution is
+equivalent to an execution of statements 4, 2, 5, 3, where 2 and 5 are
+consecutive.)
+ In the third case, though the argument
+\code{defaultButton} in the third statement is different from
+\code{jb} in the first statement, they match the
+patterns in the rules as these two variables are aliases and they both
+refer to the same object. None of the three cases are directly captured by
+rule \code{rButton}.
+
+Researchers have noticed this
+problem and have proposed different
+mechanisms to \emph{match} the above cases, such as flow-based
+matching~\cite{DBLP:conf/popl/BrunelDHLM09} and context-sensitive matching~\cite{Cordy:2006:TST:1149670.1149672}.
+Given a rule that is similar to the rule \code{rButton}, these approaches can identify
+statements that may produce the same sequence of invocations at
+runtime, and return these statements as output. For example, in the
+first program in Figure~\ref{eg:intro:3cases}, these approaches can identify the match between the rule \code{rButton} and the two statements in lines 2,4.
+
+However, safely transforming these matched statements is challenging: contexts for matched statements should be considered and thus it is difficult to transform them uniformly using a simple strategy.
+For example,
+  a common strategy used in existing approaches is to specify which
+statements in the `+' block replace which statements in the `-'
+block\footnote{This strategy can be implemented as context-sensitive rules
+  in TXL~\cite{Cordy:2006:TST:1149670.1149672}, dynamic rules in Stratego~\cite{Bravenboer:2008:SLT:1385689.1385715}, and
+  standard placement of `+' statements in SmPL~\cite{DBLP:conf/eurosys/PadioleauLHM08}.}.
+In this example, we can specify either the generated statement to
+replace the first statement marked with `-' or replace the second one.
+However, neither strategy can correctly handle even a simple case like Case-2 in
+Figure~\ref{eg:intro:3cases}. Replacing the first statement (left
+program below) will lead to the problem that the \code{parent} used
+in the first statement (line 2) is either uninitialized or captures some
+undesirable value defined by the previous context.
+Similarly, replacing the second statement
+will lead to the fact that the statement \code{jb.getUIClassID()}
+refers to a variable \code{jb} undefined or defined by some
+undesirable object in the previous context.
+
+\begin{center}
+\begin{smpage}{0.4\columnwidth}
+\begin{lstlisting}[style=patl,frame=none, basicstyle=\scriptsize\ttfamily]
+//jb = new JButton();
+jb = new Button(parent, SWT.PUSH);
+/* other rules will transform the following two statements */
+s = jb.getUIClassID(();
+parent = new JPanel();
+//parent.add(jb);
+\end{lstlisting}
+\end{smpage}
+~~
+\begin{smpage}{0.4\columnwidth}
+\begin{lstlisting}[style=patl,frame=none, basicstyle=\scriptsize\ttfamily]
+//jb = new JButton();
+/* other rules will transform the following two statements */
+s = jb.getUIClassID(();
+parent = new JPanel();
+//parent.add(jb);
+jb = new Button(parent, SWT.PUSH);
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+To correctly handle such cases in existing
+languages~\cite{DBLP:conf/eurosys/PadioleauLHM08,Bravenboer:2008:SLT:1385689.1385715,Cordy:2006:TST:1149670.1149672}, we have to write rules separately for different cases, capturing all possible
+contexts for all transformations that need to
+be performed. This adds a lot of burdens to the developers, and also
+there is no guarantee on whether these more complex patterns have the same meaning expressed in the basic rule. 
+
+In this paper, we present a novel transformation technique,
+\emph{guided normalization}, which extends the notion of syntactical
+transformation expressed with a simple patch rule into a more
+expressive transformational semantics that can \emph{match} and
+\emph{transform} statements in control flow graphs. Using our
+approach, the developer only has to specify the transformation rules
+for consecutive blocks. The system first finds matched statements in a
+way similar to existing approaches, and for code pieces that cannot be
+directly transformed, a guided normalization process is performed: the
+system performs a set of semantics-preserving transformations to the
+program so that the matched statements become a consecutive block and
+can be directly transformed by simply syntactic substitution. If the normalization procedure cannot be found by the system, a warning is generated to the user.
+
+In this paper, we consider several semantics-preserving transformation primitives that are verified and widely used in compiler optimization~\cite{Wegman:1991:CPC:103135.103136,Aho:2006:CPT:1177220,Callahan:1986:ICP:12276.13327,DBLP:conf/sefm/KanadeSK06} and  refactoring~\cite{Schafer:2008:SER:1449764.1449787,Opdyke:1992:ROF:169783,Roberts:1999:PAR:929806}, including (1) \emph{shifting} unconditional statements into
+all conditional branches when data dependency\footnote{Note there are three types of data dependencies:
+  read-after-write, write-after-read, and write-after-write. In this
+  paper, when we use the term ``data dependency'', we refer to all the three.} does not break, (2)
+\emph{swapping} two adjacent statements that have no data
+dependency
+with each other, and (3) \emph{renaming} variables to their
+must-aliases or fresh names.  Applying the three primitives
+on the three cases above, we can get the following
+programs, all of which can be directly matched and transformed by \code{rButton}.
+\begin{center}
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none, basicstyle=\scriptsize\ttfamily]
+//Case 1':
+if(parent != null) {
+  jb = new JButton();
+  parent.add(jb);
+}
+\end{lstlisting}
+\end{smpage}
+~~
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none, basicstyle=\scriptsize\ttfamily]
+//Case 2':
+parent = new JPanel();
+jb = new JButton();
+parent.add(jb);
+s=jb.getUIClassID(();
+\end{lstlisting}
+\end{smpage}
+~~
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none, basicstyle=\scriptsize\ttfamily]
+//Case 3':
+jb = new JButton();
+parent.set(jb);
+defaultButton = jb;
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+A particular difficulty in designing guided-normalization algorithm is that several match
+instances can intertwine with each other, thus, a global solution is necessary to ensure that the normalization guided by one rule would not prevent the normalization guided by another rule. In our approach, we globally consider constraints brought by matches and dependencies, and then normalize the program without breaking any of them.
+
+\textit{Challenge 2.} With guided normalization, we can ensure that code pieces in different
+forms are transformed as a consecutive block. However, the basic
+transformation specified by the user rules may also lead to undesirable conflicts
+with other code pieces. Here we focus
+on one type of such conflicts: breaking def-use relation.
+
+An example of breaking def-use relation is shown below.
+\begin{center}
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=patl,frame=none, basicstyle=\scriptsize\ttfamily]
+//BadRule:
+(x: ClassX->ClassX2, 
+ y: ClassY->ClassY2) {
+  - x = new ClassX();
+  - y.add(x);
+  + y = new ClassY2(x);  
+}
+\end{lstlisting}
+\end{smpage}
+~
+\begin{smpage}{0.25\columnwidth}
+\begin{lstlisting}[style=patl,frame=none, basicstyle=\scriptsize\ttfamily]
+//Program
+y = System.defaultY();
+x = new ClassX();
+y.add(x);
+SomeUse(y);
+SomeOtherUse(x);
+\end{lstlisting}
+\end{smpage}
+$\xrightarrow{\code{BadRule}}$~~~
+\begin{smpage}{0.25\columnwidth}
+\begin{lstlisting}[style=patl,frame=none, basicstyle=\scriptsize\ttfamily]
+//Transformed Program
+y = System.defaultY();
+y = new ClassY2(x);
+SomeUse(y);
+SomeOtherUse(x);
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+As we can see, {BadRule} breaks the def-use relation in the program. The
+value \code{y} used in \code{SomeUse(y)} was defined by line 2 in the
+original program (left) and now is defined by line 3 in the transformed program (right). 
+Similarly, the value of \code{x} in \code{SomeOtherUse(x)} was defined in the old program, and becomes
+undefined after the transformation. This problem is caused by the
+definition of BadRule, where a definition of \code{y} is undesirably
+added and a definition to \code{x} is undesirably removed.
+
+We solve this problem by providing a static checker to 
+check the def-use safety by looking into the set of transformation
+rules. Though this restricts the forms of the patch patterns to write, we will show in the evaluation section that such restriction will not damage our expressiveness in expressing API transformation problem.
+
+\subparagraph*{Contributions} Concretely, this paper makes the following contributions.
+\begin{itemize}\itemsep-1pt
+\item We propose a novel transformation technique, \emph{guided normalization}, for
+  program transformation with many-to-many mappings. In our approach,
+  the developers specify the transformations only for consecutive
+  method invocations, and the system automatically applies the
+  transformation to many different forms via guided normalization.
+\item We design a patch-rule like programming language, \PATL, to
+  transform programs between APIs, and provide a static checker to
+  ensure block-level transformation safety in terms of def-use
+  relation. We formalize the semantics of core \PATL atop of Middleweight
+  Java~\cite{UCAM-CL-TR-563}, and prove (1) the guided normalization is semantics-preserving, and (2)
+  the transformation never breaks def-use relations.
+\item We have evaluated our language with three non-trivial case studies for Google Calendar API updates,
+  switching from JDom to Dom4j, and switching from Swing to SWT.
+  The evaluation shows that our language allows successful
+  transformations of real world programs with a small number of rules,
+  requiring only a small amount of manual resolutions.
+\end{itemize}
+
+In the rest of the paper, we first present the syntax and basic
+semantics of \PATL (Sections~\ref{sec:syntax}, \ref{sec:basic}). Then we describe 
+how we address the two challenges (Sections~\ref{sec:checker}, \ref{sec:g-normalization}).
+Next, we present the implementation
+(Section~\ref{sec:implementation}) and evaluation
+(Section~\ref{sec:evaluation}). Finally, we discuss related work
+(Section~\ref{sec:related}) and conclude the paper (Section~\ref{sec:conclusion}).
+
+%%%
+%%% syntax
+%%%
+
+\section{\PATL Syntax}
+\label{sec:syntax}
+
+\subsection{Background: Middleweight Java}
+Our discussion of \PATL is based on a formal imperative core
+of the Java language, Middleweight Java (MJ)~\cite{UCAM-CL-TR-563}.
+To simplify the formal presentation, we only consider MJ in three-address form, and in Section~\ref{sec:implementation} we
+shall discuss how to transform a program into and out of three-address form.
+
+In three-address MJ, arguments of method invocations or object constructions, field access targets, \code{if} condition expressions and \code{while} condition expressions are limited to variables. Besides all local variables in a method body are declared before the statements.
+The syntax of three-address Middleweight Java is presented in
+Figure~\ref{mj-syntax}. 
+
+In the formal notations, we use the bar notation adopted by Pierce~\cite{Pierce:2002:TPL:509043}
+for repetitive elements: $\bar{a}$ indicate a sequence $a_1,a_2,...,a_n$, 
+and all operations defined on single values expand
+component-wisely along with the sequence, e.g. $\bar{C}\ \bar{f},$ is equal to $C_{1}\,f_{1},\cdots,
+C_{n}\,f_{n}$, where $n$ is the length of $\bar{C}$ and $\bar{f}$.
+
+\begin{figure}[ht!]\footnotesize
+\begin{center}
+\begin{smpage}{0.7\columnwidth}
+\[
+\begin{array}{ccll}
+p   &::=& \overline{\mathit{cd}}& \text{(Program)} \\
+\mathit{cd}   &::=& \mathtt{class}~C~\mathtt{extends}~C~\{\overline{\mathit{fd}}~cnd~\overline{\mathit{md}}\} & \text{(Class Definition)}\\
+\mathit{fd}   &::=& C~f & \text{(Field Definition)}\\
+\mathit{cnd} &::=& C(\bar{C}~\bar{x})\{\mathtt{super}(\bar{e});~\mathit{vd};~\bar{s}\} & \text{(Constructor)}\\
+\mathit{md}   &::=& \tau~m(\bar{C}~\bar{x})\{vd;~\bar{s}~\mathtt{return}~x;\} & \text{(Method Definition)}\\
+\tau &::=& \mathtt{void} ~|~ C & \text{(Return Types)}\\
+\mathit{vd} &::=& \bar{C}~\bar{x} & \text{(Variable Declaration)}\\
+s &::=& \mathit{ps} & \text{(Statement)}\\
+  & | & \mathtt{if}(x)~\{\bar{s}\}~\mathtt{else}~\{\bar{s}\}\\
+  & | & \mathtt{while}(x)\{\bar{s}\} \\
+\mathit{ps}   &::=& x=e; ~|~ x.f=e; ~|~ \mathit{pe}; & \text{(Primitive Statement})\\
+e   &::=& \mathtt{null} ~|~ x ~|~ x.f ~|~ (C)~x ~|~ \mathit{pe} & \text{(Expression)}\\
+\mathit{pe}   &::=& x.m(\bar{x}) ~|~ \mathtt{new}~C(\bar{x}) & \text{(Promotable Expression)}
+\end{array}
+\]
+\end{smpage}
+\end{center}
+\vspace{-10pt}
+\caption{Syntax of three-address MJ, where $x$ ranges over MJ variables, $f$ ranges over field names, $C$
+ranges over class names, and $m$ ranges over method names.}
+\label{mj-syntax}
+\end{figure}
+\vspace{-15pt}
+
+\subsection{Syntax} 
+
+The syntax of \PATL is formally presented in Figure~\ref{fg-syntax}.
+Similar to SmPL~\cite{DBLP:conf/eurosys/PadioleauLHM08} and
+SWIN~\cite{Li:2015:STT:2678015.2682534}, a \PATL program is a set of
+patch-like transformation rules. Each rule $\pi$ in a \PATL program
+consists of two parts: 1) metavariable declarations with type
+information of metavariables: a declaration $v:C_1\hookrightarrow C_2$ means that the type of $v$ in old API is $C_1$ and its type is $C_2$ after transformation, and 2) the rule body consists 
+of a sequence of patterns. The $I^-$ pattern block describes the
+statements to be deleted and the $I^+$ block describes the statements
+to be generated. In a \PATL rule $\pi$, all metavaribales used in
+$I^-$ and $I^+$ are required to be declared in the metavariable
+declaration part of that rule, and particularly, when a metavariable
+$u$ is newly-introduced in $I^+$ ($u$ does not appear in $I^-$,
+meaning that $u$ has no source type), $u$ should be defined with a
+dummy type $\bot$ as its old type in its declaration.
+
+\begin{figure}[ht]
+\begin{center}
+\begin{smpage}{0.7\columnwidth}
+\footnotesize
+\[
+\begin{array}{ccllcccc}
+   \Pi  &::=&   \pi_1,...,\pi_n & \text{(Rule Sequence)}\\
+   \pi  &::=&   (\bar{d})~\{I^{-};I^{+}\} & \text{(Transformation Rule)}\\
+   d    &::=& u:C\hookrightarrow C & \text{(Metavariable Declarations)}\\
+   I^{-}&::=&   \mathit{-~p_1},...,\mathit{-~p_n}& \text{(Source Pattern)}\\
+   I^{+}&::=&   \mathit{+~p_1},...,\mathit{+~p_n}   & \text{(Target Pattern)}\\
+   p  &::=&   u = r; ~|~ r;  & \text{(Statement Pattern)}\\
+   r  &::=& u.m(\bar{u}) ~|~ \mathtt{new}~C(\bar{u}) ~|~ u.f & \text{(Expression Pattern)}\\
+\end{array}
+\]
+\end{smpage}
+\end{center}
+\vspace{-10pt}
+\caption{\PATL syntax, where $u$ ranges over \PATL metavariables and $C$ ranges over MJ types.}
+\label{fg-syntax}
+\end{figure}
+
+%%%
+%%%
+%%%
+
+
+\section{Basic Semantics}\label{sec:basic}
+
+Basic semantics of \PATL performs only strict match on
+consecutive blocks and syntactical transformation. In Section~\ref{sec:g-normalization}
+we shall describe how to extend the basic semantics to deal with code blocks in
+different forms.
+
+\subsection{Match} 
+
+Intuitively, statements $\bar{s}^-$ in method $M$ are matched by a
+rule $\pi$ defined in a rule set $\Pi$, if 1) $\bar{s}^-$ is a sequence of consecutive statements in $M$ that can be matched by the source pattern $\pi.I^-$, and 2) all variable occurrences matched by a same metavariable
+should have a same name. The formal definition is presented below. We assume each location in a program is uniquely identified, and use the notation $x^l$ in the rest of the paper to denote the occurrence of variable $x$ at location $l$ in the program.
+
+\begin{definition}[Match]
+\label{def:match}
+Given a method $M$, statements $\bar{s}^{-}$ in $M$ are said to form a \emph{match instance} with a transformation rule $\pi=(\bar{d})\{I^{-}~I^+\}$ if the following conditions are satisfied.
+\begin{itemize}
+\item (Block) A basic block $\bar{s}$ exists in $M$, s.t. $\bar{s}^{-}$ is a consecutive statement sequence in $\bar{s}$.
+\item (Source pattern match) $\bar{s}^{-}$ can be matched by the
+  pattern block $I^{-}$ syntactically. There exists a map $\phi$
+  from variable occurrences to metavariable names, s.t. by
+  substituting each variable occurrence in $\bar{s}^-$ with its image
+  in $\phi$, $\bar{s}^-$ is exactly the same as $I^-$.
+\item (Variable mapping) Suppose $x^l$ and $y^{l'}$ are two variable occurrences matched by the same metavariable $u$, then $x\equiv y$ (i.e. $x$ and $y$ are the same variable), and these two occurrences $x^l$, $y^{l'}$ are must aliases.
+\item (Variable typing) Suppose a variable occurrence $x^l$ is matched by a metavariable $u$, then $\mathsf{type}(x)<:\mathsf{type}(u)$ if $x^l$ is a right-value in $M$, and $\mathsf{type}(u)<:\mathsf{type}(x)$ if $x^l$ is a left-value in $M$ (Function $\mathsf{type}(x)$ refers to the type of $x$ in $M$, and $\mathsf{type}(u)$ refers to the source type of metavariable $u$ in $\pi$).\hfill $\qed$ 
+\end{itemize}
+\end{definition}
+
+We denote a \emph{match instance} as a triple $b=(\bar{s}^-,\pi,\sigma)$, where $\sigma=\{u_1\mapsto[x^{l_1},...,x^{l_n}],...\}$ is the set of mappings from metavariables to variable occurrences formed in the match. An element $u_1\mapsto[x^{l_1},...,x^{l_n}]\in\sigma$ indicates that the metavariable $u$ matches to different occurrences $x^{l_1},...,x^{l_n}$ of the variable $x$ in the program.
+
+\begin{definition}
+A matching instance set $\mathcal{B}$ is a set of match instances
+$\{b_1,...,b_n\}$ formed by matching a method $M$ against a set of rules $\Pi$,
+such that for any $b_1\neq b_2\in
+\mathcal{B}$, where $b_1=(\bar{s}_1^-,\pi_1,\sigma_1)$ and
+$b_2=(\bar{s}_2^-,\pi_2,\sigma_2)$, the statements $\bar{s}_1^-$ and
+$\bar{s}_2^-$ should have no overlap.
+\end{definition}
+The `none-overlapping' constraint is to ensure
+that one statement will not be deleted twice in transformation, 
+and a warning will be generated if two mapping instances overlap.
+
+Note that in our pattern definition there is no syntax for capturing
+a field access expression. Here we simply treat field access expressions as variables
+and allow metavariables to match them.
+
+\subparagraph*{Example} A match instance set is presented in Figure~\ref{running-eg1}: given the source program on left of Figure~\ref{running-eg1} and the transformation rules in Figure~\ref{running-rules}, the two statements in lines 2,3 will be matched by the rule \code{rButton}, and the statement in line 5 can be matched by the rule \code{rSetAlign}, and the match instance set is presented below: (Here, $s^2$ refers to the statement \code{btn=new Button();} in line 2, and $\code{btn}^2$ refers to the occurrence of the variable \code{btn} in line 2, other notations are similar.)\footnote{If there exist two variables at the same line, the encoding of $l$ will not just be the line number but both its line number and its character offset number, but as there is no such case in this example, we only use line number for convenience.}
+\begin{equation}
+\label{eqn:basic-matchinstance}
+\begin{array}{l}
+ 	\mathcal{B}=\big\{(s^2s^3, \code{rButton}, \left\{\code{jb}\mapsto\{\code{btn}^2, \code{btn}^3\}, \code{parent}\mapsto\{\code{panel}^2\}\right\}),\\
+ 	\quad\quad~~(s^5, \code{rSetAlign}, \left\{\code{jb}\mapsto\{\code{btn}^5\}, \code{align}\mapsto\{\code{alX}^5\}\right\})\big\}
+\end{array}
+\end{equation}
+
+\subsection{Transformation} 
+The transformation of a program based on a match instance set $\mathcal{B}$ is defined below.
+
+
+\begin{definition}[Target Pattern Instantiation]
+\label{def:pattern_instantiation}
+Given a match instance set $\mathcal{B}$, suppose
+$b=(\bar{s}^-,\pi,\sigma)\in \mathcal{B}$, then $\pi.I^+$ will be
+instantiated into $\bar{s}^+$ by substituting each metavariable $u$ in $\pi.I^+$ with an MJ variable:
+\begin{itemize}
+\item If $u$ is a metavariable in $\pi.I^+$ and there exists $u\mapsto[x^{l_1},...,x^{l_n}]\in \sigma$, then $u$ will be substituted with $x$.
+\item If $u$ is a metavariable in $\pi.I^+$ and $u$ is a metavariable not appearing in $\pi.I^-$, but defined in $\pi.I^+$, then $u$ will be instantiated as a new variable name.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Statement-level Transformation] Given a method $M$
+  (with its statement body $\bar{s}_M$) and a rule $\Pi$ we denote the
+  transformation of $\bar{s}_M$ by $\Pi$ as $\Pi\triangleright
+  \bar{s}_M$. Suppose $\mathcal{B}=\{b_1,...,b_n\}$ is the set of
+  match instances between $M$ and $\Pi$ where
+  $b_i=(\bar{s}^-_i,\pi_i,\sigma_i)$, then $\Pi\triangleright M$ is
+  the result of substituting all $\bar{s}_i^-$ with $\bar{s}_i^+$ (statements instantiated from $\pi_i.I^+$ with $b_i$). Formally, $\Pi\triangleright \bar{s}_M=[\bar{s}_1^-\mapsto \bar{s}_1^+,...,\bar{s}_n^{-}\mapsto\bar{s}_n^+]\bar{s}_M$.\hfill $\qed$
+\end{definition}
+
+Besides statement-level transformation, we will also 1) add the definitions of newly introduced variables in the variable declaration field of $M$ (the type of a newly introduced variable is the target type of its corresponding metavariable defined in the rule) and 2) transform the types based on the type mapping information provided in metavariable declarations in each rules in $\Pi$. But as they are not our focus in this paper, we do not formalize these two transformations.
+
+\subparagraph*{Example} Given the match instances in Equation~\ref{eqn:basic-matchinstance} between the program in left Figure~\ref{running-eg1} and rules in Figure~\ref{running-rules}, target statements will first be generated before substitution. In the first match instance, the target statement is generated by substitution of metavariable \code{jb} with \code{button}, and substitution \code{parent} with \code{panel}. The resulting target statement is \code{btn=new Button(panel, SWT.PUSH);}. Similarly, by substituting \code{jb} with \code{btn} and substituting \code{align} with \code{alX}, we obtain the target statement \code{btn.setAlignment(alX);} from the second match instance. By substituting source statements in each match instance with its corresponding target statements, the desirable result can be obtained (right of Figure~\ref{running-eg1}).
+
+\begin{figure}[ht]
+\footnotesize
+\vspace{-10pt}
+\begin{center}
+\begin{smpage}{0.27\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\scriptsize\ttfamily]
+//Program
+btn = new JButton();
+panel.add(btn);
+alX = 10;
+btn.setAlignmentX(alX);
+\end{lstlisting}
+\end{smpage}
+\!\!$\xrightarrow[\texttt{\scriptsize rSetAlign}]{\texttt{\scriptsize rButton}}$~~~~
+\begin{smpage}{0.4\columnwidth}
+\begin{lstlisting}[style=patl,frame=none, basicstyle=\scriptsize\ttfamily]
+//Transformed Program
+btn = new Button(panel, SWT.PUSH);
+alX = 10;
+btn.setAlignment(alX);
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-15pt}
+\caption{A transformation example with rules defined in Figure~\ref{running-rules}, the statements in lines 2,3 (left) are transformed into the statement in line 2 in the result program (right) by rule \code{rButton}. Similarly, the statement in line 5 is transformed to the statement in line 4 (right) by rule \code{rSetAlign}. In our examples, variables are always declared in the previous context, but we omit them for concision consideration. }
+\label{running-eg1}
+\end{figure}
+
+%%%
+%%%
+%%%
+
+\section{Preserving Def-Use Relations}\label{sec:checker}
+As mentioned in Challenge 2 in the introduction, we would like to
+disallow rules that may change def-use relations. Thus, besides checking the syntax and type correctness of the rules as SWIN~\cite{Li:2015:STT:2678015.2682534} did, an addition set of well-formedness conditions are checked against a transformaion program $\Pi$ to ensure the it will perserve def-use relations in transformation.
+
+\begin{definition}[Well-Formedness Conditions]
+A \PATL program $\Pi=\pi_1,...,\pi_n$ is well-formed if the following four conditions are satisfied.
+\begin{itemize}
+\item \textit{(Definition deletion)} For all $\pi$, if there exists a pattern $-~u=r$ in $I^-$, then there should also be a pattern $+~u=r'$ in $I^+$.
+\item \textit{(Definition introduction)} For all $\pi$, if there exists a pattern $+~u=r$ in $I^+$, then either there exists $-~u=r$ in $I^-$ or $u$ does not appear in $I^-$.
+\item \textit{(New metavariable introduction)} Given a rule $\pi$, if there exists a pattern $+p$ in $\pi.I^+$ such that a metavariable $u$ in $p$ does not appear in $\pi.I^-$, then there exists a pattern $+u=r$ in $\pi.I^+$ that introduce the definition of $u$. \hfill $\qed$
+\item \textit{(SSA pattern form)} For all $\pi$, the code block formed
+  by $I^-$ (and $I^+$) must be in static single
+  assignment (SSA) form, i.e. each variable is assigned at most once.
+\end{itemize}
+\end{definition}
+
+The first and second conditions ensure the def-use relations of
+existing variables. The third condition ensures that the new variables are
+used after definition. The fourth condition makes the other three
+conditions simpler, and also contributes to guided normalization
+to be introduced in the next section.
+As an example, the BadRule in the introduction violates the first two conditions, and thus can potentially violate
+def-use relations.
+
+Now we can formally define and prove the def-use preservation property
+of a checked \PATL program $\Pi$. Suppose $\mathcal{B}$ is the match
+instance set between a method $M$ and $\Pi$, $\Pi(s)$ is used to refer
+to the statements corresponding to $s$ after transformation, defined
+as: (1) the statements generated from a binding $b$, if exists
+$b=(\bar{s}^-,\pi,\sigma)\in \mathcal{B}$ s.t. $s\in\bar{s}^-$,  or (2)
+$s$ itself, if $s$ is not matched by any rule. We have the following theorem.
+
+\begin{theorem}[Def-use Preservation\footnote{Due to space limit, the proofs of all theorems or properties are omitted, please refer to \url{https://github.com/Mestway/Patl4J/blob/master/patl-full.pdf} for full version with proofs.}] Given a method $M$ and a checked \PATL program $\Pi$, suppose the statement-level transformation is $\Pi\triangleright \bar{s}_M=\bar{s}'_{M}$, then:
+  \begin{enumerate}
+    \item Suppose $s_1$ and $s_n$ are two statements in a basic block in $\bar{s}_M$, and there exists a variable $x$ that is used in $s_n$ and defined in $s_1$, then after transformation, either $\Pi(s_n)$ does not use the variable $x$, or the occurrences of $x$ used in $\Pi(s_n)$ is defined in $\Pi(s_1)$. 
+    \item Suppose $x$ is a variable newly introduced in $\bar{s}'_M$, then $x$ is used after definition.
+  \end{enumerate}
+\end{theorem}
+
+
+%%%
+%%% g-normalization
+%%%
+
+\section{Extending Basic Semantics via Guided
+  Normalization}\label{sec:g-normalization}
+As mentioned in Challenge 1 in the introduction, we use guided
+normalization to extend the basic semantics to different cases. We
+first start with the introduction of program analysis techniques used in our approach, 
+ then introduce the extended match that identifies different cases,
+and show how to guided-normalize the matched statements into the
+basic form.
+
+\subsection{Program Analysis}
+In order to apply a semantics-preserving transformation to a program $p$, the following two program analysis results are required.
+
+\begin{enumerate}\itemsep0pt
+\item Alias relations between variable occurrences in $p$: given two variable occurrences $x^{l_1}$ and $y^{l_2}$, identify whether $x^{l_1}$ and $y^{l_2}$ are \textit{none-aliases}, \textit{may-aliases} or \textit{must-aliases}\footnote{Typical analysis tools will only provide none-alias relations and may-aliases relations, but enhancing them with a conservative intra-procedural aliases analysis can further provides must-alias relations between variable occurrences.}.
+\item Dependency relations between statements in $p$: given two primitive statements $s_1$ and $s_2$, whether there are no dependencies between them or there may exist dependencies between them, considering both data dependency and control dependency.
+\end{enumerate}
+As the transformation algorithm only requires the analysis results, the analysis algorithm is orthogonal to the transformation phase and any \textit{conservative} program analysis tool providing these results can be used. And as we will show later, the precision of analysis result will not affect the semantics-preserving property of the transformation process due to our conservative treatment of the analysis result, but less precise analysis result may increase the number of warnings reported by the transformation algorithm that require manual resolutions.
+
+\subsection{Extending Match}
+
+Now we define the extended match, considering match instances formed by potentially scattered consecutive statements and rules.
+
+\begin{definition}[Match*]
+\label{def:match*}
+Given a method $M$, statements $\bar{s}^{-}$ in $M$ are said to form a \emph{match instance} with a transformation rule $\pi=(\bar{d})\{I^{-}~I^+\}$ if the following conditions are satisfied.
+\begin{itemize}
+\item (Path*) There exists a statement sequence $\bar{s}$, which forms
+  an execution path in the control flow graph of $M$, s.t.
+  $\bar{s}^{-}$ is a (potentially scattered) sub-sequence in $\bar{s}$ .
+\item (Source pattern match) $\bar{s}^{-}$ can be matched by pattern $I^{-}$ syntactically.
+\item (Variable mapping*) Suppose $x^l$ and $y^{l'}$ are two variable
+  occurrences matched by the same metavariable $u$, then $x^l$ and
+  $y^{l'}$ are may-aliases in $M$.
+\item (Variable typing) Suppose a variable occurrence $x^l$ is matched by a metavariable $u$, then $\mathsf{type}(x)<:\mathsf{type}(u)$ if $x^l$ is a right value in $M$, and $\mathsf{type}(u)<:\mathsf{type}(x)$ if $x^l$ is a left value in $M$.\hfill $\qed$ 
+\end{itemize}
+\end{definition}
+
+Different from Definition~\ref{def:match}, in Definition~\ref{def:match*}: (1) statements are only required to appear in a path in the control flow graph, and (2) variable occurrences bound to the same metavariable are only required to be may-aliases. Here, we use $\mathcal{B}^*=\{b_1^*,...,b_n^*\}$, where
+$b_i^*=(\bar{s}^-_i,\pi_i,\sigma_i^*)$, to refer to the set of match
+instances formed between a method $M$ and a \PATL program $\Pi$ with
+extended match definition $\mathsf{Match^*}$. The difference between
+$\sigma^*$ and $\sigma$ is that given
+$u\mapsto[x_1^{l_1},...,x_n^{l_n}]\in\sigma^*$ (indicating
+metavariable $u$ maps to the variable occurrences
+$x_1^{l_1},...,x_n^{l_n}$ in the match instance), occurrences
+$x_1^{l_1},...,x_n^{l_n}$ are only required to be aliases but not
+necessarily with the same name.
+
+\subparagraph*{Match Finding and Checking}
+Given a method $M$ and a set of rules $\Pi$, we use a dataflow
+analysis to obtain all match instances between statements in $M$ and
+rules in $\Pi$. The behavior of the dataflow analysis is similar to
+the method presented by Brunel et
+al.~\cite{DBLP:conf/popl/BrunelDHLM09}. Due to space limit, we
+omit the details here.
+
+As mentioned before, not all match instances can be
+guided-normalized. If there exist match instances that cannot be
+handled by guided-normalization, we will report them to users as
+warnings. Some untransformable match instances can be easily identified by
+static condition check. More will be identified during the process of
+guided normalization.
+Basically, we identify any match instance
+$b^*=(\bar{s}_1,\pi,\sigma^*)$ satisfying one of the following three
+conditions and report it as a warning. 
+\begin{itemize}
+\item Any two variable occurrences matched by the same metavariable in
+  $\sigma^*$ are not must-aliases.
+\item Statements $\bar{s}_1$ appear across methods.
+\item Statements $\bar{s}_1$ appear across boundary of a
+  $\mathtt{while}$ statement, i.e., the matched statements are in
+  different iterations, or, some are inside a loop while some outside.
+\end{itemize}
+The latter two conditions are checked after the matching process,
+while the first condition is checked after the guided-shift step in
+guided normalization (introduced later in this section). This is
+because the guided-shift step will eliminate some may-aliases, and after checking,
+all uncertain aliases between variables occurrences involved in match instances are resolved. On the other hand, other uncertain aliases relations will not need to be handled as they will not affect transformation correctness, as a result, only a small part of uncertainties is required to resolve to proceed transformation.
+
+\subparagraph*{Example} An example program demonstrating extended match
+definition with rules \code{rButton} and \code{rSetAlign} is presented below on the left of Figure~\ref{running-eg2-normalize}. In this program, firstly, the alignment field of the button is set via a call to ``\code{btn.setAlignmentX(alX);}''. Then, before adding the new \code{JButton} object to \code{panel}, it  checks whether \code{panel} is \code{null}: if it is not {null}, then the \code{btn} is added to \code{panel}, otherwise the button is assigned to \code{defaultBtn}, added to a default panel \code{defaultPnl}. 
+
+From pointer analysis we can obtain that all occurrences of \code{btn}
+and \code{defaultBtn}
+are may-aliases.
+Thus, three match instances (in Match*) can be obtained between the program and the rules in Figure~\ref{running-rules}: i.e. 1) statements in lines 1,6 can form a match instance with the rule \code{rButton}, 2) statements in lines 1,9 can form another match instance with the rule \code{rButton} and 3) statement in line 2 can be matched by the rule \code{rSetAlign}. And these match instances can be represented as Equation~\ref{eqn:matchinstance-2}:
+\begin{equation}
+\label{eqn:matchinstance-2}
+\begin{array}{l}
+  \mathcal{B}^*=\big\{(s^1s^6,~\code{rButton},~\left\{\code{jb}\mapsto\{\code{btn}^1, \code{btn}^6\}, \code{parent}\mapsto\{\code{panel}^6\}\right\}),\\
+  \quad\quad~~(s^1s^9,~\code{rButton},~\left\{\code{jb}\mapsto\{\code{btn}^1, \code{defaultBtn}^9\}, \code{parent}\mapsto\{\code{defaultPnl}^9\}\right\}),\\
+  \quad\quad~~(s^2,~\code{rSetAlign},~\left\{\code{jb}\mapsto\{\code{btn}^2\}, \code{align}\mapsto\{\code{alX}^2\}\right\})\big\}
+\end{array}
+\end{equation}
+
+\subsection{Guided Normalization}
+
+Guided normalization transforms the program in a
+semantics-preserving manner such that the match instance in the
+extended semantics can be transformed by the basic semantics. We first
+demonstrate the result of guided normalization by example.
+
+\subparagraph*{Example} A desirable guided-normalization for the program with the match instances in
+Equation~\ref{eqn:matchinstance-2} is presented below (\ref{running-eg2-normalize} right), as after
+normalization, statements matched to a same rule appear consecutively
+in basic block and variable occurrences matched by a same metavariable
+have same name. It is obvious that after guided-normalization, the
+transformation defined in Section~\ref{sec:basic} can be performed as
+all extended match instances become the basic in-block matches.
+Please note in this program different API methods do not write or read
+to the same field, so there is no dependency between these method
+calls. This information can be obtained by a dependency analysis.
+
+\begin{figure}[ht]
+\vspace{-5pt}
+\begin{center}
+\begin{smpage}{0.34\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\ttfamily\scriptsize]
+btn = new JButton();
+btn.setAlignmentX(alX);
+System.out.print(alX);
+b = panel != null;
+if (b) {
+  panel.add(btn);
+} else {
+  defaultBtn = btn;
+  defaultPnl.add(defaultBtn);
+}
+\end{lstlisting}
+\end{smpage}
+\!\!\!\!\!\!$\xrightarrow{normalize}$~~~~~
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\ttfamily\scriptsize]
+System.out.print(alX);
+b = panel != null;
+if (b) {
+  btn = new JButton();
+  panel.add(btn);
+  btn.setAlignmentX(alX);
+} else {
+  x = new JButton();
+  defaultPnl.add(x);
+  btn = x;
+  defaultBtn = btn;
+  btn.setAlignmentX(alX);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-15pt}
+\caption{An Example Program to be Transformed by Rules \code{rButton} and
+  \code{rSetAlign} and its guided normalized result. The program on the right is normalized with match instances in Equation~\ref{eqn:matchinstance-2}, and after guided normalization, the match instances become: 1) statements in lines 4,5 form a match with rule \code{rButton}, 2) statement in line 6 form a match with rule \code{rSetAlign}, 3) statements in lines 8,9 form a match with rule \code{rButton} and 4) statement in line 12 form a match with rule \code{rSetAlign}.}
+\label{running-eg2-normalize}
+\vspace{-10pt}
+\end{figure}
+
+\subparagraph*{Semantics Preserving Transformation} As mentioned in Section~\ref{sec:intro}, the key point of guided-normalization is to ensure that the normalization process is semantics-preserving. Thus before moving to an algorithmic description of guided-normalization, we shall first define which transformations are semantics-preserving.
+
+\begin{definition}[Semantics-preserving transformation]
+\label{def:semantics-preserving}
+A method $M$ (the body of $M$ is $\bar{s}_M$) is said to be semantics-equivalently transformed into $M'$, if $M$ can be transformed into $M'$ with a series of the transformation primitives defined below. We denote such semantics-preserving transformation as $M\xrightarrow{\sim}M'$.
+\begin{itemize}
+\item \textit{Alias Renaming Primitive:} In $\bar{s}_M$, if $x^l$ is a must alias of variable $y$ in the statement of $l$,
+  renaming $x$ to $y$ at the statement of $l$ is semantics-preserving.
+\item \textit{Left-value Renaming Primitive:} In $\bar{s}_M$, suppose $x=e;$ is a statement defining the value of $x$, and $y$ is a free name in $M$, then after declaring $y$ in $M$, substituting $x=e;$ with $y=e; x=y;$ is semantics preserving.
+\item \textit{Fresh-variable Introduction Primitive:} In $\bar{s}_M$, suppose $x$ is a fresh variable name in $M$, then declaring $x$ in $M$ and inserting $x=y;$ at a location where $y$ is defined is semantics-preserving.
+\item \textit{Swapping Primitive:} In $\bar{s}_M$, suppose $s_1s_2$
+  are two adjacent statements with no dependency, then transforming them into $s_2s_1$ is semantics preserving.
+\item \textit{Shifting Primitive:} In $\bar{s}_M$, (1) given $s_1\mathtt{if}(x)\{\bar{s}_2\}\mathtt{else}\{\bar{s}_3\}$ and suppose $x$ does not depends on $s_1$, then substituting it with $\mathtt{if}(x)\{s_1\bar{s}_2\}\mathtt{else}\{s_1\bar{s}_3\}$ is semantics preserving.  (2) given $\mathtt{if}(x)\{\bar{s}_2\}\mathtt{else}\{\bar{s}_3\}s_1$, substituting it with $\mathtt{if}(x)\{\bar{s}_2s_1\}\mathtt{else}\{\bar{s}_3s_1\}$ is semantics preserving.~\hfill $\qed$
+\end{itemize}
+\end{definition}
+
+The transformation primitives defined above are verified and commonly used in compiler optimization~\cite{Wegman:1991:CPC:103135.103136,Aho:2006:CPT:1177220,Callahan:1986:ICP:12276.13327,DBLP:conf/sefm/KanadeSK06} and semantics-preserving refactoring~\cite{Schafer:2008:SER:1449764.1449787,Opdyke:1992:ROF:169783,Roberts:1999:PAR:929806}, and as long as we can show that a transformation algorithm can be decomposed into such series of transformation primitives, the transformation process is guaranteed to be semantics-preserving.
+
+\subparagraph*{Transformation Stages} Algorithmically, the guide-normalization process can be decomposed into the following three stages:
+\begin{enumerate}\itemsep0pt
+\item Stage-1: Transforming the program with \textsf{GuidedShift Algorithm} so that statements matched by a rule will appear in a basic block in the resulting program.
+\item Stage-2: Transforming the program with \textsf{GuidedRename Algorithm}, and variable occurrences matched a same metavariable in a rule will have same name and definition.
+\item Stage-3: Transforming statements in basic blocks with \textsf{GuidedReorder Algorithm}, so that statements matched by a same rule will appear consecutively in the block. 
+\end{enumerate}
+
+In the rest of the section, we will concretely describe each guided normalization stage and prove its semantics-preserving property. The guided normalization process consists of three transformation stages (three algorithms), i.e. $\mathsf{GuidedShift}$, $\mathsf{GuidedRename}$ and $\mathsf{GuidedReorder}$.
+
+In our algorithms, we use $\Delta$ to denote a \emph{must-alias}
+checker, which is obtained by program analysis, i.e. given two variable name $x,y$ and a location $l$,
+$\Delta(x,y,l)=\mathtt{true}$ indicates that $x$ and $y$ are
+must-aliases at the location $l$ otherwise not. We also use $\Theta$
+to represent a dependency checker, i.e. given two statements,
+$\Theta(s_1, s_2)=\mathtt{true}$ indicates that $s_1$ and $s_2$ may have
+dependencies otherwise not \footnote{If may-dependence relation is reported between two statements $s_1$ and $s_2$, the result will be treated as ``$s_1$ and $s_2$ have dependencies'' in our approach. This treatment ensures that any \textit{possible} dependencies will not be broken in transformation.}. Particularly, besides dependencies obtained from analysis,
+here we also consider \emph{match dependency}: two statements $s_1$ and $s_2$
+are said to have match dependency when they are in a same match
+instance in $\mathcal{B}^*$. We shall refer match dependency and data
+dependency uniformly as dependency.
+
+\subsubsection{GuidedShift Algorithm}
+
+In the first stage, we
+make all statement sequences 
+in a match instance appear in the same basic block, i.e. given the match
+instance set $\mathcal{B}^*=\{(\bar{s}_1^-,\sigma_1^*,\pi_1),...\}$,
+if $\bar{s}'_M=\mathsf{GuidedShift}(\bar{s}_M,
+\mathit{ST}_{\mathcal{B}^*}, \Theta)$, then all $\bar{s}^-_i$ in match
+instances from $\mathcal{B}^*$ will appear in a basic block in
+$\bar{s}'_M$. Here ${ST}_{\mathcal{B}^*}$ is the shifting targets of $\mathcal{B}^*$, indicating which statements are supposed to appear in a basic block. ${ST}_{\mathcal{B}^*}$ is calculated by including all adjacent statement pairs in $\bar{s}^-_i$, formally, given $b^*=(\bar{s}_i^-,\sigma_i^*,\pi_i)\in \mathcal{B}^*$, if $s_1s_2$ are two adjacent statements in $\bar{s}^-_i$, then a pair $(s_1,s_2)$ is added into $\mathit{ST}_{\mathcal{B}^{*}}$.
+
+The function $\mathsf{locateBlock}(s)$ is used to find the basic block
+where $s$ is in, $\mathsf{ShiftDownInto}$ ($\mathsf{ShiftUpInto}$) is
+used to move a statement into the beginning (end) of both branches of an $\mathtt{if}$ statement
+without moving any other statement, and $\mathsf{UpdateLocation}$ is used to update locations for all statements whenever a shift operation happens (as it changes locations of statements).
+
+\RestyleAlgo{ruled}
+\begin{algorithm}[htb!]\footnotesize
+\KwIn{statements $\bar{s}$, shifting targets $\mathit{ST}=[(s_a,s_b),...]$,\\
+      \qquad\quad~ dependency checker $\Theta$.}
+\KwOut{shifted statement sequence $\bar{s}'$}
+  \While{exists tuple $(s_a,s_b)\in \mathit{ST}$, s.t. $s_a$ and $s_b$ are not in the same block}{
+    \textit{find $s_1, s_2$, s.t. $s_1$ is the statement containing $s_a$, $s_2$ is the statement containing $s_b$ and $s_1, s_2$ are in the same basic block.}\\
+    \uIf{$s_1\neq s_a$ \textbf{and} $s_1$ is a compound statement containing $s_a$}{
+      $\bar{s}_t \leftarrow \mathsf{locateBlock}(s_1)$;\\
+      $i_1\leftarrow \mathsf{indexOf}(s_1, \bar{s}_t)$;\\
+      \For{$i \leftarrow i_1 + 1,...,\mathsf{size}(\bar{s}_t)-1,$}{
+        $s_x\leftarrow \bar{s}_t[i]$\\
+        \If{$s_x==s_2$}{
+          $\mathsf{shiftUpInto}(s_2, s_1)$; $\mathsf{updateLocations}(\bar{s})$;\\
+          \textbf{break};
+        }
+        \If{$\Theta(s_2, s_x)==\mathtt{true}$}{
+          $\mathsf{GuidedShift}(\bar{s}_t, [(s_x,s_1)])$;$\mathsf{updateLocations}(\bar{s})$\\
+          \textbf{break};
+        }
+      }
+    }
+    \uElseIf{$s_1=s_a$ \textbf{and} $s_2=\mathtt{if}(u)\{s_{21}\}\mathtt{else}\{s_{22}\}$}{
+      %targetLoc $\leftarrow s_2.\mathsf{label}.\mathsf{tail}$;\\
+      %\While{$s_1$ and $s_2$ are not in the same basic block}{
+      $\bar{s}_t \leftarrow \mathsf{locateBlock}(s_a)$;\\
+      $i_2\leftarrow \mathsf{indexOf}(s_2, \bar{s}_t)$;\\
+      \For{$i \leftarrow i_2-1,...,0$}{
+      %\ForEach{$s_x \in \bar{s}_t$}{
+        $s_x\leftarrow \bar{s}_t[i]$\\
+        \If{$s_x==s_a$}{
+          \eIf{$\Theta(u, s_a)==\mathtt{false}$}{
+            $\mathsf{shiftDownInto}(s_a, s_2)$; $\mathsf{updateLocations}(\bar{s})$;\\
+            \textbf{break};
+          }{
+            $\mathsf{report}();\mathsf{retract}();\mathsf{exit}()$;
+          }
+
+        }
+        \If{$\Theta(s_x, s_1)==\mathtt{true}$}{
+          $\bar{s}_t\leftarrow \mathsf{GuidedShift}(\bar{s}_t, [(s_x,s_2)])$;\\
+          $\mathsf{updateLocations}(\bar{s})$\\
+          \textbf{break};
+        }
+      }
+    } 
+  }
+\caption{ $\mathsf{GuidedShift}$ algorithm}
+\label{alg:shift}
+\end{algorithm}
+
+In the algorithm, given a target pair $(s_a, s_b)$, we will first
+ find two compound statements $s_1, s_2$ such that $s_1,s_2$ appear in the same basic block and $s_1$ contains or equals $s_a$, $s_2$ contains or equals $s_b$ (line 2). Then we determine whether $s_1$ is a compound statement containing $s_a$. If so, we shift $s_2$ into an inner level of the block $s_1$ (lines 3-13). In the shifting process, we visit each statement after $s_1$ in the block $s_1$ is in, and when a statement $s'$ having dependence with $s_2$ is found, it will be shifted first to avoid dependency breaking (lines 8-10). If no such statement exists, $s_2$ will moved into an inner level of the block $s_1$ using the $\mathsf{shiftUpInto}$ function (line 8-10). When $s_1=s_a$, meaning that $s_a$ is in an outer block level compared to $s_b$, we need to shift $s_a$ into $s_2$ unless $s_a$ and $s_b$ are already in the same basic block (lines 14-28). This process is similar to the former part except that dependence relation will be checked when we try to shift a statement into an if statement, if dependence between the condition variable and the statement exists, an warning will be generated for user to handle (line 24). 
+
+The algorithm will always terminate as the block-level (the number of nested blocks a statement is in) of some statement will increase in each loop. And the algorithm only terminates when the shifting goal is satisfied. The semantics-preserving property of the algorithm is presented below.
+
+\begin{property}[$\mathsf{GuidedShift}$ semantics-preserving]\label{property:guidedshiftsafe}
+Let $M$ be a method ($\bar{s}_M$ be its body), $\Theta$ be a dependency
+checker that contains all statement dependencies in $\bar{s}_M$, and
+$\mathit{ST}$ be a set of shifting targets. We have
+$M\xrightarrow{\sim}[\bar{s}_M\mapsto\bar{s}_M']M$ if the invocation
+to the algorithm
+$\mathsf{GuidedShift}(\bar{s}_M,\mathit{ST},\Theta)=\bar{s}'_M$
+finishes without warning.  
+\end{property}
+
+\subparagraph*{Example} Given the example in Figure~\ref{running-eg2-normalize}, the first stage transformation is shifting, and it is performed as follows in Figure~\ref{running-eg2-shift}.
+
+\begin{figure}[ht]
+\begin{center}
+\begin{smpage}{0.34\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\ttfamily\scriptsize]
+btn = new JButton();
+btn.setAlignmentX(alX);
+System.out.print(alX);
+b = panel != null;
+if (b) {
+  panel.add(btn);
+} else {
+  defaultBtn = btn;
+  defaultPnl.add(defaultBtn);
+}
+\end{lstlisting}
+\end{smpage}
+\!\!\!\!\!\!$\xrightarrow{\mathsf{GuidedShift}}$~~~~~
+\begin{smpage}{0.4\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\ttfamily\scriptsize]
+System.out.print(alX);
+b = panel != null;
+if (b) {
+  btn = new JButton();
+  btn.setAlignmentX(alX);
+  panel.add(btn);
+} else {
+  btn = new JButton();
+  btn.setAlignmentX(alX);
+  defaultBtn = btn;
+  defaultPnl.add(defaultBtn);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\caption{Guided-shift result of the example in Figure~\ref{running-eg2-normalize} left. Based on the match instances defined in Equation~\ref{eqn:matchinstance-2}, the statement in line 1 is the target statement to be shifted into branches. Besides, the statement in line 2 is also shifted into branches as it depends on the statement in line 1.}
+\label{running-eg2-shift}
+\end{figure}
+
+\subsubsection{GuidedRename Algorithm}
+
+The second stage of guided-normalization is to deal with variable
+names in $\bar{s}_M$, so that if there exist two variable occurrences
+$x^{l_1}, y^{l_2}$ matched to the same metavariable $u$ in a match
+instance ($x^{l_1},y^{l_2}$ are aliases to form such match), we will
+rename them into a uniform name via semantics-preserving
+transformation. Since a variable may be re-assigned or
+used outside a matching instance, to avoid disturbance to the code outside a matching instance, we always introduce a new variable and renaming to the new variable.
+
+Similar to the previous normalization stage, the renaming targets
+$\mathit{RT}_{\mathcal{B}^{*}}$ are calculated first based on the
+$\mathcal{B}^{*}$. Given a match instance
+$b^*=(\bar{s}^-,\pi,\sigma^*)\in \mathcal{B}^*$ and  $u\mapsto[x^{l_1}_{1},...,x^{l_n}_{n}]\in\sigma^{*}$, we add $[x^{l_1}_1,...,x^{l_n}_n]$ into the renaming targets, as these variable occurrences are matched by the same metavariable $u$ in $b^*$. When we obtain $\mathit{RT}_{\mathcal{B}^*}$ from $\mathcal{B}^*$, we will run $\mathsf{GuidedRename}$ on $\mathit{RT}_{\mathcal{B}^*}$ and $M$ to obtain the desirable normalized program.
+
+In our algorithm, we use the following auxiliary functions: 1)
+$\mathsf{Occurs}(\mathit{RT})$ calculates the set of all variable
+occurrences appearing in $\mathit{RT}$, 2) $\mathsf{FreshName}(M)$
+generates a fresh variable name that is not used in $M$,
+3) $\mathsf{UpdateAlias}()$ updates variable locations in both $M$ and $\mathit{RT}$ after transformation and 4) $\mathsf{rename}(x, y, l)$ renames $x$ into name $y$ at the location $l$.
+
+\RestyleAlgo{ruled}
+\begin{algorithm}[htb!]\footnotesize
+\KwIn{method $M=\tau~m(\bar{C}~\bar{x})\{\mathit{vd};~\bar{s}_M;~\mathtt{return}~x;\}$, 
+    \\\qquad\quad~ renaming targets $\mathit{RT}=\{[x_{11}^{l_{11}},...,x_{1n_1}^{l_{1n_1}}],...\}$}
+\KwOut{method $M$ with some variables in the body renamed}
+$S_1 \leftarrow$ Assignment statements with left-value in $\mathsf{Occurs}(\mathit{RT})$;\\
+\ForEach{$s_d\in S_1$ ($s_d~\text{of form}~y^l=e;$)}{
+  $x_1\leftarrow \mathsf{FreshName}(M)$;\\
+  $M.\mathit{vd}\leftarrow M.\mathit{vd}\cup\{\mathsf{type}(y^l)~x_1\}$;\\
+  $M.\bar{s}_M\leftarrow[s_d\mapsto x_1=e;y=x_1;]M.\bar{s}_M$;\\
+  $\mathsf{UpdateAlias}()$;\\
+  % \ForEach{$s'$ appearing after $s_d$ in the block containing $s_d$}{
+  %   \If{exists another occurrences of $y$ ($y^{l'}$) used in $s'$ \textbf{and} $y^{l'}$ is an alias of $y^l$ }{
+  %     $\mathsf{rename}(y, x_1, l')$; $\mathsf{UpdateAlias}()$;
+  %   }
+  % }
+  \ForEach{$y^{l'}$ where $y^{l'}$ and
+    $y^{l}$ are in a $rt \in RT$ and $l \neq l'$}{
+    $\mathsf{rename}(y, x_1, l')$; $\mathsf{UpdateAlias}()$;
+  }
+}
+$S_2 \leftarrow \emptyset$;\\
+\ForEach{$\mathit{rt}=[x_{i1}^{l_{i1}},...,x_{in_i}^{l_{in_i}}]\in \mathit{RT}$}{
+  \If{Foreach $x_{ij}^{l_{ij}}\in \mathit{rt}$, $x_{ij}^{l_{ij}}$ is a right-value}{
+    $S_2 \leftarrow S_2 \cup \{\text{statement use } x_{i1}^{l_{i1}}\}$;
+  }
+}
+\ForEach{$s\in S_2$}{
+  \ForEach{variable $y^{l}$ used in $s$}{
+    \If{$y^l\in \mathsf{Occurs}(\mathit{RT})$ \textbf{and} $y^l$ is the first element of a $\mathit{rt}\in \mathit{RT}$}{
+      $x_1\leftarrow \mathsf{FreshName}(M)$;\\
+      $M.\mathit{vd}\leftarrow M.\mathit{vd}\cup\{\mathsf{type}(y^l)~x_1\}$;\\
+      $M.\bar{s}_M\leftarrow [s\mapsto (u=y;[y\mapsto x_1]s;)]M.\bar{s}_M$;\\
+      $\mathsf{UpdateAlias}()$;\\
+      % \ForEach{$s'$ appeared after $s$ in the block containing $s$}{
+      %   \If{exists another occurrences of $y$ ($y^{l'}$) used in $s'$}{
+      %     $\mathsf{rename}(y, x_1, l')$; $\mathsf{UpdateAlias}()$;
+      %   }
+      % }
+      \ForEach{other $y^{l'}$ in $rt$}{
+          $\mathsf{rename}(y, x_1, l')$; $\mathsf{UpdateAlias}()$;
+        }
+    }
+  }
+}
+\Return~$M$;
+\caption{$\mathsf{GuidedRename}$ algorithm}
+\label{alg:r-rename}
+\end{algorithm}
+
+In $\mathsf{GuidedRename}$ algorithm, we will deal with left-value renaming in lines 1-9 and deal with right-value renaming in lines 10-21. 
+
+Left-value renaming (line 1-9) is used to deal with situations that the first element $x_1^{l_1}$ in a renaming target $\mathit{rt}=[x_{1}^{l_1},...,x_n^{l_n}]$ is a left-value in $M$. (As we can prove, the only possible left-value in a $rt$ is the first element, as the patterns are required to be in SSA form and all $x_i^{l_i}$ are matched by a same metavariable $u$ in a rule.) Firstly, we will find the statement that defines the value of $x_1^{l_1}$ and collect all such statements in a set $S_1$ (line 1). And then, for each collected assignment statement, we will generate a fresh name to rename it through the \emph{Left-value renaming primitive} defined in Definition~\ref{def:semantics-preserving} (lines 2-5). Then, as all these $x_i^{l_i}$ appear in a same basic block (as a result of the $\mathsf{GuidedShift}$ algorithm), we will rename all variable occurrences in $\mathit{rt}$ into the new name (lines 7-8). Similarly, Right-value renaming (lines 10-23) helps renaming a target such that all variable occurrences are right values.
+
+
+\subparagraph*{Example} The guided-renaming phase for the program in Figure~\ref{running-eg2-shift} is shown below in Figure~\ref{running-eg2-rename}. As in the match instance between statements in lines 8-11 and the rule \code{rButton} involves an alias-pair (i.e. $\code{btn}^8$ and $\code{defaultBtn}^{11}$), they will be renamed to have the same name. The renaming process is done by introducing a new variable name \code{x} following the left-value renaming part defined in the $\mathsf{GuidedRename}$ algorithm (lines 8,9,12 in the right of Figure~\ref{running-eg2-rename}). 
+
+\begin{figure}[ht]
+\vspace{-5pt}
+\begin{center}
+\begin{smpage}{0.34\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\ttfamily\scriptsize]
+System.out.print(alX);
+b = panel != null;
+if (b) {
+  btn = new JButton();
+  btn.setAlignmentX(alX);
+  panel.add(btn);
+} else {
+  btn = new JButton();
+  btn.setAlignmentX(alX);
+  defaultBtn = btn;
+  defaultPnl.add(defaultBtn);
+}
+\end{lstlisting}
+\end{smpage}
+\!\!\!\!\!\!$\xrightarrow{\mathsf{GuidedRename}}$~~~~~
+\begin{smpage}{0.4\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,basicstyle=\ttfamily\scriptsize]
+System.out.print(alX);
+b = panel != null;
+if (b) {
+  btn = new JButton();
+  btn.setAlignmentX(alX);
+  panel.add(btn);
+} else {
+  x = new JButton();
+  btn = x;
+  btn.setAlignmentX(alX);
+  defaultBtn = btn;
+  defaultPnl.add(x);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-15pt}
+\caption{Guided-rename result following the previous result in Figure~\ref{running-eg2-shift}, a new variable name \code{x} is introduced to rename $\code{btn}^8$ and $\code{defaultBtn}^{11}$.}
+\label{running-eg2-rename}
+\vspace{-10pt}
+\end{figure}
+
+Similar to $\mathsf{GuidedShift}$ algorithm, $\mathsf{GuidedRename}$ is also semantics preserving, and we present the proof below.
+\begin{property}[GuidedRename Semantics-preserving]
+  \label{property:guidedrename_semanticspreserving}
+  Let $M$ be a method, $\Pi$ be a transformation program,
+  $\mathcal{B}^*$ be a set of match instances between $M$ and $\Pi$, and
+  $RT_{\mathcal{B}^*}$ be a set of renaming targets generated from $\mathcal{B}^*$. We have
+  $M\xrightarrow{\sim} M'$ if $\mathsf{GuidedRename}(M,
+\mathit{RT}_{\mathcal{B}^*})=M'$.
+\end{property}
+
+\subsubsection{GuidedReorder Algorithm}
+
+The last phase of guided normalization is \emph{guided-reordering}, in which we want to reorder statements in blocks so that given a match instance $b^*=(\bar{s}^-,\pi,\sigma^*)\in \mathcal{B}^*$, statements $\bar{s}^-$, will appear consecutively. 
+
+The reordering targets $\mathit{OT}$ required by the algorithm will first be built: starting from an empty set, for each $b_i^*=(\bar{s}_i^-, \pi_i,\sigma^*_i)\in \mathcal{B}^*$, $\bar{s}_i^-$ will be added into $\mathit{OT}$, i.e. the goal is to make all such statement sequences matched by source patterns appeared consecutively. The dependency checker $\Theta$ here is same as the checker used in $\mathsf{GuidedShift}$.
+
+In the $\mathsf{GuidedReorder}$ algorithm, firstly, for each block $\bar{s}$, we assign each statement $s\in\bar{s}$ with a field $l$ indicating its target location. Then, we encode the goal as constraints using by these locations, and then these locations can be calculated by solving the constraints. Concretely, the constraints are built in the following way:
+\begin{itemize}
+\item For each $s_i,s_j\in\bar{s}$, if $\Theta(s_i, s_j)=\mathtt{true}$, add $s_i.l < s_j.l$ into the constraint set if $i<j$, otherwise add $s_j.l < s_i.l$ if $j < i$ (line 6-10). These constraints ensure that the statement dependencies are kept after reordering. 
+\item For each statement sequence $\bar{s}_k\in \mathit{OT}$, add $s_{k(i)}.l + 1= s_{k(i+1)}$ into the constraint set (line 11-13). These constraints ensure that target statements will appear consecutively in the right order.
+\end{itemize}
+
+As these constraints form a \emph{system of difference constraints}~\cite{Cormen:2001:IA:580470}, and we can solve it through shortest path algorithm. When we successfully solve the constraints, we will then reorder the statements accordingly in $M$ to obtain the desirable result. If there exists no solution to the constraints, warnings will be generated to users, as we cannot make all matched statements appear consecutively due to dependency issues.
+
+\RestyleAlgo{ruled}
+\begin{algorithm}[ht]\footnotesize
+\KwIn{method $M$, dependency checker $\Theta$,\\
+      \qquad\quad~ reordering targets $\mathit{OT}=[\bar{s}_a,...]$}
+\KwOut{Re-ordered statement sequence $\bar{s}'$}
+\ForEach{basic block $\bar{s}$ in $M$}{
+  $\textit{OT}_s\leftarrow \{ \text{statement sequences from } \mathit{OT} \text{ and in } \bar{s}\}$;\\
+  (Suppose $\mathit{OT}_s$ is $\{\bar{s}_1,...,\bar{s}_m\}$)\\
+  $n\leftarrow \mathsf{length}(\bar{s})$;\\
+  $\mathit{Constraints}\leftarrow \emptyset$;\\
+
+  \ForEach{$s_i \neq s_j \in \bar{s}$}{
+    \If{$\Theta(s_i, s_j)$ \textbf{and} $i < j$}{
+      $\mathit{Constraint}\leftarrow \mathit{Constraint}\cup \{s_i.l + 1\leq s_j.l\}$;\\
+    }
+    \ElseIf{$\Theta(s_i, s_j)$ \textbf{and} $j < i$}{
+      $\mathit{Constraint}\leftarrow \mathit{Constraint}\cup \{s_j.l + 1\leq s_i.l\}$;\\
+    }
+  }
+  \ForEach{$\bar{s}_k\in \mathit{OT}$}{
+    \ForEach{$i=1$ to $\mathsf{length}(\bar{s}_k)-1$}{
+      $\mathit{Constraint}\leftarrow \mathit{Constraint}\cup \{s_i.l + 1 = s_{i+1}.l\}$;\\
+    }
+  }
+  \eIf{$\mathsf{TrySolve}(\mathit{Constraints})$ successful}{
+    $\bar{s}'\leftarrow$ Sort $\bar{s}$ according to $s.l$;\\
+    $M\leftarrow [\bar{s}\mapsto \bar{s}']M$;
+  }{
+    $\mathsf{report}()$;\\
+  }
+}
+\Return $M$;
+\caption{Statements Reordering}
+\end{algorithm}
+
+\subparagraph*{Example} After performing $\mathsf{GuidedRename}$ the program in Figure~\ref{running-eg2-rename}, we only need to reorder the statements in lines 4,6 and statements in lines 8,12 in program (right of Figure~\ref{running-eg2-rename}) to obtain the desired program in Figure~\ref{running-eg2-normalize} left. At this point, we successfully guided-normalize the program as presented in \ref{running-eg2-normalize}.
+
+The following property shows that $\mathsf{GuidedReorder}$ is semantics-preserving.
+\begin{property}[$\mathsf{GuidedReorder}$ semantics-preserving] 
+  \label{property:guidedreordersafe}
+  Let $M$ be a method, $\Theta$ be a dependency checker containing all
+  statement dependencies in $M$, and $\mathit{OT}$ be a set of
+  reordering target. We have $M\xrightarrow{\sim}M'$ if $M'=\mathsf{GuidedReorder}(M, \Theta, \mathit{OT})$. 
+% Given a method $M$, dependency checker $\Theta$ s.t. all statement
+% dependencies in $M$ are contained in $\Theta$, and a reordering target
+% set $\mathit{OT}$, we have $M\xrightarrow{\sim}M'$ if $M'=\mathsf{GuidedReorder}(M, \Theta, \mathit{OT})$. 
+\end{property}
+
+\subsection{Main Theorem}
+
+Here we present the main theorem on the semantics-preservation of guided normalization.
+
+\begin{theorem}[Main Theorem] Let $M$ be a method, $\Pi$ be a rule
+  set, and $\mathcal{B}^*$ be a set of match instances between
+  statements in $M$ and rules in $\Pi$. We have $M\xrightarrow{\sim}
+  M'$ if the guided normalization of $M$ with $\mathcal{B}^*$ returns
+  $M'$. In other words, the transformation is semantics-preserving.
+\end{theorem}
+\begin{proof} This theorem is a simple derivation of
+  Property~\ref{property:guidedshiftsafe}, \ref{property:guidedrename_semanticspreserving} and \ref{property:guidedreordersafe}.
+\end{proof}
+
+%%%
+%%% evaluation
+%%%
+
+
+\section{Full Language Implementation}\label{sec:implementation}
+Based on the core \PATL presented in previous sections, we implemented
+a version of \PATL for Java (Patl4J). On top of core \PATL, there
+are several extensions in the full language.
+
+First, the full language supports standard Java programs that are not
+necessarily in three-address code. Before matching and transformation,
+we first convert the Java program into three-address code. This is
+achieved by introducing a set of temporary variables to decompose
+statements that are not in three-address form. We give special names
+to the temporary variables, and after the transformation, we try to
+apply the ``inline variable'' refactoring to inline these variables to
+recover the original program. In this way we can ensure the structure
+of the original program is retained to some degree.
+
+Second, the full language supports context-sensitive matching, similar
+to the context-sensitive matching in
+SmPL~\cite{DBLP:conf/eurosys/PadioleauLHM08} and TXL~\cite{Cordy:2006:TST:1149670.1149672}. We
+introduce a new type of pattern to match a context of a rule. A
+context is a sequence of statements (not necessarily consecutive) that
+always appear before the matched statements in all paths in the
+control flow graph, and transformation only when its
+context is matched by the rule. An example of the context-sensitive matching can be found in the
+evaluation section.
+
+Finally, the full language provides a new type of transformation rules
+to change method definitions. In Java, we may define a class that
+extends a library class or implements a library interface. When the
+library class/interface is mapped to a new class/interface, the client
+definition should also be changed. Our rule works similarly to
+refactorings~\cite{Henkel:2005:CCR:1062455.1062512}, allowing to
+rename a method, reorder the parameters of a method, or introduce a
+new parameter.
+
+Currently, the full language is implemented as an Eclipse Plug-in
+using the Eclipse JDT parser to manipulate the syntax tree and obtain
+type and use Soot~\cite{Vallee-Rai:1999:SJB:781995.782008} to perform
+program analysis for the client program. Concretely, in our implementation, desired program analysis results are obtained using SOOT Spark pointer analysis tool, where 1) the alias relation between two variable occurrences is determined by querying the anaylsis tool whether two variable occurrences always points to the same memory location and 2) the dependence relations between two statements is determined by querying the tool whether there exists variable occurrences in the two statements accessing the same memory location. Our prototype can be
+found in its web site\footnote{https://github.com/Mestway/Patl4J.}
+\footnote{As a proof-of-concept, the type analysis, interprocedural dependency
+    analysis, and some transformation steps
+   in our implementation are not fully automated and require
+  user inputs. Nevertheless, this is purely a
+  pragmatic problem due to our limited resource on implementation;
+our approach can be implemented fully automatically.}. 
+
+\section{Evaluation}
+\label{sec:evaluation}
+
+How effective is PATL for transforming real-world industrial cases? To
+answer this question, we evaluate our approach
+on three groups of widely-used Java API cases, i.e. Jdom to Dom4j,
+Google Calendar version 2 to version 3, and Swing to SWT.
+
+\subsection{Data Set}
+In our experiments, we chose three case studies that migrate programs
+from Jdom\footnote{http://www.jdom.org/} to
+Dom4j\footnote{ http://www.dom4j.org/}, from Google
+Calendar\footnote{https://developers.google.com/google-apps/calendar/}
+version 2 to version 3, and from Swing\footnote{http://docs.oracle.com/javase/7/docs/api/javax/swing/package-summary.html} to SWT\footnote{http://www.eclipse.org/swt/}, respectively. Jdom and Dom4j are two popular XML parsers, but Dom4j has better performance over Jdom on a number of tasks, so it is desirable to migrate programs from Jdom to Dom4j. Google Calendar API
+is a web service provided by Google to access personal calendar data.
+The interface for version 2 has been shut down, and version 3 is not
+compatible with version 2 clients, so the clients will not work unless migrated to version 3. Swing and SWT are two Java GUI
+libraries. Swing uses platform-independent components while SWT is
+designed as a light-weight wrapper of native GUI. SWT is sometimes
+considered faster than Swing, and some platforms such as Eclipse only
+supports SWT. We chose the three case studies
+because they are real-world program migration cases, and a large
+number of clients are available for the evaluation. Also, the three
+cases cover the two main types of program migration: API
+switching and API upgrading.
+
+To evaluate the transformation program we wrote, we also collected a
+number of client programs that use the source API. These clients are
+obtained by searching the source API methods in
+searchcode\footnote{http://searchcode.com}. In total, we used nine client programs in our evaluation. 
+The statistics of the subject programs can be found in
+Table~\ref{tbl:benchmark}. In total, the projects totally contain 342.5
+KLOC, including 2317 classes and 12183 methods, details about these projects can be found in our implementation website.
+
+\begin{table}
+  \centering
+  \caption{Subject Client Programs}
+  \label{tbl:benchmark}
+  \footnotesize
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    Client & KLOC & Classes & Methods  & Case\\
+    \hline \hline
+    husacct & 195.6 & 1187  & 5977 & Jdom/Dom4j \\
+    \hline
+    serenoa & 12.2  & 52 & 523 & Jdom/Dom4j \\
+    \hline
+    openfuxml & 112.5 & 727 & 4098 & Jdom/Dom4j \\
+    \hline
+    clinicaweb & 3.9 & 74  & 213 & Calendar \\
+    \hline
+    blasd & 9.7 & 199 & 729 & Calendar  \\
+    \hline
+    goofs & 8.6 & 78 & 643 & Calendar  \\
+    \hline
+    evochamber & 12.8 & 132 & 868 & Swing/SWT \\
+    \hline
+    swingheat & 2.3 & 30 & 186 & Swing/SWT \\
+    \hline
+    marble & 1.6 & 10 & 56 & Swing/SWT \\
+    \hline
+    \hline
+    Total & 359.2 & 2489 & 13293 & --\\
+    \hline
+  \end{tabular}
+  \vspace{-10pt}
+\end{table}
+
+\subsection{Procedures}
+For each case, we first wrote \PATL rules that capture the
+correspondence between the old and the new APIs. Since the changed
+portion of the API is large, and it is important to test the rule
+under a real client, we only dealt with the portion of API that is
+used in our subject client programs. However, the rules we wrote
+are generic rules for any possible client, not specific to the
+subjects in our evaluation.  
+
+
+Next we transformed client programs that contain source API
+invocations using our transformation tools. To produce working
+clients, we manually resolved warnings reported during the
+transformation. A few API invocations
+are impossible to be transformed due to the limitation of \PATL, and we create mock objects for them.
+
+To ensure that the transformation is performed correctly, we
+performed three different
+tests for these converted clients. (1) Client EvolutionChamber comes with a set
+of 28 functional and 4 performance tests, and we ensure that the transformed client
+passes all transformed tests. (2) We check whether they behave normally without exceptions, error messages, or crashes.. (3) For the clients in
+JDom/Dom4j and Swing/SWT, we side-by-side executed both the original and transformed clients to ensure they behaved the same. Note that we cannot apply the last test to the clients
+of Google Calendar because Calendar API v2 is already shut down.
+
+\subsection{Results}
+
+\begin{table}
+  \centering
+  \caption{Transformation Rules}
+  \label{tbl:rules}
+  \footnotesize
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Transformation & Rules & Classes & Methods & M-to-m\\
+    \hline \hline
+    Jdom/Dom4j & 84 & 12 & 77  & 12(14.3\%) \\
+    \hline
+    Calendar & 42 & 14 & 45 & 21(50.0\%) \\
+    \hline
+    Swing/SWT & 110 & 40 & 82 & 54(49.1\%) \\
+    \hline
+    \hline
+    Total & 236 & 66 & 204 & 87(36.9\%) \\ 
+    \hline
+  \end{tabular}
+\end{table}
+
+\subparagraph*{Rules Written}
+The statistics for the rules and transformed source APIs are
+summarized in Table~\ref{tbl:rules}: the `Rule' column shows the
+number of the rules. The `Class' and the `Method' columns contian the number of
+API classes and methods covered by the rules. In total, we wrote 236
+rules for the three case studies, and 66 classes and
+204 methods in the source API are covered.
+
+Basically, the number of rules is close to the number of covered methods. Furthermore, most rules are easy to write: only
+14 rules in total that have a body longer than 4 lines. This indicates that \PATL rules are friendly to users: they only need to capture basic forms in writing the rules without worrying about complex program context.
+
+\begin{table}
+  \centering
+  \caption{Results of the Transformations}
+  \label{tbl:results}
+  \footnotesize
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    Client & CF & CL & W & U & I & MM & GN\\
+    \hline \hline
+    husacct     & 42 & 852(100\%) & 0(0\%) & 0(0\%)& 0 & 0(0\%) & 0(0\%)\\
+    \hline
+    serenoa     & 8 & 273(98.9\%) & 0(0\%) &3(1.1\%)& 0 & 9(3.3\%)& 0(0\%)\\
+    \hline
+    openfuxml   & 72 & 983(94.8\%) & 0(0\%) &54(5.2\%) &  15  & 2(0.2\%) & 0(0\%)\\
+    \hline
+    clinicaweb  & 5 & 81(100\%) & 0(0\%) &0(0\%) & 8  & 34(42\%)& 0(0\%)\\
+    \hline
+    blasd      & 5 & 26(63.4\%) & 8(19.5\%) &7(17.1\%) &0  & 13(50\%) &2(15.4\%)\\
+    \hline
+    goofs      & 13 & 100(80.0\%) & 12(9.6\%) & 13(10.4\%)  & 27  & 27(27\%) & 0(0\%)\\
+    \hline
+    evochamber & 9 & 587(98.3\%) & 10(1.7\%) & 0(0\%) & 0  & 330(56.2\%)& 109(33.0\%)\\
+    \hline
+    swingheat & 21 & 653(100\%) & 0(0\%) & 0(0\%) & 0 & 461(70.6\%) & 394(85.5\%)\\
+    \hline
+    marble & 6 & 488(98.6\%) & 0(0\%) & 7(1.4\%) & 0  & 240(49.2\%) & 220(91.7\%)\\
+    \hline    
+    \hline
+    Total & 181 & 4043(97.3\%) & 30(0.7\%) & 84(2.0\%) & 50 & 1116(27.6\%) & 725(65.0\%)\\ 
+    \hline
+  \end{tabular}
+  \parbox{\columnwidth}{
+    CF = number of changed files, CL= number of changed lines,
+    percentages in CL = CL / (CL+W+U), W = the number of lines of code
+    that have warnings, percentages in W = W / (CL+W+U), U = number of lines that
+    \PATL cannot transform, 
+    percentages in U = U / (CL+W+U), I =
+    number of lines impossible to transform, 
+    MM = number of lines that are involved in many-to-many mappings,
+    percentages in MM = MM / CL, GN = number of lines that require
+    guided normalization, percentages in GN = GN / MM.}
+\vspace{-5pt}
+\end{table}
+
+\subparagraph*{Effectiveness of Client Transformation}
+To evaluate the effectiveness of our approach on transforming clients,
+we counted the following numbers in our evaluation: (1) the number of
+files transformed by the rules (CF), (2) the number of lines transformed by
+the rules (CL), (3) the number of lines in the source client code on which
+warnings are generated (W), (4) the number of lines where transformed code
+exists but the transformation rule cannot be specified in \PATL (U).
+Details of the data are presented in the first five columns in Table~\ref{tbl:results}.
+
+As we can see from the table, the 236 rules changed
+in total 4043 lines distributed in 181 files. This result reflects the
+effort saved from manual migration. The efforts saved are twofold: (1)
+to locate these lines from different files, (2) to derive
+transformation solution for each line based on the context surrounding
+this line.
+
+Furthermore, the number of lines transformed by \PATL consist of
+97.3\% of the lines that need to be converted. 
+The rest of lines need manual resolution: the lines where warnings are
+reported and the unconvertible lines. These lines amount to 114 lines,
+consisting of 2.7\% of total lines. This result indicates that \PATL
+is able to handle the majority of the cases in practice.
+
+\subparagraph*{Many-to-Many Rules}
+A significant portion of the transformation rules are many-to-many rules. As
+we can see from the last column of Table~\ref{tbl:rules}, in total 36.9\%
+of the rules are many-to-many rules, and in the case of Google
+Calendar upgrade the
+percentage is as high as 50\%. These many-to-many rules is responsible
+to transform a significant portion of the client code. As shown in
+column ``MM'' in Table~\ref{tbl:results}, in total 27.6\% of the lines
+are transformed by many-to-many rules, and in project swingheat the
+percentage is as high as 70.6\%. 
+
+From our running example we have seen a typical case where
+many-to-many rules can be applied. Here we show another typical case:
+a wrapper class in the source API does not
+exist in the target API. For example, in the old version of Google Calendar, a
+wrapper class called \code{PlainTextConstruct} is used to wrap a
+string. For example, client goofs contains the following two lines of code (\code{e} in the statement is a variable of type \code{CalendarEventEntry}).
+
+\begin{center}
+\begin{smpage}{0.55\columnwidth}
+\begin{lstlisting}[style=java,frame=none,numbers=none]
+e.setTitle(new PlainTextConstruct(name));
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-8pt}
+In the new API, the use of the wrapper class is removed as many as
+possible. As a result, the above two lines should be converted to the
+following line of code. 
+\vspace{-8pt}
+\begin{center}
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=java,frame=none,numbers=none]
+e.setSummary(name);
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+This instance is a typical many-to-many mapping instance, and the
+transformation can be captured by the two rules in Figure~\ref{evelfig:gcalendar}.
+
+\begin{figure}
+\begin{center}
+\begin{smpage}{0.42\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none, basicstyle=\scriptsize\ttfamily]
+// Rule-1
+(x: CalendarEntry->CalendarListEntry, 
+ y: TextConstruct->String, 
+ z : String -> String){
+    m y = new PlainTextConstruct(z);
+    - x.setTitle(y);
+    + x.setSummary(z);
+}
+\end{lstlisting}
+\end{smpage}
+~~~
+\begin{smpage}{0.4\columnwidth}
+\begin{lstlisting}[style=patl,frame=none,numbers=none, basicstyle=\scriptsize\ttfamily]
+//Rule-2
+(y: TextConstruct -> String){
+    - y = new PlainTextConstruct(z);
+    + y = "";
+}
+@\phantom{---}@
+@\phantom{---}@
+@\phantom{---}@
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-20pt}
+\caption{Two transformation rules used in transforming Google Calendar v2 to v3.}
+\label{evelfig:gcalendar}
+\vspace{-15pt}
+\end{figure}
+
+The first rule uses context-sensitive matching described in
+Section~\ref{sec:implementation}. The statement annotated with ``m'' is a
+context pattern, which indicates that \code{x.setTitle(y)} is only
+matched and transformed if there is \code{y = new
+  PlainTextConstruct(z)} before it. The first rule
+captures the wrapping of a string and the use of the
+wrapper, and converts it into a proper method invocation based on how
+the wrapper is used. The second rule removes the useless variable
+\code{y}. Note that the target method \code{setSummary} is decided by
+both the argument passed to \code{PlainTextConstruct} (in this case, a
+string but not an html object) and the invoked source method on
+\code{x} (in this case \code{setTitle}), so this rule has to be many-to-many.
+
+\subparagraph*{Guided Normalization}
+The number and percentage of lines in the source clients that require guided normalization
+are shown in the last column of Table~\ref{tbl:results}. As we can see
+from the table, a significant portion of lines involved in
+many-to-many rules, i.e., 65.0\% of lines, requires guided
+normalization to correctly perform the transformation. This result
+indicates (1) guided normalization is necessary; (2) guided
+normalization is only performed on necessary lines but not all lines,
+avoiding excessive change to the layout of the source code. 
+
+Besides guided normalization, a conversion to three-address code is
+performed at the beginning of the transformation, and the introduced
+temporary variables will be inlined at the end of the transformation.
+In our experiment, all temporary variables are inlined at the end.
+This result indicates that the conversion to three-address code would
+not significantly affect the source code, either.
+
+In particular,
+most lines requiring guided normalization exist in the clients of the
+Swing/SWT. This is because a lot of UI elements are first initialized
+and then added to their parents, such as the following example, in which we need to first swap the statements at line 2 and line
+3 and then the rule in our running example % Listing~\ref{codeswing} 
+becomes application.
+\begin{center}
+\begin{smpage}{0.3\columnwidth}
+\begin{lstlisting}[style=java,frame=none,numbers=none,basicstyle=\ttfamily\scriptsize]
+button = new JButton();
+button.setText("OK");
+panel.add(button);
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+\subparagraph*{Unspecifiable Cases}
+As shown by the column ``U'' in Table~\ref{tbl:results}, there are in
+total 84 lines of code whose transformation patterns cannot be
+captured by \PATL rules. These unsupported mapping patterns are
+summarized into the following three categories.
+
+The first category is that type mapping does not form a function. For example, a class may split into two classes, each inherits part of the functionalities of the original class. Since in the meta variable declaration we only allow to map one class to another class, we cannot write a rule for such cases. Most lines, 74 out of 84 belong to this category. 
+
+The second category is that the transformation needs high-level
+coordination between match instances, and only one such instance of
+three lines is observed. This instance is from Jdom/Dom4j. Below is the source client code (left of Figure~\ref{fg:untransformable}), which converts elements in \code{rulesElements} into a string in \code{rulesToRegister}. An ideal transformation of this case is shown on right: instead of
+directly converting each element into string, they are written into
+a \code{StringWriter} to get the concatenated string. While we can write rules to generate the first three lines of the
+target code, We cannot generate the call to \code{sw.toString()} at
+the end of the target client code because there is no corresponding
+source statement. Generating this type of ``closing'' statement
+remains future work.
+
+\begin{figure}[ht]
+\vspace{-7pt}
+\begin{center}
+\begin{smpage}{0.48\columnwidth}
+\begin{lstlisting}[style=java,frame=none,numbers=none,basicstyle=\ttfamily\scriptsize]
+XMLOutputter out = new XMLOutputter();
+for (Element e : rulesElements) 
+  rulesToRegister += out.outputString(e);
+@\phantom{--}@
+@\phantom{--}@
+\end{lstlisting}
+\end{smpage}
+~~
+\begin{smpage}{0.44\columnwidth}
+\begin{lstlisting}[style=java,frame=none,numbers=none,basicstyle=\ttfamily\scriptsize]
+StringWriter sw = new StringWriter();
+XMLWriter out = new XMLWriter(sw);
+for (Element e : rulesElements) 
+  out.write(e);
+rulesToRegister += sw.toString();
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\vspace{-18pt}
+\caption{An example using the JDom that \PATL cannot handle.}
+\vspace{-12pt}
+\label{fg:untransformable}
+\end{figure}
+
+The last category relates to the use of \code{JPopupMenu} in Swing.
+In the evaluation 7 out of the 84 lines belong to this category. In
+Swing, to show and hide a pop menu, we need to implement a listener in
+which we write code to show and hide the pop menu. In SWT, we only
+need to call a method \code{setMenu}. To perform this transformation,
+we need to match both a method definition as well as the method body,
+which is not supported in \PATL.
+
+
+\subparagraph*{Warnings}
+As shown in the ``W'' column in Table~\ref{tbl:results}, there are in
+total 30 lines of code on which warnings are generated. There are
+several reasons why warnings are generated. The first one, also the
+largest category, is that some code pieces
+cannot be transformed or shifted together because of dependencies
+among statements. 18 out of 30 lines belong to this category. The
+second one is that one line is matched by multiple ``-'' block in
+different rule instances. 2 out of 30 lines belong to this category.
+These two categories
+actually show the usefulness of guided normalization: unsafe
+transformations are disabled by guided normalization. 
+
+The last category is that the
+matched code is scattered in several methods. Since we do not
+move statements across method boundaries, our approach reports
+warnings on these lines. 10 out of 30 lines
+belong to this category. This shows a limitation of our current
+approach.
+
+\subparagraph*{Untransformable code}
+As shown in the ``I'' column in
+Table~\ref{tbl:results}, there are in total 50 lines of source code
+that are impossible to transform. This is because we cannot find any
+counterpart in the target API for a portion of the source API, and any
+lines invoking this portion cannot be transformed. The portion of
+untransformable API in the Google Calendar case is confirmed by the
+official Google Calendar upgrade guide, which states some
+functionalities are removed and will not be supported any more. 
+
+%%%
+%%% related
+%%%
+
+
+\section{Related Work}
+\label{sec:related}
+\subparagraph*{Pattern finding in programs} Several works have been
+done in enhancing the pattern finding technique to enable finding
+program patterns with simpler
+rules~\cite{SANER-2015-PalixFL,DBLP:conf/popl/BrunelDHLM09}.
+Among them, the most related is the approach proposed by
+Brunel et al.~\cite{DBLP:conf/popl/BrunelDHLM09}, which enables users to
+specify a sequence of consecutive statements to match different form
+statements against patterns with same semantics via model
+checking. The match part of our transformation technique is similar to
+this matching mechanism, while differently, besides matching, our language also performs transformation using these consecutive statement patterns.
+\subparagraph*{Transformation languages} A lot of different program
+transformation approaches have been proposed for different purposes.
+
+Some of these approaches~\cite{Nita:2010:UTA:1806799.1806832,Li:2015:STT:2678015.2682534,Balaban:2005:RSC:1094811.1094832,Wasserman:2013:SER:2541348.2541355,53e99905b7602d9702142000,53e99aecb7602d9702376989} are specialized for handling one-to-many mappings: one method invocation is replaced by a sequence of invocations. 
+Among them the most related are
+Twinning~\cite{Nita:2010:UTA:1806799.1806832} and
+SWIN~\cite{Li:2015:STT:2678015.2682534}, both of which are designed
+for handling the API migration problem with one-to-many mapping rules. Our basic
+semantics and the type mapping design are similar to them. Another related approach is update
+calculus~\cite{53e99905b7602d9702142000,53e99aecb7602d9702376989},
+which ensures the type-safe update of programs. Our approach
+currently does not ensure type safety, and potentially can be combined
+with update calculus and SWIN to ensure type safety.
+Overall, compared with these languages designed for one-to-many mappings, our approach supports many-to-many mappings, the importance of which is recognized by several empirical studies~\cite{Bartolomei:2009:SAM:2127907.2127914,246} as well as our evaluation.
+
+Besides, a number of program transformation languages or frameworks can be used to handle program transformation involved in many-to-many mappings. 
+
+SmPL~\cite{DBLP:conf/eurosys/PadioleauLHM08} is a transformation language designed to document and
+automate the collateral evolutions of large C programs with patch rules. Our syntax for
+specifying the three patterns are inherited from semantic patches.
+SmPL also includes a state check~\cite{DBLP:conf/popl/BrunelDHLM09} to check transformations that may potentially break data dependency
+relations, and a failure will be report on
+Case-2 in introduction (which our approach successfully handles).
+Stratego~\cite{Bravenboer:2008:SLT:1385689.1385715}
+is a general purpose program transformation language. It handles the
+context-sensitive transformation with the support of dynamic rules: dataflow
+facts in can be collected and propagated~\cite{Olmos:2005:CSD:2136624.2136643} and users can write rules at
+places where context information is not yet available. TXL~\cite{Cordy:2006:TST:1149670.1149672} is another general purpose transformation language,  which allows acquiring the
+context information during abstract syntax tree traversal. 
+Lacey and De Moor~\cite{laceydemoor01} propose a graph rewriting language
+where conditions on execution paths can be specified using temporary
+logic. Crossver~\cite{sakurai2014crossver} proposed a way to combine dataflow
+analysis with aspect-oriented programming to transform programs.
+
+Overall, though these languages have provided more general and expressive operations
+for matching and transforming programs, they are relatively low-level in API transformation cases
+and require more effort to create correct and generic
+transformation. Differently, our language focuses on a more restrict but simpler language interface for the API transformation tasks.
+
+\subparagraph*{Automated Transformation for APIs}
+Several approaches try to further reduce the cost of program adaptation between APIs by
+automatically discovering the transformation program. Typical approach
+includes recording the API refactorings and replay them on the client
+code~\cite{Henkel:2005:CCR:1062455.1062512,DBLP:conf/icse/DigNMJ08},
+and analyzing manually adapted code
+pieces~\cite{Andersen:2012:SPI:2351676.2351753,% DBLP:conf/kbse/AndersenL08,
+  Nguyen:2010:GAA:1869459.1869486,Meng:2011:SEG:1993498.1993537}
+or clients~\cite{Zhong:2010:MAM:1806799.1806831,DBLP:journals/jcst/WuLWM11}. Currently, none of
+these approaches guarantee the safety of many-to-many
+transformations. Our approach can be potentially combined with those approaches to reduce the effort of writing code.
+
+\subparagraph*{Normalization}
+Normalization techniques are commonly used in compiler
+optimization\cite{Knoop:1992:LCM:143095.143136,Aho:2006:CPT:1177220,DBLP:conf/sefm/KanadeSK06,Wegman:1991:CPC:103135.103136,Callahan:1986:ICP:12276.13327}, semantics-preserving
+refactoring~\cite{Opdyke:1992:ROF:169783,Roberts:1999:PAR:929806} and procedure extraction~\cite{komondoor2000semantics}. 
+
+Komondoor and Horowitz~\cite{komondoor2000semantics}
+presented a normalization technique that helps to move a set of
+identified statements to form a consecutive sequence, for program
+extraction purpose. However, due to the different domain
+requirements, their approach~\cite{komondoor2000semantics} handles
+only the situation that the normalization target is one sequence of
+statements, while our approach is required to normalize multiple
+sequences at the same time. As a result, we restrict the
+transformation primitives to retain the semantics-preserving
+property with the more complex normalization goal. Furthermore,
+transforming programs between APIs also requires performing renaming
+between aliases, which is not supported by Komondoor and Horowitz's
+approach \cite{komondoor2000semantics} as it is not a requirement in code extraction.
+
+Code motion~\cite{Knoop:1992:LCM:143095.143136} is an optimization technique which, when applied to
+if-branches, behaves similarly to our shift operation. However, these operations are not designed for user-specified program
+transformations. In addition, different from their approach and other compiler optimization approaches~\cite{Aho:2006:CPT:1177220,DBLP:conf/sefm/KanadeSK06,Wegman:1991:CPC:103135.103136,Callahan:1986:ICP:12276.13327}, normalization in our approach are guided by match instances so that most original program structure can be kept after normalization.
+
+%%%
+%%% conclusion
+%%%
+
+\section{Conclusion}\label{sec:conclusion}
+In this paper we have presented \PATL for safe transformation of complex programs between different APIs with simple Many-to-Many mapping rules. The key insight for \PATL is to bridge the gap between simple in-block transformation semantics and complex program structures using guided normalization, which automatically changes the program so that code in different forms can be transformed in a unified manner. We applied \PATL to three real world program transformation cases. The evaluation showed that \PATL is expressive in handling real world scenarios, and with the help of guided normalization, only a small amount of manual resolution is required.
+
+\subparagraph*{Acknowledgements}
+
+We thank Michael D. Ernst and the anonymous reviewers for their valuable comments and suggestions to improve the paper. This work is partially supported by the High-Tech Research and Development Program of China under Grant No.2015AA01A202, and the National Natural Science Foundation of China under Grant No.61421091, 61225007, 61432001.
+
+%%
+%% Bibliography
+%%
+
+%% Either use bibtex (recommended), but commented out in this sample
+
+%\bibliography{dummybib}
+\bibliography{patl}{}
+
+%% .. or use bibitems explicitely
+
+%\nocite{Simpson}
+
+\newpage
+\appendix
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{prop}{Property}
+
+\section{Proofs of Theorems}
+
+\begin{thm}[Def-use Preservation] Given a method $M$ and a checked \PATL program $\Pi$, suppose the statement-level transformation is $\Pi\triangleright \bar{s}_M=\bar{s}'_{M}$, then:
+  \begin{enumerate}
+    \item Suppose $s_1$ and $s_n$ are two statements in a basic block in $\bar{s}_M$, and there exists a variable $x$ that is used in $s_n$ and defined in $s_1$, then after transformation, either $\Pi(s_n)$ does not use the variable $x$, or the occurrences of $x$ used in $\Pi(s_n)$ is defined in $\Pi(s_1)$. 
+    \item Suppose $x$ is a variable newly introduced in $\bar{s}'_M$, then $x$ is used after definition.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof} (Proof sketch) For the first part of theorem, firstly, we need to prove that transforming a statement sequence $\bar{s}_1$ in $M$ will not delete a variable definition statement. Suppose a statement ``\code{x=e;}'' is removed by a match instance $b$, then a pattern ``\code{-u=e';}'' must exists in $b$. According to the condition \textit{Definition Pattern}, a target pattern ``\code{+u=e''}'' also exists in $b$ and it will be instantiated into a statement which defines the variable \code{x}. Secondly, we need to show that the transformation will not introduce a variable definition \code{y=e;}, where no definition statement of \code{y} appears in $\bar{s}_1$ and \code{y} is defined and used in a context before $\bar{s}_1$. This can be proved by the following facts: 1) all newly introduced variables will have fresh names, according to the Definition~\ref{def:pattern_instantiation} and 2) these exists no statement pattern that will write to a read-only variable in $\bar{s}_1$, according to the checking condition \textit{Definition Introduction}. With the above two properties, the first part of the property can be proved inductively.
+
+For the second part, if \code{x} is a newly introduced variable, then \code{x} is matched by a metavariable \code{u} newly introduced in $I^+$. As required in the checking condition \textit{New Variable Introduction}, a metavariable newly introduced in $I^+$ should also be defined in $I^+$. This definition statement for \code{u} in $I^+$ will then be instantiated as the definition statement for the variable \code{x} in the transformed program, according to Definition~\ref{def:pattern_instantiation}.
+\end{proof}
+
+\begin{prop}[$\mathsf{GuidedShift}$ semantics-preserving]
+Let $M$ be a method ($\bar{s}_M$ be its body), $\Theta$ be a dependency
+checker that contains all statement dependencies in $\bar{s}_M$, and
+$\mathit{ST}$ be a set of shifting targets. We have
+$M\xrightarrow{\sim}[\bar{s}_M\mapsto\bar{s}_M']M$ if the invocation
+to the algorithm
+$\mathsf{GuidedShift}(\bar{s}_M,\mathit{ST},\Theta)=\bar{s}'_M$
+finishes without warning.  
+\end{prop}
+\begin{proof}They key point is to show that whenever we call the function $\mathsf{ShiftDownInto}(s, s_1)$ in line 21 (or $\mathsf{ShiftUpInto}(s, s_1)$ in line 9), where $s_1$ is an if statement, all statements between $s$ and $s_1$ have no dependency with $s$, so that we can decompose this operation into a series of primitive swaps and a primitive shift operation. And this is ensured as we will recursively shift statement depends on $s$ into $s_1$ before shifting $s$ (lines 11-13, 25-28 in the algorithm).
+\end{proof}
+
+\begin{prop}[GuidedRename Semantics-preserving]
+  Let $M$ be a method, $\Pi$ be a transformation program,
+  $\mathcal{B}^*$ be a set of match instances between $M$ and $\Pi$, and
+  $RT_{\mathcal{B}^*}$ be a set of renaming targets generated from $\mathcal{B}^*$. We have
+  $M\xrightarrow{\sim} M'$ if $\mathsf{GuidedRename}(M,
+\mathit{RT}_{\mathcal{B}^*})=M'$.
+\end{prop}
+\begin{proof} The places we will modify $M$ are lines 3-5, line 9, lines 17-19 and line 23 in the algorithm. Firstly, the operation in lines 3-5 directly corresponds to a left-value renaming primitive, lines 17-19 directly corresponds to a free variable introduction primitive and an alias renaming primitive so that they are semantics preserving. The key point here is to show that modification in line 9 (similarly, in line 23) is also semantics preserving by showing that $x_1$ and $y$ are aliases at $l'$ (if they are aliases, then we are transforming with alias renaming primitive). This can be proved by the transitivity of alias relations: $x_1^{l'}$ is an alias to $x$ in $s_d$, $x$ in $s_d$ is an alias to $y^l$, and $y^l$ is an alias to $y^{l'}$ (as they are in target set generated from $\mathcal{B}^*$), so that $x_1$ and $y$ are aliases at location $l'$.
+\end{proof}
+
+\begin{prop}[$\mathsf{GuidedReorder}$ semantics-preserving] 
+  Let $M$ be a method, $\Theta$ be a dependency checker containing all
+  statement dependencies in $M$, and $\mathit{OT}$ be a set of
+  reordering target. We have $M\xrightarrow{\sim}M'$ if $M'=\mathsf{GuidedReorder}(M, \Theta, \mathit{OT})$. 
+% Given a method $M$, dependency checker $\Theta$ s.t. all statement
+% dependencies in $M$ are contained in $\Theta$, and a reordering target
+% set $\mathit{OT}$, we have $M\xrightarrow{\sim}M'$ if $M'=\mathsf{GuidedReorder}(M, \Theta, \mathit{OT})$. 
+\end{prop}
+\begin{proof}
+We prove the property by showing that for each block $\bar{s}$, if $\bar{s}$ is reordered into $\bar{s}'$, then $\bar{s}$ can be transformed into $\bar{s}'$ through a series of \emph{Swapping Primitives} defined in Definition~\ref{def:semantics-preserving}.
+
+We first prove that the dependencies in the original program are preserved in $\bar{s}'$, i.e. if $\Theta(s_i,s_j)==\mathtt{true}$ and $s_i$ appear before $s_j$ in $M$, then $s_i.l < s_j.l$: suppose $s_i$ and $s_j$ have dependency in $\bar{s}$ and $j < i$, then $s_j.l < s_i.l$ is added into the constraint set. By solving the constraints, we still have $s_j$ appears before $s_i$ after transformation in $\bar{s}'$, $s_j.l < s_i.l$. Thus we have all dependencies preserved in $\bar{s}'$.
+
+Then we present a constructive method on how to generate a sequence of \emph{Swapping Primitives} to transform $\bar{s}$ into $\bar{s}'$: 1) label the statements in $\bar{s}'$ with $[1,...,n]$, and assign that label to statements in $\bar{s}$ (e.g. if $s_1$ in $\bar{s}'$ is labeled as $k$, then the $s_1$ in $\bar{s}$ also have label $k$, as a result, labels in $\bar{s}'$ are sort while not in $\bar{s}$), 2) perform a bubble sort algorithm on labels in $\bar{s}$ and record swaps when running the algorithm. We now show that all these swaps are \emph{Swapping Primitives}: as indicated in the last part, if $s_i$ depends on $s_j$, then $s_j$ appears before $s_i$ in both $\bar{s}$ and $\bar{s}'$, then before performing bubble sort on the labels, the label of $s_i$ and $s_j$ is already sorted. As bubble sort algorithm will never swapping sorted pairs, any of the swap operations used are \emph{Swapping Primitives}. Thus, $M\xrightarrow{\sim}M'$ and the property is proved.
+\end{proof}
+
+\begin{thm}[Main Theorem] Let $M$ be a method, $\Pi$ be a rule
+  set, and $\mathcal{B}^*$ be a set of match instances between
+  statements in $M$ and rules in $\Pi$. We have $M\xrightarrow{\sim}
+  M'$ if the guided normalization of $M$ with $\mathcal{B}^*$ returns
+  $M'$. In other words, the transformation is semantics-preserving.
+\end{thm}
+\begin{proof} This theorem is a simple derivation of
+  Property~\ref{property:guidedshiftsafe}, \ref{property:guidedrename_semanticspreserving} and \ref{property:guidedreordersafe}.
+\end{proof}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
